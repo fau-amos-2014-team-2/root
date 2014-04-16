@@ -1,0 +1,32 @@
+PART 1: BUILD
+you will find out how:)
+
+PART 2: TEST??
+we will see. perhaps emulator..
+
+PART 3: DEPLOY
+(ONCE) install maven + tomcat 7.0.
+1. go to /artifact-downloader/src/main/resources
+	1a) copy sprint_XX_release to T2.zip
+	1b) copy iOS release to T2.zip		(if applicable)
+	1c) copy WindowsPhone release to T2.zip (if applicable)
+	1d) copy Android release to T2.zip	(if applicable)
+2. go back to /artifact-downloader/
+3. #mvn install
+4. the result will be /artifact-downloader/target/artifact-downloader-1.0-SNAPSHOT.war
+5. rename to ROOT.war
+6. Test on your local tomcat installation (I used Tomcat 7.0)
+	6a) copy to TOMCAT_PATH\webapps\
+	6b) restart\start Tomcat
+	6c) Enter http://localhost:8080/ into Browser 
+	6d) check contents of T2.zip
+IF contents==OK THEN
+7. copy root.war to git
+8. git push 
+9. Check, that it really got pushed
+
+
+FEEL FREE TO EDIT THIS HOWTO OR CREATE AUTOMATED SCRIPT
+
+
+HAVE FUN RELEASING!!!!!!
