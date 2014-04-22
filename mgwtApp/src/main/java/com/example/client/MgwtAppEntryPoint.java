@@ -25,6 +25,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.mvp.client.AnimatableDisplay;
 import com.googlecode.mgwt.mvp.client.AnimatingActivityManager;
 import com.googlecode.mgwt.mvp.client.Animation;
@@ -32,6 +34,7 @@ import com.googlecode.mgwt.mvp.client.AnimationMapper;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.animation.AnimationHelper;
+import com.googlecode.mgwt.ui.client.dialog.Dialogs;
 import com.googlecode.mgwt.ui.client.dialog.TabletPortraitOverlay;
 import com.googlecode.mgwt.ui.client.layout.MasterRegionHandler;
 import com.googlecode.mgwt.ui.client.layout.OrientationRegionHandler;
@@ -141,6 +144,14 @@ public class MgwtAppEntryPoint implements EntryPoint {
 	    LayoutPanel layoutPanel = new LayoutPanel();
 	    Button button = new Button("Hello World!");
 	    layoutPanel.add(button);
+	    button.addTapHandler(new TapHandler() {
+
+			@Override
+			public void onTap(TapEvent event) {
+				Dialogs.alert("Hello World", "Where do you want to go today?", null);
+			}
+	    	
+	    });
 
 	    // animate
 	    animationHelper.goTo(layoutPanel, Animation.SLIDE);
