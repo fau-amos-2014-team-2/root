@@ -115,9 +115,6 @@ public class TableView extends NavigationView {
 		tablePanel.setContent(table);
 		tablePanel.getContent().setSizeUndefined();
 		
-		//getNavigationManager().setPreviousComponent(previous);
-		//getNavigationManager().setCurrentComponent(this);
-		
 		setContent(tablePanel);
 		
 	}
