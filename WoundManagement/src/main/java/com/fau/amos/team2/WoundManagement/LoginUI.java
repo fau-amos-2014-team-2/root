@@ -18,7 +18,7 @@ public class LoginUI extends UI {
 	protected void init(VaadinRequest request) {
 
 		NavigationManager manager = new NavigationManager();
-		manager.setCurrentComponent(new LoginView());
+		manager.setCurrentComponent(new StartMenuView());
 		setContent(manager);
 
 		getPage().setTitle("Login Example");
