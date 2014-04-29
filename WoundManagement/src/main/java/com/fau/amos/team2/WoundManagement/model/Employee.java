@@ -1,4 +1,4 @@
-package model;
+package com.fau.amos.team2.WoundManagement.model;
 
 import java.io.Serializable;
 
@@ -47,14 +47,10 @@ public class Employee implements Serializable {
 	private String gender;
 	
 	
-	
 	public Employee() {
-		collectiveAcc = 'n';
-		collectiveAccMedication = 'n';
 		keyword = "key";
-		
-		firstName = "stefan";
-		lastName = "betz";
+		collectiveAcc = 'a';
+		collectiveAccMedication = 'a';
 	}
 	
 	public long getId() {

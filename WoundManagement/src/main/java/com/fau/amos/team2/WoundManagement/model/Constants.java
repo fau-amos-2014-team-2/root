@@ -1,4 +1,4 @@
-package model;
+package com.fau.amos.team2.WoundManagement.model;
 
 public final class Constants 
 {

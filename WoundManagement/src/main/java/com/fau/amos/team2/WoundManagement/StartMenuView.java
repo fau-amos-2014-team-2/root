@@ -13,7 +13,7 @@ public class StartMenuView extends NavigationView {
 	public StartMenuView() {
 		setCaption("Main Menu");
 		final VerticalComponentGroup content = new VerticalComponentGroup();
-		NavigationButton loginScreenButton = new NavigationButton("Login/Unlock Screen");
+		NavigationButton loginScreenButton = new NavigationButton("Login");
 		loginScreenButton.addClickListener(new NavigationButtonClickListener() {
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {

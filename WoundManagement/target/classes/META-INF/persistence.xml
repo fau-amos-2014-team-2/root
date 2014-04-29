@@ -4,7 +4,7 @@
         version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="testdb" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>com.fau.amos.team2.WoundManagement.Employee</class>
+        <class>com.fau.amos.team2.WoundManagement.model.Employee</class>
         <properties>
             <!-- Default database login using Oracle for EclipseLink's internal connection pool,
                  change this to access your own database. -->
