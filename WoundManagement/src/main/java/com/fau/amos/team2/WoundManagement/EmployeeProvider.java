@@ -1,42 +1,63 @@
 package com.fau.amos.team2.WoundManagement;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import model.Constants;
+import model.Employee;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
 
 public class EmployeeProvider {
 
 	private static EmployeeProvider instance;
-	private final JPAContainer<Employee> container;
+	
+	private EntityManagerFactory entityManagerFactory;
+	private EntityManager entityManager;     
+	private CachingMutableLocalEntityProvider<Employee> entityProvider;
+	private JPAContainer<Employee> employees;
 	
 	private EmployeeProvider() {
-		container = JPAContainerFactory.make(Employee.class, Constants.PERSISTANCE_UNIT);
+		entityManagerFactory = Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT);
+		entityManager = entityManagerFactory.createEntityManager();   
+		entityProvider = new CachingMutableLocalEntityProvider<Employee>(Employee.class, entityManager);
+		employees = new JPAContainer<Employee> (Employee.class);
+		employees.setEntityProvider(entityProvider);
 	}
 	
 	public static EmployeeProvider getInstance() {
-		if(instance == null)
-			return instance = new EmployeeProvider();
+		if(instance == null) {
+			instance = new EmployeeProvider();
+		}
 		return instance;
 	}
 	
-	public void add(Employee e) {
-		container.addEntity(e);
+	public Object add(Employee employee) {
+		return employees.addEntity(employee);
 	}
-	public boolean contains(Employee e) { 
-		return container.getEntityProvider().getEntityManager().contains(e);
+	
+	public JPAContainer<Employee> getAll() {
+		return employees;
 	}
-	public List<Employee> get() { 
-		Map<String,Object> map = 
-				container.getEntityProvider().getEntityManager().getProperties();
-		List<Employee> list = new ArrayList<Employee>();
+	
+	public Employee getByID(Object id) { 
+		return employees.getItem(id).getEntity();
+	}
+	
+	public Employee getByFirstName(String str) {
+		Employee tmp;
 		
-		for(Object obj : map.values()) {
-        	Employee emp = (Employee)obj;
-        	list.add(emp);
-        }
-		return list;
+		Object[] ids = employees.getItemIds().toArray();
+		
+		for(int i = 0; i < employees.size(); ++i) {
+			tmp = employees.getItem(ids[i]).getEntity();
+			
+			if(tmp.getFirstName().equals(str)) {
+				return tmp;
+			}
+		}
+		return null;
 	}
 }

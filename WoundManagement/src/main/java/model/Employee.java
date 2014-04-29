@@ -1,4 +1,4 @@
-package com.fau.amos.team2.WoundManagement;
+package model;
 
 import java.io.Serializable;
 
