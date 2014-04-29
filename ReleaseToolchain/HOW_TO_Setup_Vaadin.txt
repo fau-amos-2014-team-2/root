@@ -1,0 +1,46 @@
+**************************
+* SETUP A VAADIN PROJECT *
+**************************
+
+STEP 1:	Create Maven Project
+---
+	1.1 File > New > Maven Project
+
+	1.2 Click Next
+
+	1.3 ('Select an archetype') Set filter to 'vaadin'
+		#this may take a while
+	
+	1.4 Select 'vaadin-archetype-touchkit'
+
+	1.5 Enter group-id: com.example 
+		#or choose your own
+
+	1.6 Enter artifact-id: myVaadinApp
+		#or choose your own
+
+	1.7 Finish
+		# Maven creates the vaadin-touchkit App for you!
+
+Step 2: Install Vaadin App
+---
+	1.1 Open a Terminal
+
+	1.2 Go to the project folder
+		#should look like this:  ~/$WORKSPACE/MyVaadinApp || C:/$WORKSPACE/MyVaadinApp
+
+	1.3 Install maven project: mvn install
+		# Maven will find your project and create a .war file
+		# this also may take a while, since maven will download all dependencies and references
+
+Step 3: Deploy WAR file to local tomcat (LINUX ONLY)
+---
+	3.1 Move WAR file to tomcat-directory: 
+		sudo cp ~/$WORKSPACE/MyVaadinApp/target/MyVaadinApp-0.0.1-SNAPSHOT.war /var/lib/tomcat7/webapp
+
+	3.2. Restart tomcat
+		sudo /etc/init.d/tomcat7 restart
+
+	3.3 Open Browser-Url: localhost:8080/MyVaadinApp 
+	
+

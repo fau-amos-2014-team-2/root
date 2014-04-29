@@ -1,3 +1,5 @@
 var/wm.db
 .metadata
 myproject/target
+tabletest/target
+WoundManagement/target

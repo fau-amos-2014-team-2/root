@@ -1,0 +1,53 @@
+************************
+* SETUP A MGWT PROJECT *
+************************
+
+1. Prequisites
+ 1.1. Check that you’ve installed maven and the Google Plugin for Eclipse.
+ 1.2. Quit Eclipse
+
+2. Create a new project form archetype
+ 2.1. Open up a terminal and go into your workspace folder
+ 2.2. Run the following maven command
+	mvn archetype:generate -DarchetypeRepository=http://www.m-gwt.com/m2/repo -DarchetypeGroupId=com.googlecode.mgwt.archetypes -DarchetypeArtifactId=mgwt-standard-archetype -DarchetypeVersion=1.0.8
+ 2.3. You will be asked for some informations
+	GroupId: something like com.example.myApp
+	ArtifactId: something like myApp
+	Version: Press enter to use the default value
+	Package: Press enter to use the default value
+
+3. Configure the workspace
+ 3.1. Configure the workspace using the following maven command
+	mvm eclipse:configure-workspace -Declipse.workspace="/path/to/your/workspace"
+
+4. Create eclipse project and copy web resources
+ 4.1. Change into the project directory and run the following maven command
+	mvn eclipse:eclipse
+ 4.2. Copy the web resources into target using the following maven command
+	mvn war:exploded
+
+5. Import the project into Eclipse workspace and configure the Google Web App options
+ 5.1. Run eclipse and select File->Import and choose „Existing Projects into Workspace“ (in the „General“ folder). Select the newly created project directory and click „Finish“ to import the project.
+ 5.2. In the Package Explorer, right-click on the project and select „Properties“. Select Google->Web Application on the left, check the „This project has a WAR directory“ option, click the „Browse“ button and select src/main/webapp. Uncheck „Launch and Deploy from this directory“. Close the properties.
+ 5.3. Right-click on the project and select „Run As“->“Web Application“. When asked for a WAR directory, select target/<artifactId>-<version> in the project directory.
+ 5.4. A new „Development Mode“ Tab opens and shows an url to run the app.
+
+If there’s no url shown in the Development Mode Tab, running as web app might have encountered errors (see the Console Tab). The following error is a known issue:
+	[ERROR] The value opera was not previously defined.
+	[ERROR] Line 19: Unexpected exception while processing element 'set-property'
+	com.google.gwt.core.ext.UnableToCompleteException: (see previous log entries)
+
+To fix this problem, do the following steps:
+1. Quit Eclipse
+2. Open the pom.xml file in the project directory in an editor.
+3. Search for 
+		<dependency>
+			<groupId>com.googlecode.mgwt</groupId>
+			<artifactId>mgwt</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+4. Replace the version with the following
+			<version>1.2.0-SNAPSHOT</version>
+5. Open up a terminal and switch into the project directory
+5. Run maven to apply changes using „mvm eclipse:eclipse“
+6. Open up eclipse and try again. An URL like „http://127.0.0.1:888/index.html?gwt.codesvr=127.0.0.1:9997“ should be shown in the Development Mode Tab now.
