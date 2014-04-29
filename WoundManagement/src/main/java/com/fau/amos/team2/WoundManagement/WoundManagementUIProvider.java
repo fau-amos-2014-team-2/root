@@ -6,15 +6,16 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
-public class MyUIProvider extends UIProvider {
+public class WoundManagementUIProvider extends UIProvider {
     
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
         String userAgent = event.getRequest().getHeader("user-agent").toLowerCase();
         if (overrideMobileUA() || userAgent.contains("mobile")) {
-            return MyTouchKitUI.class;
+            return LoginUI.class;
         } else {
-            return MyFallbackUI.class;
+        	//FIXME Wenns geht ist UIProvider sinnlos
+            return LoginUI.class;
         }
     }
     

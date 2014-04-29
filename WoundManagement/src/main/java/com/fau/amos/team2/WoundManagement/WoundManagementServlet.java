@@ -10,9 +10,9 @@ import com.vaadin.server.SessionInitListener;
 
 @SuppressWarnings("serial")
 @WebServlet("/*")
-public class MyServlet extends TouchKitServlet {
+public class WoundManagementServlet extends TouchKitServlet {
     
-    private MyUIProvider uiProvider = new MyUIProvider();
+    private WoundManagementUIProvider uiProvider = new WoundManagementUIProvider();
     
     @Override
     protected void servletInitialized() throws ServletException {
