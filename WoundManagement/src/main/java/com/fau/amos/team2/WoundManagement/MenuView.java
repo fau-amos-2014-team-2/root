@@ -20,7 +20,9 @@ public class MenuView extends NavigationView {
                 getNavigationManager().navigateTo(new FormView());                
             }
         });
+	
         content.addComponent(button);
+        
         setContent(content);
     };
 }

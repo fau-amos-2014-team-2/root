@@ -1,5 +1,11 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.List;
+import java.util.Map;
+
+import com.vaadin.addon.jpacontainer.EntityProvider;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -9,6 +15,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
@@ -33,7 +40,23 @@ public class FormView extends NavigationView {
         submitButton.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                Notification.show("Thanks!");
+                	Employee e = new Employee();
+                	e.setFirstName(nameField.getValue());                	
+                	 
+                    EmployeeProvider.getInstance().add(e);
+                    
+                    if(EmployeeProvider.getInstance().contains(e))
+                    	Notification.show("Is drin!");
+                    else 
+                    	Notification.show("Ist nicht drin o.O");
+                    
+                    String str = "";
+                    List<Employee> map = EmployeeProvider.getInstance().get();
+                    for(Employee emp : map) {
+                    	str += emp.getId() + " " + emp.getFirstName() + "\n";
+                    }
+                    
+                    Notification.show(str, Type.WARNING_MESSAGE);
             }
         });
 
