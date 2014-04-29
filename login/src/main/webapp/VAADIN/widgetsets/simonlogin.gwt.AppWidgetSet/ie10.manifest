@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# Build timeTue Apr 29 17:56:37 CEST 2014
+
+CACHE:
+../../../VAADIN/themes/touchkit/styles.css
+../../../VAADIN/vaadinBootstrap.js
+650109D413E2C231EC22108817C9E71A.cache.woff
+BF1DC7B7760C73784B40E622DFC50204.cache.js
+clear.cache.gif
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/1.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/2.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/3.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/4.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/5.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/6.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/7.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/8.cache.js
+deferredjs/BF1DC7B7760C73784B40E622DFC50204/9.cache.js
+simonlogin.gwt.AppWidgetSet.devmode.js
+simonlogin.gwt.AppWidgetSet.nocache.js
+
+NETWORK:
+*
+
