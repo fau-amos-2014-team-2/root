@@ -1,5 +1,4 @@
 var/wm.db
 .metadata
-myproject/target
-tabletest/target
 WoundManagement/target
+ReleaseToolchain/artifact-downloader/target

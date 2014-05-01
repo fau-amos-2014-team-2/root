@@ -11,7 +11,7 @@ import com.vaadin.ui.UI;
  * The UI's "main" class
  */
 @SuppressWarnings("serial")
-@Widgetset("simonlogin.gwt.AppWidgetSet")
+@Widgetset("com.fau.amos.team2.WoundManagement.gwt.AppWidgetSet")
 @Theme("touchkit")
 public class LoginUI extends UI {
 
