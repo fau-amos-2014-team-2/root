@@ -1,1 +1,48 @@
-... to be continued
+1. Install PstgreSQL
+***
+user:~$ apt-get update
+user:~$ sudo apt-get install postgresql postgresql-contrib
+
+=> 	PostgreSQL was installed
+	with the default user postgres
+
+
+2. Setup User
+***
+
+user:~$ sudo -u postgres psql postgres
+user:~$ \password postgres
+
+=> 	Set a password for user postgres
+	To fit project config use
+	username='postgres'
+	password='postgres'
+
+3. Network 
+***
+
+/etc/postgresql/9.1/main/postgresql.conf
+
+	listen_addresses = '*'
+
+
+4. Create DB
+***
+
+user:~$ sudo -u postgres createdb -0 postgres $DBNAME
+
+x. Play with DB 
+***
+
+user:~$ sudo su postgres
+postgres@user: psql
+
+=>	You now can configure your server
+
+Y. Start/Stop Server
+***
+
+user:~$ sudo /etc/init.d/postgresql start|stop|reload ...
+
+
+Hope this will work. If there are any problems => ask.
