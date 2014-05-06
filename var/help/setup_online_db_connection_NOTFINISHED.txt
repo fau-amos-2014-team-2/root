@@ -1,0 +1,44 @@
+********************************************
+* SETUP ONLINE CONNECTION TO UNIVERSITY DB *
+********************************************
+
+This tutorial is adapted from 
+tomcat.apache.org/tomcat-5.5-doc/jndi-datasource-examples-howto.html#Database_Connection_Pool_(DBCP)_Configurations
+
+0. CONSTANTS
+***
+
+	Linux: $CATALINA_HOME=/var/lib/tomcat7
+	Windows: $CATAliNA_COME=?!?
+
+1. JDBC jar to tomcat7
+***
+	Copy postgresql-9.1-901.jdbc4.jar
+		from Woundmanagement/target/SNAPSHOT/WEB-INF/lib
+		to $CATALINA_HOME/common/lib
+
+2. Change tomcat7 Config
+***
+	$CATALINA_HOME/config/context.xml
+
+	add a Resource to your Context looking like that:
+
+<Resource 	name="jdbc/postgres"
+		auth="Container"
+		type="javax.sql.DataSource" 
+		driverClassName="org.postgresql.Driver"
+          	url="jdbc:postgresql://SERVERNAME"
+          	username="USERNAME" 
+		password="PASSWORD" 
+		maxActive="20" 
+		maxIdle="10"
+		maxWait="-1"
+    />	
+	SERVERNAME, USERNAME AND PASSWORD will be provided via email.
+
+
+3. Change web.xml in Project
+***
+	Is provided.
+
+
