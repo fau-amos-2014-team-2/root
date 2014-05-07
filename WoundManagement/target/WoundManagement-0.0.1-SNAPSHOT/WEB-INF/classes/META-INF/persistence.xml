@@ -12,13 +12,31 @@
         	<property name="eclipselink.session.customizer" value="com.fau.amos.team2.WoundManagement.JPAEclipseLinkSessionCustomizer"/>        
     	</properties>
 
+    	<class>com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescription</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescriptionMapping</class>
     	<class>com.fau.amos.team2.WoundManagement.model.Employee</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Patient</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Ward</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Wound</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.WoundDescription</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.WoundLevel</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.WoundType</class>
     	
 	</persistence-unit>
     
     <persistence-unit name="testdb" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>com.fau.amos.team2.WoundManagement.model.Employee</class>
+        
+        <class>com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescription</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescriptionMapping</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Employee</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Patient</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Ward</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.Wound</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.WoundDescription</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.WoundLevel</class>
+    	<class>com.fau.amos.team2.WoundManagement.model.WoundType</class>
+        
         <properties>
             <!-- Default database login using Oracle for EclipseLink's internal connection pool,
                  change this to access your own database. -->
