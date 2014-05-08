@@ -6,9 +6,22 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 
+/**
+ * View to see the StartMenu
+ * @author ???
+ */
 public class StartMenuView extends NavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
+	/**
+	 * Creates an instance of StartMenuView
+	 * 
+	 * Navigates to one of the following Views
+	 * 
+	 * @see com.fau.amos.team2.WoundManagement.LoginView
+	 * @see com.fau.amos.team2.WoundManagement.PatientView
+	 * @see com.fau.amos.team2.WoundManagement.PictureView
+	 */
 	@SuppressWarnings("serial")
 	public StartMenuView() {
 		setCaption("Main Menu");
