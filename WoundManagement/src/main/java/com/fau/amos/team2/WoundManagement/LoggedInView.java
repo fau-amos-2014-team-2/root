@@ -1,12 +1,15 @@
 package com.fau.amos.team2.WoundManagement;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 
@@ -16,7 +19,7 @@ import com.vaadin.ui.Notification;
  */
 @SuppressWarnings("serial")
 public class LoggedInView extends NavigationView {
-
+	
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
 	/**
@@ -24,14 +27,28 @@ public class LoggedInView extends NavigationView {
  * @author ???
  */
 	public LoggedInView(final Object id) {
+		setCaption("Logged In");
+
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
+				
 		Employee user = EmployeeProvider.getInstance().getByID(id);
-
+		Ward currentWard = WardProvider.getInstance().getByID((user.getCurrentWard()));
+		
 		Label greetingLable = new Label();
 		greetingLable.setValue("Hi, "
-				+ user.getFirstName() + " " + user.getLastName());
+				+ user.getFirstName() + " " + user.getLastName() + ", sie arbeiten momentan auf Station " + currentWard.getCharacterisation() );
 		mainLayout.addComponent(greetingLable);
+		
+		NavigationButton changeWardButton = new NavigationButton("Station aendern");
+		changeWardButton.addClickListener(new NavigationButtonClickListener() {
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				getNavigationManager().navigateTo(new ChangeWardView(id));
+			}
+		});
+		
+		mainLayout.addComponent(changeWardButton);
 
 		NavigationButton pictureButton = new NavigationButton("Picture View");
 		pictureButton.addClickListener(new NavigationButtonClickListener() {
