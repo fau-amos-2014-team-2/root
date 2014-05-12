@@ -50,8 +50,28 @@ public class StartMenuView extends NavigationView {
 			}
 		});
 		
-		content.addComponents(loginScreenButton, patientSelectorButton, pictureButton);
+		NavigationButton dataButton = new NavigationButton("Show Wound Data");
+		dataButton.addClickListener(new NavigationButtonClickListener() {
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				getNavigationManager().navigateTo(new WoundDataView());
+			}
+		});
 		
+		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
+		addDataButton.addClickListener(new NavigationButtonClickListener() {
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				getNavigationManager().navigateTo(new AddWoundDataView());
+			}
+		});
+		
+		content.addComponent(loginScreenButton);
+		content.addComponent(patientSelectorButton);
+		content.addComponent(pictureButton);
+		content.addComponent(dataButton);
+		content.addComponent(addDataButton);
+
 		setContent(content);
 	}
 }
