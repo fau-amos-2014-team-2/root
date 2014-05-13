@@ -17,62 +17,80 @@ import com.vaadin.ui.Notification;
 @SuppressWarnings("serial")
 public class LoggedInView extends NavigationView {
 
-	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
-	/**
+/**
  * The View that is shown, if a user has successfully logged in
  * @author ???
  */
-	public LoggedInView(final Object id) {
+	public LoggedInView(final Object id) 
+	{
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
 		Employee user = EmployeeProvider.getInstance().getByID(id);
 
 		Label greetingLable = new Label();
-		greetingLable.setValue("Hi, "
-				+ user.getFirstName() + " " + user.getLastName());
+		greetingLable.setValue("Hi, " + user.getFirstName() + " " + user.getLastName());
 		mainLayout.addComponent(greetingLable);
 
 		NavigationButton pictureButton = new NavigationButton("Picture View");
-		pictureButton.addClickListener(new NavigationButtonClickListener() {
+		pictureButton.addClickListener(new NavigationButtonClickListener() 
+		{
 			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
 				getNavigationManager().navigateTo(new PictureView());
 			}
 		});
 		
+		// added Ward View navigation button
+		NavigationButton wardButton = new NavigationButton("Ward View");
+		wardButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				getNavigationManager().navigateTo(new WardView());
+			}
+		});
 
 		NavigationButton logoutButton = new NavigationButton("Logout");
-		logoutButton.addClickListener(new NavigationButtonClickListener() {
+		logoutButton.addClickListener(new NavigationButtonClickListener() 
+		{
 			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
 				Notification.show("Tschuess!");
 				getNavigationManager().navigateTo(new LoginView());
 			}
 		});
 		
+		
 		NavigationButton patientSelectorButton = new NavigationButton(
 				"Patient Selector");
-		patientSelectorButton
-				.addClickListener(new NavigationButtonClickListener() {
-					@Override
-					public void buttonClick(NavigationButtonClickEvent event) {
-						getNavigationManager().navigateTo(new PatientView());
-					}
-				});
+		patientSelectorButton.addClickListener(new NavigationButtonClickListener() 
+		{
+				@Override
+				public void buttonClick(NavigationButtonClickEvent event) 
+				{
+				getNavigationManager().navigateTo(new PatientView());
+				}
+		});
 
-			NavigationButton changePasswordButton = new NavigationButton("Change Password");
-		changePasswordButton.addClickListener(new NavigationButtonClickListener() {
+		
+		NavigationButton changePasswordButton = new NavigationButton("Change Password");
+		changePasswordButton.addClickListener(new NavigationButtonClickListener() 
+		{
 			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
 				getNavigationManager().navigateTo(new ChangePasswordView(id));
 			}
 		});
-				mainLayout.addComponent(changePasswordButton);
-
 		
-
-		mainLayout.addComponents(patientSelectorButton, pictureButton, logoutButton);
+		mainLayout.addComponent(changePasswordButton);
+		// added wardButton
+		mainLayout.addComponents(wardButton, patientSelectorButton, pictureButton, logoutButton);
 		
 		setContent(mainLayout);
 	}

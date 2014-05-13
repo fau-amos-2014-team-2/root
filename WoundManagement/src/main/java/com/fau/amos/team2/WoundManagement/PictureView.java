@@ -13,7 +13,7 @@ public class PictureView extends NavigationView {
 	private static final long serialVersionUID = -572027045788648039L;
 
 	/**
-	 * Creates a PrictureView
+	 * Creates a PictureView
 	 */
 	public PictureView() {
 		setCaption("Picture View");

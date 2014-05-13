@@ -50,7 +50,18 @@ public class StartMenuView extends NavigationView {
 			}
 		});
 		
-		content.addComponents(loginScreenButton, patientSelectorButton, pictureButton);
+		// added Ward View navigation button
+		NavigationButton wardButton = new NavigationButton("Ward View");
+		wardButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				getNavigationManager().navigateTo(new WardView());
+			}
+		});
+		
+		content.addComponents(loginScreenButton, patientSelectorButton, pictureButton, wardButton);
 		
 		setContent(content);
 	}

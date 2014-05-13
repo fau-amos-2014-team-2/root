@@ -43,7 +43,7 @@ public class LoginView extends NavigationView {
 		HorizontalLayout main = new HorizontalLayout();
 		VerticalLayout fieldsandbutton = new VerticalLayout();
 
-		final OptionGroup logingroup = new OptionGroup("Bitte wählen:");
+		final OptionGroup logingroup = new OptionGroup("Bitte waehlen:");
 		
 		//das aendern der Caption aendert nicht die Item-ID der optiongroup- mode explicit
 		logingroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
