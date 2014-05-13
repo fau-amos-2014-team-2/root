@@ -1,10 +1,25 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.Collection;
 import java.util.Date;
 
+import com.fau.amos.team2.WoundManagement.model.BodyLocation;
+import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Origination;
+import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.model.WoundLevel;
+import com.fau.amos.team2.WoundManagement.model.WoundType;
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -12,60 +27,90 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
 public class AddWoundDataView extends NavigationView {
 	
 	@SuppressWarnings("serial")
-	public AddWoundDataView(){
-		
+	public AddWoundDataView(BodyLocation bodyLocation, Employee currentUser){
+				
 		setCaption("Neue Wunde anlegen");
+		
+		final Wound wound = new Wound();
 
 		FormLayout layout = new FormLayout();
 		
-		DateField recorded = new DateField("Erfasst am:");
+		//DateField - when is the wound recorded
+		final DateField recorded = new DateField("Erfasst am:");
 		recorded.setValue(new Date());
 		layout.addComponent(recorded);
-
-		ComboBox recordedBy = new ComboBox("von:");
-		recordedBy.addItem("hier würde der angemeldete Mitarbeiter stehen");
-		recordedBy.addItem("Adam Arbeit");
-		recordedBy.addItem("Bernd Bond");
-		recordedBy.addItem("Christina Charles");
-		recordedBy.setValue("hier würde der angemeldete Mitarbeiter stehen");
+		
+		//ComboBox - who recorded the wound
+		Collection<Object> employeeIds = EmployeeProvider.getInstance().getAll().getItemIds();
+		final ComboBox recordedBy = new ComboBox("von:");
+		for (Object o : employeeIds){
+			Employee tmp = EmployeeProvider.getInstance().getByID(o);
+			recordedBy.addItem(tmp);
+			recordedBy.setItemCaption(tmp, tmp.getAbbreviation());
+		}
+		recordedBy.setNullSelectionAllowed(false);
+		recordedBy.setValue(currentUser); //select current User
 		layout.addComponent(recordedBy);
 		
-		layout.addComponent(new TextField("Körperregion:"));
+		//TextField - body location (in words)
+		final TextField locationText = new TextField("Körperregion:");
+		layout.addComponent(locationText);
 		
-		ComboBox location = new ComboBox("Körperstelle:");
-		Object locationItem0 = location.addItem("hier würde die zuvor ausgewählte Körperstelle stehen");
-		Object locationItem1 = location.addItem("1 - Hinterkopf");
-		Object locationItem2 = location.addItem("2 - Schädelansatz");
-		location.setValue("hier würde die zuvor ausgewählte Körperstelle stehen");
+		//ComboBox - body location code
+		final ComboBox location = new ComboBox("Körperstelle:");
+		for (BodyLocation b : BodyLocation.values()){
+			location.addItem(b);
+			location.setItemCaption(b, b.toFullString());
+		}
+		location.setValue(bodyLocation); //select chosen location
 		location.setNullSelectionAllowed(false);
 		layout.addComponent(location);
 		
-		ComboBox type = new ComboBox("Wundart:");
-		type.addItem("Wundart 1");
-		type.addItem("Wundart 2");
+		//ComboBox - wound type
+		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
+		final ComboBox type = new ComboBox("Wundart:");
+		for (Object o : typeIds){
+			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
+			type.addItem(tmp);
+			type.setItemCaption(tmp, tmp.getClassification());
+		}
 		layout.addComponent(type);
 		
-		ComboBox stage = new ComboBox("Grad:");
-		stage.addItem("Grad 1");
-		stage.addItem("Grad 2");
-		layout.addComponent(stage);
+		//ComboBox wound level
+		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
+		final ComboBox level = new ComboBox("Grad:");
+		for (Object o : levelIds){
+			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
+			level.addItem(tmp);
+			level.setItemCaption(tmp, tmp.getAbbreviation());
+		}
+		layout.addComponent(level);
 		
-		ComboBox emerged = new ComboBox("Wo entstanden:");
-		emerged.addItem("1 - Häuslich");
-		emerged.addItem("2 - Krankenhaus/Einzug");
-		emerged.addItem("3 - Andere Einrichtung");
-		layout.addComponent(emerged);
+		//ComboBox - origination of wound
+		final ComboBox origination = new ComboBox("Wo entstanden:");
+		for (Origination o : Origination.values()){
+			origination.addItem(o);
+			origination.setItemCaption(o, o.toFullString());
+		}
+		layout.addComponent(origination);
 		
-		layout.addComponent(new NumberField("Größe"));
+		//NumberField - size of wound
+		final NumberField size1 = new NumberField("Größe");
+		layout.addComponent(size1);
 		
-		layout.addComponent(new NumberField("Tiefe"));
+		//NumberField - depth of wound
+		final NumberField depth = new NumberField("Tiefe");
+		layout.addComponent(depth);
 		
-		layout.addComponent(new TextField("Bemerkung"));
+		//TextField - commentary
+		final TextField comment = new TextField("Bemerkung");
+		layout.addComponent(comment);
 		
 		HorizontalLayout buttons = new HorizontalLayout();
 		buttons.setSpacing(true);
@@ -74,7 +119,39 @@ public class AddWoundDataView extends NavigationView {
 		submit.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getNavigationManager().navigateBack();
+				try {
+					wound.setBodyLocation(locationText.getValue());
+					wound.setBodyLocationCode(((BodyLocation)location.getValue()).getValue());
+					wound.setDescription(comment.getValue());
+					wound.setOrigination(((Origination)origination.getValue()).getValue());
+					wound.setPatient(PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)));
+					wound.setRecordingDate(new java.sql.Date(recorded.getValue().getTime()));
+					wound.setRecordingEmployee(EmployeeProvider.getInstance().getByID(recordedBy.getValue()));
+					wound.setSensoID(1);
+					wound.setWoundLevel(WoundLevelProvider.getInstance().getByID(level.getValue()));
+					wound.setWoundType(WoundTypeProvider.getInstance().getByID(type.getValue()));
+					try{
+						wound.setSize1(Integer.parseInt(size1.getValue()));
+						wound.setSize2(Integer.parseInt(size1.getValue()));
+					} catch (NumberFormatException e){
+						wound.setSize1(0);
+						wound.setSize2(0);
+					}
+					try{
+						wound.setDepth(Integer.parseInt(depth.getValue()));
+					} catch (NumberFormatException e){
+						wound.setDepth(0);
+					}
+					
+					WoundProvider.getInstance().add(wound);
+					getNavigationManager().navigateBack();
+				
+				} catch (Exception e){
+					Notification.show("Daten nicht korrekt eingegeben!");
+					e.printStackTrace();
+					
+				}
+				
 			}
 		});
 		

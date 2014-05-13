@@ -1,5 +1,10 @@
 package com.fau.amos.team2.WoundManagement;
 
+import com.fau.amos.team2.WoundManagement.model.BodyLocation;
+import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -54,7 +59,8 @@ public class StartMenuView extends NavigationView {
 		dataButton.addClickListener(new NavigationButtonClickListener() {
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new WoundDataView());
+				Object id = WoundProvider.getInstance().getAll().getIdByIndex(0);
+				getNavigationManager().navigateTo(new WoundDataView(id));
 			}
 		});
 		
@@ -62,7 +68,8 @@ public class StartMenuView extends NavigationView {
 		addDataButton.addClickListener(new NavigationButtonClickListener() {
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new AddWoundDataView());
+				Employee user = EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0));
+				getNavigationManager().navigateTo(new AddWoundDataView(BodyLocation.BRUSTBEIN, user));
 			}
 		});
 		
