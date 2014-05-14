@@ -49,6 +49,20 @@ public class StartMenuView extends NavigationView {
 		dataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
 		content.addComponent(dataButton);
 		
+		// added Ward View navigation button
+		NavigationButton wardButton = new NavigationButton("Ward View");
+		wardButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				getNavigationManager().navigateTo(new WardView());
+			}
+		});
+		
+		content.addComponents(loginScreenButton, patientSelectorButton, pictureButton, wardButton);
+
+		
 		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
 		addDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		content.addComponent(addDataButton);

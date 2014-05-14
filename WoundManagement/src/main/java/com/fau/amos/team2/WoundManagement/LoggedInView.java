@@ -25,22 +25,24 @@ public class LoggedInView extends NavigationView {
 	
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
-	/**
+/**
  * The View that is shown, if a user has successfully logged in
  * @author ???
  */
+
 	public LoggedInView(final Object id) {
 		setCaption("Logged In");
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		
-		setCaption("Übersicht");
+		setCaption("Uebersicht");
 
 				
 		Employee user = EmployeeProvider.getInstance().getByID(id);
 		Ward currentWard = WardProvider.getInstance().getByID((user.getCurrentWard()));
 		
 		Label greetingLable = new Label();
+
 		greetingLable.setValue("Hi, "
 				+ user.getFirstName() + " " + user.getLastName() + ", sie arbeiten momentan auf Station " + currentWard.getCharacterisation() );
 		mainLayout.addComponent(greetingLable);
@@ -55,7 +57,7 @@ public class LoggedInView extends NavigationView {
 		
 		mainLayout.addComponent(changeWardButton);
 
-		NavigationButton changePasswordButton = new NavigationButton("Passwort ändern");
+		NavigationButton changePasswordButton = new NavigationButton("Passwort aendern");
 		changePasswordButton.setTargetView(new ChangePasswordView(id));
 		mainLayout.addComponent(changePasswordButton);
 
@@ -71,7 +73,7 @@ public class LoggedInView extends NavigationView {
 		woundDataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
 		mainLayout.addComponent(woundDataButton);
 		
-		NavigationButton addWoundDataButton = new NavigationButton("Wunde hinzufügen");
+		NavigationButton addWoundDataButton = new NavigationButton("Wunde hinzufuegen");
 		addWoundDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
 		
@@ -85,6 +87,66 @@ public class LoggedInView extends NavigationView {
 			}
 		});
 		mainLayout.addComponent(logoutButton);
+		
+		greetingLable.setValue("Hi, " + user.getFirstName() + " " + user.getLastName());
+		mainLayout.addComponent(greetingLable);
+
+		NavigationButton pictureButton = new NavigationButton("Picture View");
+		pictureButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				getNavigationManager().navigateTo(new PictureView());
+			}
+		});
+		
+		// added Ward View navigation button
+		NavigationButton wardButton = new NavigationButton("Ward View");
+		wardButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				getNavigationManager().navigateTo(new WardView());
+			}
+		});
+
+		NavigationButton logoutButton = new NavigationButton("Logout");
+		logoutButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				Notification.show("Tschuess!");
+				getNavigationManager().navigateTo(new LoginView());
+			}
+		});
+		
+		NavigationButton patientSelectorButton = new NavigationButton(
+				"Patient Selector");
+		patientSelectorButton.addClickListener(new NavigationButtonClickListener() 
+		{
+				@Override
+				public void buttonClick(NavigationButtonClickEvent event) 
+				{
+				getNavigationManager().navigateTo(new PatientView());
+				}
+		});
+		
+		NavigationButton changePasswordButton = new NavigationButton("Change Password");
+		changePasswordButton.addClickListener(new NavigationButtonClickListener() 
+		{
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) 
+			{
+				getNavigationManager().navigateTo(new ChangePasswordView(id));
+			}
+		});
+		
+		mainLayout.addComponent(changePasswordButton);
+		// added wardButton
+		mainLayout.addComponents(wardButton, patientSelectorButton, pictureButton, logoutButton);
 		
 		setContent(mainLayout);
 	}

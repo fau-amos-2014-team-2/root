@@ -22,26 +22,20 @@ import com.vaadin.ui.Label.ValueChangeEvent;
  * @param <event>
  */
 @SuppressWarnings("serial")
-public class PatientView<event> extends NavigationView {
+public class WardPatientView<event> extends NavigationView {
 	
-	public PatientView(event id) 
+	public WardPatientView(event id) 
 	{
 		CssLayout content = new CssLayout();
 		
 		NativeSelect wpview = new NativeSelect ("Please select a patient: ");
-		
-		/**
-		 * the actual db-based way to go:
-		 * wpview.addItem(patients.get(ward.id) == ward.get(event.value));
-		*/
-		
 		//creates six "patients"
-		for (int i=0; i<6; i++)
+		for (int i=0; i<15; i++)
 		{
 			wpview.addItem(i);
 			wpview.setItemCaption(i, "Patient " +i);
 		}
-			
+		
 		//a selection must occur... 
 		wpview.setNullSelectionAllowed(false);
 		//...therefore legal to set '-1' by default
@@ -60,11 +54,10 @@ public class PatientView<event> extends NavigationView {
 			{
 				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
 			}
+				
         });
 		
 		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent( new Label( "Patients: ") );
-		box.addComponent( wpview );
 		
 		NavigationButton allPatientsButton = new NavigationButton("All Patients");
 		allPatientsButton.addClickListener(new NavigationButtonClickListener()
@@ -77,26 +70,11 @@ public class PatientView<event> extends NavigationView {
 		});
 		box.addComponent(allPatientsButton);
 		
+		box.addComponent( new Label( "Patients: "));
+		box.addComponent (wpview);
+
 		content.addComponent(box);
 		setContent(content);
-		
 	}
 
-	//Standard PatientView
-	public PatientView()
-	{
-		CssLayout content = new CssLayout();
-		
-		setCaption("Patient information");
-		
-		Employee e = EmployeeProvider.getInstance().getByFirstName("Adam");
-		
-		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent(new Label("Patient: "+ e.getFirstName() + " " + e.getLastName()));
-		box.addComponent(new Label("username: "+ e.getAbbreviation()));
-		
-		content.addComponent(box);
-		setContent(content);
-		
-	}
 }
