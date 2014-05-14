@@ -31,34 +31,15 @@ public class ChangePasswordView extends NavigationView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
-				boolean currentPasswordCorrect = false;
-				
-				try {
-					currentPasswordCorrect = user.getQualificationNumber() == Integer.parseInt(currentPassword.getValue());
-				} catch (NumberFormatException e){
-					Notification.show("The current PIN you entered is not correct.");
-					currentPassword.setValue("");
-					newPassword1.setValue("");
-					newPassword2.setValue("");
-					return;
-				}
-				
-				if (currentPasswordCorrect){
+				if (user.getQualificationNumber() == Integer.parseInt(currentPassword.getValue())){
 					String newPassword = newPassword1.getValue();
 					if (newPassword!= null){
-						if (newPassword.length() == 4){
+						if (newPassword.length() == 4 && isNumeric(newPassword)){
 							if (newPassword.equals(newPassword2.getValue())){
 								//set new password
-								try {
-									Integer newPasswordInt = Integer.parseInt(newPassword);
-									user.setQualificationNumber(newPasswordInt);
-									getNavigationManager().navigateBack();
-								} catch (NumberFormatException e){
-									Notification.show("The new PIN you entered does not have requested form. /n Use a combination of four digits only.");
-									newPassword1.setValue("");
-									newPassword2.setValue("");
-								}
+								//user.setQualificationNumber(Integer.parseInt(newPassword));
+								user.setQualificationNumber(Integer.parseInt(newPassword));
+								getNavigationManager().navigateBack();
 							} else {
 								Notification.show("The PINs you entered don't match.");
 								newPassword1.setValue("");

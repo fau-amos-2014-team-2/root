@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import com.fau.amos.team2.WoundManagement.model.Sex;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.server.FileResource;
@@ -20,17 +19,10 @@ import com.vaadin.ui.Notification;
 @SuppressWarnings("serial")
 public class WoundSelector extends AbsoluteLayout {
 
-	final String BODY_IMAGE = "body_neuter.png";
-	final String BODY_IMAGE_MALE = "body_male.png";
-	final String BODY_IMAGE_FEMALE = "body_female.png";
-	final int BODY_IMAGE_WIDTH = 600;
-	final int BODY_IMAGE_HEIGHT = 513;
-	
+	final String BODY_IMAGE = "lena.png";
 	final String SELECTION_INDICATOR = "orb.png";
 	final String WOUND_INDICATOR = "wound.png";
 	final String WOUND_SELECTION_INDICATOR = "orbsel.png";
-	final int INDICATOR_HEIGHT = 24;
-	final int INDICATOR_WIDTH = 24;
 	
 	private Image selectionIndicator;
 	private Image selectedWoundIndicator;
@@ -40,17 +32,10 @@ public class WoundSelector extends AbsoluteLayout {
 	
 	private Boolean existingWoundSelected = false;
 	
-	public WoundSelector(WoundManager woundManager, Sex sex) {
+	public WoundSelector(WoundManager woundManager) {
 		this.woundManager = woundManager;
 		
-		Image backgroundImage;
-		if (sex == Sex.FEMALE)
-			backgroundImage = getImage(BODY_IMAGE_FEMALE);
-		else if (sex == Sex.MALE)
-			backgroundImage = getImage(BODY_IMAGE_MALE);
-		else
-			backgroundImage = getImage(BODY_IMAGE);
-			
+		Image backgroundImage = getImage(BODY_IMAGE);
 		backgroundImage.addClickListener(clickListener);
 		
 		selectionIndicator = getImage(SELECTION_INDICATOR);
@@ -72,23 +57,13 @@ public class WoundSelector extends AbsoluteLayout {
 		BufferedImage bufferedImage;
 		Image image = new Image(null, new FileResource(imageFile));
 		
-		if (imageFilename == BODY_IMAGE || imageFilename == BODY_IMAGE_FEMALE || imageFilename == BODY_IMAGE_MALE) {
-			image.setHeight(BODY_IMAGE_HEIGHT, Unit.PIXELS);
-			image.setWidth(BODY_IMAGE_WIDTH, Unit.PIXELS);
-		}
-		else if (imageFilename == SELECTION_INDICATOR || imageFilename == WOUND_INDICATOR || imageFilename == WOUND_SELECTION_INDICATOR) {
-			image.setHeight(INDICATOR_HEIGHT, Unit.PIXELS);
-			image.setWidth(INDICATOR_WIDTH, Unit.PIXELS);
-		}
-		else {
-			// We need to load the image and get the size since Vaadin Touchkit cannot read the size itself
-			try {
-				bufferedImage = ImageIO.read(imageFile);
-				image.setHeight(bufferedImage.getHeight(), Unit.PIXELS);
-				image.setWidth(bufferedImage.getWidth(), Unit.PIXELS);
-			} catch (IOException e) {
-				// we fail silently and let Vaadin use autosizing
-			}
+		// We need to load the image and get the size since Vaadin Touchkit cannot read the size itself
+		try {
+			bufferedImage = ImageIO.read(imageFile);
+			image.setHeight(bufferedImage.getHeight(), Unit.PIXELS);
+			image.setWidth(bufferedImage.getWidth(), Unit.PIXELS);
+		} catch (IOException e) {
+			// we fail silently and let Vaadin use autosizing
 		}
 		
 		return image;

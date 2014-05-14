@@ -11,7 +11,7 @@
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/" />
             <property name="javax.persistence.jdbc.user" value="postgres" />
-            <property name="javax.persistence.jdbc.password" value="pl1swork" />
+            <property name="javax.persistence.jdbc.password" value="postgres" />
 
             <!-- The database platform is auto-detected by default,
                  if you want to set a specific platform this can be set. -->

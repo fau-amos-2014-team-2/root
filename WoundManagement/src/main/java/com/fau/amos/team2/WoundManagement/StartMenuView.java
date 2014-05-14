@@ -1,10 +1,5 @@
 package com.fau.amos.team2.WoundManagement;
 
-import com.fau.amos.team2.WoundManagement.model.BodyLocation;
-import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -30,24 +25,30 @@ public class StartMenuView extends NavigationView {
 	@SuppressWarnings("serial")
 	public StartMenuView() {
 		setCaption("Main Menu");
-		
 		final VerticalComponentGroup content = new VerticalComponentGroup();
-		
 		NavigationButton loginScreenButton = new NavigationButton("Login");
-		loginScreenButton.setTargetView(new LoginView());
-		content.addComponent(loginScreenButton);
-
+		loginScreenButton.addClickListener(new NavigationButtonClickListener() {
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				getNavigationManager().navigateTo(new LoginView());				
+			}
+		});
+		
 		NavigationButton patientSelectorButton = new NavigationButton("Patient Selector");
-		patientSelectorButton.setTargetView(new PatientView());
-		content.addComponent(patientSelectorButton);
+		patientSelectorButton.addClickListener(new NavigationButtonClickListener() {
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				getNavigationManager().navigateTo(new PatientView());
+			}
+		});
 		
 		NavigationButton pictureButton = new NavigationButton("Picture View");
-		pictureButton.setTargetView(new PictureView());
-		content.addComponent(pictureButton);
-		
-		NavigationButton dataButton = new NavigationButton("Show Wound Data");
-		dataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
-		content.addComponent(dataButton);
+		pictureButton.addClickListener(new NavigationButtonClickListener() {
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				getNavigationManager().navigateTo(new PictureView());
+			}
+		});
 		
 		// added Ward View navigation button
 		NavigationButton wardButton = new NavigationButton("Ward View");
@@ -61,12 +62,7 @@ public class StartMenuView extends NavigationView {
 		});
 		
 		content.addComponents(loginScreenButton, patientSelectorButton, pictureButton, wardButton);
-
 		
-		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
-		addDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
-		content.addComponent(addDataButton);
-
 		setContent(content);
 	}
 }
