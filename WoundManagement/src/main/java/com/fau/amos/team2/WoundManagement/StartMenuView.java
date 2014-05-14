@@ -30,53 +30,27 @@ public class StartMenuView extends NavigationView {
 	@SuppressWarnings("serial")
 	public StartMenuView() {
 		setCaption("Main Menu");
-		final VerticalComponentGroup content = new VerticalComponentGroup();
-		NavigationButton loginScreenButton = new NavigationButton("Login");
-		loginScreenButton.addClickListener(new NavigationButtonClickListener() {
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new LoginView());				
-			}
-		});
 		
+		final VerticalComponentGroup content = new VerticalComponentGroup();
+		
+		NavigationButton loginScreenButton = new NavigationButton("Login");
+		loginScreenButton.setTargetView(new LoginView());
+		content.addComponent(loginScreenButton);
+
 		NavigationButton patientSelectorButton = new NavigationButton("Patient Selector");
-		patientSelectorButton.addClickListener(new NavigationButtonClickListener() {
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new PatientView());
-			}
-		});
+		patientSelectorButton.setTargetView(new PatientView());
+		content.addComponent(patientSelectorButton);
 		
 		NavigationButton pictureButton = new NavigationButton("Picture View");
-		pictureButton.addClickListener(new NavigationButtonClickListener() {
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new PictureView());
-			}
-		});
+		pictureButton.setTargetView(new PictureView());
+		content.addComponent(pictureButton);
 		
 		NavigationButton dataButton = new NavigationButton("Show Wound Data");
-		dataButton.addClickListener(new NavigationButtonClickListener() {
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
-				Object id = WoundProvider.getInstance().getAll().getIdByIndex(0);
-				getNavigationManager().navigateTo(new WoundDataView(id));
-			}
-		});
+		dataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
+		content.addComponent(dataButton);
 		
 		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
-		addDataButton.addClickListener(new NavigationButtonClickListener() {
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
-				Employee user = EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0));
-				getNavigationManager().navigateTo(new AddWoundDataView(BodyLocation.BRUSTBEIN, user));
-			}
-		});
-		
-		content.addComponent(loginScreenButton);
-		content.addComponent(patientSelectorButton);
-		content.addComponent(pictureButton);
-		content.addComponent(dataButton);
+		addDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		content.addComponent(addDataButton);
 
 		setContent(content);

@@ -121,11 +121,13 @@ public class LoginUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {	
 		initData();
+		
 		NavigationManager manager = new NavigationManager();
 		manager.setCurrentComponent(new StartMenuView());
+		
 		setContent(manager);
 
-		getPage().setTitle("Woundmanagement-App v0.3");
+		getPage().setTitle("Wound Management");
 	}
 
 	
