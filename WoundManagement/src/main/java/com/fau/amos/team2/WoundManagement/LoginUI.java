@@ -2,12 +2,21 @@ package com.fau.amos.team2.WoundManagement;
 
 
 
+
+import java.sql.Date;
+
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
+import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.model.WoundLevel;
+import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
@@ -34,6 +43,11 @@ public class LoginUI extends UI {
 	private static Ward lunge = new Ward();
 	private static Ward chirurgie = new Ward();
 
+	private static WoundType testWoundType1 = new WoundType();
+	private static WoundLevel testWoundLevel1 = new WoundLevel();
+	private static Patient testPatient1 = new Patient();
+	private static Wound testWound1 = new Wound();
+	
 	private static void initData() {
 		testUser1.setFirstName("Adam");
 		testUser1.setLastName("Arbeit");
@@ -67,6 +81,51 @@ public class LoginUI extends UI {
 		EmployeeProvider.getInstance().add(testUser1);
 		EmployeeProvider.getInstance().add(testUser2);
 		EmployeeProvider.getInstance().add(testUser3);
+		
+		testWoundType1.setBodyLocationRequired(false);
+		testWoundType1.setClassification("Wundentyp 1");
+		testWoundType1.setLevel('e');
+		testWoundType1.setType('d');
+		testWoundType1.setSizeIsRequired(false);
+		
+		WoundTypeProvider.getInstance().add(testWoundType1);
+		
+		testWoundLevel1.setAbbreviation("Grad 1");
+		testWoundLevel1.setCharacterisation("Nicht wegdrückbare Rötung");
+		testWoundLevel1.setDescription("Grad 1 - Nicht wegdrückbare Rötung");
+		testWoundLevel1.setLevel(1);
+		testWoundLevel1.setWoundType(testWoundType1);
+		
+		WoundLevelProvider.getInstance().add(testWoundLevel1);
+		
+		testPatient1.setFirstName("Doerte");
+		testPatient1.setLastName("Daeumler");
+		testPatient1.setSensoID(1);
+		testPatient1.setAccomodation('c');
+		testPatient1.setBirthday(java.sql.Date.valueOf("1956-03-12"));
+		testPatient1.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
+		testPatient1.setGender("f");
+		testPatient1.setKeyword("keyword");
+		testPatient1.setRoom("room");
+		testPatient1.setTitle("Dr.");
+		
+		PatientProvider.getInstance().add(testPatient1);
+		
+		testWound1.setBodyLocation("Brustbein");
+		testWound1.setBodyLocationCode(1);
+		testWound1.setCureEmployee(testUser3);
+		testWound1.setDepth(3);
+		testWound1.setDescription("Ich bin eine Bemerkung.");
+		testWound1.setEndDate(java.sql.Date.valueOf("2014-05-12"));
+		testWound1.setOrigination(1);
+		testWound1.setRecordingDate(java.sql.Date.valueOf("2014-04-12"));
+		testWound1.setRecordingEmployee(testUser1);
+		testWound1.setSize1(1);
+		testWound1.setSize2(2);
+		testWound1.setWoundLevel(testWoundLevel1);
+		testWound1.setPatient(testPatient1);
+		
+		WoundProvider.getInstance().add(testWound1);
 	}
 
 	// END INIT //
@@ -74,11 +133,13 @@ public class LoginUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		initData();
+		
 		NavigationManager manager = new NavigationManager();
 		manager.setCurrentComponent(new StartMenuView());
+		
 		setContent(manager);
 
-		getPage().setTitle("Woundmanagement-App v0.3");
+		getPage().setTitle("Wound Management");
 	}
 
 	/**
