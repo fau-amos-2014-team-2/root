@@ -10,7 +10,7 @@ public enum BodyLocation {
 	SCHULTERBLATT_OBEN_RE(6),
 	SCHULTERBLATT_UNTEN_RE(7),
 	ELLENBOGEN_LI(8),
-	ELENBOGEN_RE(9),
+	ELLENBOGEN_RE(9),
 	KREUZBEIN(10),
 	FERSE_LI(11),
 	FERSE_RE(12),
@@ -82,7 +82,7 @@ public enum BodyLocation {
 		case SCHULTERBLATT_OBEN_RE: return "Schulterblatt oben rechts";
 		case SCHULTERBLATT_UNTEN_RE: return "Schulterblatt unten rechts";
 		case ELLENBOGEN_LI: return "Ellenbogen links";
-		case ELENBOGEN_RE: return "Ellenbogen rechts";
+		case ELLENBOGEN_RE: return "Ellenbogen rechts";
 		case KREUZBEIN: return "Kreuzbein";
 		case FERSE_LI: return "Ferse links";
 		case FERSE_RE: return "Ferse rechts";
