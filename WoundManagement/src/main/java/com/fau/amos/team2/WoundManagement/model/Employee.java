@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @SuppressWarnings("serial")
 @Entity
@@ -47,11 +48,11 @@ public class Employee implements Serializable {
 	private String gender;
 
 	//FIXME for what is @Column? needed here?!
-	//@Column(name = "DERZSTATION")
+	@JoinColumn(name = "DERZSTATION")
 	private Ward currentWard;
 
 	//FIXME for what is @Column? needed here?!
-	//@Column(name = "ARBEITSSTATION")
+	@JoinColumn(name = "ARBEITSSTATION")
 	private Ward workingWard;
 
 	public Employee() {
