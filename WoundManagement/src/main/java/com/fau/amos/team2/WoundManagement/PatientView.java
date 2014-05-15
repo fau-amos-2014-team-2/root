@@ -86,7 +86,7 @@ public class PatientView<event> extends NavigationView {
 	public PatientView()
 	{
 		CssLayout content = new CssLayout();
-		
+
 		setCaption("Patient information");
 		
 		Employee e = EmployeeProvider.getInstance().getByFirstName("Adam");
@@ -97,6 +97,7 @@ public class PatientView<event> extends NavigationView {
 		
 		content.addComponent(box);
 		setContent(content);
-		
 	}
+
 }
+

@@ -3,62 +3,66 @@ package com.fau.amos.team2.WoundManagement.BodyWoundSelector;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fau.amos.team2.WoundManagement.model.Sex;
+
 public class WoundManager {
 	private final int THRESHOLD = 25;
 
 	private List<WoundPosition> wounds;
 	private WoundSelector woundSelector;
-	
+
 	// TODO: Change type of first parameter to suitable entity class as soon as available
 	public WoundManager(Object patient) {
-		woundSelector = new WoundSelector(this);
+		// TODO: Dynamically assign sex
+		woundSelector = new WoundSelector(this, Math.round(Math.random()) == 1 ? Sex.FEMALE : Sex.MALE);
 		wounds = new ArrayList<WoundPosition>();
-		
+
 		// TODO: Replace sample code
-		WoundPosition randomWoundPosition1 = woundPositions.get((int)Math.round(Math.random()*(woundPositions.size()-1)));
+		WoundPosition[] woundPositions = WoundPosition.values();
+		int randomWoundPosition1Index = (int)Math.round(Math.random()*(woundPositions.length-1));
+		int randomWoundPosition2Index = (int)Math.round(Math.random()*(woundPositions.length-1));
+		WoundPosition randomWoundPosition1 = woundPositions[randomWoundPosition1Index];
+		WoundPosition randomWoundPosition2 = woundPositions[randomWoundPosition2Index];
+
 		addWoundAtPosition(randomWoundPosition1);
-		
-		WoundPosition randomWoundPosition2 = woundPositions.get((int)Math.round(Math.random()*(woundPositions.size()-1)));
 		if (!hasWoundAtPosition(randomWoundPosition2)) {
 			addWoundAtPosition(randomWoundPosition2);
 		}
 	}
-	
+
 	public WoundSelector getWoundSelector() {
 		return woundSelector;
 	}
-	
+
 	public void addWoundAtPosition(WoundPosition woundPosition) {
 		wounds.add(woundPosition);
 		woundSelector.addWoundAtPosition(woundPosition);
 	}
-	
+
 	public Boolean hasWoundAtPosition(WoundPosition woundPosition) {
 		return wounds.contains(woundPosition);
 	}
-	
+
 	public void removeWoundAtPosition(WoundPosition woundPosition) {
 		wounds.remove(woundPosition);
 		woundSelector.removeWoundAtPosition(woundPosition);
 	}
-	
+
 	public WoundPosition getWoundPositionAtCoordinates(int x, int y) {
-		for (WoundPosition p : woundPositions) {
-			if (Math.abs(p.getXPosition() - x) < THRESHOLD && Math.abs(p.getYPosition() - y) < THRESHOLD) {
-				return p;
+		int nearestPosDiff = -1;
+		WoundPosition nearestPos = null;
+
+		for (WoundPosition p : WoundPosition.values()) {
+			int xDiff = Math.abs(p.getXPosition() - x);
+			int yDiff = Math.abs(p.getYPosition() - y);
+			int diff = xDiff + yDiff;
+
+			if (xDiff < THRESHOLD && yDiff < THRESHOLD && (nearestPosDiff < 0 || diff <= nearestPosDiff)) {
+				nearestPos = p;
+				nearestPosDiff = diff;
 			}
 		}
-		
-		return null;
+
+		return nearestPos;
 	}
-	
-	@SuppressWarnings("serial")
-	public final static List<WoundPosition> woundPositions = new ArrayList<WoundPosition>() {{
-		add(new WoundPosition(1, 309, 317, "Nose"));
-		add(new WoundPosition(2, 302, 354, "Mouth"));
-		add(new WoundPosition(3, 327, 430, "Shoulder"));
-		add(new WoundPosition(4, 265, 270, "Right Eye"));
-		add(new WoundPosition(5, 331, 270, "Left Eye"));
-	}};
-	
 }

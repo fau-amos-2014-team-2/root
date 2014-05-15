@@ -178,6 +178,7 @@ public class Employee implements Serializable {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
 	
 	public long getCurrentWard() {
 

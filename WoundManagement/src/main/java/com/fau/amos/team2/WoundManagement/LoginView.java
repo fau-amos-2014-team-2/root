@@ -117,7 +117,7 @@ public class LoginView extends NavigationView {
 		main.addComponent(fieldsandbutton);
 		main.addComponent(logingroup);
 
-		addComponent(main);
+		setContent(main);
 	}
 
 	//Hole IDs der bekannten Nutzer (aus Datenbank)

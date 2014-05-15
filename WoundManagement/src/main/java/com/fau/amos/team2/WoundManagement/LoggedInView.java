@@ -68,7 +68,6 @@ public class LoggedInView extends NavigationView {
 			}
 		});
 		mainLayout.addComponent(logoutButton);
-
 		
 		// added Ward View navigation button
 		NavigationButton wardButton = new NavigationButton("Ward View");
@@ -85,9 +84,6 @@ public class LoggedInView extends NavigationView {
 		mainLayout.addComponents(wardButton);
 		
 		setContent(mainLayout);
-
-
-
 
 	}
 }
