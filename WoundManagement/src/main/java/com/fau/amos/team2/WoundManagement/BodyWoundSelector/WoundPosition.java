@@ -3,7 +3,7 @@ package com.fau.amos.team2.WoundManagement.BodyWoundSelector;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 
 public enum WoundPosition {
-	
+
 	HINTERKOPF(BodyLocation.HINTERKOPF, 121, 44),
 //	SCHAEDELANSATZ(2),
 	NACKEN(BodyLocation.NACKEN, 121, 79),
@@ -24,7 +24,7 @@ public enum WoundPosition {
 	ANALFALTE(BodyLocation.ANALFALTE, 121, 261),
 	HAND_AUSSEN_LI(BodyLocation.HAND_AUSSEN_LI, 36, 270),
 	HAND_AUSSEN_RE(BodyLocation.HAND_AUSSEN_RE, 206, 270),
-	
+
 	OHR_RE(BodyLocation.OHR_RE, 457, 48),
 	SCHULTER_RE(BodyLocation.SCHULTER_RE, 427, 106),
 	TROCHANTER_RE(BodyLocation.TROCHANTER_RE, 171, 271),
@@ -36,7 +36,7 @@ public enum WoundPosition {
 	FUSSOBERSEITE_RE(BodyLocation.FUSSOBERSEITE_RE, 322, 343),
 	OBERARM_RE(BodyLocation.OBERARM_RE, 420, 163),
 	UNTERARM_RE(BodyLocation.UNTERARM_RE, 547, 214),
-	
+
 	OHR_LI(BodyLocation.OHR_LI, 503, 48),
 	SCHULTER_LI(BodyLocation.SCHULTER_LI, 528, 106),
 	TROCHANTER_LI(BodyLocation.TROCHANTER_LI, 72, 271),
@@ -67,11 +67,11 @@ public enum WoundPosition {
 	RIPPENBOGEN_RE(BodyLocation.RIPPENBOGEN_RE, 454, 174),
 	RIPPENBOGEN_LI(BodyLocation.RIPPENBOGEN_LI, 498, 173)
 	;
-	
+
 	private BodyLocation bodyLocation;
 	private int xPosition;
 	private int yPosition;
-	
+
 	private WoundPosition(BodyLocation bodyLocation, int xPosition, int yPosition) {
 		this.bodyLocation = bodyLocation;
 		this.xPosition = xPosition;
@@ -81,7 +81,7 @@ public enum WoundPosition {
 	public BodyLocation getBodyLocation() {
 		return this.bodyLocation;
 	}
-	
+
 	public int getXPosition() {
 		return xPosition;
 	}
@@ -89,7 +89,7 @@ public enum WoundPosition {
 	public int getYPosition() {
 		return yPosition;
 	}
-	
+
 	public String getDescription() {
 		return bodyLocation.toString();
 	}

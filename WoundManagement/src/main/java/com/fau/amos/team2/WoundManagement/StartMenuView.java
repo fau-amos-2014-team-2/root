@@ -3,6 +3,7 @@ package com.fau.amos.team2.WoundManagement;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.WardView;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -30,9 +31,14 @@ public class StartMenuView extends NavigationView {
 	@SuppressWarnings("serial")
 	public StartMenuView() {
 		setCaption("Main Menu");
-		
+
 		final VerticalComponentGroup content = new VerticalComponentGroup();
-		
+						
+		// added Ward View navigation button
+		NavigationButton wardButton = new NavigationButton("Ward View");
+		wardButton.setTargetView(new WardView());
+		content.addComponent(wardButton);
+				
 		NavigationButton loginScreenButton = new NavigationButton("Login");
 		loginScreenButton.setTargetView(new LoginView());
 		content.addComponent(loginScreenButton);
@@ -48,20 +54,6 @@ public class StartMenuView extends NavigationView {
 		NavigationButton dataButton = new NavigationButton("Show Wound Data");
 		dataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
 		content.addComponent(dataButton);
-		
-		// added Ward View navigation button
-		NavigationButton wardButton = new NavigationButton("Ward View");
-		wardButton.addClickListener(new NavigationButtonClickListener() 
-		{
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) 
-			{
-				getNavigationManager().navigateTo(new WardView());
-			}
-		});
-		
-		content.addComponents(loginScreenButton, patientSelectorButton, pictureButton, wardButton);
-
 		
 		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
 		addDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));

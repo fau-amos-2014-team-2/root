@@ -14,26 +14,26 @@ import com.vaadin.ui.PasswordField;
 public class ChangePasswordView extends NavigationView {
 
 	public ChangePasswordView(final Object id){
-		
+
 		final Employee user = EmployeeProvider.getInstance().getByID(id);
-		
+
 		FormLayout layout = new FormLayout();
 		final PasswordField currentPassword = new PasswordField("Current PIN:");
 		final PasswordField newPassword1 = new PasswordField("New PIN:");
 		final PasswordField newPassword2 = new PasswordField("Retype new PIN");
-		
+
 		layout.addComponent(currentPassword);
 		layout.addComponent(newPassword1);
 		layout.addComponent(newPassword2);
-		
+
 		Button changePasswordButton = new Button("Change PIN");
 		changePasswordButton.addClickListener(new ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+
 				boolean currentPasswordCorrect = false;
-				
+
 				try {
 					currentPasswordCorrect = user.getQualificationNumber() == Integer.parseInt(currentPassword.getValue());
 				} catch (NumberFormatException e){
@@ -43,7 +43,7 @@ public class ChangePasswordView extends NavigationView {
 					newPassword2.setValue("");
 					return;
 				}
-				
+
 				if (currentPasswordCorrect){
 					String newPassword = newPassword1.getValue();
 					if (newPassword!= null){
@@ -73,24 +73,24 @@ public class ChangePasswordView extends NavigationView {
 						Notification.show("You did not enter a new PIN.");
 						newPassword2.setValue("");
 					}
-					
+
 				} else {
 					Notification.show("The current PIN you entered is not correct.");
-					
+
 					currentPassword.setValue("");
 					newPassword1.setValue("");
 					newPassword2.setValue("");
 				}
 			}
-			
+
 		});
-		
+
 		layout.addComponent(changePasswordButton);
-		
+
 		setContent(layout);
 
 	}
-	
+
 	private static boolean isNumeric(String str)
 	{
 	    for (char c : str.toCharArray())

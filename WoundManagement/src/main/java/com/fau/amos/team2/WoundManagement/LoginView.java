@@ -19,8 +19,6 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class LoginView extends NavigationView {
-	private static final long serialVersionUID = -531080365027928140L;
-
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -41,8 +39,6 @@ public class LoginView extends NavigationView {
 	 */
 	@SuppressWarnings("deprecation")
 	public LoginView() {
-		setCaption("Login");
-
 
 		HorizontalLayout main = new HorizontalLayout();
 		VerticalLayout fieldsandbutton = new VerticalLayout();
