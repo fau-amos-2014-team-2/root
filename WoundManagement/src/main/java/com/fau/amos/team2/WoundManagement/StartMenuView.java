@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.fau.amos.team2.WoundManagement.WardView;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -24,39 +23,29 @@ public class StartMenuView extends NavigationView {
 	 * 
 	 * Navigates to one of the following Views
 	 * 
-	 * @see com.fau.amos.team2.WoundManagement.LoginView
+	 * @see com.fau.amos.team2.WoundManagement.UserLoginView
+	 * @see com.fau.amos.team2.WoundManagement.PatientSelectionView
 	 * @see com.fau.amos.team2.WoundManagement.PatientView
-	 * @see com.fau.amos.team2.WoundManagement.PictureView
 	 */
-	@SuppressWarnings("serial")
 	public StartMenuView() {
 		setCaption("Main Menu");
 
 		final VerticalComponentGroup content = new VerticalComponentGroup();
-						
-		// added Ward View navigation button
-		NavigationButton wardButton = new NavigationButton("Ward View");
-		wardButton.setTargetView(new WardView());
-		content.addComponent(wardButton);
-				
+
 		NavigationButton loginScreenButton = new NavigationButton("Login");
-		loginScreenButton.setTargetView(new LoginView());
+		loginScreenButton.setTargetView(new UserLoginView());
 		content.addComponent(loginScreenButton);
 
 		NavigationButton patientSelectorButton = new NavigationButton("Patient Selector");
-		patientSelectorButton.setTargetView(new PatientView());
+		patientSelectorButton.setTargetView(new PatientSelectionView());
 		content.addComponent(patientSelectorButton);
 		
-		NavigationButton pictureButton = new NavigationButton("Picture View");
-		pictureButton.setTargetView(new PictureView());
+		NavigationButton pictureButton = new NavigationButton("Patient View");
+		pictureButton.setTargetView(new PatientView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
 		content.addComponent(pictureButton);
 		
-		NavigationButton dataButton = new NavigationButton("Show Wound Data");
-		dataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
-		content.addComponent(dataButton);
-		
 		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
-		addDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
+		addDataButton.setTargetView(new NewWoundView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		content.addComponent(addDataButton);
 
 		setContent(content);

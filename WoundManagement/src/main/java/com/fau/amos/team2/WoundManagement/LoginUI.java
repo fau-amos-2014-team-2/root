@@ -51,10 +51,14 @@ public class LoginUI extends UI {
 	private static Wound testWound1 = new Wound();
 	
 	private static void initData() {
+		Ward ward = new Ward();
+		ward.setCharacterisation("blub");
+		
 		testUser1.setFirstName("Adam");
 		testUser1.setLastName("Arbeit");
 		testUser1.setAbbreviation("testuser1");
 		testUser1.setQualificationNumber(1111);
+		testUser1.setWorkingWard(ward);
 		
 		testUser2.setFirstName("Bernd");
 		testUser2.setLastName("Bond");

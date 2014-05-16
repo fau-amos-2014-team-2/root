@@ -22,12 +22,12 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
  * simon
  */
 @SuppressWarnings("serial")
-public class ChangeWardView extends NavigationView {
+public class WardSelectionView extends NavigationView {
 
 	private JPAContainer<Ward> wards;
 	private Label greetingLabel;
 
-	public ChangeWardView(final Object id) {
+	public WardSelectionView(final Object id) {
 		setCaption("Change Ward");
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();

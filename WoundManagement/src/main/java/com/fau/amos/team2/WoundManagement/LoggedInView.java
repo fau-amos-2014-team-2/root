@@ -5,13 +5,11 @@ import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 
 /**
  * The View that is shown, if a user has successfully logged in
@@ -39,23 +37,19 @@ public class LoggedInView extends NavigationView {
 		mainLayout.addComponent(greetingLable);
 
 		NavigationButton changePasswordButton = new NavigationButton("Passwort ändern");
-		changePasswordButton.setTargetView(new ChangePasswordView(id));
+		changePasswordButton.setTargetView(new UserPasswordView(id));
 		mainLayout.addComponent(changePasswordButton);
 
 		NavigationButton patientSelectorButton = new NavigationButton("Patientenauswahl");
-		patientSelectorButton.setTargetView(new PatientView());
+		patientSelectorButton.setTargetView(new PatientSelectionView());
 		mainLayout.addComponent(patientSelectorButton);
 
 		NavigationButton pictureButton = new NavigationButton("Patientenansicht");
-		pictureButton.setTargetView(new PictureView());
+		pictureButton.setTargetView(new PatientView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
 		mainLayout.addComponent(pictureButton);
 
-		NavigationButton woundDataButton = new NavigationButton("Wunddaten anzeigen");
-		woundDataButton.setTargetView(new WoundDataView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
-		mainLayout.addComponent(woundDataButton);
-
 		NavigationButton addWoundDataButton = new NavigationButton("Wunde hinzufügen");
-		addWoundDataButton.setTargetView(new AddWoundDataView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
+		addWoundDataButton.setTargetView(new NewWoundView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
 
 		NavigationButton logoutButton = new NavigationButton("Abmelden");
@@ -63,7 +57,7 @@ public class LoggedInView extends NavigationView {
 
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().setCurrentComponent(new LoginView());
+				getNavigationManager().setCurrentComponent(new UserLoginView());
 
 			}
 		});
@@ -71,16 +65,7 @@ public class LoggedInView extends NavigationView {
 		
 		// added Ward View navigation button
 		NavigationButton wardButton = new NavigationButton("Ward View");
-		wardButton.addClickListener(new NavigationButtonClickListener() 
-		{
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) 
-			{
-				getNavigationManager().navigateTo(new WardView());
-			}
-		});
-		
-		// added wardButton
+		wardButton.setTargetView(new WardSelectionView(id));
 		mainLayout.addComponents(wardButton);
 		
 		setContent(mainLayout);

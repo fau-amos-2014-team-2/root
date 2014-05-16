@@ -1,103 +1,90 @@
 package com.fau.amos.team2.WoundManagement;
 
-import com.fau.amos.team2.WoundManagement.model.Employee;
-//added import Ward
-import com.fau.amos.team2.WoundManagement.model.Ward;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
+import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
-import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.Label.ValueChangeEvent;
+import com.vaadin.ui.VerticalLayout;
 
 /**
- * View to see patients of selected ward
- * @author Eugen
- * @param <event>
+ * View to see a picture
+ * 
+ * @author ???
  */
-@SuppressWarnings("serial")
-public class PatientView<event> extends NavigationView {
-	
-	public PatientView(event id) 
-	{
-		CssLayout content = new CssLayout();
-		
-		NativeSelect wpview = new NativeSelect ("Please select a patient: ");
-		
-		/**
-		 * the actual db-based way to go:
-		 * wpview.addItem(patients.get(ward.id) == ward.get(event.value));
-		*/
-		
-		//creates six "patients"
-		for (int i=0; i<6; i++)
-		{
-			wpview.addItem(i);
-			wpview.setItemCaption(i, "Patient " +i);
-		}
-			
-		//a selection must occur... 
-		wpview.setNullSelectionAllowed(false);
-		//...therefore legal to set '-1' by default
-		wpview.setValue(-1);
-		wpview.setImmediate(true);
-		
-		wpview.addValueChangeListener(new ValueChangeListener() 
-		{
-            public void valueChange(final ValueChangeEvent event) 
-            {
-                final String valueString = String.valueOf(event.getProperty().getValue());
-            }
+public class PatientView extends NavigationView {
+	private static final long serialVersionUID = -572027045788648039L;
 
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) 
-			{
-				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
-			}
-        });
+	public PatientView(Object id) {
+		setCaption("Patientenansicht");
 		
-		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent( new Label( "Patients: ") );
-		box.addComponent( wpview );
+		HorizontalLayout content = new HorizontalLayout();
+		WoundManager woundManager = new WoundManager(null);
 		
-		NavigationButton allPatientsButton = new NavigationButton("All Patients");
-		allPatientsButton.addClickListener(new NavigationButtonClickListener()
-		{
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) 
-			{
-				getNavigationManager().navigateTo(new PatientView());
-			}
-		});
-		box.addComponent(allPatientsButton);
+		Wound wound = WoundProvider.getInstance().getByID(id);
 		
-		content.addComponent(box);
-		setContent(content);
+		VerticalLayout rightContent = new VerticalLayout();
+		HorizontalLayout woundDataContent = new HorizontalLayout();
+		rightContent.addComponent(new Label("Senso6 Dekubitus, id: 10 (verheilt)  <--- was genau steht hier?"));
+		rightContent.addComponent(woundDataContent);
 		
-	}
+		VerticalLayout labelColumn = new VerticalLayout();
+		VerticalLayout dataColumn = new VerticalLayout();
+		woundDataContent.addComponents(labelColumn, dataColumn);
+		labelColumn.setSpacing(true);
+		dataColumn.setSpacing(true);
+		
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		labelColumn.addComponent(new Label("Erfasst am:"));
+//		dataColumn.addComponent(new Label("13.08.2012"));
+		dataColumn.addComponent(new Label(df.format(wound.getRecordingDate())));
+		
+		labelColumn.addComponent(new Label("von:"));
+//		dataColumn.addComponent(new Label("Beige"));
+		dataColumn.addComponent(new Label(wound.getRecordingEmployee().getAbbreviation()));
+		
+		labelColumn.addComponent(new Label("Beendet am:"));
+//		dataColumn.addComponent(new Label("09.04.2012"));
+		dataColumn.addComponent(new Label(df.format(wound.getEndDate())));
+		
+		labelColumn.addComponent(new Label("von:"));
+//		dataColumn.addComponent(new Label("CSC"));
+		dataColumn.addComponent(new Label(wound.getCureEmployee().getAbbreviation()));
 
-	//Standard PatientView
-	public PatientView()
-	{
-		CssLayout content = new CssLayout();
-
-		setCaption("Patient information");
+		labelColumn.addComponent(new Label("Körperregion:"));
+//		dataColumn.addComponent(new Label("Brustbein"));
+		dataColumn.addComponent(new Label(wound.getBodyLocation()));
 		
-		Employee e = EmployeeProvider.getInstance().getByFirstName("Adam");
+		labelColumn.addComponent(new Label("Körperstelle:"));
+//		dataColumn.addComponent(new Label("Brustbein"));
+		dataColumn.addComponent(new Label(wound.getBodyLocationCode()+""));
 		
-		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent(new Label("Patient: "+ e.getFirstName() + " " + e.getLastName()));
-		box.addComponent(new Label("username: "+ e.getAbbreviation()));
+		labelColumn.addComponent(new Label("Grad:"));
+//		dataColumn.addComponent(new Label("1 Grad l - Nicht wegdrückbare Rötung"));
+		dataColumn.addComponent(new Label(wound.getWoundLevel().getAbbreviation()));
 		
-		content.addComponent(box);
+		labelColumn.addComponent(new Label("Größe (mm):"));
+//		dataColumn.addComponent(new Label("1 x 1"));
+		dataColumn.addComponent(new Label(wound.getSize1() + " x " + wound.getSize2()));
+		
+		labelColumn.addComponent(new Label("Tiefe(mm):"));
+//		dataColumn.addComponent(new Label("1 x 1"));
+		dataColumn.addComponent(new Label(wound.getDepth()+""));
+		
+		labelColumn.addComponent(new Label("Wo entstanden:"));
+//		dataColumn.addComponent(new Label("wo die Wunde entstanden ist..."));
+		dataColumn.addComponent(new Label(wound.getOrigination()+""));
+		
+		labelColumn.addComponent(new Label("Bemerkung:"));
+//		dataColumn.addComponent(new Label("hier steht eine Bemerkunng..."));
+		dataColumn.addComponent(new Label(wound.getDescription()));
+		
+		content.addComponents(woundManager.getWoundSelector(), rightContent);
+		
 		setContent(content);
 	}
-
 }
-

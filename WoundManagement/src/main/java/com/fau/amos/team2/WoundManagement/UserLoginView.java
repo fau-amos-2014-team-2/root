@@ -18,7 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class LoginView extends NavigationView {
+public class UserLoginView extends NavigationView {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -38,7 +38,7 @@ public class LoginView extends NavigationView {
 	 * @see com.fau.amos.team2.WoundManagement.LoggedInView
 	 */
 	@SuppressWarnings("deprecation")
-	public LoginView() {
+	public UserLoginView() {
 
 		HorizontalLayout main = new HorizontalLayout();
 		VerticalLayout fieldsandbutton = new VerticalLayout();

@@ -2,9 +2,9 @@ package com.fau.amos.team2.WoundManagement;
 
 import com.vaadin.addon.touchkit.ui.NavigationView;
 
-public class WoundDescriptionView extends NavigationView {
+public class WoundDescriptionListView extends NavigationView {
 	
-	public WoundDescriptionView(){
+	public WoundDescriptionListView(){
 		setCaption("Wundbeschreibungen");
 	}
 

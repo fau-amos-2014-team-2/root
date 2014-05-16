@@ -11,9 +11,9 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 
 @SuppressWarnings("serial")
-public class ChangePasswordView extends NavigationView {
+public class UserPasswordView extends NavigationView {
 
-	public ChangePasswordView(final Object id){
+	public UserPasswordView(final Object id){
 
 		final Employee user = EmployeeProvider.getInstance().getByID(id);
 

@@ -30,10 +30,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
-public class AddWoundDataView extends NavigationView {
+@SuppressWarnings("serial")
+public class NewWoundView extends NavigationView {
 	
-	@SuppressWarnings("serial")
-	public AddWoundDataView(BodyLocation bodyLocation, Employee currentUser){
+	public NewWoundView(BodyLocation bodyLocation, Employee currentUser){
 				
 		setCaption("Neue Wunde anlegen");
 		

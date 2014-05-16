@@ -2,3 +2,5 @@
 .project
 .classpath
 target
+src/main/webapp/VAADIN/widgetsets/*
+/bin
