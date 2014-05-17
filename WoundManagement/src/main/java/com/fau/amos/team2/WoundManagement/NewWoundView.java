@@ -6,20 +6,16 @@ import java.util.Date;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Origination;
-import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NumberField;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.data.Item;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -33,37 +29,24 @@ import com.vaadin.ui.TextField;
 @SuppressWarnings("serial")
 public class NewWoundView extends NavigationView {
 	
-	public NewWoundView(BodyLocation bodyLocation, Employee currentUser){
+	public NewWoundView(BodyLocation bodyLocation, final Employee currentUser){
 				
 		setCaption("Neue Wunde anlegen");
 		
 		final Wound wound = new Wound();
 
 		FormLayout layout = new FormLayout();
+		layout.setSizeUndefined();
 		
 		//DateField - when is the wound recorded
 		final DateField recorded = new DateField("Erfasst am:");
 		recorded.setValue(new Date());
+		recorded.setDateFormat("dd.MM.yyyy");
+		recorded.setInvalidAllowed(false);
 		layout.addComponent(recorded);
 		
-		//ComboBox - who recorded the wound
-		Collection<Object> employeeIds = EmployeeProvider.getInstance().getAll().getItemIds();
-		final ComboBox recordedBy = new ComboBox("von:");
-		for (Object o : employeeIds){
-			Employee tmp = EmployeeProvider.getInstance().getByID(o);
-			recordedBy.addItem(tmp);
-			recordedBy.setItemCaption(tmp, tmp.getAbbreviation());
-		}
-		recordedBy.setNullSelectionAllowed(false);
-		recordedBy.setValue(currentUser); //select current User
-		layout.addComponent(recordedBy);
-		
-		//TextField - body location (in words)
-		final TextField locationText = new TextField("Körperregion:");
-		layout.addComponent(locationText);
-		
 		//ComboBox - body location code
-		final ComboBox location = new ComboBox("Körperstelle:");
+		final ComboBox location = new ComboBox("Körperregion:");
 		for (BodyLocation b : BodyLocation.values()){
 			location.addItem(b);
 			location.setItemCaption(b, b.toFullString());
@@ -71,6 +54,10 @@ public class NewWoundView extends NavigationView {
 		location.setValue(bodyLocation); //select chosen location
 		location.setNullSelectionAllowed(false);
 		layout.addComponent(location);
+		
+		//TextField - body location (in words)
+		final TextField locationText = new TextField("Körperstelle:");
+		layout.addComponent(locationText);
 		
 		//ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
@@ -82,13 +69,13 @@ public class NewWoundView extends NavigationView {
 		}
 		layout.addComponent(type);
 		
-		//ComboBox wound level
+		//ComboBox - wound level
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
 		final ComboBox level = new ComboBox("Grad:");
 		for (Object o : levelIds){
 			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
 			level.addItem(tmp);
-			level.setItemCaption(tmp, tmp.getAbbreviation());
+			level.setItemCaption(tmp, tmp.getCharacterisation());
 		}
 		layout.addComponent(level);
 		
@@ -98,14 +85,22 @@ public class NewWoundView extends NavigationView {
 			origination.addItem(o);
 			origination.setItemCaption(o, o.toFullString());
 		}
+		origination.setNullSelectionAllowed(false);
 		layout.addComponent(origination);
 		
-		//NumberField - size of wound
-		final NumberField size1 = new NumberField("Größe");
+		//NumberField - height of wound
+		final NumberField size1 = new NumberField("Höhe");
+		size1.setInvalidAllowed(false);
 		layout.addComponent(size1);
+		
+		//NumberField - width of wound
+		final NumberField size2 = new NumberField("Breite");
+		size2.setInvalidAllowed(false);
+		layout.addComponent(size2);
 		
 		//NumberField - depth of wound
 		final NumberField depth = new NumberField("Tiefe");
+		depth.setInvalidAllowed(false);
 		layout.addComponent(depth);
 		
 		//TextField - commentary
@@ -116,37 +111,87 @@ public class NewWoundView extends NavigationView {
 		buttons.setSpacing(true);
 		
 		Button submit = new Button("Wunde anlegen");
+		submit.setClickShortcut(KeyCode.ENTER);
 		submit.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
+					//TODO: where does the DecubitusId come from?
+					//TODO: what is SensoID? Do I need it?
+					//TODO: how to react on different inputs for Date or Number
+					wound.setDecubitusId(42);
+					wound.setPatient(PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)));
+					
+					if (origination.getValue() != null){
+						wound.setOrigination(((Origination)origination.getValue()).getValue());
+					} else {
+						wound.setOrigination(0);
+					}
+					
+					if (level.getValue() != null){
+						wound.setWoundLevel((WoundLevel)level.getValue());
+					}
+					
+					if (type.getValue() != null){
+						wound.setWoundType((WoundType)type.getValue());
+					}
+					
 					wound.setBodyLocation(locationText.getValue());
 					wound.setBodyLocationCode(((BodyLocation)location.getValue()).getValue());
 					wound.setDescription(comment.getValue());
-					wound.setOrigination(((Origination)origination.getValue()).getValue());
-					wound.setPatient(PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)));
-					wound.setRecordingDate(new java.sql.Date(recorded.getValue().getTime()));
-					wound.setRecordingEmployee(EmployeeProvider.getInstance().getByID(recordedBy.getValue()));
-					wound.setSensoID(1);
-					wound.setWoundLevel(WoundLevelProvider.getInstance().getByID(level.getValue()));
-					wound.setWoundType(WoundTypeProvider.getInstance().getByID(type.getValue()));
+					wound.setRecordingEmployee(currentUser);
+					wound.setSensoID(7);
+
 					try{
-						wound.setSize1(Integer.parseInt(size1.getValue()));
-						wound.setSize2(Integer.parseInt(size1.getValue()));
-					} catch (NumberFormatException e){
-						wound.setSize1(0);
-						wound.setSize2(0);
+						wound.setRecordingDate(new java.sql.Date(recorded.getValue().getTime()));
+					} catch (NullPointerException e){
+						Notification.show("Das Erfassungsdatum wurde nicht im richtigen Format angegeben.\nKorrekt wäre 'TT.MM.JJJJ', z.B. '25.04.2014'.");
+						e.printStackTrace();
+						return;
 					}
+					
 					try{
-						wound.setDepth(Integer.parseInt(depth.getValue()));
+						if (size1.getValue().equals("")){
+							wound.setSize2(0);
+							if (size2.getValue().equals("")){
+								wound.setSize1(0);
+							} else {
+								wound.setSize1(Integer.parseInt(size2.getValue()));
+							}
+							
+						} else {
+							wound.setSize1(Integer.parseInt(size1.getValue()));
+							if (size2.getValue().equals("")){
+								wound.setSize2(0);
+							} else {
+								wound.setSize2(Integer.parseInt(size2.getValue()));
+							} 
+						}
+					} catch(NumberFormatException e){
+						//should never get here actually
+						Notification.show("Die Größe ist im falschen Format angegeben.");
+						e.printStackTrace();
+						return;
+					}
+					
+					try {
+						if (depth.getValue().equals("")){
+							wound.setDepth(0);
+						} else {
+							wound.setDepth(Integer.parseInt(depth.getValue()));
+						}
 					} catch (NumberFormatException e){
-						wound.setDepth(0);
+						//should never get here actually
+						Notification.show("Die Tiefe ist im falschen Format angegeben.");
+						e.printStackTrace();
+						return;
 					}
 					
 					WoundProvider.getInstance().add(wound);
 					getNavigationManager().navigateBack();
 				
 				} catch (Exception e){
+					//should never get here actually
 					Notification.show("Daten nicht korrekt eingegeben!");
 					e.printStackTrace();
 					

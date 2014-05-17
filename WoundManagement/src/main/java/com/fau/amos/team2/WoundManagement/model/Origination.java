@@ -1,9 +1,12 @@
 package com.fau.amos.team2.WoundManagement.model;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum Origination {
 
+	NULL(0),
 	HAEUSLICH(1),
 	KRANKENHAUS_EINZUG(2),
 	ANDERE_EINRICHTUNG(3),
@@ -14,14 +17,27 @@ public enum Origination {
 	AMBULANTE_OP(8), 
 	SONSTIGE_WAEHREND_HEIMAUFENTHALT(9);
 	
-	private int value;
+	private final int value;
 	
 	private Origination(int i){
 		this.value = i;
 	}
 	
+	private static Map<Integer, Origination> map = new HashMap<Integer, Origination>();
+
+    static {
+        for (Origination originationEnum : Origination.values()) {
+            map.put(originationEnum.value, originationEnum);
+        }
+    }
+    
+    public static Origination valueOf(int originationNo) {
+        return map.get(originationNo);
+    }
+	
 	public String toString(){
 		switch (this){
+		case NULL: return "";
 		case HAEUSLICH: return "Häuslich";
 		case KRANKENHAUS_EINZUG: return "Krankenhaus/Einzug";
 		case ANDERE_EINRICHTUNG: return "Andere Einrichtung";
@@ -36,6 +52,9 @@ public enum Origination {
 	}
 	
 	public String toFullString(){
+		if (this == NULL){
+			return this.toString();
+		}
 		return this.value + " - " + this.toString();
 	}
 	

@@ -75,16 +75,16 @@ public class LoginUI extends UI {
 		EmployeeProvider.getInstance().add(testUser3);
 		
 		testWoundType1.setBodyLocationRequired(false);
-		testWoundType1.setClassification("Wundentyp 1");
+		testWoundType1.setClassification("Senso6 Dekubitus");
 		testWoundType1.setLevel('e');
 		testWoundType1.setType('d');
 		testWoundType1.setSizeIsRequired(false);
 		
 		WoundTypeProvider.getInstance().add(testWoundType1);
 		
-		testWoundLevel1.setAbbreviation("Grad 1");
-		testWoundLevel1.setCharacterisation("Nicht wegdrückbare Rötung");
-		testWoundLevel1.setDescription("Grad 1 - Nicht wegdrückbare Rötung");
+		testWoundLevel1.setAbbreviation("1");
+		testWoundLevel1.setCharacterisation("Grad 1 - Nicht wegdrückbare Rötung");
+		testWoundLevel1.setDescription("Nicht wegdrückbare Rötung");
 		testWoundLevel1.setLevel(1);
 		testWoundLevel1.setWoundType(testWoundType1);
 		
@@ -104,8 +104,9 @@ public class LoginUI extends UI {
 		PatientProvider.getInstance().add(testPatient1);
 		
 		testWound1.setBodyLocation("Brustbein");
-		testWound1.setBodyLocationCode(1);
+		testWound1.setBodyLocationCode(64);
 		testWound1.setCureEmployee(testUser3);
+		testWound1.setDecubitusId(10);
 		testWound1.setDepth(3);
 		testWound1.setDescription("Ich bin eine Bemerkung.");
 		testWound1.setEndDate(java.sql.Date.valueOf("2014-05-12"));
@@ -114,6 +115,7 @@ public class LoginUI extends UI {
 		testWound1.setRecordingEmployee(testUser1);
 		testWound1.setSize1(1);
 		testWound1.setSize2(2);
+		testWound1.setWoundType(testWoundType1);
 		testWound1.setWoundLevel(testWoundLevel1);
 		testWound1.setPatient(testPatient1);
 		
