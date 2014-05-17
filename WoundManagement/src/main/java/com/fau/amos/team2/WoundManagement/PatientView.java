@@ -37,7 +37,12 @@ public class PatientView extends NavigationView {
 		rightContent.setSpacing(true);
 		HorizontalLayout woundDataContent = new HorizontalLayout();
 		woundDataContent.setSpacing(true);
-		rightContent.addComponent(new Label(wound.getWoundType().getClassification() + ", id: " + wound.getDecubitusId() + " (verheilt)"));
+		//TODO: where does '(verheilt)' come from, where is it stored?
+		if (wound.getWoundType() == null){
+			rightContent.addComponent(new Label("id: " + wound.getDecubitusId() + " (verheilt)"));
+		} else {
+			rightContent.addComponent(new Label(wound.getWoundType().getClassification() + ", id: " + wound.getDecubitusId() + " (verheilt)"));
+		}
 //		rightContent.addComponent(new Label("Senso6 Dekubitus, id: 10 (verheilt)"));
 		rightContent.addComponent(woundDataContent);		
 		
@@ -101,7 +106,7 @@ public class PatientView extends NavigationView {
 		}
 		
 		labelColumn.addComponent(new Label("Tiefe (mm):"));
-//		dataColumn.addComponent(new Label("1 x 1"));
+//		dataColumn.addComponent(new Label("1"));
 		if (wound.getDepth() != 0){
 			dataColumn.addComponent(new Label(wound.getDepth()+""));
 		} else {

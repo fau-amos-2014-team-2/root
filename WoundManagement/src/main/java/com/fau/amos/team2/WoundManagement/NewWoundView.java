@@ -134,6 +134,30 @@ public class NewWoundView extends NavigationView {
 					
 					if (type.getValue() != null){
 						wound.setWoundType((WoundType)type.getValue());
+						if ('p' == (((WoundType)type.getValue()).getLevel()) || 'P' == (((WoundType)type.getValue()).getLevel())){
+							if (level.getValue() == null){
+								Notification.show("Wundtyp: " + ((WoundType)type.getValue()).getClassification() + " - der Wundgrad muss angegeben werden.");
+								return;
+							}
+						} else if ('v' == (((WoundType)type.getValue()).getLevel()) || 'V' == (((WoundType)type.getValue()).getLevel())){
+							if (level.getValue() != null){
+								Notification.show("Wundtyp: " + ((WoundType)type.getValue()).getClassification() + " - es darf kein Wundgrad angegeben werden.");
+								return;
+							}
+						}
+						if (((WoundType)type.getValue()).isBodyLocationRequired()){
+							if (locationText.getValue().equals("")){
+								Notification.show("Wundtyp: " + ((WoundType)type.getValue()).getClassification() + " - die Körperstelle muss angegeben werden.");
+								return;
+							}
+						}
+						if (((WoundType)type.getValue()).isSizeIsRequired()){
+							if (size1.getValue().equals("") && size2.getValue().equals("")){
+								Notification.show("Wundtyp: " + ((WoundType)type.getValue()).getClassification() + " - die Größe muss angegeben werden.");
+								return;
+							}
+						}
+						
 					}
 					
 					wound.setBodyLocation(locationText.getValue());
@@ -186,6 +210,8 @@ public class NewWoundView extends NavigationView {
 						e.printStackTrace();
 						return;
 					}
+					
+					
 					
 					WoundProvider.getInstance().add(wound);
 					getNavigationManager().navigateBack();

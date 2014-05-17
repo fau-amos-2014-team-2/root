@@ -34,6 +34,8 @@ public class WoundType implements Serializable {
 	@Column(name = "KOERPERSTELLEPFL", nullable = false)
 	private boolean isBodyLocationRequired;
 	
+	//TODO: translation of 'j'/'n' to boolean?
+	
 	public WoundType() {
 		
 	}

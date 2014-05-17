@@ -76,9 +76,10 @@ public class LoginUI extends UI {
 		
 		testWoundType1.setBodyLocationRequired(false);
 		testWoundType1.setClassification("Senso6 Dekubitus");
-		testWoundType1.setLevel('e');
+		testWoundType1.setLevel('p');
 		testWoundType1.setType('d');
-		testWoundType1.setSizeIsRequired(false);
+		testWoundType1.setSizeIsRequired(true);
+		testWoundType1.setBodyLocationRequired(true);
 		
 		WoundTypeProvider.getInstance().add(testWoundType1);
 		
