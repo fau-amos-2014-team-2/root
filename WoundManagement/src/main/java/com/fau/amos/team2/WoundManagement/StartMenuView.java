@@ -4,6 +4,7 @@ import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
@@ -45,7 +46,10 @@ public class StartMenuView extends NavigationView {
 		content.addComponent(pictureButton);
 		
 		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
-		addDataButton.setTargetView(new NewWoundView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
+		addDataButton.setTargetView(new NewWoundView(
+				PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)), 
+				BodyLocation.BRUSTBEIN, 
+				EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		content.addComponent(addDataButton);
 
 		setContent(content);

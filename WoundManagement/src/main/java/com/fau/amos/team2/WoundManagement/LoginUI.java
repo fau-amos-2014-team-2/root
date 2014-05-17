@@ -109,7 +109,7 @@ public class LoginUI extends UI {
 		testWound1.setCureEmployee(testUser3);
 		testWound1.setDecubitusId(10);
 		testWound1.setDepth(3);
-		testWound1.setDescription("Ich bin eine Bemerkung.");
+		testWound1.setDescription("Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. ");
 		testWound1.setEndDate(java.sql.Date.valueOf("2014-05-12"));
 		testWound1.setOrigination(1);
 		testWound1.setRecordingDate(java.sql.Date.valueOf("2014-04-12"));

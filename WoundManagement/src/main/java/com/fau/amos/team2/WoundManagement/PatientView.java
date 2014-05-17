@@ -38,12 +38,13 @@ public class PatientView extends NavigationView {
 		HorizontalLayout woundDataContent = new HorizontalLayout();
 		woundDataContent.setSpacing(true);
 		//TODO: where does '(verheilt)' come from, where is it stored?
-		if (wound.getWoundType() == null){
-			rightContent.addComponent(new Label("id: " + wound.getDecubitusId() + " (verheilt)"));
-		} else {
-			rightContent.addComponent(new Label(wound.getWoundType().getClassification() + ", id: " + wound.getDecubitusId() + " (verheilt)"));
+		String typeDecubitus = "id: " + wound.getDecubitusId() + " (verheilt)";
+		if (wound.getWoundType() != null){
+			typeDecubitus = wound.getWoundType().getClassification() + ", " + typeDecubitus;
 		}
-//		rightContent.addComponent(new Label("Senso6 Dekubitus, id: 10 (verheilt)"));
+		Label typeDecubitusLabel = new Label(typeDecubitus);
+		typeDecubitusLabel.setWidth("20em");
+		rightContent.addComponent(typeDecubitusLabel);
 		rightContent.addComponent(woundDataContent);		
 		
 		VerticalLayout labelColumn = new VerticalLayout();
@@ -54,72 +55,84 @@ public class PatientView extends NavigationView {
 		
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		labelColumn.addComponent(new Label("Erfasst am:"));
-//		dataColumn.addComponent(new Label("13.08.2012"));
-		dataColumn.addComponent(new Label(df.format(wound.getRecordingDate())));
+		Label recordingDateLabel = new Label(df.format(wound.getRecordingDate()));
+		recordingDateLabel.setWidth("20em");
+		dataColumn.addComponent(recordingDateLabel);
 		
 		labelColumn.addComponent(new Label("von:"));
-//		dataColumn.addComponent(new Label("Beige"));
-		dataColumn.addComponent(new Label(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName()));
+		Label recordingEmployeeLabel = new Label(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName());
+		recordingEmployeeLabel.setWidth("20em");
+		dataColumn.addComponent(recordingEmployeeLabel);
 		
 		labelColumn.addComponent(new Label("Beendet am:"));
-//		dataColumn.addComponent(new Label("09.04.2012"));
+		String endDate = "-";
 		if (wound.getEndDate() != null){
-			dataColumn.addComponent(new Label(df.format(wound.getEndDate())));
-		} else {
-			dataColumn.addComponent(new Label("-"));
+			endDate = df.format(wound.getEndDate());
 		}
-		
+		Label endDateLabel = new Label(endDate);
+		endDateLabel.setWidth("20em");
+		dataColumn.addComponent(endDateLabel);
+				
 		labelColumn.addComponent(new Label("von:"));
-//		dataColumn.addComponent(new Label("CSC"));
+		String cureEmployee = "-";
 		if (wound.getCureEmployee() != null){
-			dataColumn.addComponent(new Label(wound.getCureEmployee().getFirstName() + " " + wound.getCureEmployee().getLastName()));
-		} else {
-			dataColumn.addComponent(new Label("-"));
+			cureEmployee = wound.getCureEmployee().getFirstName() + " " + wound.getCureEmployee().getLastName();
 		}
+		Label cureEmployeeLabel = new Label(cureEmployee);
+		cureEmployeeLabel.setWidth("20em");
+		dataColumn.addComponent(cureEmployeeLabel);
 		
 		labelColumn.addComponent(new Label("Körperregion:"));
-//		dataColumn.addComponent(new Label("Brustbein"));
-		dataColumn.addComponent(new Label(BodyLocation.valueOf(wound.getBodyLocationCode()).toString()));
+		Label bodyLocationCodeLabel = new Label(BodyLocation.valueOf(wound.getBodyLocationCode()).toString());
+		bodyLocationCodeLabel.setWidth("20em");
+		dataColumn.addComponent(bodyLocationCodeLabel);
 		
 		labelColumn.addComponent(new Label("Körperstelle:"));
-//		dataColumn.addComponent(new Label("Brustbein"));
-		dataColumn.addComponent(new Label(wound.getBodyLocation()));
+		Label bodyLocationLabel = new Label(wound.getBodyLocation());
+		bodyLocationLabel.setWidth("20em");
+		dataColumn.addComponent(bodyLocationLabel);
 		
 		labelColumn.addComponent(new Label("Grad:"));
-//		dataColumn.addComponent(new Label("1 Grad l - Nicht wegdrückbare Rötung"));
+		String woundLevel = "";
 		if (wound.getWoundLevel() != null){
-			dataColumn.addComponent(new Label(wound.getWoundLevel().getCharacterisation()));
-		} else {
-			dataColumn.addComponent(new Label(""));
-		}
+			woundLevel = wound.getWoundLevel().getCharacterisation();
+		} 
+		Label woundLevelLabel = new Label(woundLevel);
+		woundLevelLabel.setWidth("20em");
+		dataColumn.addComponent(woundLevelLabel);
 		
 		labelColumn.addComponent(new Label("Größe (mm):"));
-//		dataColumn.addComponent(new Label("1 x 1"));
+		String size = "";
 		if (wound.getSize1() != 0){
 			if (wound.getSize2() != 0){
-				dataColumn.addComponent(new Label(wound.getSize1() + " x " + wound.getSize2()));
+				size = wound.getSize1() + " x " + wound.getSize2();
 			} else {
-				dataColumn.addComponent(new Label(wound.getSize1() + " x " + wound.getSize1()));
+				size = wound.getSize1() + " x " + wound.getSize1();
 			}
-		} else {
-			dataColumn.addComponent(new Label(""));
 		}
+		Label sizeLabel = new Label(size);
+		sizeLabel.setWidth("20em");
+		dataColumn.addComponent(sizeLabel);
+		
 		
 		labelColumn.addComponent(new Label("Tiefe (mm):"));
-//		dataColumn.addComponent(new Label("1"));
+		String depth = "";
 		if (wound.getDepth() != 0){
-			dataColumn.addComponent(new Label(wound.getDepth()+""));
-		} else {
-			dataColumn.addComponent(new Label(""));
-		}
+			depth = wound.getDepth()+"";
+		} 
+		Label depthLabel = new Label(depth);
+		depthLabel.setWidth("20em");
+		dataColumn.addComponent(depthLabel);
 		
 		labelColumn.addComponent(new Label("Wo entstanden:"));
-//		dataColumn.addComponent(new Label("wo die Wunde entstanden ist..."));
-		dataColumn.addComponent(new Label(Origination.valueOf(wound.getOrigination()).toString()));
+		Label originationLabel = new Label(Origination.valueOf(wound.getOrigination()).toString());
+		originationLabel.setWidth("20em");
+		dataColumn.addComponent(originationLabel);
 		
 		labelColumn.addComponent(new Label("Bemerkung:"));
-//		dataColumn.addComponent(new Label("hier steht eine Bemerkung..."));
-		dataColumn.addComponent(new Label(wound.getDescription()));
+		Label descriptionLabel = new Label(wound.getDescription());
+		descriptionLabel.setWidth("20em");
+		dataColumn.addComponent(descriptionLabel);
 		
 		Button endWound = new Button("Wunde beenden...");
 		endWound.addClickListener(new ClickListener(){
