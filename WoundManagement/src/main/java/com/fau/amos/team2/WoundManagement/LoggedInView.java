@@ -3,6 +3,7 @@ package com.fau.amos.team2.WoundManagement;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -49,7 +50,10 @@ public class LoggedInView extends NavigationView {
 		mainLayout.addComponent(pictureButton);
 
 		NavigationButton addWoundDataButton = new NavigationButton("Wunde hinzufügen");
-		addWoundDataButton.setTargetView(new NewWoundView(BodyLocation.BRUSTBEIN, EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
+		addWoundDataButton.setTargetView(new NewWoundView(
+				PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)), 
+				BodyLocation.BRUSTBEIN, 
+				EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
 
 		NavigationButton logoutButton = new NavigationButton("Abmelden");
