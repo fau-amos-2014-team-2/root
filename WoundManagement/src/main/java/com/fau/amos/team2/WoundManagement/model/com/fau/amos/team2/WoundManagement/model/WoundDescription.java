@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 
 @SuppressWarnings("serial")
 @Entity
-public class WoundDescription implements Serializable {
+public class WoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -16,7 +16,12 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
+
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
@@ -39,6 +44,17 @@ import com.vaadin.ui.UI;
 @Theme("touchkit")
 public class LoginUI extends UI {
 
+	private static EmployeeProvider<Employee> employeeProvider = 
+			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private static PatientProvider<Patient> patientProvider = 
+			(PatientProvider<Patient>) PatientProvider.getInstance();
+	private static WoundProvider<Wound> woundProvider = 
+			(WoundProvider<Wound>) WoundProvider.getInstance();
+	private static WoundTypeProvider<WoundType> woundTypeProvider = 
+			(WoundTypeProvider<WoundType>) WoundTypeProvider.getInstance();
+	private static WoundLevelProvider<WoundLevel> woundLevelProvider = 
+			(WoundLevelProvider<WoundLevel>) WoundLevelProvider.getInstance();
+	
 	// Provide to initialize objects just once; before the instance exists
 	private static Employee testUser1 = new Employee();
 	private static Employee testUser2 = new Employee();
@@ -50,7 +66,13 @@ public class LoginUI extends UI {
 	private static Patient testPatient1 = new Patient();
 	private static Wound testWound1 = new Wound();
 	
-	private static void initData() {
+	private static boolean isInitialized = false;
+	
+	static void initData() {
+		// curiosly breaks the connection
+		//if(isInitialized)
+		//	return;
+		//isInitialized = true;
 		Ward ward = new Ward();
 		ward.setCharacterisation("blub");
 		
@@ -70,9 +92,9 @@ public class LoginUI extends UI {
 		testUser3.setAbbreviation("testuser3");
 		testUser3.setQualificationNumber(3333);
 		
-		EmployeeProvider.getInstance().add(testUser1);
-		EmployeeProvider.getInstance().add(testUser2);
-		EmployeeProvider.getInstance().add(testUser3);
+		employeeProvider.add(testUser1);
+		employeeProvider.add(testUser2);
+		employeeProvider.add(testUser3);
 		
 		testWoundType1.setBodyLocationRequired(false);
 		testWoundType1.setClassification("Senso6 Dekubitus");
@@ -81,7 +103,7 @@ public class LoginUI extends UI {
 		testWoundType1.setSizeIsRequired(true);
 		testWoundType1.setBodyLocationRequired(true);
 		
-		WoundTypeProvider.getInstance().add(testWoundType1);
+		woundTypeProvider.add(testWoundType1);
 		
 		testWoundLevel1.setAbbreviation("1");
 		testWoundLevel1.setCharacterisation("Grad 1 - Nicht wegdrückbare Rötung");
@@ -89,7 +111,7 @@ public class LoginUI extends UI {
 		testWoundLevel1.setLevel(1);
 		testWoundLevel1.setWoundType(testWoundType1);
 		
-		WoundLevelProvider.getInstance().add(testWoundLevel1);
+		woundLevelProvider.add(testWoundLevel1);
 		
 		testPatient1.setFirstName("Doerte");
 		testPatient1.setLastName("Daeumler");
@@ -102,7 +124,7 @@ public class LoginUI extends UI {
 		testPatient1.setRoom("room");
 		testPatient1.setTitle("Dr.");
 		
-		PatientProvider.getInstance().add(testPatient1);
+		patientProvider.add(testPatient1);
 		
 		testWound1.setBodyLocation("Brustbein");
 		testWound1.setBodyLocationCode(64);
@@ -120,56 +142,27 @@ public class LoginUI extends UI {
 		testWound1.setWoundLevel(testWoundLevel1);
 		testWound1.setPatient(testPatient1);
 		
-		WoundProvider.getInstance().add(testWound1);
+		woundProvider.add(testWound1);
 
 	}
 	// END INIT //
 	
 	@Override
-	protected void init(VaadinRequest request) {	
+	protected void init(VaadinRequest request) {
 		initData();
-
 		NavigationManager manager = new NavigationManager();
 		manager.setCurrentComponent(new StartMenuView());
 		setContent(manager);
 		getPage().setTitle("Wound Management");
-
+		
+		BufferedWriter b;
+		try {
+			b = new BufferedWriter(new FileWriter("config.pwd"));
+			b.write("uHait7xoquitheaz");
+			b.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
-	
-	/**
-	 * Customizes the JNDI Connection in order to connect to
-	 * a database defined in the local tomcat server config
-	 * without publishing the user credentials in the source code.
-	 * 
-	 * @author Stefan, Betz
-	 */
-	/*@Deprecated
-	@Override
-	public void customize(Session session) throws Exception {
-		JNDIConnector connector = null;
-	    Context context = null;
-	    try {
-	      context = new InitialContext();
-	      if(null != context) {
-	        connector = (JNDIConnector)session.getLogin().getConnector(); // possible CCE
-	        // Change from COMPOSITE_NAME_LOOKUP to STRING_LOOKUP
-	        // Note: if both jta and non-jta elements exist this will only change the first one - and may still result in
-	        // the COMPOSITE_NAME_LOOKUP being set
-	        // Make sure only jta-data-source is in persistence.xml with no non-jta-data-source property set
-	        connector.setLookupType(JNDIConnector.STRING_LOOKUP);
-	 
-	        // Or, if you are specifying both JTA and non-JTA in your persistence.xml then set both connectors to be safe
-	        JNDIConnector writeConnector = (JNDIConnector)session.getLogin().getConnector();
-	        writeConnector.setLookupType(JNDIConnector.STRING_LOOKUP);
-	        JNDIConnector readConnector =
-	            (JNDIConnector)((DatabaseLogin)((ServerSession)session).getReadConnectionPool().getLogin()).getConnector();
-	        readConnector.setLookupType(JNDIConnector.STRING_LOOKUP);
-	 
-	        System.out.println("_JPAEclipseLinkSessionCustomizer: configured " + connector.getName());
-	      }
-	    } catch(Exception e) { 
-	    	e.printStackTrace();
-	    }
-	}*/
 }

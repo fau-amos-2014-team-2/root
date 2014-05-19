@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 @SuppressWarnings("serial")
 @Entity
-public class Ward implements Serializable {
+public class Ward implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

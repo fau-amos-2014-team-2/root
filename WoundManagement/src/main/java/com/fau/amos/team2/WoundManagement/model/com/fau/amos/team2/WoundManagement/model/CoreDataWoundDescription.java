@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 
 @SuppressWarnings("serial")
 @Entity
-public class CoreDataWoundDescriptionMapping implements Serializable {
+public class CoreDataWoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,36 +20,62 @@ public class CoreDataWoundDescriptionMapping implements Serializable {
 	
 	@Column(name = "KENMDT07_NR")
 	private int sensoID;
-
+	
+	@Column(name = "TYP", nullable = false)
+	private String typ;
+	
+	@Column(name = "BEZEICH", nullable = false)
+	private String characterisation;
+	
 	@OneToOne
-	@JoinColumn(name = "KENWBS07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "KENWBS07_NR", referencedColumnName="NR")
 	private CoreDataWoundDescription coreDataWoundDescription;
 	
-	@OneToOne
-	@JoinColumn(name = "BEWWBS07_NR", nullable = false, referencedColumnName="NR")
-	private WoundDescription woundDescription;
+	@Column(name = "MITFEITEXT")
+	private boolean isFreeText;
 	
-	@Column(name = "FREITEXT")
-	private String freeText;
+	@Column(name = "POSITION")
+	private int position;
 	
-	public CoreDataWoundDescriptionMapping() {
+	public CoreDataWoundDescription() { 
 		
 	}
-	
+
+
 	public long getId() {
 		return id;
 	}
+
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
+
 	public int getSensoID() {
 		return sensoID;
 	}
 
+
 	public void setSensoID(int sensoID) {
 		this.sensoID = sensoID;
+	}
+
+
+	public String getTyp() {
+		return typ;
+	}
+
+	public void setTyp(String typ) {
+		this.typ = typ;
+	}
+
+	public String getCharacterisation() {
+		return characterisation;
+	}
+
+	public void setCharacterisation(String characterisation) {
+		this.characterisation = characterisation;
 	}
 
 	public CoreDataWoundDescription getCoreDataWoundDescription() {
@@ -60,19 +86,19 @@ public class CoreDataWoundDescriptionMapping implements Serializable {
 		this.coreDataWoundDescription = coreDataWoundDescription;
 	}
 
-	public WoundDescription getWoundDescription() {
-		return woundDescription;
+	public boolean isFreeText() {
+		return isFreeText;
 	}
 
-	public void setWoundDescription(WoundDescription woundDescription) {
-		this.woundDescription = woundDescription;
+	public void setFreeText(boolean isFreeText) {
+		this.isFreeText = isFreeText;
 	}
 
-	public String getFreeText() {
-		return freeText;
+	public int getPosition() {
+		return position;
 	}
 
-	public void setFreeText(String freeText) {
-		this.freeText = freeText;
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }

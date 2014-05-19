@@ -2,6 +2,7 @@ package com.fau.amos.team2.WoundManagement;
 
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
@@ -21,6 +22,11 @@ public class LoggedInView extends NavigationView {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	private EmployeeProvider<Employee> employeeProvider = 
+			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private PatientProvider<Patient> patientProvider = 
+			(PatientProvider<Patient>) PatientProvider.getInstance();
+	
 	/**
  * The View that is shown, if a user has successfully logged in
  * @author ???
@@ -30,7 +36,7 @@ public class LoggedInView extends NavigationView {
 
 		setCaption("Übersicht");
 
-		Employee user = EmployeeProvider.getInstance().getByID(id);
+		Employee user = employeeProvider.getByID(id);
 
 		Label greetingLable = new Label();
 		greetingLable.setValue("Hi, "
@@ -51,9 +57,9 @@ public class LoggedInView extends NavigationView {
 
 		NavigationButton addWoundDataButton = new NavigationButton("Wunde hinzufügen");
 		addWoundDataButton.setTargetView(new NewWoundView(
-				PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)), 
+				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
-				EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
+				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
 
 		NavigationButton logoutButton = new NavigationButton("Abmelden");

@@ -1,6 +1,8 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.Constants;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
@@ -13,61 +15,22 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * @see com.fau.amos.team2.WoundManagement.WoundLevel
  * @author Stefan, Betz
  * */
-public class WoundLevelProvider {
+public class WoundLevelProvider<T extends BusinessObject> extends ObjectProvider<T> {
 
-	private static WoundLevelProvider instance;
+	private static WoundLevelProvider<WoundLevel> instance;
 	
-	private JPAContainer<WoundLevel> woundLvls;
-	
-	/**
-	 * Constructs an empty <code>JPAContainer<WoundLevel></code>
-	 * and in this context an empty Database with the
-	 * credentials of <code>Constants.PERSISTANCE_UNIT</code>
-	 * 
-	 * @see com.fau.amos.team2.WoundManagement.model.Constants
-	 * @see persistence.xml
-	 */
-	private WoundLevelProvider() {
-		woundLvls = JPAContainerFactory.make(WoundLevel.class, Constants.PERSISTANCE_UNIT);
+	public WoundLevelProvider(Class<T> type) {
+		super(type);
 	}
 	
 	/**
-	 * @return The instance of <code>WoundLevelProvider</code> 
+	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static WoundLevelProvider getInstance() {
+	public static WoundLevelProvider<? extends BusinessObject> getInstance() {
 		if(instance == null) {
-			instance = new WoundLevelProvider();
+			instance = new WoundLevelProvider<WoundLevel>(WoundLevel.class);
 		}
 		return instance;
 	}
-	
-	/**
-	 * Adds an WoundLevel to the Database
-	 * 
-	 * @param WoundLevel
-	 * @return the Id of the inserted WoundLevel
-	 */
-	public Object add(WoundLevel woundLvl) {
-		return woundLvls.addEntity(woundLvl);
-	}
-	
-	/**
-	 * Get all WoundLevel from the Database
-	 * 
-	 * @return JPAContainer containing all WoundLevel
-	 */
-	public JPAContainer<WoundLevel> getAll() {
-		return woundLvls;
-	}
-	/**
-	 * Get the WoundLevel with id from the Database 
-	 * 
-	 * @param id - The unique id of an WoundLevel
-	 * @return instance of the according WoundLevel, or null
-	 */
-	public WoundLevel getByID(Object id) { 
-		return woundLvls.getItem(id).getEntity();
-	}
-	
 }
 

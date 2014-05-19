@@ -7,10 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @SuppressWarnings("serial")
 @Entity
-public class Employee implements Serializable {
+public class Employee implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -46,12 +47,10 @@ public class Employee implements Serializable {
 	@Column(name = "GESCHLECHT")
 	private String gender;
 	
-	//FIXME for what is @Column? needed here?!
-	//@Column(name = "DERZSTATION")
+	@JoinColumn(name = "DERZSTATION", referencedColumnName="NR")
 	private Ward currentWard;
-
-	//FIXME for what is @Column? needed here?!
-	//@Column(name = "ARBEITSSTATION")
+	
+	@JoinColumn(name = "ARBEITSSTATION", referencedColumnName="NR")
 	private Ward workingWard;
 	
 	public Employee() {

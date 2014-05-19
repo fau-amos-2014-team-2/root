@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 @SuppressWarnings("serial")
 @Entity
-public class WoundType implements Serializable {
+public class WoundType implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

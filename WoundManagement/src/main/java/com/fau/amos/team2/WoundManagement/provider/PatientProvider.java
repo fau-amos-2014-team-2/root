@@ -1,5 +1,6 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.Constants;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -13,60 +14,21 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * @see com.fau.amos.team2.WoundManagement.Patient
  * @author Stefan, Betz
  * */
-public class PatientProvider {
+public class PatientProvider<T extends BusinessObject> extends ObjectProvider<T> {
 
-	private static PatientProvider instance;
+	private static PatientProvider<Patient> instance;
 	
-	private JPAContainer<Patient> patients;
-	
-	/**
-	 * Constructs an empty <code>JPAContainer<Patient></code>
-	 * and in this context an empty Database with the
-	 * credentials of <code>Constants.PERSISTANCE_UNIT</code>
-	 * 
-	 * @see com.fau.amos.team2.WoundManagement.model.Constants
-	 * @see persistence.xml
-	 */
-	private PatientProvider() {
-		patients = JPAContainerFactory.make(Patient.class, Constants.PERSISTANCE_UNIT);
+	public PatientProvider(Class<T> type) {
+		super(type);
 	}
 	
 	/**
-	 * @return The instance of <code>PatientProvider</code> 
+	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static PatientProvider getInstance() {
+	public static PatientProvider<? extends BusinessObject> getInstance() {
 		if(instance == null) {
-			instance = new PatientProvider();
+			instance = new PatientProvider<Patient>(Patient.class);
 		}
 		return instance;
 	}
-	
-	/**
-	 * Adds an Patient to the Database
-	 * 
-	 * @param Patient
-	 * @return the Id of the inserted Patient
-	 */
-	public Object add(Patient patient) {
-		return patients.addEntity(patient);
-	}
-	
-	/**
-	 * Get all Patients from the Database
-	 * 
-	 * @return JPAContainer containing all Patients
-	 */
-	public JPAContainer<Patient> getAll() {
-		return patients;
-	}
-	/**
-	 * Get the Patient with id from the Database 
-	 * 
-	 * @param id - The unique id of an Patient
-	 * @return instance of the according Patient, or null
-	 */
-	public Patient getByID(Object id) { 
-		return patients.getItem(id).getEntity();
-	}
-	
 }

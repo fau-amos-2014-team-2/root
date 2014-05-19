@@ -2,6 +2,7 @@ package com.fau.amos.team2.WoundManagement;
 
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
@@ -19,6 +20,11 @@ import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 public class StartMenuView extends NavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
+	private static EmployeeProvider<Employee> employeeProvider = 
+			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private static PatientProvider<Patient> patientProvider = 
+			(PatientProvider<Patient>) PatientProvider.getInstance();
+	
 	/**
 	 * Creates an instance of StartMenuView
 	 * 
@@ -47,9 +53,9 @@ public class StartMenuView extends NavigationView {
 		
 		NavigationButton addDataButton = new NavigationButton("Add Wound Data");
 		addDataButton.setTargetView(new NewWoundView(
-				PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().getIdByIndex(0)), 
+				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
-				EmployeeProvider.getInstance().getByID(EmployeeProvider.getInstance().getAll().getIdByIndex(0))));
+				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
 		content.addComponent(addDataButton);
 
 		setContent(content);

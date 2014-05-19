@@ -1,7 +1,9 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.Constants;
 import com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescriptionMapping;
+import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
@@ -13,60 +15,26 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * @see com.fau.amos.team2.WoundManagement.CoreDataWoundDescriptionMapping
  * @author Stefan, Betz
  * */
-public class CoreDataWoundDescriptionMappingProvider {
+public class CoreDataWoundDescriptionMappingProvider<T extends BusinessObject> extends ObjectProvider<T> {
 
-	private static CoreDataWoundDescriptionMappingProvider instance;
+	private static CoreDataWoundDescriptionMappingProvider
+							<CoreDataWoundDescriptionMapping> instance;
 	
-	private JPAContainer<CoreDataWoundDescriptionMapping> mappings;
-	
-	/**
-	 * Constructs an empty <code>JPAContainer<CoreDataWoundDescriptionMapping></code>
-	 * and in this context an empty Database with the
-	 * credentials of <code>Constants.PERSISTANCE_UNIT</code>
-	 * 
-	 * @see com.fau.amos.team2.WoundManagement.model.Constants
-	 * @see persistence.xml
-	 */
-	private CoreDataWoundDescriptionMappingProvider() {
-		mappings = JPAContainerFactory.make(CoreDataWoundDescriptionMapping.class, Constants.PERSISTANCE_UNIT);
+	public CoreDataWoundDescriptionMappingProvider(Class<T> type) {
+		super(type);
 	}
 	
 	/**
-	 * @return The instance of <code>CoreDataWoundDescriptionMappingProvider</code> 
+	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static CoreDataWoundDescriptionMappingProvider getInstance() {
+	public static CoreDataWoundDescriptionMappingProvider
+					<? extends BusinessObject> 
+						getInstance() {
 		if(instance == null) {
-			instance = new CoreDataWoundDescriptionMappingProvider();
+			instance = new CoreDataWoundDescriptionMappingProvider
+					<CoreDataWoundDescriptionMapping>(CoreDataWoundDescriptionMapping.class);
 		}
 		return instance;
 	}
-	
-	/**
-	 * Adds an CoreDataWoundDescriptionMapping to the Database
-	 * 
-	 * @param CoreDataWoundDescriptionMapping
-	 * @return the Id of the inserted CoreDataWoundDescriptionMapping
-	 */
-	public Object add(CoreDataWoundDescriptionMapping ward) {
-		return mappings.addEntity(ward);
-	}
-	
-	/**
-	 * Get all CoreDataWoundDescriptionMapping from the Database
-	 * 
-	 * @return JPAContainer containing all CoreDataWoundDescriptionMapping
-	 */
-	public JPAContainer<CoreDataWoundDescriptionMapping> getAll() {
-		return mappings;
-	}
-	/**
-	 * Get the CoreDataWoundDescriptionMapping with id from the Database 
-	 * 
-	 * @param id - The unique id of an CoreDataWoundDescriptionMapping
-	 * @return instance of the according CoreDataWoundDescriptionMapping, or null
-	 */
-	public CoreDataWoundDescriptionMapping getByID(Object id) { 
-		return mappings.getItem(id).getEntity();
-	}
-	
 }
+	

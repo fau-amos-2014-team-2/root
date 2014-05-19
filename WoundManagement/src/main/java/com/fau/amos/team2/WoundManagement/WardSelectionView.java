@@ -1,8 +1,10 @@
 package com.fau.amos.team2.WoundManagement;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -26,20 +28,26 @@ public class WardSelectionView extends NavigationView {
 
 	private JPAContainer<Ward> wards;
 	private Label greetingLabel;
+	
+	private static EmployeeProvider<Employee> employeeProvider = 
+			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private static WardProvider<Ward> wardProvider = 
+			(WardProvider<Ward>) WardProvider.getInstance();
+
 
 	public WardSelectionView(final Object id) {
 		setCaption("Change Ward");
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
-		final Employee user = EmployeeProvider.getInstance().getByID(id);
-		Ward currentWard = WardProvider.getInstance().getByID(
+		final Employee user = employeeProvider.getByID(id);
+		Ward currentWard = wardProvider.getByID(
 				(user.getCurrentWard()));
 
 		Label workingLabel=new Label();
 		workingLabel.setValue(user.getFirstName() + " "
 				+ user.getLastName() + " ihre Arbeitsstation ist: "
-				+ WardProvider.getInstance().getByID(user.getWorkingWard()).getCharacterisation());
+				+ wardProvider.getByID(user.getWorkingWard()).getCharacterisation());
 		mainLayout.addComponent(workingLabel);
 		
 		greetingLabel = new Label();
@@ -81,9 +89,9 @@ public class WardSelectionView extends NavigationView {
 			public void valueChange(
 					com.vaadin.data.Property.ValueChangeEvent event) {
 				Object blub = wardGroup.getValue();
-				user.setCurrentWard(WardProvider.getInstance().getByID(blub));
+				user.setCurrentWard(wardProvider.getByID(blub));
 
-				Ward newWard = WardProvider.getInstance().getByID(
+				Ward newWard = wardProvider.getByID(
 						(user.getCurrentWard()));
 				
 				//ueberfluessig
@@ -117,7 +125,7 @@ public class WardSelectionView extends NavigationView {
 
 	private Object[] prepare() {
 
-		wards = WardProvider.getInstance().getAll();
+		wards = wardProvider.getAll();
 
 		Object[] wardids = wards.getItemIds().toArray();
 

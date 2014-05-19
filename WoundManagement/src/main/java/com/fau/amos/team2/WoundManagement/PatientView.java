@@ -24,6 +24,9 @@ import com.vaadin.ui.VerticalLayout;
 public class PatientView extends NavigationView {
 	private static final long serialVersionUID = -572027045788648039L;
 
+	private WoundProvider<Wound> woundProvider = 
+			(WoundProvider<Wound>) WoundProvider.getInstance();
+	
 	@SuppressWarnings("serial")
 	public PatientView(Object id) {
 		setCaption("Patientenansicht");
@@ -31,7 +34,7 @@ public class PatientView extends NavigationView {
 		HorizontalLayout content = new HorizontalLayout();
 		WoundManager woundManager = new WoundManager(null);
 		
-		Wound wound = WoundProvider.getInstance().getByID(id);
+		Wound wound = woundProvider.getByID(id);
 		
 		VerticalLayout rightContent = new VerticalLayout();
 		rightContent.setSpacing(true);

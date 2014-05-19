@@ -31,6 +31,13 @@ import com.vaadin.ui.TextField;
 @SuppressWarnings("serial")
 public class NewWoundView extends NavigationView {
 	
+	private static WoundProvider<Wound> woundProvider = 
+			(WoundProvider<Wound>) WoundProvider.getInstance();
+	private static WoundTypeProvider<WoundType> woundTypeProvider = 
+			(WoundTypeProvider<WoundType>) WoundTypeProvider.getInstance();
+	private static WoundLevelProvider<WoundLevel> woundLevelProvider = 
+			(WoundLevelProvider<WoundLevel>) WoundLevelProvider.getInstance();
+	
 	public NewWoundView(final Patient patient, BodyLocation bodyLocation, final Employee currentUser){
 				
 		setCaption("Neue Wunde anlegen");
@@ -69,7 +76,7 @@ public class NewWoundView extends NavigationView {
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
 		final ComboBox type = new ComboBox("Wundart:");
 		for (Object o : typeIds){
-			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
+			WoundType tmp = woundTypeProvider.getByID(o);
 			type.addItem(tmp);
 			type.setItemCaption(tmp, tmp.getClassification());
 		}
@@ -80,7 +87,7 @@ public class NewWoundView extends NavigationView {
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
 		final ComboBox level = new ComboBox("Grad:");
 		for (Object o : levelIds){
-			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
+			WoundLevel tmp = woundLevelProvider.getByID(o);
 			level.addItem(tmp);
 			level.setItemCaption(tmp, tmp.getCharacterisation());
 		}
@@ -274,7 +281,7 @@ public class NewWoundView extends NavigationView {
 					
 					
 					
-					WoundProvider.getInstance().add(wound);
+					woundProvider.add(wound);
 					getNavigationManager().navigateBack();
 				
 				} catch (Exception e){

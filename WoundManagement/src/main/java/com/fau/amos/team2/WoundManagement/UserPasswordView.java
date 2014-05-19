@@ -1,7 +1,9 @@
 package com.fau.amos.team2.WoundManagement;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -13,9 +15,12 @@ import com.vaadin.ui.PasswordField;
 @SuppressWarnings("serial")
 public class UserPasswordView extends NavigationView {
 
+	private static EmployeeProvider<Employee> employeeProvider = 
+			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	
 	public UserPasswordView(final Object id){
 
-		final Employee user = EmployeeProvider.getInstance().getByID(id);
+		final Employee user = employeeProvider.getByID(id);
 
 		FormLayout layout = new FormLayout();
 		final PasswordField currentPassword = new PasswordField("Current PIN:");
