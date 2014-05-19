@@ -30,7 +30,7 @@ public class PatientView extends NavigationView {
 		setCaption(messages.getString("patientView")); //$NON-NLS-1$
 		
 		HorizontalLayout content = new HorizontalLayout();
-		WoundManager woundManager = new WoundManager(null);
+		WoundManager woundManager = new WoundManager(messages, null);
 		
 		Wound wound = WoundProvider.getInstance().getByID(id);
 		
