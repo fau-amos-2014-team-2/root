@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Origination;
@@ -177,26 +176,26 @@ public class NewWoundView extends NavigationView {
 						//'E''e' - level allowed
 						if ('p' == (((WoundType)type.getValue()).getLevel()) || 'P' == (((WoundType)type.getValue()).getLevel())){
 							if (level.getValue() == null){
-								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessagesBundle.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + messages.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
 								return;
 							}
 						} else if ('v' == (((WoundType)type.getValue()).getLevel()) || 'V' == (((WoundType)type.getValue()).getLevel())){
 							if (level.getValue() != null){
-								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessagesBundle.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
+								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + messages.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
 								return;
 							}
 						}
 						//check if BodyLocation is set according to chosen WoundType
 						if (((WoundType)type.getValue()).isBodyLocationRequired()){
 							if (locationText.getValue().equals("")){ //$NON-NLS-1$
-								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessagesBundle.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + messages.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
 								return;
 							}
 						}
 						// check if Size is set according to chosen WoundType
 						if (((WoundType)type.getValue()).isSizeIsRequired()){
 							if (size1.getValue().equals("") && size2.getValue().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
-								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessagesBundle.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+								Notification.show(messages.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + messages.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
 								return;
 							}
 						}
@@ -300,7 +299,7 @@ public class NewWoundView extends NavigationView {
 			}
 		});
 		
-		Button cancel = new Button(MessagesBundle.getString("cancel")); //$NON-NLS-1$
+		Button cancel = new Button(messages.getString("cancel")); //$NON-NLS-1$
 		cancel.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {

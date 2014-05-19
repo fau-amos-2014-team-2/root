@@ -148,9 +148,9 @@ public class LoginUI extends UI {
 
 	}
 	// END INIT //
-	
-	@Override
-	protected void init(VaadinRequest request) {
+
+		@Override
+	protected void init(VaadinRequest request) {	
 		initData();
 		
 		Locale currentLocale;
@@ -159,7 +159,7 @@ public class LoginUI extends UI {
         currentLocale = Locale.GERMAN;
         //currentLocale = Locale.ENGLISH;
 
-        messages = ResourceBundle.getBundle("com.fau.amos.team2.WoundManagement.i18n.MessagesBundle", currentLocale);
+        messages = ResourceBundle.getBundle("bundles.MessagesBundle", currentLocale);
 
 		NavigationManager manager = new NavigationManager();
 		manager.setCurrentComponent(new StartMenuView(messages));
