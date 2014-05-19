@@ -2,3 +2,4 @@ var/wm.db
 .metadata
 WoundManagement/target
 ReleaseToolchain/artifact-downloader/target
+Phonegap-v-1-9-Android-v-2-2/target

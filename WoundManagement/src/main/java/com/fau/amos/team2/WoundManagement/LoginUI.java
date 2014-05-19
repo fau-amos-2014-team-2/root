@@ -21,6 +21,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
@@ -150,19 +152,18 @@ public class LoginUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		initData();
+		
+		Locale currentLocale;
+        ResourceBundle messages;
+
+        currentLocale = Locale.GERMAN;
+        //currentLocale = Locale.ENGLISH;
+
+        messages = ResourceBundle.getBundle("com.fau.amos.team2.WoundManagement.i18n.MessagesBundle", currentLocale);
+
 		NavigationManager manager = new NavigationManager();
-		manager.setCurrentComponent(new StartMenuView());
+		manager.setCurrentComponent(new StartMenuView(messages));
 		setContent(manager);
 		getPage().setTitle("Wound Management");
-		
-		BufferedWriter b;
-		try {
-			b = new BufferedWriter(new FileWriter("config.pwd"));
-			b.write("uHait7xoquitheaz");
-			b.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

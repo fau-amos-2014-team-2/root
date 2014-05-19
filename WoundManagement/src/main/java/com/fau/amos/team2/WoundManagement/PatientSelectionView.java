@@ -1,5 +1,7 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.ResourceBundle;
+
 import com.fau.amos.team2.WoundManagement.model.Employee;
 //added import Ward
 import com.fau.amos.team2.WoundManagement.model.Ward;
@@ -24,11 +26,14 @@ import com.vaadin.ui.Label.ValueChangeEvent;
 @SuppressWarnings("serial")
 public class PatientSelectionView extends NavigationView {
 	
-	public PatientSelectionView() 
+	public PatientSelectionView(final ResourceBundle messages) 
 	{
+		
+		setCaption(messages.getString("patientSelection"));
+		
 		CssLayout content = new CssLayout();
 		
-		NativeSelect wpview = new NativeSelect ("Please select a patient: ");
+		NativeSelect wpview = new NativeSelect (messages.getString("pleaseSelectPatient") + ": ");
 		
 		/**
 		 * the actual db-based way to go:
@@ -39,7 +44,7 @@ public class PatientSelectionView extends NavigationView {
 		for (int i=0; i<6; i++)
 		{
 			wpview.addItem(i);
-			wpview.setItemCaption(i, "Patient " +i);
+			wpview.setItemCaption(i, messages.getString("patient") + " " +i);
 		}
 			
 		//a selection must occur... 
@@ -58,21 +63,21 @@ public class PatientSelectionView extends NavigationView {
 			@Override
 			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) 
 			{
-				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
+				getNavigationManager().navigateTo(new WardPatientView(messages, event.getProperty().getValue()));
 			}
         });
 		
 		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent( new Label( "Patients: ") );
+		box.addComponent( new Label(messages.getString("patients") + ": ") );
 		box.addComponent( wpview );
 		
-		NavigationButton allPatientsButton = new NavigationButton("All Patients");
+		NavigationButton allPatientsButton = new NavigationButton(messages.getString("allPatients"));
 		allPatientsButton.addClickListener(new NavigationButtonClickListener()
 		{
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) 
 			{
-				getNavigationManager().navigateTo(new PatientSelectionView());
+				getNavigationManager().navigateTo(new PatientSelectionView(messages));
 			}
 		});
 		box.addComponent(allPatientsButton);

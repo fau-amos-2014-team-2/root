@@ -1,7 +1,11 @@
 package com.fau.amos.team2.WoundManagement;
 
+
+import java.util.ResourceBundle;
+
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
+import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
+
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -35,6 +39,8 @@ public class UserLoginView extends NavigationView {
 	private static EmployeeProvider<Employee> employeeProvider = 
 			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
 
+	private ResourceBundle messages;
+
 	/**
 	 * Creates an instance of LoginView in order to login.
 	 * 
@@ -42,12 +48,14 @@ public class UserLoginView extends NavigationView {
 	 * @see com.fau.amos.team2.WoundManagement.LoggedInView
 	 */
 	@SuppressWarnings("deprecation")
-	public UserLoginView() {
+	public UserLoginView(final ResourceBundle messages) {
+		
+		this.messages = messages;
 
 		HorizontalLayout main = new HorizontalLayout();
 		VerticalLayout fieldsandbutton = new VerticalLayout();
 
-		final OptionGroup logingroup = new OptionGroup("Bitte waehlen:");
+		final OptionGroup logingroup = new OptionGroup(messages.getString("pleaseChoose") + ":"); //$NON-NLS-1$
 		
 		//das aendern der Caption aendert nicht die Item-ID der optiongroup- mode explicit
 		logingroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
@@ -56,19 +64,19 @@ public class UserLoginView extends NavigationView {
 		logingroup.setImmediate(true);
 
 		usernameField = new TextField();
-		usernameField.setValue("");
-		usernameField.setCaption("Benutzername:");
+		usernameField.setValue(""); //$NON-NLS-1$
+		usernameField.setCaption(messages.getString("username") + ":"); //$NON-NLS-1$
 		
 		fieldsandbutton.addComponent(usernameField);
 
 		passwordField = new PasswordField();
-		passwordField.setCaption("Passwort:");
-		passwordField.setValue("");
+		passwordField.setCaption(messages.getString("PIN") + ":"); //$NON-NLS-1$
+		passwordField.setValue(""); //$NON-NLS-1$
 		
 		fieldsandbutton.addComponent(passwordField);
 
 		loginButton = new Button();
-		loginButton.setCaption("Login");
+		loginButton.setCaption(messages.getString("login")); //$NON-NLS-1$
 		loginButton.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				validateData();
@@ -96,7 +104,7 @@ public class UserLoginView extends NavigationView {
 			// fuege jeden employee in die Liste ein, Item-ID = datenbank ID
 			// auch das setzten der Caption ueberschreibt diese nicht!
 			logingroup.addItem(ids[z]);
-			logingroup.setItemCaption(ids[z], ( tmp.getLastName() + "; " + tmp.getFirstName()));
+			logingroup.setItemCaption(ids[z], ( tmp.getLastName() + "; " + tmp.getFirstName())); //$NON-NLS-1$
 		}
 
 		// sobald etwas selektiert wird, moechten wir das wissen! //und der setimmediate
@@ -150,24 +158,24 @@ public class UserLoginView extends NavigationView {
 		try {
 		 correctdata = EmployeeProvider.getInstance().getLogin(username, password); }
 		catch (NumberFormatException e){
-			Notification.show("Das Passwort besteht nur aus Zahlen!");
-			this.passwordField.setValue("");
+			Notification.show(messages.getString("PINonlyDigits")); //$NON-NLS-1$
+			this.passwordField.setValue(""); //$NON-NLS-1$
 			return;
 		}
 		
 		//Falls korrekte daten:
 		if (correctdata) {
-			Notification.show("Daten korrekt!");
+			Notification.show(messages.getString("correctData")); //$NON-NLS-1$
 
 			Object id = EmployeeProvider.getInstance().getLoginID(username,
 					password);
 
-			NavigationView next = new LoggedInView(id);
+			NavigationView next = new LoggedInView(messages, id);
 			getNavigationManager().navigateTo(next);
 		} else {
-			Notification.show("Falsche Daten, bitte neu eingeben! Danke!");
+			Notification.show(messages.getString("incorrectData")); //$NON-NLS-1$
 
-			this.passwordField.setValue("");
+			this.passwordField.setValue(""); //$NON-NLS-1$
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
@@ -39,9 +40,12 @@ public class WoundSelector extends AbsoluteLayout {
 	private Map<WoundPosition, Image> markedWounds = new HashMap<WoundPosition, Image>();
 
 	private Boolean existingWoundSelected = false;
+	
+	private ResourceBundle messages;
 
-	public WoundSelector(WoundManager woundManager, Sex sex) {
+	public WoundSelector(ResourceBundle messages, WoundManager woundManager, Sex sex) {
 		this.woundManager = woundManager;
+		this.messages = messages;
 
 		Image backgroundImage;
 		if (sex == Sex.FEMALE)
@@ -116,7 +120,7 @@ public class WoundSelector extends AbsoluteLayout {
 
 	private void refreshSelectedWound() {
 		if (selectedWoundPosition != null && existingWoundSelected) {
-			Notification.show("Wound at " + selectedWoundPosition.getDescription());
+			Notification.show(messages.getString("woundAt") + " " + selectedWoundPosition.getDescription());
 
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
 			float correctedXPos = (float)selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2);
