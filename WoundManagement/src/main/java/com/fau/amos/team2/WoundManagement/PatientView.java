@@ -2,6 +2,7 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
@@ -25,25 +26,27 @@ public class PatientView extends NavigationView {
 	private static final long serialVersionUID = -572027045788648039L;
 
 	@SuppressWarnings("serial")
-	public PatientView(Object id) {
-		setCaption("Patientenansicht");
+	public PatientView(final ResourceBundle messages, Object id) {
+		setCaption(messages.getString("patientView")); //$NON-NLS-1$
 		
 		HorizontalLayout content = new HorizontalLayout();
 		WoundManager woundManager = new WoundManager(null);
 		
 		Wound wound = WoundProvider.getInstance().getByID(id);
 		
+		String width = "20em";
+		
 		VerticalLayout rightContent = new VerticalLayout();
 		rightContent.setSpacing(true);
 		HorizontalLayout woundDataContent = new HorizontalLayout();
 		woundDataContent.setSpacing(true);
 		//TODO: where does '(verheilt)' come from, where is it stored?
-		String typeDecubitus = "id: " + wound.getDecubitusId() + " (verheilt)";
+		String typeDecubitus = messages.getString("decubitusID") + (": ") + wound.getDecubitusId() + " (" + messages.getString("healed") + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		if (wound.getWoundType() != null){
-			typeDecubitus = wound.getWoundType().getClassification() + ", " + typeDecubitus;
+			typeDecubitus = wound.getWoundType().getClassification() + ", " + typeDecubitus; //$NON-NLS-1$
 		}
 		Label typeDecubitusLabel = new Label(typeDecubitus);
-		typeDecubitusLabel.setWidth("20em");
+		typeDecubitusLabel.setWidth(width);
 		rightContent.addComponent(typeDecubitusLabel);
 		rightContent.addComponent(woundDataContent);		
 		
@@ -54,54 +57,54 @@ public class PatientView extends NavigationView {
 		dataColumn.setSpacing(true);
 		
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-		labelColumn.addComponent(new Label("Erfasst am:"));
+		labelColumn.addComponent(new Label(messages.getString("recordingDate") + ":")); //$NON-NLS-1$
 		Label recordingDateLabel = new Label(df.format(wound.getRecordingDate()));
-		recordingDateLabel.setWidth("20em");
+		recordingDateLabel.setWidth(width);
 		dataColumn.addComponent(recordingDateLabel);
 		
-		labelColumn.addComponent(new Label("von:"));
-		Label recordingEmployeeLabel = new Label(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName());
-		recordingEmployeeLabel.setWidth("20em");
+		labelColumn.addComponent(new Label(messages.getString("from") + ":")); //$NON-NLS-1$
+		Label recordingEmployeeLabel = new Label(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName()); //$NON-NLS-1$
+		recordingEmployeeLabel.setWidth(width);
 		dataColumn.addComponent(recordingEmployeeLabel);
 		
-		labelColumn.addComponent(new Label("Beendet am:"));
-		String endDate = "-";
+		labelColumn.addComponent(new Label(messages.getString("endDate") + ":")); //$NON-NLS-1$
+		String endDate = "-"; 
 		if (wound.getEndDate() != null){
 			endDate = df.format(wound.getEndDate());
 		}
 		Label endDateLabel = new Label(endDate);
-		endDateLabel.setWidth("20em");
+		endDateLabel.setWidth(width);
 		dataColumn.addComponent(endDateLabel);
 				
-		labelColumn.addComponent(new Label("von:"));
+		labelColumn.addComponent(new Label(messages.getString("from") + ":")); //$NON-NLS-1$
 		String cureEmployee = "-";
 		if (wound.getCureEmployee() != null){
 			cureEmployee = wound.getCureEmployee().getFirstName() + " " + wound.getCureEmployee().getLastName();
 		}
 		Label cureEmployeeLabel = new Label(cureEmployee);
-		cureEmployeeLabel.setWidth("20em");
+		cureEmployeeLabel.setWidth(width);
 		dataColumn.addComponent(cureEmployeeLabel);
 		
-		labelColumn.addComponent(new Label("Körperregion:"));
+		labelColumn.addComponent(new Label(messages.getString("bodyLocationCode") + ":")); //$NON-NLS-1$
 		Label bodyLocationCodeLabel = new Label(BodyLocation.valueOf(wound.getBodyLocationCode()).toString());
-		bodyLocationCodeLabel.setWidth("20em");
+		bodyLocationCodeLabel.setWidth(width);
 		dataColumn.addComponent(bodyLocationCodeLabel);
 		
-		labelColumn.addComponent(new Label("Körperstelle:"));
+		labelColumn.addComponent(new Label(messages.getString("bodyLocation") + ":")); //$NON-NLS-1$
 		Label bodyLocationLabel = new Label(wound.getBodyLocation());
-		bodyLocationLabel.setWidth("20em");
+		bodyLocationLabel.setWidth(width);
 		dataColumn.addComponent(bodyLocationLabel);
 		
-		labelColumn.addComponent(new Label("Grad:"));
+		labelColumn.addComponent(new Label(messages.getString("woundLevel") + ":")); //$NON-NLS-1$
 		String woundLevel = "";
 		if (wound.getWoundLevel() != null){
 			woundLevel = wound.getWoundLevel().getCharacterisation();
 		} 
 		Label woundLevelLabel = new Label(woundLevel);
-		woundLevelLabel.setWidth("20em");
+		woundLevelLabel.setWidth(width);
 		dataColumn.addComponent(woundLevelLabel);
 		
-		labelColumn.addComponent(new Label("Größe (mm):"));
+		labelColumn.addComponent(new Label(messages.getString("size") + " (mm):")); //$NON-NLS-1$
 		String size = "";
 		if (wound.getSize1() != 0){
 			if (wound.getSize2() != 0){
@@ -111,37 +114,37 @@ public class PatientView extends NavigationView {
 			}
 		}
 		Label sizeLabel = new Label(size);
-		sizeLabel.setWidth("20em");
+		sizeLabel.setWidth(width);
 		dataColumn.addComponent(sizeLabel);
 		
 		
-		labelColumn.addComponent(new Label("Tiefe (mm):"));
+		labelColumn.addComponent(new Label(messages.getString("depth") + " (mm):")); //$NON-NLS-1$
 		String depth = "";
 		if (wound.getDepth() != 0){
 			depth = wound.getDepth()+"";
 		} 
 		Label depthLabel = new Label(depth);
-		depthLabel.setWidth("20em");
+		depthLabel.setWidth(width);
 		dataColumn.addComponent(depthLabel);
 		
-		labelColumn.addComponent(new Label("Wo entstanden:"));
+		labelColumn.addComponent(new Label(messages.getString("origination") + ":")); //$NON-NLS-1$
 		Label originationLabel = new Label(Origination.valueOf(wound.getOrigination()).toString());
-		originationLabel.setWidth("20em");
+		originationLabel.setWidth(width);
 		dataColumn.addComponent(originationLabel);
 		
-		labelColumn.addComponent(new Label("Bemerkung:"));
+		labelColumn.addComponent(new Label(messages.getString("description") + ":")); //$NON-NLS-1$
 		Label descriptionLabel = new Label(wound.getDescription());
-		descriptionLabel.setWidth("20em");
+		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
-		Button endWound = new Button("Wunde beenden...");
+		Button endWound = new Button(messages.getString("endWound") + "..."); //$NON-NLS-1$
 		endWound.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 			}
 		});
-		Button addWoundDescription = new Button("Wundbeschreibungen...");
+		Button addWoundDescription = new Button(messages.getString("woundDescriptions") + "..."); //$NON-NLS-1$
 		addWoundDescription.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {

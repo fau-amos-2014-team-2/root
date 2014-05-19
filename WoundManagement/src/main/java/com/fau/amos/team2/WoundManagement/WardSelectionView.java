@@ -1,5 +1,8 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.ResourceBundle;
+
+import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
@@ -27,8 +30,8 @@ public class WardSelectionView extends NavigationView {
 	private JPAContainer<Ward> wards;
 	private Label greetingLabel;
 
-	public WardSelectionView(final Object id) {
-		setCaption("Change Ward");
+	public WardSelectionView(final ResourceBundle messages, final Object id) {
+		setCaption(messages.getString("changeWard")); //$NON-NLS-1$
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
@@ -37,13 +40,13 @@ public class WardSelectionView extends NavigationView {
 				(user.getCurrentWard()));
 
 		Label workingLabel=new Label();
-		workingLabel.setValue(user.getFirstName() + " "
-				+ user.getLastName() + " ihre Arbeitsstation ist: "
+		workingLabel.setValue(user.getFirstName() + " " //$NON-NLS-1$
+				+ user.getLastName() + ", " + messages.getString("yourWardIs") + ": " //$NON-NLS-1$
 				+ WardProvider.getInstance().getByID(user.getWorkingWard()).getCharacterisation());
 		mainLayout.addComponent(workingLabel);
 		
 		greetingLabel = new Label();
-		greetingLabel.setValue("Sie arbeiten momentan auf Station: "
+		greetingLabel.setValue(messages.getString("yourCurrentWardIs") + ": "//$NON-NLS-1$
 				+ currentWard.getCharacterisation());
 		
 		mainLayout.addComponent(greetingLabel);
@@ -53,7 +56,7 @@ public class WardSelectionView extends NavigationView {
 		int quantity = wardids.length;
 
 		final OptionGroup wardGroup = new OptionGroup(
-				"Bitte wählen Sie ihre (neue) derzeitige Station:");
+				messages.getString("pleaseChooseCurrentWard") + ":"); //$NON-NLS-1$
 
 		// das aendern der Caption aendert nicht die Item-ID der optiongroup-
 		// mode explicit
@@ -89,8 +92,8 @@ public class WardSelectionView extends NavigationView {
 				//ueberfluessig
 				//Notification.show("Station gewechselt zu " + newWard.getCharacterisation());
 
-				greetingLabel.setValue("Als momentane Station wurde "
-						+ newWard.getCharacterisation() + " eingestellt!");
+				greetingLabel.setValue(messages.getString("currentWardChangedTo1") //$NON-NLS-1$
+						+ " " + newWard.getCharacterisation() + " " + messages.getString("currentWardChangedTo2")); //$NON-NLS-1$
 						
 			}
 		});
@@ -103,11 +106,11 @@ public class WardSelectionView extends NavigationView {
 		 * die anzeige veraltet (s.o.). Mit Hilfe dieses Buttons erreicht man einen refreshten LoggedInView, 
 		 * in dem die aktuelle Station angezeigt wird.
 		 */
-		NavigationButton zurueck = new NavigationButton("Zurueck");
+		NavigationButton zurueck = new NavigationButton(messages.getString("back")); //$NON-NLS-1$
 		zurueck.addClickListener(new NavigationButtonClickListener() {
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new LoggedInView(id));
+				getNavigationManager().navigateTo(new LoggedInView(messages, id));
 			}
 		});
 		

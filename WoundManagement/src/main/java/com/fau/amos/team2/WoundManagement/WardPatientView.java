@@ -1,5 +1,8 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.ResourceBundle;
+
+import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 //added import Ward
 import com.fau.amos.team2.WoundManagement.model.Ward;
@@ -24,16 +27,16 @@ import com.vaadin.ui.Label.ValueChangeEvent;
 @SuppressWarnings("serial")
 public class WardPatientView<event> extends NavigationView {
 	
-	public WardPatientView(event id) 
+	public WardPatientView(final ResourceBundle messages, event id) 
 	{
 		CssLayout content = new CssLayout();
 		
-		NativeSelect wpview = new NativeSelect ("Please select a patient: ");
+		NativeSelect wpview = new NativeSelect (messages.getString("pleaseSelectPatient") + ": "); //$NON-NLS-1$
 		//creates six "patients"
 		for (int i=0; i<15; i++)
 		{
 			wpview.addItem(i);
-			wpview.setItemCaption(i, "Patient " +i);
+			wpview.setItemCaption(i, messages.getString("patient") + " " +i); //$NON-NLS-1$
 		}
 		
 		//a selection must occur... 
@@ -52,25 +55,25 @@ public class WardPatientView<event> extends NavigationView {
 			@Override
 			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) 
 			{
-				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
+				getNavigationManager().navigateTo(new WardPatientView(messages, event.getProperty().getValue()));
 			}
 				
         });
 		
 		VerticalComponentGroup box = new VerticalComponentGroup();
 		
-		NavigationButton allPatientsButton = new NavigationButton("All Patients");
+		NavigationButton allPatientsButton = new NavigationButton(messages.getString("allPatients")); //$NON-NLS-1$
 		allPatientsButton.addClickListener(new NavigationButtonClickListener()
 		{
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) 
 			{
-				getNavigationManager().navigateTo(new PatientSelectionView());
+				getNavigationManager().navigateTo(new PatientSelectionView(messages));
 			}
 		});
 		box.addComponent(allPatientsButton);
 		
-		box.addComponent( new Label( "Patients: "));
+		box.addComponent( new Label(messages.getString("patients") + ": ")); //$NON-NLS-1$
 		box.addComponent (wpview);
 
 		content.addComponent(box);

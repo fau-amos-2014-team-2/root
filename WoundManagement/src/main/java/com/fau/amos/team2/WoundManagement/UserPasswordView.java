@@ -1,5 +1,8 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.ResourceBundle;
+
+import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -13,20 +16,21 @@ import com.vaadin.ui.PasswordField;
 @SuppressWarnings("serial")
 public class UserPasswordView extends NavigationView {
 
-	public UserPasswordView(final Object id){
+	public UserPasswordView(final ResourceBundle messages, final Object id){
 
+		setCaption(messages.getString("changePIN"));
 		final Employee user = EmployeeProvider.getInstance().getByID(id);
 
 		FormLayout layout = new FormLayout();
-		final PasswordField currentPassword = new PasswordField("Current PIN:");
-		final PasswordField newPassword1 = new PasswordField("New PIN:");
-		final PasswordField newPassword2 = new PasswordField("Retype new PIN");
+		final PasswordField currentPassword = new PasswordField(messages.getString("currentPIN") + ":"); //$NON-NLS-1$
+		final PasswordField newPassword1 = new PasswordField(messages.getString("newPIN") + ":"); //$NON-NLS-1$
+		final PasswordField newPassword2 = new PasswordField(messages.getString("retypeNewPIN") + ":"); //$NON-NLS-1$
 
 		layout.addComponent(currentPassword);
 		layout.addComponent(newPassword1);
 		layout.addComponent(newPassword2);
 
-		Button changePasswordButton = new Button("Change PIN");
+		Button changePasswordButton = new Button(messages.getString("changePIN")); //$NON-NLS-1$
 		changePasswordButton.addClickListener(new ClickListener(){
 
 			@Override
@@ -37,10 +41,10 @@ public class UserPasswordView extends NavigationView {
 				try {
 					currentPasswordCorrect = user.getQualificationNumber() == Integer.parseInt(currentPassword.getValue());
 				} catch (NumberFormatException e){
-					Notification.show("The current PIN you entered is not correct.");
-					currentPassword.setValue("");
-					newPassword1.setValue("");
-					newPassword2.setValue("");
+					Notification.show(messages.getString("currentPINException")); //$NON-NLS-1$
+					currentPassword.setValue(""); //$NON-NLS-1$
+					newPassword1.setValue(""); //$NON-NLS-1$
+					newPassword2.setValue(""); //$NON-NLS-1$
 					return;
 				}
 
@@ -55,31 +59,31 @@ public class UserPasswordView extends NavigationView {
 									user.setQualificationNumber(newPasswordInt);
 									getNavigationManager().navigateBack();
 								} catch (NumberFormatException e){
-									Notification.show("The new PIN you entered does not have requested form. /n Use a combination of four digits only.");
-									newPassword1.setValue("");
-									newPassword2.setValue("");
+									Notification.show(messages.getString("newPINException")); //$NON-NLS-1$
+									newPassword1.setValue(""); //$NON-NLS-1$
+									newPassword2.setValue(""); //$NON-NLS-1$
 								}
 							} else {
-								Notification.show("The PINs you entered don't match.");
-								newPassword1.setValue("");
-								newPassword2.setValue("");
+								Notification.show(messages.getString("matchPINException")); //$NON-NLS-1$
+								newPassword1.setValue(""); //$NON-NLS-1$
+								newPassword2.setValue(""); //$NON-NLS-1$
 							}
 						} else {
-							Notification.show("The new PIN you entered does not have requested form. /n Use a combination of four digits only.");
-							newPassword1.setValue("");
-							newPassword2.setValue("");
+							Notification.show(messages.getString("newPINException")); //$NON-NLS-1$
+							newPassword1.setValue(""); //$NON-NLS-1$
+							newPassword2.setValue(""); //$NON-NLS-1$
 						}
 					} else {
-						Notification.show("You did not enter a new PIN.");
-						newPassword2.setValue("");
+						Notification.show(messages.getString("noPINException")); //$NON-NLS-1$
+						newPassword2.setValue(""); //$NON-NLS-1$
 					}
 
 				} else {
-					Notification.show("The current PIN you entered is not correct.");
+					Notification.show(messages.getString("currentPINException")); //$NON-NLS-1$
 
-					currentPassword.setValue("");
-					newPassword1.setValue("");
-					newPassword2.setValue("");
+					currentPassword.setValue(""); //$NON-NLS-1$
+					newPassword1.setValue(""); //$NON-NLS-1$
+					newPassword2.setValue(""); //$NON-NLS-1$
 				}
 			}
 

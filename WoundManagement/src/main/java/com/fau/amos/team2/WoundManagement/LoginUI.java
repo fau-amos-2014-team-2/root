@@ -16,7 +16,11 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
+
 import java.sql.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
@@ -128,9 +132,17 @@ public class LoginUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {	
 		initData();
+		
+		Locale currentLocale;
+        ResourceBundle messages;
+
+        currentLocale = Locale.GERMAN;
+        //currentLocale = Locale.ENGLISH;
+
+        messages = ResourceBundle.getBundle("com.fau.amos.team2.WoundManagement.i18n.MessagesBundle", currentLocale);
 
 		NavigationManager manager = new NavigationManager();
-		manager.setCurrentComponent(new StartMenuView());
+		manager.setCurrentComponent(new StartMenuView(messages));
 		setContent(manager);
 		getPage().setTitle("Wound Management");
 
