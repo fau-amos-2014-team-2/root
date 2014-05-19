@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement;
 import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.touchkit.ui.NavigationView;

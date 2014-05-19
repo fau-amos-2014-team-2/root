@@ -2,7 +2,6 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.util.ResourceBundle;
 
-import com.fau.amos.team2.WoundManagement.i18n.MessagesBundle;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 //added import Ward
 import com.fau.amos.team2.WoundManagement.model.Ward;
