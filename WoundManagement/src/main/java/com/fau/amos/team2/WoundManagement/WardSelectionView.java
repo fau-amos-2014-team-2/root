@@ -3,23 +3,21 @@ package com.fau.amos.team2.WoundManagement;
 import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
+import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.Property;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.OptionGroup;
 
 /**
  * The View that is shown, if a user wants to change his/her current Ward * @author
@@ -31,30 +29,30 @@ public class WardSelectionView extends NavigationView {
 	private JPAContainer<Ward> wards;
 	private Label greetingLabel;
 	
-	private static EmployeeProvider<Employee> employeeProvider = 
-			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private static EmployeeProvider employeeProvider = 
+			EmployeeProvider.getInstance();
 	private static WardProvider<Ward> wardProvider = 
 			(WardProvider<Ward>) WardProvider.getInstance();
 
 
-	public WardSelectionView(final ResourceBundle messages, final Object id) {
-		setCaption(messages.getString("changeWard")); //$NON-NLS-1$
+	public WardSelectionView() {
+		setCaption(MessageResources.getString("changeWard")); //$NON-NLS-1$
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
-		final Employee user = employeeProvider.getByID(id);
+		final Employee user = Environment.INSTANCE.getCurrentEmployee();
 		Ward currentWard = wardProvider.getByID(
 				(user.getCurrentWard()));
 
 		Label workingLabel=new Label();
 
 		workingLabel.setValue(user.getFirstName() + " " //$NON-NLS-1$
-				+ user.getLastName() + ", " + messages.getString("yourWardIs") + ": " //$NON-NLS-1$
+				+ user.getLastName() + ", " + MessageResources.getString("yourWardIs") + ": " //$NON-NLS-1$
 				+ wardProvider.getByID(user.getWorkingWard()).getCharacterisation());
 		mainLayout.addComponent(workingLabel);
 		
 		greetingLabel = new Label();
-		greetingLabel.setValue(messages.getString("yourCurrentWardIs") + ": "//$NON-NLS-1$
+		greetingLabel.setValue(MessageResources.getString("yourCurrentWardIs") + ": "//$NON-NLS-1$
 				+ currentWard.getCharacterisation());
 		
 		mainLayout.addComponent(greetingLabel);
@@ -64,7 +62,7 @@ public class WardSelectionView extends NavigationView {
 		int quantity = wardids.length;
 
 		final OptionGroup wardGroup = new OptionGroup(
-				messages.getString("pleaseChooseCurrentWard") + ":"); //$NON-NLS-1$
+				MessageResources.getString("pleaseChooseCurrentWard") + ":"); //$NON-NLS-1$
 
 		// das aendern der Caption aendert nicht die Item-ID der optiongroup-
 		// mode explicit
@@ -100,8 +98,8 @@ public class WardSelectionView extends NavigationView {
 				//ueberfluessig
 				//Notification.show("Station gewechselt zu " + newWard.getCharacterisation());
 
-				greetingLabel.setValue(messages.getString("currentWardChangedTo1") //$NON-NLS-1$
-						+ " " + newWard.getCharacterisation() + " " + messages.getString("currentWardChangedTo2")); //$NON-NLS-1$
+				greetingLabel.setValue(MessageResources.getString("currentWardChangedTo1") //$NON-NLS-1$
+						+ " " + newWard.getCharacterisation() + " " + MessageResources.getString("currentWardChangedTo2")); //$NON-NLS-1$
 						
 			}
 		});
@@ -114,11 +112,11 @@ public class WardSelectionView extends NavigationView {
 		 * die anzeige veraltet (s.o.). Mit Hilfe dieses Buttons erreicht man einen refreshten LoggedInView, 
 		 * in dem die aktuelle Station angezeigt wird.
 		 */
-		NavigationButton zurueck = new NavigationButton(messages.getString("back")); //$NON-NLS-1$
+		NavigationButton zurueck = new NavigationButton(MessageResources.getString("back")); //$NON-NLS-1$
 		zurueck.addClickListener(new NavigationButtonClickListener() {
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().navigateTo(new LoggedInView(messages, id));
+				getNavigationManager().navigateTo(new LoggedInView());
 			}
 		});
 		

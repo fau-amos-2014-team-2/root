@@ -10,26 +10,22 @@ import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.sessions.server.ServerSession;*/
 
-import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.fau.amos.team2.WoundManagement.model.Patient;
-import com.fau.amos.team2.WoundManagement.model.Ward;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
-import com.fau.amos.team2.WoundManagement.provider.WardProvider;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
+import com.fau.amos.team2.WoundManagement.provider.exceptions.*;
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
@@ -46,8 +42,8 @@ import com.vaadin.ui.UI;
 @Theme("touchkit")
 public class LoginUI extends UI {
 
-	private static EmployeeProvider<Employee> employeeProvider = 
-			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private static EmployeeProvider employeeProvider = 
+			EmployeeProvider.getInstance();
 	private static PatientProvider<Patient> patientProvider = 
 			(PatientProvider<Patient>) PatientProvider.getInstance();
 	private static WoundProvider<Wound> woundProvider = 
@@ -57,13 +53,7 @@ public class LoginUI extends UI {
 	private static WoundLevelProvider<WoundLevel> woundLevelProvider = 
 			(WoundLevelProvider<WoundLevel>) WoundLevelProvider.getInstance();
 	
-	// Provide to initialize objects just once; before the instance exists
-	private static Employee testUser1 = new Employee();
-	private static Employee testUser2 = new Employee();
-	private static Employee testUser3 = new Employee();
-	
-
-	private static WoundType testWoundType1 = new WoundType();
+		private static WoundType testWoundType1 = new WoundType();
 	private static WoundLevel testWoundLevel1 = new WoundLevel();
 	private static Patient testPatient1 = new Patient();
 	private static Wound testWound1 = new Wound();
@@ -78,25 +68,32 @@ public class LoginUI extends UI {
 		Ward ward = new Ward();
 		ward.setCharacterisation("blub");
 		
+		Employee testUser1 = new Employee();
 		testUser1.setFirstName("Adam");
 		testUser1.setLastName("Arbeit");
 		testUser1.setAbbreviation("testuser1");
 		testUser1.setQualificationNumber(1111);
 		testUser1.setWorkingWard(ward);
 		
+		Employee testUser2 = new Employee();
 		testUser2.setFirstName("Bernd");
 		testUser2.setLastName("Bond");
 		testUser2.setAbbreviation("testuser2");
 		testUser2.setQualificationNumber(2222);
 		
+		Employee testUser3 = new Employee();
 		testUser3.setFirstName("Christina");
 		testUser3.setLastName("Charles");
 		testUser3.setAbbreviation("testuser3");
 		testUser3.setQualificationNumber(3333);
 		
-		employeeProvider.add(testUser1);
-		employeeProvider.add(testUser2);
-		employeeProvider.add(testUser3);
+		try {
+			employeeProvider.createEmployee(testUser1);
+			employeeProvider.createEmployee(testUser2);
+			employeeProvider.createEmployee(testUser3);
+		} catch (DuplicateEmployeeException e) {
+			// Fail silently
+		}
 		
 		testWoundType1.setBodyLocationRequired(false);
 		testWoundType1.setClassification("Senso6 Dekubitus");
@@ -151,18 +148,14 @@ public class LoginUI extends UI {
 
 		@Override
 	protected void init(VaadinRequest request) {	
-		initData();
-		
 		Locale currentLocale;
-        ResourceBundle messages;
-
         currentLocale = Locale.GERMAN;
         //currentLocale = Locale.ENGLISH;
-
-        messages = ResourceBundle.getBundle("bundles.MessagesBundle", currentLocale);
-
+        
+        MessageResources.setLocale(currentLocale);
+        
 		NavigationManager manager = new NavigationManager();
-		manager.setCurrentComponent(new StartMenuView(messages));
+		manager.setCurrentComponent(new StartMenuView());
 		setContent(manager);
 		getPage().setTitle("Wound Management");
 	}

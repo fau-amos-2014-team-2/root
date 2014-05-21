@@ -1,11 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
 import com.fau.amos.team2.WoundManagement.model.BusinessObject;
-import com.fau.amos.team2.WoundManagement.model.Constants;
 import com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescriptionMapping;
-import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
 /**
  * <code>CoreDataWoundDescriptionMappingProvider</code> manages the access to the

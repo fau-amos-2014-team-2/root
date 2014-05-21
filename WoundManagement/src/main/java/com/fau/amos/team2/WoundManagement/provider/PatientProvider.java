@@ -1,10 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
 import com.fau.amos.team2.WoundManagement.model.BusinessObject;
-import com.fau.amos.team2.WoundManagement.model.Constants;
 import com.fau.amos.team2.WoundManagement.model.Patient;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
 /**
  * <code>PatientProvider</code> manages the access to the
