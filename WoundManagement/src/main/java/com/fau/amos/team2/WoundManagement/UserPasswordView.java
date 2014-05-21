@@ -1,12 +1,10 @@
 package com.fau.amos.team2.WoundManagement;
 
-import java.util.ResourceBundle;
-
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -15,18 +13,22 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 
 @SuppressWarnings("serial")
-public class UserPasswordView extends NavigationView {
+public class UserPasswordView extends Popover {
 
-	private static EmployeeProvider employeeProvider = 
-			EmployeeProvider.getInstance();
-	
 		
-	public UserPasswordView(){
+	public UserPasswordView() {
+		setClosable(true);
+		setModal(true);
+		
+		setWidth("450px");
+		setHeight("250px");
 
 		setCaption(MessageResources.getString("changePIN"));
 		final Employee user = Environment.INSTANCE.getCurrentEmployee();
 
 		FormLayout layout = new FormLayout();
+		layout.setMargin(true);
+		
 		final PasswordField currentPassword = new PasswordField(MessageResources.getString("currentPIN") + ":"); //$NON-NLS-1$
 		final PasswordField newPassword1 = new PasswordField(MessageResources.getString("newPIN") + ":"); //$NON-NLS-1$
 		final PasswordField newPassword2 = new PasswordField(MessageResources.getString("retypeNewPIN") + ":"); //$NON-NLS-1$
@@ -63,7 +65,7 @@ public class UserPasswordView extends NavigationView {
 									Integer newPasswordInt = Integer.parseInt(newPassword);
 									user.setQualificationNumber(newPasswordInt);
 									EmployeeProvider.getInstance().updateEmployee(user);
-									getNavigationManager().navigateBack();
+									close();
 								} catch (NumberFormatException e){
 									Notification.show(MessageResources.getString("newPINException")); //$NON-NLS-1$
 									newPassword1.setValue(""); //$NON-NLS-1$

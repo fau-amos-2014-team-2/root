@@ -2,7 +2,6 @@ package com.fau.amos.team2.WoundManagement.BodyWoundSelector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Sex;

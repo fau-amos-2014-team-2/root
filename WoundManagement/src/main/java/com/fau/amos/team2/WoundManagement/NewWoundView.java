@@ -2,7 +2,6 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;

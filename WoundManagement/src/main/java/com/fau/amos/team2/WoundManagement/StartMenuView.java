@@ -1,18 +1,17 @@
 package com.fau.amos.team2.WoundManagement;
 
-import java.util.ResourceBundle;
-
-import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 
 /**
  * View to see the StartMenu
@@ -62,7 +61,7 @@ public class StartMenuView extends NavigationView {
 		NavigationButton initializeDataButton = new NavigationButton("Initialize Data");
 		initializeDataButton.addClickListener(new NavigationButtonClickListener() {
 			public void buttonClick(NavigationButtonClickEvent event) {
-				LoginUI.initData();
+				WoundManagementUI.initData();
 			}
 		});
 		content.addComponent(initializeDataButton);

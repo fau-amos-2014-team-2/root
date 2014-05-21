@@ -1,7 +1,5 @@
 package com.fau.amos.team2.WoundManagement;
 
-import java.util.ResourceBundle;
-
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
@@ -10,12 +8,15 @@ import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
+import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 
 /**
  * The View that is shown, if a user has successfully logged in
@@ -35,6 +36,8 @@ public class LoggedInView extends NavigationView {
  * @author ???
  */
 	public LoggedInView() {
+		setRightComponent(new UserBar());
+		
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
 		setCaption(MessageResources.getString("overview")); //$NON-NLS-1$
@@ -70,8 +73,8 @@ public class LoggedInView extends NavigationView {
 
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
+				Environment.INSTANCE.logout();
 				getNavigationManager().setCurrentComponent(new UserLoginView());
-
 			}
 		});
 		mainLayout.addComponent(logoutButton);
