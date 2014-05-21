@@ -1,7 +1,5 @@
 package com.fau.amos.team2.WoundManagement;
 
-import java.util.ResourceBundle;
-
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;

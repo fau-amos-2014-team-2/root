@@ -1,6 +1,10 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
-import com.fau.amos.team2.WoundManagement.model.BusinessObject;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import com.fau.amos.team2.WoundManagement.model.Ward;
 
 /**
@@ -11,21 +15,28 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
  * @see com.fau.amos.team2.WoundManagement.Ward
  * @author Stefan, Betz
  * */
-public class WardProvider<T extends BusinessObject> extends ObjectProvider<T> {
+public class WardProvider extends ObjectProvider<Ward> {
 
-	private static WardProvider<Ward> instance;
+	private static WardProvider instance;
 	
-	public WardProvider(Class<T> type) {
+	public WardProvider(Class<Ward> type) {
 		super(type);
 	}
 	
 	/**
 	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static WardProvider<? extends BusinessObject> getInstance() {
+	public static WardProvider getInstance() {
 		if(instance == null) {
-			instance = new WardProvider<Ward>(Ward.class);
+			instance = new WardProvider(Ward.class);
 		}
 		return instance;
+	}
+	
+	public List<Ward> getAllItems() {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		
+		TypedQuery<Ward> query = em.createNamedQuery("Ward.findAll", Ward.class);
+		return query.getResultList();
 	}
 }

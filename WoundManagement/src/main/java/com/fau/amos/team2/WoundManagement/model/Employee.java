@@ -186,18 +186,20 @@ public class Employee implements BusinessObject {
 	}
 
 	
-	public long getCurrentWard() {
-
-		return ((currentWard != null) ? (currentWard.getId()) : (this.getWorkingWard()));
+	public Ward getCurrentWard() {
+		if (currentWard == null) {
+			currentWard = workingWard;
+		}
+		
+		return currentWard;
 	}
 
 	public void setCurrentWard(Ward current) {
 		this.currentWard = current;
 	}
 
-	//Important: Throws null-Pointer Exception if workingWard not set!
-	public long getWorkingWard() {
-		return workingWard.getId();
+	public Ward getWorkingWard() {
+		return workingWard;
 	}
 
 	public void setWorkingWard(Ward working) {

@@ -1,7 +1,7 @@
 package com.fau.amos.team2.WoundManagement;
 
 
-import java.util.ResourceBundle;
+import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
@@ -85,19 +85,16 @@ public class UserLoginView extends NavigationView {
 
 		// Datenbankabfrage, wieviele nutzer gibt es sowie referenz auf deren
 		// IDs
-		Object[] ids = prepare();
-		int quantity = ids.length;
 
+		List<Employee> employees = employeeProvider.getAllItems();
+		
 		// hinzufuegen der Employee items
-		Employee tmp = null;
-		for (int z = 0; z < quantity; z++) {
-
-			tmp = employees.getItem(ids[z]).getEntity();
+		for (Employee employee : employees) {
 
 			// fuege jeden employee in die Liste ein, Item-ID = datenbank ID
 			// auch das setzten der Caption ueberschreibt diese nicht!
-			logingroup.addItem(ids[z]);
-			logingroup.setItemCaption(ids[z], ( tmp.getLastName() + "; " + tmp.getFirstName())); //$NON-NLS-1$
+			logingroup.addItem(employee);
+			logingroup.setItemCaption(employee, employee.getFirstName() + " " + employee.getLastName()); //$NON-NLS-1$
 		}
 
 		// sobald etwas selektiert wird, moechten wir das wissen! //und der setimmediate
@@ -109,10 +106,9 @@ public class UserLoginView extends NavigationView {
 			@Override
 			public void valueChange(
 					com.vaadin.data.Property.ValueChangeEvent event) {
-				Object blub = logingroup.getValue();
+				Employee employee = (Employee)logingroup.getValue();
 
-				String selectedloginname = employees.getItem(blub).getEntity()
-						.getAbbreviation();
+				String selectedloginname = employee.getAbbreviation();
 				usernameField.setValue(selectedloginname);
 				usernameField.setVisible(false);
 				passwordField.focus();
@@ -125,17 +121,6 @@ public class UserLoginView extends NavigationView {
 		setContent(main);
 	}
 
-	//Hole IDs der bekannten Nutzer (aus Datenbank)
-	private Object[] prepare() {
-
-		employees = employeeProvider.getAll();
-
-		Object[] ids = employees.getItemIds().toArray();
-
-		return ids;
-
-	}
-	
 	/**
 	 * Validate user input with data in the database
 	 * 

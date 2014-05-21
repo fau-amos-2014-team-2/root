@@ -1,14 +1,12 @@
 package com.fau.amos.team2.WoundManagement;
 
-import java.util.ResourceBundle;
+import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Ward;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
@@ -26,13 +24,10 @@ import com.vaadin.ui.OptionGroup;
 @SuppressWarnings("serial")
 public class WardSelectionView extends NavigationView {
 
-	private JPAContainer<Ward> wards;
 	private Label greetingLabel;
 	
-	private static EmployeeProvider employeeProvider = 
-			EmployeeProvider.getInstance();
-	private static WardProvider<Ward> wardProvider = 
-			(WardProvider<Ward>) WardProvider.getInstance();
+	private static WardProvider wardProvider = 
+			WardProvider.getInstance();
 
 
 	public WardSelectionView() {
@@ -41,14 +36,13 @@ public class WardSelectionView extends NavigationView {
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
 		final Employee user = Environment.INSTANCE.getCurrentEmployee();
-		Ward currentWard = wardProvider.getByID(
-				(user.getCurrentWard()));
+		Ward currentWard = user.getCurrentWard();
 
 		Label workingLabel=new Label();
 
 		workingLabel.setValue(user.getFirstName() + " " //$NON-NLS-1$
 				+ user.getLastName() + ", " + MessageResources.getString("yourWardIs") + ": " //$NON-NLS-1$
-				+ wardProvider.getByID(user.getWorkingWard()).getCharacterisation());
+				+ user.getWorkingWard().getCharacterisation());
 		mainLayout.addComponent(workingLabel);
 		
 		greetingLabel = new Label();
@@ -58,8 +52,7 @@ public class WardSelectionView extends NavigationView {
 		mainLayout.addComponent(greetingLabel);
 
 		// Hole ids aller der Datenbank bekannten Stationen
-		Object[] wardids = prepare();
-		int quantity = wardids.length;
+		List<Ward> wards = wardProvider.getAllItems();
 
 		final OptionGroup wardGroup = new OptionGroup(
 				MessageResources.getString("pleaseChooseCurrentWard") + ":"); //$NON-NLS-1$
@@ -72,16 +65,10 @@ public class WardSelectionView extends NavigationView {
 		// keine verzoegerung bei valuechange-events
 		wardGroup.setImmediate(true);
 
-		Ward tmp = null;
-
-		for (int z = 0; z < quantity; z++) {
-
-			tmp = wards.getItem(wardids[z]).getEntity();
-
+		for (Ward ward : wards) {
 			// fuege jede Ward in die Liste ein, Item-ID = datenbank ID
-			// auch das setzten der Caption ueberschreibt diese nicht!
-			wardGroup.addItem(wardids[z]);
-			wardGroup.setItemCaption(wardids[z], (tmp.getCharacterisation()));
+			wardGroup.addItem(ward.getId());
+			wardGroup.setItemCaption(ward.getId(), ward.getCharacterisation());
 		}
 		
 		wardGroup.addValueChangeListener(new Property.ValueChangeListener() {
@@ -92,8 +79,7 @@ public class WardSelectionView extends NavigationView {
 				Object blub = wardGroup.getValue();
 				user.setCurrentWard(wardProvider.getByID(blub));
 
-				Ward newWard = wardProvider.getByID(
-						(user.getCurrentWard()));
+				Ward newWard = user.getCurrentWard();
 				
 				//ueberfluessig
 				//Notification.show("Station gewechselt zu " + newWard.getCharacterisation());
@@ -123,15 +109,4 @@ public class WardSelectionView extends NavigationView {
 		mainLayout.addComponent(zurueck);
 		setContent(mainLayout);
 	}
-
-	private Object[] prepare() {
-
-		wards = wardProvider.getAll();
-
-		Object[] wardids = wards.getItemIds().toArray();
-
-		return wardids;
-
-	}
-
 }

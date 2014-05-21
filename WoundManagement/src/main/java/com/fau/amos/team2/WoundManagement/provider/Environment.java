@@ -19,4 +19,8 @@ public enum Environment {
 	public void loginEmployee(String user, String pass) {
 		currentEmployee = provider.getEmployeeByUsernameAndPassword(user, pass);
 	}
+	
+	public void logout() {
+		currentEmployee = null;
+	}
 }

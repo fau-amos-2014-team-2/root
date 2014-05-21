@@ -2,7 +2,6 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ResourceBundle;
 
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
@@ -10,6 +9,7 @@ import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -31,6 +31,8 @@ public class PatientView extends NavigationView {
 	
 	@SuppressWarnings("serial")
 	public PatientView(Object id) {
+		setRightComponent(new UserBar());
+		
 		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
 		
 		HorizontalLayout content = new HorizontalLayout();

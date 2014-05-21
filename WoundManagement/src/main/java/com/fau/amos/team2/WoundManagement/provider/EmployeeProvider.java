@@ -1,6 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
-import javax.persistence.EntityExistsException;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -8,7 +9,6 @@ import javax.persistence.TypedQuery;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.exceptions.DuplicateEmployeeException;
-import com.vaadin.terminal.gwt.client.Console;
 
 /**
  * <code>EmployeeProvider</code> manages the access to the
@@ -36,6 +36,11 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 		return instance;
 	}
 	
+	public List<Employee> getAllItems() {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		TypedQuery<Employee> query = em.createNamedQuery("Employee.findAll", Employee.class);
+		return query.getResultList();
+	}
 	
 	/**
 	 * Get the first Employee with 
