@@ -1,10 +1,14 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
-import com.fau.amos.team2.WoundManagement.model.BusinessObject;
-import com.fau.amos.team2.WoundManagement.model.Constants;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.TypedQuery;
+
 import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.fau.amos.team2.WoundManagement.provider.exceptions.DuplicateEmployeeException;
+import com.vaadin.terminal.gwt.client.Console;
 
 /**
  * <code>EmployeeProvider</code> manages the access to the
@@ -14,20 +18,20 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * @see com.fau.amos.team2.WoundManagement.Employee
  * @author Stefan, Betz
  * */
-public class EmployeeProvider<T extends BusinessObject> extends ObjectProvider<T> {
+public class EmployeeProvider extends ObjectProvider<Employee> {
 
-	private static EmployeeProvider<Employee> instance;
+	private static EmployeeProvider instance;
 	
-	public EmployeeProvider(Class<T> type) {
+	public EmployeeProvider(Class<Employee> type) {
 		super(type);
 	}
 	
 	/**
 	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static EmployeeProvider<? extends BusinessObject> getInstance() {
+	public static EmployeeProvider getInstance() {
 		if(instance == null) {
-			instance = new EmployeeProvider<Employee>(Employee.class);
+			instance = new EmployeeProvider(Employee.class);
 		}
 		return instance;
 	}
@@ -59,22 +63,54 @@ public class EmployeeProvider<T extends BusinessObject> extends ObjectProvider<T
 	 * @param password
 	 * @return true if login successful, false otherwise
 	 */
-	public boolean getLogin(String username, String password) {		
-		Employee tmp = null;
-		Object[] ids = container.getItemIds().toArray();
+	public Employee getEmployeeByUsernameAndPassword(String username, String password) {
+		int passwordInteger;
 		
-		for(int i = 0; i < ids.length; ++i) {
-			tmp = (Employee) container.getItem(ids[i]).getEntity();
-			
-			if(tmp.getAbbreviation().equals(username)) {
-				int code = Integer.parseInt(password);
-				if(tmp.getQualificationNumber() == code) {
-					return true;
-				}
-			}
+		try {
+			passwordInteger = Integer.parseInt(password);
 		}
-		return false;
+		catch (NumberFormatException e) {
+			return null;
+		}
+		
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		
+		TypedQuery<Employee> query = em.createNamedQuery("Employee.findByUsernameAndPassword", Employee.class);
+		query.setParameter("username", username);
+		query.setParameter("password", passwordInteger);
+		
+		try {
+			Employee employee = query.getSingleResult();
+			return employee;
+		}
+		catch (NoResultException ex) {
+			return null;
+		}
+		catch (NonUniqueResultException ex) {
+			// WTF?
+			return null;
+		}
 	}
+	
+	public Employee getEmployeeByUsername(String username) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		
+		TypedQuery<Employee> query = em.createNamedQuery("Employee.findByUsername", Employee.class);
+		query.setParameter("username", username);
+		
+		try {
+			Employee employee = query.getSingleResult();
+			return employee;
+		}
+		catch (NoResultException ex) {
+			return null;
+		}
+		catch (NonUniqueResultException ex) {
+			// WTF?
+			return null;
+		}
+	}
+	
 	/**
 	 * Get the id of the logged in Employee
 	 * 
@@ -97,5 +133,21 @@ public class EmployeeProvider<T extends BusinessObject> extends ObjectProvider<T
 			}
 		}
 		return null;
+	}
+	
+	public void createEmployee(Employee employee) throws DuplicateEmployeeException {
+		if (getEmployeeByUsername(employee.getAbbreviation()) == null) {
+			add(employee);
+		}
+		
+		throw new DuplicateEmployeeException(employee.getAbbreviation());
+	}
+	
+	public void updateEmployee(Employee employee) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		
+		em.getTransaction().begin();
+		em.persist(employee);
+		em.getTransaction().commit();
 	}
 }

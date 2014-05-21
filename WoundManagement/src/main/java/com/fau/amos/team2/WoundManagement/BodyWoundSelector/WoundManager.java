@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Sex;
 
 public class WoundManager {
@@ -13,9 +14,9 @@ public class WoundManager {
 	private WoundSelector woundSelector;
 
 	// TODO: Change type of first parameter to suitable entity class as soon as available
-	public WoundManager(ResourceBundle messages, Object patient) {
+	public WoundManager(Patient patient) {
 		// TODO: Dynamically assign sex
-		woundSelector = new WoundSelector(messages, this, Math.round(Math.random()) == 1 ? Sex.FEMALE : Sex.MALE);
+		woundSelector = new WoundSelector(this, Math.round(Math.random()) == 1 ? Sex.FEMALE : Sex.MALE);
 		wounds = new ArrayList<WoundPosition>();
 
 		// TODO: Replace sample code

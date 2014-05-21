@@ -2,21 +2,18 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.util.ResourceBundle;
 
-import com.fau.amos.team2.WoundManagement.model.Employee;
-//added import Ward
-import com.fau.amos.team2.WoundManagement.model.Ward;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
-import com.vaadin.data.Property;
+import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Label.ValueChangeEvent;
+import com.vaadin.ui.NativeSelect;
+//added import Ward
 
 /**
  * View to see patients of selected ward
@@ -26,14 +23,13 @@ import com.vaadin.ui.Label.ValueChangeEvent;
 @SuppressWarnings("serial")
 public class PatientSelectionView extends NavigationView {
 	
-	public PatientSelectionView(final ResourceBundle messages) 
+	public PatientSelectionView() 
 	{
-		
-		setCaption(messages.getString("patientSelection"));
+		setCaption(MessageResources.getString("patientSelection"));
 		
 		CssLayout content = new CssLayout();
 		
-		NativeSelect wpview = new NativeSelect (messages.getString("pleaseSelectPatient") + ": ");
+		NativeSelect wpview = new NativeSelect (MessageResources.getString("pleaseSelectPatient") + ": ");
 		
 		/**
 		 * the actual db-based way to go:
@@ -44,7 +40,7 @@ public class PatientSelectionView extends NavigationView {
 		for (int i=0; i<6; i++)
 		{
 			wpview.addItem(i);
-			wpview.setItemCaption(i, messages.getString("patient") + " " +i);
+			wpview.setItemCaption(i, MessageResources.getString("patient") + " " +i);
 		}
 			
 		//a selection must occur... 
@@ -63,21 +59,21 @@ public class PatientSelectionView extends NavigationView {
 			@Override
 			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) 
 			{
-				getNavigationManager().navigateTo(new WardPatientView(messages, event.getProperty().getValue()));
+				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
 			}
         });
 		
 		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent( new Label(messages.getString("patients") + ": ") );
+		box.addComponent( new Label(MessageResources.getString("patients") + ": ") );
 		box.addComponent( wpview );
 		
-		NavigationButton allPatientsButton = new NavigationButton(messages.getString("allPatients"));
+		NavigationButton allPatientsButton = new NavigationButton(MessageResources.getString("allPatients"));
 		allPatientsButton.addClickListener(new NavigationButtonClickListener()
 		{
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) 
 			{
-				getNavigationManager().navigateTo(new PatientSelectionView(messages));
+				getNavigationManager().navigateTo(new PatientSelectionView());
 			}
 		});
 		box.addComponent(allPatientsButton);

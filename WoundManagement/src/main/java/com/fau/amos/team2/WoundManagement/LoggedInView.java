@@ -6,8 +6,10 @@ import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
@@ -24,8 +26,7 @@ public class LoggedInView extends NavigationView {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
-	private EmployeeProvider<Employee> employeeProvider = 
-			(EmployeeProvider<Employee>) EmployeeProvider.getInstance();
+	private EmployeeProvider employeeProvider = EmployeeProvider.getInstance();
 	private PatientProvider<Patient> patientProvider = 
 			(PatientProvider<Patient>) PatientProvider.getInstance();
 	
@@ -33,52 +34,51 @@ public class LoggedInView extends NavigationView {
  * The View that is shown, if a user has successfully logged in
  * @author ???
  */
-	public LoggedInView(final ResourceBundle messages, final Object id) {
+	public LoggedInView() {
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
-		setCaption(messages.getString("overview")); //$NON-NLS-1$
+		setCaption(MessageResources.getString("overview")); //$NON-NLS-1$
 
-		Employee user = employeeProvider.getByID(id);
+		Employee user = Environment.INSTANCE.getCurrentEmployee();
 
 		Label greetingLable = new Label();
-		greetingLable.setValue(messages.getString("hi") + ", " //$NON-NLS-1$
+		greetingLable.setValue(MessageResources.getString("hi") + ", " //$NON-NLS-1$
 				+ user.getFirstName() + " " + user.getLastName()); //$NON-NLS-1$
 		mainLayout.addComponent(greetingLable);
 
-		NavigationButton changePasswordButton = new NavigationButton(messages.getString("changePIN")); //$NON-NLS-1$
-		changePasswordButton.setTargetView(new UserPasswordView(messages, id));
+		NavigationButton changePasswordButton = new NavigationButton(MessageResources.getString("changePIN")); //$NON-NLS-1$
+		changePasswordButton.setTargetView(new UserPasswordView());
 		mainLayout.addComponent(changePasswordButton);
 
-		NavigationButton patientSelectorButton = new NavigationButton(messages.getString("patientSelection")); //$NON-NLS-1$
-		patientSelectorButton.setTargetView(new PatientSelectionView(messages));
+		NavigationButton patientSelectorButton = new NavigationButton(MessageResources.getString("patientSelection")); //$NON-NLS-1$
+		patientSelectorButton.setTargetView(new PatientSelectionView());
 		mainLayout.addComponent(patientSelectorButton);
 
-		NavigationButton pictureButton = new NavigationButton(messages.getString("patientView")); //$NON-NLS-1$
-		pictureButton.setTargetView(new PatientView(messages, WoundProvider.getInstance().getAll().getIdByIndex(0)));
+		NavigationButton pictureButton = new NavigationButton(MessageResources.getString("patientView")); //$NON-NLS-1$
+		pictureButton.setTargetView(new PatientView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
 		mainLayout.addComponent(pictureButton);
 
-		NavigationButton addWoundDataButton = new NavigationButton(messages.getString("addNewWound")); //$NON-NLS-1$
+		NavigationButton addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$
 		addWoundDataButton.setTargetView(new NewWoundView(
-				messages,
 				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
 				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
 
-		NavigationButton logoutButton = new NavigationButton(messages.getString("logout")); //$NON-NLS-1$
+		NavigationButton logoutButton = new NavigationButton(MessageResources.getString("logout")); //$NON-NLS-1$
 		logoutButton.addClickListener(new NavigationButtonClickListener() {
 
 			@Override
 			public void buttonClick(NavigationButtonClickEvent event) {
-				getNavigationManager().setCurrentComponent(new UserLoginView(messages));
+				getNavigationManager().setCurrentComponent(new UserLoginView());
 
 			}
 		});
 		mainLayout.addComponent(logoutButton);
 		
 		// added Ward View navigation button
-		NavigationButton wardButton = new NavigationButton(messages.getString("wardView")); //$NON-NLS-1$
-		wardButton.setTargetView(new WardSelectionView(messages, id));
+		NavigationButton wardButton = new NavigationButton(MessageResources.getString("wardView")); //$NON-NLS-1$
+		wardButton.setTargetView(new WardSelectionView());
 		mainLayout.addComponents(wardButton);
 		
 		setContent(mainLayout);
