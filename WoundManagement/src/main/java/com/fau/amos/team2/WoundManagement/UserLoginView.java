@@ -22,6 +22,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -52,7 +53,7 @@ public class UserLoginView extends NavigationView {
 		HorizontalLayout main = new HorizontalLayout();
 		VerticalLayout fieldsandbutton = new VerticalLayout();
 
-		final OptionGroup logingroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
+		final NativeSelect logingroup = new NativeSelect(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
 		
 		//das aendern der Caption aendert nicht die Item-ID der optiongroup- mode explicit
 		logingroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
