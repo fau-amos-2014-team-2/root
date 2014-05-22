@@ -21,7 +21,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -55,7 +54,7 @@ public class UserLoginView extends NavigationView {
 
 		final NativeSelect logingroup = new NativeSelect(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
 		
-		//das aendern der Caption aendert nicht die Item-ID der optiongroup- mode explicit
+		//das aendern der Caption aendert nicht die Item-ID der optiongroup- mode explicit <-- now NativeSelect
 		logingroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 		//aenderung innerhalb der logingroup werden direkt mit dem server kommuniziert 
 		//keine verzoegerung bei valuechange-events
@@ -82,7 +81,7 @@ public class UserLoginView extends NavigationView {
 		passwordInput.setVisible(false);
 
 		// Die Buttons/Felder auf der linken Seite, das fieldsandbutton sind hinzugefuegt
-		// jetzt fehlt noch die rechte Seite- optiongroup zum auswaehlen des
+		// jetzt fehlt noch die rechte Seite- optiongroup zum auswaehlen des <-- now NativeSelect
 		// Nutzers
 		// das eintippen der Daten im rechten Menue ist aber auch noch moeglich!
 
