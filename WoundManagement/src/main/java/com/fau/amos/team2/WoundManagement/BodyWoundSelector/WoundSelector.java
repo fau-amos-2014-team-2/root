@@ -40,7 +40,7 @@ public class WoundSelector extends AbsoluteLayout {
 	private Map<WoundPosition, Image> markedWounds = new HashMap<WoundPosition, Image>();
 
 	private Boolean existingWoundSelected = false;
-	
+
 	public WoundSelector(WoundManager woundManager, Sex sex) {
 		this.woundManager = woundManager;
 

@@ -123,8 +123,7 @@ public class PatientView extends NavigationView {
 		sizeLabel.setWidth(width);
 		dataColumn.addComponent(sizeLabel);
 		
-		
-		labelColumn.addComponent(new Label(MessageResources.getString("depth") + " (mm):")); //$NON-NLS-1$
+        labelColumn.addComponent(new Label(MessageResources.getString("depth") + " (mm):")); //$NON-NLS-1$
 		String depth = "";
 		if (wound.getDepth() != 0){
 			depth = wound.getDepth()+"";
