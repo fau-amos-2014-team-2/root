@@ -9,9 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Wound.currentForPatient",
+		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL")
+})
 public class Wound implements BusinessObject {
 	@Id
 	@Column(name = "NR")

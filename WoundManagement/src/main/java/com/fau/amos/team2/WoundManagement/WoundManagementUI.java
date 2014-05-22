@@ -48,8 +48,8 @@ public class WoundManagementUI extends UI {
 
 	private static EmployeeProvider employeeProvider = 
 			EmployeeProvider.getInstance();
-	private static PatientProvider<Patient> patientProvider = 
-			(PatientProvider<Patient>) PatientProvider.getInstance();
+	private static PatientProvider patientProvider = 
+			PatientProvider.getInstance();
 	private static WoundProvider<Wound> woundProvider = 
 			(WoundProvider<Wound>) WoundProvider.getInstance();
 	private static WoundTypeProvider<WoundType> woundTypeProvider = 

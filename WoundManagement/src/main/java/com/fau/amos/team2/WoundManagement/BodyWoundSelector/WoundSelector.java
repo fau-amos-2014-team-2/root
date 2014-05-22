@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import com.fau.amos.team2.WoundManagement.model.Sex;
-import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.server.FileResource;
@@ -19,7 +18,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 
 @SuppressWarnings("serial")
-public class WoundSelector extends AbsoluteLayout {
+public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 	final String BODY_IMAGE = "body_neuter.png";
 	final String BODY_IMAGE_MALE = "body_male.png";
@@ -52,7 +51,7 @@ public class WoundSelector extends AbsoluteLayout {
 		else
 			backgroundImage = getImage(BODY_IMAGE);
 
-		backgroundImage.addClickListener(clickListener);
+		backgroundImage.addClickListener(this);
 
 		selectionIndicator = getImage(SELECTION_INDICATOR);
 		selectionIndicator.setVisible(false);
@@ -95,29 +94,30 @@ public class WoundSelector extends AbsoluteLayout {
 		return image;
 	}
 
-	private ClickListener clickListener = new ClickListener() {
-		public void click(ClickEvent event) {
-			int xPosition = event.getRelativeX();
-			int yPosition = event.getRelativeY();
+	public void click(ClickEvent event) {
+		int xPosition = event.getRelativeX();
+		int yPosition = event.getRelativeY();
 
-			// Uncomment the following line so show clicked position coordinates.
-			// Notification.show("X " + xPosition + " Y " + yPosition);
+		// Uncomment the following line so show clicked position coordinates.
+		Notification.show("X " + xPosition + " Y " + yPosition);
 
-			// Get the wound at this position
-			WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(xPosition, yPosition);
+		// Get the wound at this position
+		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(xPosition, yPosition);
+		Notification.show("hello");
+		
+		if (woundPosition != null) {
+			selectedWoundPosition = woundPosition;
+			existingWoundSelected = woundManager.hasWoundAtPosition(selectedWoundPosition);
+			Notification.show("set selec");
+			woundManager.setSelectedWoundPosition(selectedWoundPosition);
 
-			if (woundPosition != null) {
-				selectedWoundPosition = woundPosition;
-				existingWoundSelected = woundManager.hasWoundAtPosition(selectedWoundPosition);
-
-				refreshSelectedWound();
-			}
+			refreshSelectedWound();
 		}
-	};
+	}
 
 	private void refreshSelectedWound() {
 		if (selectedWoundPosition != null && existingWoundSelected) {
-			Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
+			// Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
 
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
 			float correctedXPos = (float)selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2);
@@ -173,6 +173,9 @@ public class WoundSelector extends AbsoluteLayout {
 				WoundPosition woundPosition = (WoundPosition)sourceData;
 				selectedWoundPosition = woundPosition;
 				existingWoundSelected = true;
+				
+				woundManager.setSelectedWoundPosition(selectedWoundPosition);
+				
 				refreshSelectedWound();
 			}
 		}

@@ -28,8 +28,8 @@ public class LoggedInView extends NavigationView {
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
 	private EmployeeProvider employeeProvider = EmployeeProvider.getInstance();
-	private PatientProvider<Patient> patientProvider = 
-			(PatientProvider<Patient>) PatientProvider.getInstance();
+	private PatientProvider patientProvider = 
+			PatientProvider.getInstance();
 	
 	/**
  * The View that is shown, if a user has successfully logged in
@@ -58,7 +58,7 @@ public class LoggedInView extends NavigationView {
 		mainLayout.addComponent(patientSelectorButton);
 
         NavigationButton pictureButton = new NavigationButton(MessageResources.getString("patientView")); //$NON-NLS-1$
-		pictureButton.setTargetView(new PatientView(WoundProvider.getInstance().getAll().getIdByIndex(0)));
+		pictureButton.setTargetView(new PatientView(null));
 		mainLayout.addComponent(pictureButton);
 
 		NavigationButton addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$

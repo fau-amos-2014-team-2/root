@@ -1,6 +1,7 @@
 package com.fau.amos.team2.WoundManagement.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @SuppressWarnings("serial")
 @Entity
@@ -43,6 +45,9 @@ public class Patient implements BusinessObject {
 	@JoinColumn(name = "STATIONEN07_NR", referencedColumnName="NR")
 	private Ward ward;
 	
+	@OneToMany(targetEntity = Wound.class, mappedBy="patient")
+	private List<Wound> wounds;
+
 	@Column(name = "SUCHBEZ")
 	private String keyword;
 	
@@ -90,6 +95,10 @@ public class Patient implements BusinessObject {
 
 	public String getGender() {
 		return gender;
+	}
+	
+	public Sex getSex() {
+		return Sex.valueOf(getGender().charAt(0));
 	}
 
 	public void setGender(String gender) {
@@ -150,5 +159,9 @@ public class Patient implements BusinessObject {
 
 	public void setAccomodation(char accomodation) {
 		this.accomodation = accomodation;
+	}
+	
+	public List<Wound> getWounds() {
+		return wounds;
 	}
 }

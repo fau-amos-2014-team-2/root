@@ -1,6 +1,5 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
-import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 
 /**
@@ -11,20 +10,20 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
  * @see com.fau.amos.team2.WoundManagement.Patient
  * @author Stefan, Betz
  * */
-public class PatientProvider<T extends BusinessObject> extends ObjectProvider<T> {
+public class PatientProvider extends ObjectProvider<Patient> {
 
-	private static PatientProvider<Patient> instance;
+	private static PatientProvider instance;
 	
-	public PatientProvider(Class<T> type) {
-		super(type);
+	public PatientProvider() {
+		super(Patient.class);
 	}
 	
 	/**
 	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static PatientProvider<? extends BusinessObject> getInstance() {
+	public static PatientProvider getInstance() {
 		if(instance == null) {
-			instance = new PatientProvider<Patient>(Patient.class);
+			instance = new PatientProvider();
 		}
 		return instance;
 	}

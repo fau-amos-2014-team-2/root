@@ -4,9 +4,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeEvent;
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundPosition;
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeListener;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
@@ -16,6 +21,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -23,22 +29,27 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author ???
  */
-public class PatientView extends NavigationView {
+public class PatientView extends NavigationView implements SelectedWoundChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
-
-	private WoundProvider<Wound> woundProvider = 
-			(WoundProvider<Wound>) WoundProvider.getInstance();
 	
+	Label descriptionLabel;
+
 	@SuppressWarnings("serial")
-	public PatientView(Object id) {
+	public PatientView(Patient patient) {
+		// TODO: Remove the following lines after the previous view (PatientSelectionView) is passing a real patient object.
+		if (patient == null)
+			patient = PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().firstItemId());
+		// End of code to remove
+		
 		setRightComponent(new UserBar());
 		
 		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
 		
 		HorizontalLayout content = new HorizontalLayout();
-		WoundManager woundManager = new WoundManager(null);
+		WoundManager woundManager = new WoundManager(patient);
+		woundManager.addSelectedWoundChangeListener(this);
 		
-		Wound wound = woundProvider.getByID(id);
+		Wound wound = patient.getWounds().iterator().next();
 		
 		String width = "20em";
 		
@@ -138,7 +149,7 @@ public class PatientView extends NavigationView {
 		dataColumn.addComponent(originationLabel);
 		
 		labelColumn.addComponent(new Label(MessageResources.getString("description") + ":")); //$NON-NLS-1$
-		Label descriptionLabel = new Label(wound.getDescription());
+		descriptionLabel = new Label(wound.getDescription());
 		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
@@ -163,5 +174,15 @@ public class PatientView extends NavigationView {
 		content.addComponents(woundManager.getWoundSelector(), rightContent);
 		
 		setContent(content);
+	}
+
+	@Override
+	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
+		if (event.getWound() != null) {
+			descriptionLabel.setValue(event.getWound().getDescription());			
+		}
+		else {
+			descriptionLabel.setValue("");
+		}
 	}
 }

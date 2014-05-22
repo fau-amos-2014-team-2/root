@@ -22,8 +22,8 @@ public class StartMenuView extends NavigationView {
 
 	private static EmployeeProvider employeeProvider = 
 			EmployeeProvider.getInstance();
-	private static PatientProvider<Patient> patientProvider = 
-			(PatientProvider<Patient>) PatientProvider.getInstance();
+	private static PatientProvider patientProvider = 
+			PatientProvider.getInstance();
 	
 	/**
 	 * Creates an instance of StartMenuView

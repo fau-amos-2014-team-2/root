@@ -93,4 +93,12 @@ public enum WoundPosition {
 	public String getDescription() {
 		return bodyLocation.toString();
 	}
+	
+	public static WoundPosition getPositionForBodyLocation(BodyLocation bodyLocation) {
+		for (WoundPosition p : WoundPosition.values())
+			if (p.getBodyLocation() == bodyLocation)
+				return p;
+		
+		return null;
+	}
 }

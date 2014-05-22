@@ -12,6 +12,6 @@ public final class Constants
 	 * with username: 'postgres', password: 'postgres'
 	 * on a local postgreSQL server
 	 */
-	public static final String PERSISTANCE_UNIT = "fauDB";
+	public static final String PERSISTANCE_UNIT = "testdb";
 	public static final String PERSISTANCE_UNIT_LOCAL = "testdb";
 }
