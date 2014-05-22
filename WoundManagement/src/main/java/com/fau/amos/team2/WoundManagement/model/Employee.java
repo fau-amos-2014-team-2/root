@@ -1,16 +1,24 @@
 package com.fau.amos.team2.WoundManagement.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @SuppressWarnings("serial")
 @Entity
-public class Employee implements Serializable {
+@NamedQueries({
+	@NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e"),
+	@NamedQuery(name="Employee.findByUsernameAndPassword",
+			query="SELECT e FROM Employee e WHERE e.abbreviation = :username AND e.qualificationNumber = :password"),
+	@NamedQuery(name="Employee.findByUsername",
+			query="SELECT e FROM Employee e WHERE e.abbreviation = :username"),
+})
+public class Employee implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -46,12 +54,10 @@ public class Employee implements Serializable {
 	@Column(name = "GESCHLECHT")
 	private String gender;
 	
-	//FIXME for what is @Column? needed here?!
-	//@Column(name = "DERZSTATION")
+	@JoinColumn(name = "DERZSTATION", referencedColumnName="NR")
 	private Ward currentWard;
-
-	//FIXME for what is @Column? needed here?!
-	//@Column(name = "ARBEITSSTATION")
+	
+	@JoinColumn(name = "ARBEITSSTATION", referencedColumnName="NR")
 	private Ward workingWard;
 	
 	public Employee() {
@@ -180,18 +186,20 @@ public class Employee implements Serializable {
 	}
 
 	
-	public long getCurrentWard() {
-
-		return ((currentWard != null) ? (currentWard.getId()) : (this.getWorkingWard()));
+	public Ward getCurrentWard() {
+		if (currentWard == null) {
+			currentWard = workingWard;
+		}
+		
+		return currentWard;
 	}
 
 	public void setCurrentWard(Ward current) {
 		this.currentWard = current;
 	}
 
-	//Important: Throws null-Pointer Exception if workingWard not set!
-	public long getWorkingWard() {
-		return workingWard.getId();
+	public Ward getWorkingWard() {
+		return workingWard;
 	}
 
 	public void setWorkingWard(Ward working) {

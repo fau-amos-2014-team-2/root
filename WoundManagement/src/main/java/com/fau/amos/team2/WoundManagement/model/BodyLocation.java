@@ -1,7 +1,11 @@
 package com.fau.amos.team2.WoundManagement.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum BodyLocation {
 	
+	NULL(0),
 	HINTERKOPF(1),
 	SCHAEDELANSATZ(2),
 	NACKEN(3),
@@ -66,14 +70,27 @@ public enum BodyLocation {
 	RIPPENBOGEN_LI(77)
 	;
 	
-	private int value;
+	private final int value;
 	
 	private BodyLocation (int i){
 		this.value = i;
 	}
 	
+	private static Map<Integer, BodyLocation> map = new HashMap<Integer, BodyLocation>();
+
+    static {
+        for (BodyLocation locationEnum : BodyLocation.values()) {
+            map.put(locationEnum.value, locationEnum);
+        }
+    }
+    
+    public static BodyLocation valueOf(int locationNo) {
+        return map.get(locationNo);
+    }
+	
 	public String toString(){
 		switch (this){
+		case NULL: return "-";
 		case HINTERKOPF: return "Hinterkopf";
 		case SCHAEDELANSATZ: return "Schädelansatz";
 		case NACKEN: return "Nacken";
@@ -141,6 +158,9 @@ public enum BodyLocation {
 	}
 	
 	public String toFullString(){
+		if (this == NULL){
+			return this.toString();
+		} 
 		return this.value + " - " + this.toString();
 	}
 	

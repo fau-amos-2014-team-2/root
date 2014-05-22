@@ -1,9 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
-import com.fau.amos.team2.WoundManagement.model.Constants;
+import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
 /**
  * <code>WoundTypeProvider</code> manages the access to the
@@ -13,60 +11,21 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * @see com.fau.amos.team2.WoundManagement.WoundType
  * @author Stefan, Betz
  * */
-public class WoundTypeProvider {
+public class WoundTypeProvider<T extends BusinessObject> extends ObjectProvider<T> {
 
-	private static WoundTypeProvider instance;
+	private static WoundTypeProvider<WoundType> instance;
 	
-	private JPAContainer<WoundType> woundTypes;
-	
-	/**
-	 * Constructs an empty <code>JPAContainer<WoundType></code>
-	 * and in this context an empty Database with the
-	 * credentials of <code>Constants.PERSISTANCE_UNIT</code>
-	 * 
-	 * @see com.fau.amos.team2.WoundManagement.model.Constants
-	 * @see persistence.xml
-	 */
-	private WoundTypeProvider() {
-		woundTypes = JPAContainerFactory.make(WoundType.class, Constants.PERSISTANCE_UNIT);
+	public WoundTypeProvider(Class<T> type) {
+		super(type);
 	}
 	
 	/**
-	 * @return The instance of <code>WoundType</code> 
+	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static WoundTypeProvider getInstance() {
+	public static WoundTypeProvider<? extends BusinessObject> getInstance() {
 		if(instance == null) {
-			instance = new WoundTypeProvider();
+			instance = new WoundTypeProvider<WoundType>(WoundType.class);
 		}
 		return instance;
 	}
-	
-	/**
-	 * Adds an WoundType to the Database
-	 * 
-	 * @param WoundType
-	 * @return the Id of the inserted WoundType
-	 */
-	public Object add(WoundType ward) {
-		return woundTypes.addEntity(ward);
-	}
-	
-	/**
-	 * Get all WoundTypes from the Database
-	 * 
-	 * @return JPAContainer containing all WoundTypes
-	 */
-	public JPAContainer<WoundType> getAll() {
-		return woundTypes;
-	}
-	/**
-	 * Get the WoundType with id from the Database 
-	 * 
-	 * @param id - The unique id of an WoundType
-	 * @return instance of the according WoundType, or null
-	 */
-	public WoundType getByID(Object id) { 
-		return woundTypes.getItem(id).getEntity();
-	}
-	
 }

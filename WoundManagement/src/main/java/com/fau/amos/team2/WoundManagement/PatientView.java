@@ -1,103 +1,167 @@
 package com.fau.amos.team2.WoundManagement;
 
-import com.fau.amos.team2.WoundManagement.model.Employee;
-//added import Ward
-import com.fau.amos.team2.WoundManagement.model.Ward;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
+import com.fau.amos.team2.WoundManagement.model.BodyLocation;
+import com.fau.amos.team2.WoundManagement.model.Origination;
+import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
-import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.Label.ValueChangeEvent;
+import com.vaadin.ui.VerticalLayout;
 
 /**
- * View to see patients of selected ward
- * @author Eugen
- * @param <event>
+ * View to see a picture
+ * 
+ * @author ???
  */
-@SuppressWarnings("serial")
-public class PatientView<event> extends NavigationView {
-	
-	public PatientView(event id) 
-	{
-		CssLayout content = new CssLayout();
-		
-		NativeSelect wpview = new NativeSelect ("Please select a patient: ");
-		
-		/**
-		 * the actual db-based way to go:
-		 * wpview.addItem(patients.get(ward.id) == ward.get(event.value));
-		*/
-		
-		//creates six "patients"
-		for (int i=0; i<6; i++)
-		{
-			wpview.addItem(i);
-			wpview.setItemCaption(i, "Patient " +i);
-		}
-			
-		//a selection must occur... 
-		wpview.setNullSelectionAllowed(false);
-		//...therefore legal to set '-1' by default
-		wpview.setValue(-1);
-		wpview.setImmediate(true);
-		
-		wpview.addValueChangeListener(new ValueChangeListener() 
-		{
-            public void valueChange(final ValueChangeEvent event) 
-            {
-                final String valueString = String.valueOf(event.getProperty().getValue());
-            }
+public class PatientView extends NavigationView {
+	private static final long serialVersionUID = -572027045788648039L;
 
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) 
-			{
-				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
+	private WoundProvider<Wound> woundProvider = 
+			(WoundProvider<Wound>) WoundProvider.getInstance();
+	
+	@SuppressWarnings("serial")
+	public PatientView(Object id) {
+		setRightComponent(new UserBar());
+		
+		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
+		
+		HorizontalLayout content = new HorizontalLayout();
+		WoundManager woundManager = new WoundManager(null);
+		
+		Wound wound = woundProvider.getByID(id);
+		
+		String width = "20em";
+		
+		VerticalLayout rightContent = new VerticalLayout();
+		rightContent.setSpacing(true);
+		HorizontalLayout woundDataContent = new HorizontalLayout();
+		woundDataContent.setSpacing(true);
+		//TODO: where does '(verheilt)' come from, where is it stored?
+		String typeDecubitus = MessageResources.getString("decubitusID") + (": ") + wound.getDecubitusId() + " (" + MessageResources.getString("healed") + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		if (wound.getWoundType() != null){
+			typeDecubitus = wound.getWoundType().getClassification() + ", " + typeDecubitus; //$NON-NLS-1$
+		}
+		Label typeDecubitusLabel = new Label(typeDecubitus);
+		typeDecubitusLabel.setWidth(width);
+		rightContent.addComponent(typeDecubitusLabel);
+		rightContent.addComponent(woundDataContent);		
+		
+		VerticalLayout labelColumn = new VerticalLayout();
+		VerticalLayout dataColumn = new VerticalLayout();
+		woundDataContent.addComponents(labelColumn, dataColumn);
+		labelColumn.setSpacing(true);
+		dataColumn.setSpacing(true);
+		
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		labelColumn.addComponent(new Label(MessageResources.getString("recordingDate") + ":")); //$NON-NLS-1$
+		Label recordingDateLabel = new Label(df.format(wound.getRecordingDate()));
+		recordingDateLabel.setWidth(width);
+		dataColumn.addComponent(recordingDateLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":")); //$NON-NLS-1$
+		Label recordingEmployeeLabel = new Label(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName()); //$NON-NLS-1$
+		recordingEmployeeLabel.setWidth(width);
+		dataColumn.addComponent(recordingEmployeeLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("endDate") + ":")); //$NON-NLS-1$
+		String endDate = "-"; 
+		if (wound.getEndDate() != null){
+			endDate = df.format(wound.getEndDate());
+		}
+		Label endDateLabel = new Label(endDate);
+		endDateLabel.setWidth(width);
+		dataColumn.addComponent(endDateLabel);
+				
+		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":")); //$NON-NLS-1$
+		String cureEmployee = "-";
+		if (wound.getCureEmployee() != null){
+			cureEmployee = wound.getCureEmployee().getFirstName() + " " + wound.getCureEmployee().getLastName();
+		}
+		Label cureEmployeeLabel = new Label(cureEmployee);
+		cureEmployeeLabel.setWidth(width);
+		dataColumn.addComponent(cureEmployeeLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocationCode") + ":")); //$NON-NLS-1$
+		Label bodyLocationCodeLabel = new Label(BodyLocation.valueOf(wound.getBodyLocationCode()).toString());
+		bodyLocationCodeLabel.setWidth(width);
+		dataColumn.addComponent(bodyLocationCodeLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocation") + ":")); //$NON-NLS-1$
+		Label bodyLocationLabel = new Label(wound.getBodyLocation());
+		bodyLocationLabel.setWidth(width);
+		dataColumn.addComponent(bodyLocationLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("woundLevel") + ":")); //$NON-NLS-1$
+		String woundLevel = "";
+		if (wound.getWoundLevel() != null){
+			woundLevel = wound.getWoundLevel().getCharacterisation();
+		} 
+		Label woundLevelLabel = new Label(woundLevel);
+		woundLevelLabel.setWidth(width);
+		dataColumn.addComponent(woundLevelLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("size") + " (mm):")); //$NON-NLS-1$
+		String size = "";
+		if (wound.getSize1() != 0){
+			if (wound.getSize2() != 0){
+				size = wound.getSize1() + " x " + wound.getSize2();
+			} else {
+				size = wound.getSize1() + " x " + wound.getSize1();
 			}
-        });
+		}
+		Label sizeLabel = new Label(size);
+		sizeLabel.setWidth(width);
+		dataColumn.addComponent(sizeLabel);
 		
-		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent( new Label( "Patients: ") );
-		box.addComponent( wpview );
+        labelColumn.addComponent(new Label(MessageResources.getString("depth") + " (mm):")); //$NON-NLS-1$
+		String depth = "";
+		if (wound.getDepth() != 0){
+			depth = wound.getDepth()+"";
+		} 
+		Label depthLabel = new Label(depth);
+		depthLabel.setWidth(width);
+		dataColumn.addComponent(depthLabel);
 		
-		NavigationButton allPatientsButton = new NavigationButton("All Patients");
-		allPatientsButton.addClickListener(new NavigationButtonClickListener()
-		{
+		labelColumn.addComponent(new Label(MessageResources.getString("origination") + ":")); //$NON-NLS-1$
+		Label originationLabel = new Label(Origination.valueOf(wound.getOrigination()).toString());
+		originationLabel.setWidth(width);
+		dataColumn.addComponent(originationLabel);
+		
+		labelColumn.addComponent(new Label(MessageResources.getString("description") + ":")); //$NON-NLS-1$
+		Label descriptionLabel = new Label(wound.getDescription());
+		descriptionLabel.setWidth(width);
+		dataColumn.addComponent(descriptionLabel);
+		
+		Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
+		endWound.addClickListener(new ClickListener(){
 			@Override
-			public void buttonClick(NavigationButtonClickEvent event) 
-			{
-				getNavigationManager().navigateTo(new PatientView());
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
 			}
 		});
-		box.addComponent(allPatientsButton);
+		Button addWoundDescription = new Button(MessageResources.getString("woundDescriptions") + "..."); //$NON-NLS-1$
+		addWoundDescription.addClickListener(new ClickListener(){
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+			}
+		});
 		
-		content.addComponent(box);
-		setContent(content);
+		rightContent.addComponent(endWound);
+		rightContent.addComponent(addWoundDescription);
 		
-	}
-
-	//Standard PatientView
-	public PatientView()
-	{
-		CssLayout content = new CssLayout();
-
-		setCaption("Patient information");
+		content.addComponents(woundManager.getWoundSelector(), rightContent);
 		
-		Employee e = EmployeeProvider.getInstance().getByFirstName("Adam");
-		
-		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent(new Label("Patient: "+ e.getFirstName() + " " + e.getLastName()));
-		box.addComponent(new Label("username: "+ e.getAbbreviation()));
-		
-		content.addComponent(box);
 		setContent(content);
 	}
-
 }
-

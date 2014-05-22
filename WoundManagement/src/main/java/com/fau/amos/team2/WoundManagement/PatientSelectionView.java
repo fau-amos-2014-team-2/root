@@ -11,6 +11,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Label.ValueChangeEvent;
 import com.vaadin.ui.NativeSelect;
+//added import Ward
 
 /**
  * View to see patients of selected ward
@@ -18,20 +19,28 @@ import com.vaadin.ui.NativeSelect;
  * @param <event>
  */
 @SuppressWarnings("serial")
-public class WardPatientView<event> extends NavigationView {
+public class PatientSelectionView extends NavigationView {
 	
-	public WardPatientView(event id) 
+	public PatientSelectionView() 
 	{
+		setCaption(MessageResources.getString("patientSelection"));
+		
 		CssLayout content = new CssLayout();
 		
-		NativeSelect wpview = new NativeSelect (MessageResources.getString("pleaseSelectPatient") + ": "); //$NON-NLS-1$
+		NativeSelect wpview = new NativeSelect (MessageResources.getString("pleaseSelectPatient") + ": ");
+		
+		/**
+		 * the actual db-based way to go:
+		 * wpview.addItem(patients.get(ward.id) == ward.get(event.value));
+		*/
+		
 		//creates six "patients"
-		for (int i=0; i<15; i++)
+		for (int i=0; i<6; i++)
 		{
 			wpview.addItem(i);
-			wpview.setItemCaption(i, MessageResources.getString("patient") + " " +i); //$NON-NLS-1$
+			wpview.setItemCaption(i, MessageResources.getString("patient") + " " +i);
 		}
-		
+			
 		//a selection must occur... 
 		wpview.setNullSelectionAllowed(false);
 		//...therefore legal to set '-1' by default
@@ -50,12 +59,13 @@ public class WardPatientView<event> extends NavigationView {
 			{
 				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
 			}
-				
         });
 		
 		VerticalComponentGroup box = new VerticalComponentGroup();
+		box.addComponent( new Label(MessageResources.getString("patients") + ": ") );
+		box.addComponent( wpview );
 		
-		NavigationButton allPatientsButton = new NavigationButton(MessageResources.getString("allPatients")); //$NON-NLS-1$
+		NavigationButton allPatientsButton = new NavigationButton(MessageResources.getString("allPatients"));
 		allPatientsButton.addClickListener(new NavigationButtonClickListener()
 		{
 			@Override
@@ -66,11 +76,27 @@ public class WardPatientView<event> extends NavigationView {
 		});
 		box.addComponent(allPatientsButton);
 		
-		box.addComponent( new Label(MessageResources.getString("patients") + ": ")); //$NON-NLS-1$
-		box.addComponent (wpview);
-
 		content.addComponent(box);
 		setContent(content);
+		
 	}
 
+	//Standard PatientView
+//	public PatientSelectionView()
+//	{
+//		CssLayout content = new CssLayout();
+//
+//		setCaption("Patient information");
+//		
+//		Employee e = EmployeeProvider.getInstance().getByFirstName("Adam");
+//		
+//		VerticalComponentGroup box = new VerticalComponentGroup();
+//		box.addComponent(new Label("Patient: "+ e.getFirstName() + " " + e.getLastName()));
+//		box.addComponent(new Label("username: "+ e.getAbbreviation()));
+//		
+//		content.addComponent(box);
+//		setContent(content);
+//	}
+
 }
+

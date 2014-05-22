@@ -1,9 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
-import com.fau.amos.team2.WoundManagement.model.Constants;
+import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
 /**
  * <code>WoundProvider</code> manages the access to the
@@ -13,60 +11,21 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * @see com.fau.amos.team2.WoundManagement.Wound
  * @author Stefan, Betz
  * */
-public class WoundProvider {
+public class WoundProvider<T extends BusinessObject> extends ObjectProvider<T> {
 
-	private static WoundProvider instance;
+	private static WoundProvider<Wound> instance;
 	
-	private JPAContainer<Wound> wounds;
-	
-	/**
-	 * Constructs an empty <code>JPAContainer<Wound></code>
-	 * and in this context an empty Database with the
-	 * credentials of <code>Constants.PERSISTANCE_UNIT</code>
-	 * 
-	 * @see com.fau.amos.team2.WoundManagement.model.Constants
-	 * @see persistence.xml
-	 */
-	private WoundProvider() {
-		wounds = JPAContainerFactory.make(Wound.class, Constants.PERSISTANCE_UNIT);
+	public WoundProvider(Class<T> type) {
+		super(type);
 	}
 	
 	/**
-	 * @return The instance of <code>WoundProvider</code> 
+	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static WoundProvider getInstance() {
+	public static WoundProvider<? extends BusinessObject> getInstance() {
 		if(instance == null) {
-			instance = new WoundProvider();
+			instance = new WoundProvider<Wound>(Wound.class);
 		}
 		return instance;
 	}
-	
-	/**
-	 * Adds an Wound to the Database
-	 * 
-	 * @param Wound
-	 * @return the Id of the inserted Wound
-	 */
-	public Object add(Wound wound) {
-		return wounds.addEntity(wound);
-	}
-	
-	/**
-	 * Get all Wound from the Database
-	 * 
-	 * @return JPAContainer containing all Wounds
-	 */
-	public JPAContainer<Wound> getAll() {
-		return wounds;
-	}
-	/**
-	 * Get the Wound with id from the Database 
-	 * 
-	 * @param id - The unique id of an Wound
-	 * @return instance of the according Wound, or null
-	 */
-	public Wound getByID(Object id) { 
-		return wounds.getItem(id).getEntity();
-	}
-	
 }

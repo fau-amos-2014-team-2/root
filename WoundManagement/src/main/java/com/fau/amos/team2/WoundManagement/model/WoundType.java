@@ -1,7 +1,5 @@
 package com.fau.amos.team2.WoundManagement.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +8,7 @@ import javax.persistence.Id;
 
 @SuppressWarnings("serial")
 @Entity
-public class WoundType implements Serializable {
+public class WoundType implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,6 +31,8 @@ public class WoundType implements Serializable {
 	
 	@Column(name = "KOERPERSTELLEPFL", nullable = false)
 	private boolean isBodyLocationRequired;
+	
+	//TODO: translation of 'j'/'n' to boolean?
 	
 	public WoundType() {
 		

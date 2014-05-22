@@ -12,10 +12,10 @@ public class WoundManagementUIProvider extends UIProvider {
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
         String userAgent = event.getRequest().getHeader("user-agent").toLowerCase();
         if (overrideMobileUA() || userAgent.contains("mobile")) {
-            return LoginUI.class;
+            return WoundManagementUI.class;
         } else {
         	//FIXME Wenns geht ist UIProvider sinnlos
-            return LoginUI.class;
+            return WoundManagementUI.class;
         }
     }
     

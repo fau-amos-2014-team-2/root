@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import com.fau.amos.team2.WoundManagement.model.Sex;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.server.FileResource;
@@ -116,7 +117,7 @@ public class WoundSelector extends AbsoluteLayout {
 
 	private void refreshSelectedWound() {
 		if (selectedWoundPosition != null && existingWoundSelected) {
-			Notification.show("Wound at " + selectedWoundPosition.getDescription());
+			Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
 
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
 			float correctedXPos = (float)selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2);

@@ -1,6 +1,5 @@
 package com.fau.amos.team2.WoundManagement.model;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -14,7 +13,7 @@ import javax.persistence.OneToOne;
 
 @SuppressWarnings("serial")
 @Entity
-public class WoundDescription implements Serializable {
+public class WoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

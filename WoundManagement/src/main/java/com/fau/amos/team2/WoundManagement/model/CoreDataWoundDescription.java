@@ -1,7 +1,5 @@
 package com.fau.amos.team2.WoundManagement.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +10,7 @@ import javax.persistence.OneToOne;
 
 @SuppressWarnings("serial")
 @Entity
-public class CoreDataWoundDescription implements Serializable {
+public class CoreDataWoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
