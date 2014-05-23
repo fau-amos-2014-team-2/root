@@ -58,7 +58,14 @@ public class LoggedInView extends NavigationView {
 		mainLayout.addComponent(patientSelectorButton);
 
         NavigationButton pictureButton = new NavigationButton(MessageResources.getString("patientView")); //$NON-NLS-1$
-		pictureButton.setTargetView(new PatientView(null));
+		pictureButton.addClickListener(new NavigationButtonClickListener() {
+			
+			@Override
+			public void buttonClick(NavigationButtonClickEvent event) {
+				PatientView patientView = new PatientView(null);
+				getNavigationManager().navigateTo(patientView);
+			}
+		});
 		mainLayout.addComponent(pictureButton);
 
 		NavigationButton addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$

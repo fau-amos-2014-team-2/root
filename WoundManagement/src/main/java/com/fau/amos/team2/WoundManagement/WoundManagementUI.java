@@ -21,6 +21,7 @@ import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
+import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
@@ -69,35 +70,43 @@ public class WoundManagementUI extends UI {
 		//if(isInitialized)
 		//	return;
 		//isInitialized = true;
-		Ward ward = new Ward();
-		ward.setCharacterisation("blub");
 		
-		Employee testUser1 = new Employee();
-		testUser1.setFirstName("Adam");
-		testUser1.setLastName("Arbeit");
-		testUser1.setAbbreviation("testuser1");
-		testUser1.setQualificationNumber(1111);
-		testUser1.setWorkingWard(ward);
-		
-		Employee testUser2 = new Employee();
-		testUser2.setFirstName("Bernd");
-		testUser2.setLastName("Bond");
-		testUser2.setAbbreviation("testuser2");
-		testUser2.setQualificationNumber(2222);
-		
-		Employee testUser3 = new Employee();
-		testUser3.setFirstName("Christina");
-		testUser3.setLastName("Charles");
-		testUser3.setAbbreviation("testuser3");
-		testUser3.setQualificationNumber(3333);
-		
-		try {
-			employeeProvider.createEmployee(testUser1);
-			employeeProvider.createEmployee(testUser2);
-			employeeProvider.createEmployee(testUser3);
-		} catch (DuplicateEmployeeException e) {
-			// Fail silently
+		for (int i = 0; i < 3; i++) {
+			Ward ward = new Ward();
+			ward.setCharacterisation("Station " + (i+1));
+			WardProvider.getInstance().add(ward);
+			
+			Employee testUser = new Employee();
+			testUser.setWorkingWard(ward);
+
+			switch (i) {
+				case 0:
+					testUser.setFirstName("Adam");
+					testUser.setLastName("Arbeit");
+					testUser.setAbbreviation("testuser1");
+					testUser.setQualificationNumber(1111);
+					break;
+					
+				case 1:
+					testUser.setFirstName("Bernd");
+					testUser.setLastName("Bond");
+					testUser.setAbbreviation("testuser2");
+					testUser.setQualificationNumber(2222);
+					testUser.setWorkingWard(ward);
+					break;
+					
+				case 2:
+					testUser.setFirstName("Christina");
+					testUser.setLastName("Charles");
+					testUser.setAbbreviation("testuser3");
+					testUser.setQualificationNumber(3333);
+					break;
+			}
+			
+			EmployeeProvider.getInstance().add(testUser);
 		}
+		
+		Employee firstEmployee = employeeProvider.getAllItems().iterator().next();
 		
 		testWoundType1.setBodyLocationRequired(false);
 		testWoundType1.setClassification("Senso6 Dekubitus");
@@ -131,14 +140,14 @@ public class WoundManagementUI extends UI {
 		
 		testWound1.setBodyLocation("Brustbein");
 		testWound1.setBodyLocationCode(64);
-		testWound1.setCureEmployee(testUser3);
+		testWound1.setCureEmployee(firstEmployee);
 		testWound1.setDecubitusId(10);
 		testWound1.setDepth(3);
 		testWound1.setDescription("Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. ");
 		testWound1.setEndDate(java.sql.Date.valueOf("2014-05-12"));
 		testWound1.setOrigination(1);
 		testWound1.setRecordingDate(java.sql.Date.valueOf("2014-04-12"));
-		testWound1.setRecordingEmployee(testUser1);
+		testWound1.setRecordingEmployee(firstEmployee);
 		testWound1.setSize1(1);
 		testWound1.setSize2(2);
 		testWound1.setWoundType(testWoundType1);
@@ -146,7 +155,8 @@ public class WoundManagementUI extends UI {
 		testWound1.setPatient(testPatient1);
 		
 		woundProvider.add(testWound1);
-
+		
+		testPatient1.getWounds().add(testWound1);
 	}
 	// END INIT //
 
