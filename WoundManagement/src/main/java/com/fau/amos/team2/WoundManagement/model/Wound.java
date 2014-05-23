@@ -16,7 +16,8 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Wound.currentForPatient",
-		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL")
+		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
+	@NamedQuery(name="Wound.deleteAll", query="DELETE FROM Wound")
 })
 public class Wound implements BusinessObject {
 	@Id

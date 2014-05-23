@@ -5,9 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQueries({
+	@NamedQuery(name="WoundType.deleteAll", query="DELETE FROM WoundType")
+})
 public class WoundType implements BusinessObject {
 	@Id
 	@Column(name = "NR")

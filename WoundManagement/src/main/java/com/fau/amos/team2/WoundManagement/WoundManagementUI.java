@@ -10,6 +10,7 @@ import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.sessions.server.ServerSession;*/
 
+import java.util.Iterator;
 import java.util.Locale;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
@@ -51,18 +52,20 @@ public class WoundManagementUI extends UI {
 			EmployeeProvider.getInstance();
 	private static PatientProvider patientProvider = 
 			PatientProvider.getInstance();
-	private static WoundProvider<Wound> woundProvider = 
-			(WoundProvider<Wound>) WoundProvider.getInstance();
-	private static WoundTypeProvider<WoundType> woundTypeProvider = 
-			(WoundTypeProvider<WoundType>) WoundTypeProvider.getInstance();
-	private static WoundLevelProvider<WoundLevel> woundLevelProvider = 
-			(WoundLevelProvider<WoundLevel>) WoundLevelProvider.getInstance();
+	private static WoundProvider woundProvider = 
+			WoundProvider.getInstance();
+	private static WoundTypeProvider woundTypeProvider = 
+			WoundTypeProvider.getInstance();
+	private static WoundLevelProvider woundLevelProvider = 
+			WoundLevelProvider.getInstance();
+	private static WardProvider wardProvider = 
+			WardProvider.getInstance();
 	
-		private static WoundType testWoundType1 = new WoundType();
+	private static WoundType testWoundType1 = new WoundType();
 	private static WoundLevel testWoundLevel1 = new WoundLevel();
-	private static Patient testPatient1 = new Patient();
 	private static Wound testWound1 = new Wound();
-	
+	private static Wound testWound2 = new Wound();
+
 	private static boolean isInitialized = false;
 	
 	static void initData() {
@@ -71,13 +74,22 @@ public class WoundManagementUI extends UI {
 		//	return;
 		//isInitialized = true;
 		
+		//empty tables
+		woundProvider.deleteAll();
+		woundLevelProvider.deleteAll();
+		woundTypeProvider.deleteAll();
+		employeeProvider.deleteAll();
+		patientProvider.deleteAll();
+		wardProvider.deleteAll();
+		
 		for (int i = 0; i < 3; i++) {
 			Ward ward = new Ward();
 			ward.setCharacterisation("Station " + (i+1));
-			WardProvider.getInstance().add(ward);
+			wardProvider.getInstance().add(ward);
 			
 			Employee testUser = new Employee();
 			testUser.setWorkingWard(ward);
+			testUser.setCurrentWard(ward);
 
 			switch (i) {
 				case 0:
@@ -125,18 +137,49 @@ public class WoundManagementUI extends UI {
 		
 		woundLevelProvider.add(testWoundLevel1);
 		
-		testPatient1.setFirstName("Doerte");
-		testPatient1.setLastName("Daeumler");
-		testPatient1.setSensoID(1);
-		testPatient1.setAccomodation('c');
-		testPatient1.setBirthday(java.sql.Date.valueOf("1956-03-12"));
-		testPatient1.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
-		testPatient1.setGender("f");
-		testPatient1.setKeyword("keyword");
-		testPatient1.setRoom("room");
-		testPatient1.setTitle("Dr.");
+		for (int i = 0; i < 3; i++) {
+
+			
+			Patient testPatient = new Patient();
+			testPatient.setSensoID(1);
+			testPatient.setAccomodation('c');
+			testPatient.setKeyword("keyword");
+			testPatient.setRoom("room");
+
+			switch (i) {
+				case 0:
+					testPatient.setFirstName("Doerte");
+					testPatient.setLastName("Daeumler");
+					testPatient.setBirthday(java.sql.Date.valueOf("1956-03-12"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
+					testPatient.setGender("f");
+					testPatient.setTitle("Dr.");
+					break;
+					
+				case 1:
+					testPatient.setFirstName("Egon");
+					testPatient.setLastName("Erhardt");
+					testPatient.setBirthday(java.sql.Date.valueOf("1957-04-13"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-12"));
+					testPatient.setGender("m");
+					testPatient.setTitle("Prof.");
+					break;
+					
+				case 2:
+					testPatient.setFirstName("Fritz");
+					testPatient.setLastName("Fischer");
+					testPatient.setBirthday(java.sql.Date.valueOf("1958-05-14"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-13"));
+					testPatient.setGender("n");
+					break;
+			}
+			
+			PatientProvider.getInstance().add(testPatient);
+		}
 		
-		patientProvider.add(testPatient1);
+		Iterator<Patient> iterator = patientProvider.getAllItems().iterator();
+		Patient firstPatient = iterator.next();
+		Patient secondPatient = iterator.next();
 		
 		testWound1.setBodyLocation("Brustbein");
 		testWound1.setBodyLocationCode(64);
@@ -152,11 +195,29 @@ public class WoundManagementUI extends UI {
 		testWound1.setSize2(2);
 		testWound1.setWoundType(testWoundType1);
 		testWound1.setWoundLevel(testWoundLevel1);
-		testWound1.setPatient(testPatient1);
+		testWound1.setPatient(firstPatient);
 		
 		woundProvider.add(testWound1);
 		
-		testPatient1.getWounds().add(testWound1);
+		testWound2.setBodyLocation("linke Wade");
+		testWound2.setBodyLocationCode(15);
+		//testWound2.setCureEmployee(firstEmployee);
+		testWound2.setDecubitusId(11);
+		testWound2.setDepth(4);
+		testWound2.setDescription("Ich bin eine Bemerkung.");
+		//testWound2.setEndDate(java.sql.Date.valueOf("2014-05-22"));
+		testWound2.setOrigination(2);
+		testWound2.setRecordingDate(java.sql.Date.valueOf("2014-04-22"));
+		testWound2.setRecordingEmployee(firstEmployee);
+		testWound2.setSize1(2);
+		testWound2.setSize2(3);
+		testWound2.setWoundType(testWoundType1);
+		testWound2.setWoundLevel(testWoundLevel1);
+		testWound2.setPatient(secondPatient);
+		
+		woundProvider.add(testWound2);
+		
+		//firstPatient.getWounds().add(testWound1);
 	}
 	// END INIT //
 

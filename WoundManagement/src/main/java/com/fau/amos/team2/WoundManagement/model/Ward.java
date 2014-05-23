@@ -12,6 +12,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Ward.findAll", query="SELECT w FROM Ward w"),
+	@NamedQuery(name="Ward.deleteAll", query="DELETE FROM Ward")
 })
 public class Ward implements BusinessObject {
 	@Id

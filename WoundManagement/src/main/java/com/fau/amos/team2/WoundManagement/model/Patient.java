@@ -10,10 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Patient.findAll", query="SELECT p FROM Patient p"),
+	@NamedQuery(name="Patient.deleteAll", query="DELETE FROM Patient")
+})
 public class Patient implements BusinessObject {
 	@Id
 	@Column(name = "NR")

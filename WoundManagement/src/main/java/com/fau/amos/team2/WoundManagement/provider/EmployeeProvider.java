@@ -147,12 +147,19 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 		
 		throw new DuplicateEmployeeException(employee.getAbbreviation());
 	}
-	
+
 	public void updateEmployee(Employee employee) {
 		EntityManager em = container.getEntityProvider().getEntityManager();
 		
 		em.getTransaction().begin();
 		em.persist(employee);
+		em.getTransaction().commit();
+	}
+	
+	public void deleteAll() {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		em.getTransaction().begin();
+		em.createNamedQuery("Employee.deleteAll").executeUpdate();
 		em.getTransaction().commit();
 	}
 }

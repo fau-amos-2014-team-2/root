@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Ward;
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
@@ -81,8 +82,7 @@ public class WardSelectionView extends NavigationView {
 
 				Ward newWard = user.getCurrentWard();
 				
-				//ueberfluessig
-				//Notification.show("Station gewechselt zu " + newWard.getCharacterisation());
+				EmployeeProvider.getInstance().update(user);
 
 				greetingLabel.setValue(MessageResources.getString("currentWardChangedTo1") //$NON-NLS-1$
 						+ " " + newWard.getCharacterisation() + " " + MessageResources.getString("currentWardChangedTo2")); //$NON-NLS-1$

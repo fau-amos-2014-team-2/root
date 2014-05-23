@@ -39,4 +39,11 @@ public class WardProvider extends ObjectProvider<Ward> {
 		TypedQuery<Ward> query = em.createNamedQuery("Ward.findAll", Ward.class);
 		return query.getResultList();
 	}
+	
+	public void deleteAll() {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		em.getTransaction().begin();
+		em.createNamedQuery("Ward.deleteAll").executeUpdate();
+		em.getTransaction().commit();
+	}
 }

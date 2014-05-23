@@ -1,17 +1,29 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.util.List;
+
+import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Label.ValueChangeEvent;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.NativeSelect;
 //added import Ward
+import com.vaadin.ui.Table.Align;
+
 
 /**
  * View to see patients of selected ward
@@ -21,82 +33,86 @@ import com.vaadin.ui.NativeSelect;
 @SuppressWarnings("serial")
 public class PatientSelectionView extends NavigationView {
 	
+	private static PatientProvider patientProvider = PatientProvider.getInstance();
+	
+	private List<Patient> allPatients;
+	private Table table;
+	private Container container;
+	private Property[][] properties;
+	
 	public PatientSelectionView() 
 	{
 		setCaption(MessageResources.getString("patientSelection"));
 		
-		CssLayout content = new CssLayout();
+		setRightComponent(new UserBar());
 		
-		NativeSelect wpview = new NativeSelect (MessageResources.getString("pleaseSelectPatient") + ": ");
+		Panel tablePanel = new Panel();
+		tablePanel.setSizeUndefined();
+		tablePanel.setImmediate(true);
 		
-		/**
-		 * the actual db-based way to go:
-		 * wpview.addItem(patients.get(ward.id) == ward.get(event.value));
-		*/
+		table = new Table();
+		table.setSelectable(true);
+		table.setImmediate(true);
 		
-		//creates six "patients"
-		for (int i=0; i<6; i++)
-		{
-			wpview.addItem(i);
-			wpview.setItemCaption(i, MessageResources.getString("patient") + " " +i);
-		}
-			
-		//a selection must occur... 
-		wpview.setNullSelectionAllowed(false);
-		//...therefore legal to set '-1' by default
-		wpview.setValue(-1);
-		wpview.setImmediate(true);
+		allPatients = patientProvider.getAllItems();
 		
-		wpview.addValueChangeListener(new ValueChangeListener() 
-		{
-            public void valueChange(final ValueChangeEvent event) 
-            {
-                final String valueString = String.valueOf(event.getProperty().getValue());
-            }
+		properties = new Property[allPatients.size()][2];
+		
+		table.addContainerProperty("name", String.class , null, MessageResources.getString("name"), null , null);
+		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
+		
+		container = table.getContainerDataSource();
+		
+		for (Patient p : allPatients){
+			table.addItem(p.getId());
+			Item item = table.getItem(p.getId());
+			properties[allPatients.indexOf(p)][0] = item.getItemProperty("name");
+			properties[allPatients.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
+			properties[allPatients.indexOf(p)][1] = item.getItemProperty("currentWounds");
+			properties[allPatients.indexOf(p)][1].setValue(p.getWounds().size());
+			container.addItem(p.getId());
+		} 
 
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) 
-			{
-				getNavigationManager().navigateTo(new WardPatientView(event.getProperty().getValue()));
-			}
-        });
+		//table.setContainerDataSource(container);
 		
-		VerticalComponentGroup box = new VerticalComponentGroup();
-		box.addComponent( new Label(MessageResources.getString("patients") + ": ") );
-		box.addComponent( wpview );
+		tablePanel.setContent(table);
+		tablePanel.getContent().setSizeUndefined();
 		
-		NavigationButton allPatientsButton = new NavigationButton(MessageResources.getString("allPatients"));
-		allPatientsButton.addClickListener(new NavigationButtonClickListener()
-		{
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) 
-			{
-				getNavigationManager().navigateTo(new PatientSelectionView());
-			}
+		table.addValueChangeListener(new Property.ValueChangeListener() {
+		    public void valueChange(ValueChangeEvent event) {
+		    	Object value = table.getValue();
+		    	if (value != null){
+		    		Patient patient = patientProvider.getByID(value);
+		    		NavigationView next = new PatientView(patient);
+		    		getNavigationManager().navigateTo(next);
+		    	}
+		    }
+
 		});
-		box.addComponent(allPatientsButton);
 		
-		content.addComponent(box);
-		setContent(content);
+		setContent(tablePanel);
 		
 	}
-
-	//Standard PatientView
-//	public PatientSelectionView()
-//	{
-//		CssLayout content = new CssLayout();
-//
-//		setCaption("Patient information");
-//		
-//		Employee e = EmployeeProvider.getInstance().getByFirstName("Adam");
-//		
-//		VerticalComponentGroup box = new VerticalComponentGroup();
-//		box.addComponent(new Label("Patient: "+ e.getFirstName() + " " + e.getLastName()));
-//		box.addComponent(new Label("username: "+ e.getAbbreviation()));
-//		
-//		content.addComponent(box);
-//		setContent(content);
-//	}
+	
+	/*
+	@Override
+	protected void onBecomingVisible() {
+	    super.onBecomingVisible();
+	    allPatients = patientProvider.getAllItems();
+	    
+	    for (Patient p : allPatients){
+	    	Item item = table.getItem(p.getId());
+			if (table.getItem(p.getId()) == null){
+				table.addItem(p.getId());
+			}
+			properties[allPatients.indexOf(p)][0] = item.getItemProperty("name");
+			properties[allPatients.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
+			properties[allPatients.indexOf(p)][1] = item.getItemProperty("currentWounds");
+			properties[allPatients.indexOf(p)][1].setValue(p.getWounds().size());
+			container.addItem(p.getId());
+		} 
+	}
+*/
 
 }
 

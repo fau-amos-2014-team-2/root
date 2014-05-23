@@ -43,7 +43,7 @@ public class StartMenuView extends NavigationView {
 		NavigationButton loginScreenButton = new NavigationButton(MessageResources.getString("login")); //$NON-NLS-1$
 		loginScreenButton.setTargetView(new UserLoginView());
 		content.addComponent(loginScreenButton);
-
+		/*
 		NavigationButton patientSelectorButton = new NavigationButton(MessageResources.getString("patientSelection")); //$NON-NLS-1$
 		patientSelectorButton.setTargetView(new PatientSelectionView());
 		content.addComponent(patientSelectorButton);
@@ -55,10 +55,10 @@ public class StartMenuView extends NavigationView {
 		NavigationButton addDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$
 		/* addDataButton.setTargetView(new NewWoundView(patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
-				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0)))); */
+				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0)))); 
 		content.addComponent(addDataButton);
-		
-		NavigationButton initializeDataButton = new NavigationButton("Initialize Data");
+		*/
+		NavigationButton initializeDataButton = new NavigationButton("For Software Developers only: initialize data");
 		initializeDataButton.addClickListener(new NavigationButtonClickListener() {
 			public void buttonClick(NavigationButtonClickEvent event) {
 				WoundManagementUI.initData();

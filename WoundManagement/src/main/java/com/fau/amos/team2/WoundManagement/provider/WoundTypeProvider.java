@@ -1,5 +1,8 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
+
 import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 
@@ -11,21 +14,28 @@ import com.fau.amos.team2.WoundManagement.model.WoundType;
  * @see com.fau.amos.team2.WoundManagement.WoundType
  * @author Stefan, Betz
  * */
-public class WoundTypeProvider<T extends BusinessObject> extends ObjectProvider<T> {
+public class WoundTypeProvider extends ObjectProvider<WoundType> {
 
-	private static WoundTypeProvider<WoundType> instance;
+	private static WoundTypeProvider instance;
 	
-	public WoundTypeProvider(Class<T> type) {
+	public WoundTypeProvider(Class<WoundType> type) {
 		super(type);
 	}
 	
 	/**
 	 * @return The instance of <code>EmployeeProvider</code> 
 	 * */
-	public static WoundTypeProvider<? extends BusinessObject> getInstance() {
+	public static WoundTypeProvider getInstance() {
 		if(instance == null) {
-			instance = new WoundTypeProvider<WoundType>(WoundType.class);
+			instance = new WoundTypeProvider(WoundType.class);
 		}
 		return instance;
+	}
+	
+	public void deleteAll() {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		em.getTransaction().begin();
+		em.createNamedQuery("WoundType.deleteAll").executeUpdate();
+		em.getTransaction().commit();
 	}
 }

@@ -223,9 +223,9 @@ public class NewWoundView extends NavigationView {
 					//setSizes - if only one size is entered it is stored to size1 as diameter
 					//         - size must be between 0 and 9999
 					try{
-						if (size1.getValue().equals("")){ //$NON-NLS-1$
+						if (size1.getValue().equals("") || size1.getValue().equals("0")){ //$NON-NLS-1$
 							wound.setSize2(0);
-							if (size2.getValue().equals("")){ //$NON-NLS-1$
+							if (size2.getValue().equals("") || size2.getValue().equals("0")){ //$NON-NLS-1$
 								wound.setSize1(0);
 							} else {
 								int size2Int = Integer.parseInt(size2.getValue());
