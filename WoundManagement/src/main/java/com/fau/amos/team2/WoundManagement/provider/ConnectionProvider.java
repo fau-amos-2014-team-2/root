@@ -50,7 +50,6 @@ public class ConnectionProvider<T extends BusinessObject> {
 	}
 	
 	private String getPassword(String configFile) { 
-		
 		BufferedReader b;
 		try {
 			b = new BufferedReader(new FileReader(configFile));
