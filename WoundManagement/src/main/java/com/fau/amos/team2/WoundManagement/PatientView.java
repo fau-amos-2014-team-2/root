@@ -37,6 +37,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	
 	private DateFormat dateFormat;
 	private Patient currentPatient;
+	private WoundManager woundManager;
 	
 	private Label typeDecubitusLabel;
 	private Label recordingDateLabel;
@@ -53,7 +54,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient) {
-		
+				
 		/*
 		// TODO: Remove the following lines after the previous view (PatientSelectionView) is passing a real patient object.
 		if (patient == null)
@@ -68,7 +69,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
 		
 		HorizontalLayout content = new HorizontalLayout();
-		WoundManager woundManager = new WoundManager(currentPatient);
+		woundManager = new WoundManager(currentPatient);
 		woundManager.addSelectedWoundChangeListener(this);
 		woundManager.addNewWoundChangeListener(this);
 		
@@ -310,4 +311,11 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 			getNavigationManager().navigateTo(new NewWoundView(currentPatient, woundPosition.getBodyLocation(), Environment.INSTANCE.getCurrentEmployee()));
 		}
 	}
+	
+	@Override
+	public void onBecomingVisible(){
+		super.onBecomingVisible();
+		getNavigationManager().setPreviousComponent(new PatientSelectionView());
+	}
+
 }

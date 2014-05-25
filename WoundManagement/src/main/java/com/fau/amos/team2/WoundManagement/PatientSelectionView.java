@@ -154,16 +154,8 @@ public class PatientSelectionView extends NavigationView {
 	protected void onBecomingVisible() {
 		super.onBecomingVisible();
 		
-		//TODO: why aren't the new wounds here? in WoundManager they are!
-		System.out.println("I'm becoming visible!");
-		List<Patient> patients = patientProvider.getAllItems();
-		System.out.println("I got so many patients: " + patients.size());
-		List<Wound> woundsOfFirst = patients.get(0).getWounds();
-		System.out.println("First patient got so many wounds: " + woundsOfFirst.size());
-		List<Wound> woundsOfSecond = patients.get(1).getWounds();
-		System.out.println("Second patient got so many wounds: " + woundsOfSecond.size());
-		List<Wound> woundsOfThird = patients.get(2).getWounds();
-		System.out.println("Third patient got so many wounds: " + woundsOfThird.size());
+		getNavigationManager().setPreviousComponent(new LoggedInView());
+
 		
 	}
 

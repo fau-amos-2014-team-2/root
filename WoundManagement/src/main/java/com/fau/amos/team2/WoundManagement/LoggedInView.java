@@ -54,14 +54,14 @@ public class LoggedInView extends NavigationView {
 		patientSelectorButton = new NavigationButton(MessageResources.getString("patientSelection")); //$NON-NLS-1$
 		patientSelectorButton.setTargetView(new PatientSelectionView());
 		mainLayout.addComponent(patientSelectorButton);
-
+		/*
 		addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$
 		addWoundDataButton.setTargetView(new NewWoundView(
 				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
 				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
-		
+		*/
 		NavigationButton wardButton = new NavigationButton(MessageResources.getString("wardView")); //$NON-NLS-1$
 		wardButton.setTargetView(new WardSelectionView());
 		mainLayout.addComponents(wardButton);
@@ -86,10 +86,12 @@ public class LoggedInView extends NavigationView {
 		super.onBecomingVisible();
 		setRightComponent(new UserBar());
 		patientSelectorButton.setTargetView(new PatientSelectionView());
+		/*
 		addWoundDataButton.setTargetView(new NewWoundView(
 				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
 				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
+		*/
 
 	}
 	

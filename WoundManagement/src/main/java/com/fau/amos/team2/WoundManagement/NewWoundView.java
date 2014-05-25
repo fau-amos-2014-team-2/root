@@ -32,6 +32,8 @@ import com.vaadin.ui.TextField;
 @SuppressWarnings("serial")
 public class NewWoundView extends NavigationView {
 
+	private Patient currentPatient;
+	
 	private static WoundProvider woundProvider = 
 			WoundProvider.getInstance();
 	private static WoundTypeProvider woundTypeProvider = 
@@ -42,6 +44,8 @@ public class NewWoundView extends NavigationView {
 	public NewWoundView(final Patient patient, BodyLocation bodyLocation, final Employee currentUser){
 				
 		setCaption(MessageResources.getString("addNewWound")); //$NON-NLS-1$
+		
+		currentPatient = patient;
 		
 		String width = "20em";
 		String halfWidth = "10em";
@@ -152,7 +156,7 @@ public class NewWoundView extends NavigationView {
 					//TODO: how to react on different inputs for Date or Number
 					wound.setDecubitusId(42);
 					wound.setSensoID(7);
-					wound.setPatient(patient);
+					wound.setPatient(currentPatient);
 					
 					//setOrigination - if none is entered, choose Origination.NULL = 0
 					if (origination.getValue() != null){
@@ -288,9 +292,9 @@ public class NewWoundView extends NavigationView {
 					
 					woundProvider.add(wound);
 					
-					patient.getWounds().add(wound);
+					currentPatient.getWounds().add(wound);
 					
-					getNavigationManager().navigateBack();
+					getNavigationManager().navigateTo(new PatientView(currentPatient));
 				
 				} catch (Exception e){
 					//should never get here actually
