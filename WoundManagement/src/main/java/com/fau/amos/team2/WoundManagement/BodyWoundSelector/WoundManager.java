@@ -16,6 +16,7 @@ public class WoundManager {
 	private WoundSelector woundSelector;
 	
 	private WoundPosition selectedWoundPosition;
+	private WoundPosition newWoundPosition;
 	private Wound selectedWound;
 	
 	public WoundManager(Patient patient) {
@@ -84,8 +85,8 @@ public class WoundManager {
 	public void setSelectedWound(Wound selectedWound) {
 		this.selectedWound = selectedWound;
 	}
-	
-	public List<SelectedWoundChangeListener> listeners = null;
+
+	public List<SelectedWoundChangeListener> selectedWoundListeners = null;
 	
 	public interface SelectedWoundChangeListener {
 		public void selectedWoundChanged(SelectedWoundChangeEvent event);
@@ -116,23 +117,74 @@ public class WoundManager {
 	}
 	
 	public void fireSelectedWoundChangeEvent() {
-		if (listeners != null) {
+		if (selectedWoundListeners != null) {
 			SelectedWoundChangeEvent event = new SelectedWoundChangeEvent(this, selectedWoundPosition, selectedWound);
-			for (SelectedWoundChangeListener listener : listeners)
+			for (SelectedWoundChangeListener listener : selectedWoundListeners)
 				listener.selectedWoundChanged(event);
 		}
 	}
 	
 	public void addSelectedWoundChangeListener(SelectedWoundChangeListener listener) {
-        if (listeners == null) {
-            listeners = new ArrayList<SelectedWoundChangeListener>();
+        if (selectedWoundListeners == null) {
+            selectedWoundListeners = new ArrayList<SelectedWoundChangeListener>();
         }
-        listeners.add(listener);
+        selectedWoundListeners.add(listener);
     }
 
     public void removeSelectedWoundChangeListener(SelectedWoundChangeListener listener) {
-        if (listeners != null) {
-            listeners.remove(listener);
+        if (selectedWoundListeners != null) {
+            selectedWoundListeners.remove(listener);
+        }
+    }
+    
+    public List<NewWoundChangeListener> newWoundListeners = null;
+	
+	public interface NewWoundChangeListener {
+		public void newWoundChanged(NewWoundChangeEvent event);
+	}
+    
+    public class NewWoundChangeEvent {
+		final WoundManager woundManager;
+		final WoundPosition woundPosition;
+		
+		public NewWoundChangeEvent(WoundManager woundManager, WoundPosition woundPosition) {
+			this.woundManager = woundManager;
+			this.woundPosition = newWoundPosition;
+		}
+
+		public WoundManager getWoundManager() {
+			return woundManager;
+		}
+
+		public WoundPosition getWoundPosition() {
+			return woundPosition;
+		}
+
+	}
+    
+    public void fireNewWoundChangeEvent() {
+		if (selectedWoundListeners != null) {
+			NewWoundChangeEvent event = new NewWoundChangeEvent(this, newWoundPosition);
+			for (NewWoundChangeListener listener : newWoundListeners)
+				listener.newWoundChanged(event);
+		}
+	}
+    
+    public void setNewWoundPosition(WoundPosition selectedWoundPosition) {
+		this.newWoundPosition = selectedWoundPosition;
+		fireNewWoundChangeEvent();
+	}
+    
+    public void addNewWoundChangeListener(NewWoundChangeListener listener) {
+        if (newWoundListeners == null) {
+            newWoundListeners = new ArrayList<NewWoundChangeListener>();
+        }
+        newWoundListeners.add(listener);
+    }
+
+    public void removeNewWoundChangeListener(NewWoundChangeListener listener) {
+        if (newWoundListeners != null) {
+            newWoundListeners.remove(listener);
         }
     }
 }

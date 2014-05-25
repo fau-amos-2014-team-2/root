@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.NewWoundChangeEvent;
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.NewWoundChangeListener;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeEvent;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundPosition;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeListener;
@@ -11,6 +13,7 @@ import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
@@ -29,10 +32,11 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author ???
  */
-public class PatientView extends NavigationView implements SelectedWoundChangeListener {
+public class PatientView extends NavigationView implements SelectedWoundChangeListener, NewWoundChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
 	private DateFormat dateFormat;
+	private Patient currentPatient;
 	
 	private Label typeDecubitusLabel;
 	private Label recordingDateLabel;
@@ -57,13 +61,16 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		// End of code to remove
 		*/
 		
+		this.currentPatient = patient;
+		
 		setRightComponent(new UserBar());
 		
 		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
 		
 		HorizontalLayout content = new HorizontalLayout();
-		WoundManager woundManager = new WoundManager(patient);
+		WoundManager woundManager = new WoundManager(currentPatient);
 		woundManager.addSelectedWoundChangeListener(this);
+		woundManager.addNewWoundChangeListener(this);
 		
 		VerticalLayout rightContent = new VerticalLayout();
 		rightContent.setSpacing(true);
@@ -140,9 +147,9 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
-		if (!patient.getWounds().isEmpty()){
+		if (!currentPatient.getWounds().isEmpty()){
 
-			Wound wound = patient.getWounds().iterator().next();
+			Wound wound = currentPatient.getWounds().iterator().next();
 				
 			this.setAllFields(wound);		
 		}
@@ -170,16 +177,6 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		setContent(content);
 	}
 
-	@Override
-	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
-		Wound selectedWound = event.getWound();
-		if (selectedWound != null) {
-			this.setAllFields(selectedWound);		
-		}
-		else {
-			this.emptyAllFields();
-		}
-	}
 	
 	private void setAllFields(Wound wound){
 		this.setTypeDecubitusLabel(wound);
@@ -292,5 +289,25 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	
 	private void setDescriptionLabel(Wound wound){
 		descriptionLabel.setValue(wound.getDescription());
+	}
+	
+
+	@Override
+	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
+		Wound selectedWound = event.getWound();
+		if (selectedWound != null) {
+			this.setAllFields(selectedWound);		
+		}
+		else {
+			this.emptyAllFields();
+		}
+	}
+	
+	@Override
+	public void newWoundChanged(NewWoundChangeEvent event) {
+		WoundPosition woundPosition = event.getWoundPosition();
+		if (woundPosition != null){
+			getNavigationManager().navigateTo(new NewWoundView(currentPatient, woundPosition.getBodyLocation(), Environment.INSTANCE.getCurrentEmployee()));
+		}
 	}
 }
