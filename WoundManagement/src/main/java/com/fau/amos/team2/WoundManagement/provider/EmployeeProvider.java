@@ -140,6 +140,12 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 		return null;
 	}
 	
+	public void updateEmployeeWardManually(Employee employee){
+		Employee databaseEmployee = this.getEmployeeByUsername(employee.getAbbreviation());
+		databaseEmployee.setCurrentWard(employee.getCurrentWard());
+		this.update(databaseEmployee);
+	}
+	
 	public void createEmployee(Employee employee) throws DuplicateEmployeeException {
 		if (getEmployeeByUsername(employee.getAbbreviation()) == null) {
 			add(employee);

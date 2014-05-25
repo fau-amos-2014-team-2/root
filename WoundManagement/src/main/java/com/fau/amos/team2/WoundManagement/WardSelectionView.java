@@ -82,7 +82,8 @@ public class WardSelectionView extends NavigationView {
 
 				Ward newWard = user.getCurrentWard();
 				
-				EmployeeProvider.getInstance().update(user);
+				//TODO: why is update not working?
+				EmployeeProvider.getInstance().updateEmployeeWardManually(user);
 
 				greetingLabel.setValue(MessageResources.getString("currentWardChangedTo1") //$NON-NLS-1$
 						+ " " + newWard.getCharacterisation() + " " + MessageResources.getString("currentWardChangedTo2")); //$NON-NLS-1$

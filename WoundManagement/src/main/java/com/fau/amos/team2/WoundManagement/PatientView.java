@@ -49,10 +49,13 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient) {
+		
+		/*
 		// TODO: Remove the following lines after the previous view (PatientSelectionView) is passing a real patient object.
 		if (patient == null)
 			patient = PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().firstItemId());
 		// End of code to remove
+		*/
 		
 		setRightComponent(new UserBar());
 		

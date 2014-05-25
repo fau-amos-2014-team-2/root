@@ -48,26 +48,11 @@ public class LoggedInView extends NavigationView {
 		greetingLable.setValue(MessageResources.getString("hi") + ", " //$NON-NLS-1$
 				+ user.getFirstName() + " " + user.getLastName()); //$NON-NLS-1$
 		mainLayout.addComponent(greetingLable);
-		/*
-		NavigationButton changePasswordButton = new NavigationButton(MessageResources.getString("changePIN")); //$NON-NLS-1$
-		changePasswordButton.setTargetView(new UserPasswordView());
-		mainLayout.addComponent(changePasswordButton);
-		 */
+
 		NavigationButton patientSelectorButton = new NavigationButton(MessageResources.getString("patientSelection")); //$NON-NLS-1$
 		patientSelectorButton.setTargetView(new PatientSelectionView());
 		mainLayout.addComponent(patientSelectorButton);
-		/*
-        NavigationButton pictureButton = new NavigationButton(MessageResources.getString("patientView")); //$NON-NLS-1$
-		pictureButton.addClickListener(new NavigationButtonClickListener() {
-			
-			@Override
-			public void buttonClick(NavigationButtonClickEvent event) {
-				PatientView patientView = new PatientView(null);
-				getNavigationManager().navigateTo(patientView);
-			}
-		});
-		mainLayout.addComponent(pictureButton);
-		 */
+
 		NavigationButton addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$
 		addWoundDataButton.setTargetView(new NewWoundView(
 				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 

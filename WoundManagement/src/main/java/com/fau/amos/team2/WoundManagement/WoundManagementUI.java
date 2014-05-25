@@ -85,7 +85,7 @@ public class WoundManagementUI extends UI {
 		for (int i = 0; i < 3; i++) {
 			Ward ward = new Ward();
 			ward.setCharacterisation("Station " + (i+1));
-			wardProvider.getInstance().add(ward);
+			wardProvider.add(ward);
 			
 			Employee testUser = new Employee();
 			testUser.setWorkingWard(ward);
@@ -116,6 +116,45 @@ public class WoundManagementUI extends UI {
 			}
 			
 			EmployeeProvider.getInstance().add(testUser);
+			
+			Patient testPatient = new Patient();
+			testPatient.setSensoID(1);
+			testPatient.setAccomodation('c');
+			testPatient.setKeyword("keyword");
+			testPatient.setRoom("room");
+
+			switch (i) {
+				case 0:
+					testPatient.setFirstName("Doerte");
+					testPatient.setLastName("Daeumler");
+					testPatient.setBirthday(java.sql.Date.valueOf("1956-03-12"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
+					testPatient.setGender("f");
+					testPatient.setTitle("Dr.");
+					testPatient.setWard(ward);
+					break;
+					
+				case 1:
+					testPatient.setFirstName("Egon");
+					testPatient.setLastName("Erhardt");
+					testPatient.setBirthday(java.sql.Date.valueOf("1957-04-13"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-12"));
+					testPatient.setGender("m");
+					testPatient.setTitle("Prof.");
+					testPatient.setWard(ward);
+					break;
+					
+				case 2:
+					testPatient.setFirstName("Fritz");
+					testPatient.setLastName("Fischer");
+					testPatient.setBirthday(java.sql.Date.valueOf("1958-05-14"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-13"));
+					testPatient.setGender("n");
+					testPatient.setWard(ward);
+					break;
+			}
+			
+			PatientProvider.getInstance().add(testPatient);
 		}
 		
 		Employee firstEmployee = employeeProvider.getAllItems().iterator().next();
@@ -136,46 +175,6 @@ public class WoundManagementUI extends UI {
 		testWoundLevel1.setWoundType(testWoundType1);
 		
 		woundLevelProvider.add(testWoundLevel1);
-		
-		for (int i = 0; i < 3; i++) {
-
-			
-			Patient testPatient = new Patient();
-			testPatient.setSensoID(1);
-			testPatient.setAccomodation('c');
-			testPatient.setKeyword("keyword");
-			testPatient.setRoom("room");
-
-			switch (i) {
-				case 0:
-					testPatient.setFirstName("Doerte");
-					testPatient.setLastName("Daeumler");
-					testPatient.setBirthday(java.sql.Date.valueOf("1956-03-12"));
-					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
-					testPatient.setGender("f");
-					testPatient.setTitle("Dr.");
-					break;
-					
-				case 1:
-					testPatient.setFirstName("Egon");
-					testPatient.setLastName("Erhardt");
-					testPatient.setBirthday(java.sql.Date.valueOf("1957-04-13"));
-					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-12"));
-					testPatient.setGender("m");
-					testPatient.setTitle("Prof.");
-					break;
-					
-				case 2:
-					testPatient.setFirstName("Fritz");
-					testPatient.setLastName("Fischer");
-					testPatient.setBirthday(java.sql.Date.valueOf("1958-05-14"));
-					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-13"));
-					testPatient.setGender("n");
-					break;
-			}
-			
-			PatientProvider.getInstance().add(testPatient);
-		}
 		
 		Iterator<Patient> iterator = patientProvider.getAllItems().iterator();
 		Patient firstPatient = iterator.next();
@@ -217,15 +216,14 @@ public class WoundManagementUI extends UI {
 		
 		woundProvider.add(testWound2);
 		
-		//firstPatient.getWounds().add(testWound1);
 	}
 	// END INIT //
 
 	@Override
 	protected void init(VaadinRequest request) {	
 		Locale currentLocale;
-		currentLocale = Locale.GERMAN;
-		//currentLocale = Locale.ENGLISH;
+		//currentLocale = Locale.GERMAN;
+		currentLocale = Locale.ENGLISH;
 
 		MessageResources.setLocale(currentLocale);
 

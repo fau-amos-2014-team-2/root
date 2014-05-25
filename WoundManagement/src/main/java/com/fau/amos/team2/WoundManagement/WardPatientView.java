@@ -19,7 +19,8 @@ import com.vaadin.ui.NativeSelect;
  */
 @SuppressWarnings("serial")
 public class WardPatientView<event> extends NavigationView {
-	
+	//TODO: delete if not needed anymore
+	/*
 	public WardPatientView(event id) 
 	{
 		CssLayout content = new CssLayout();
@@ -72,5 +73,5 @@ public class WardPatientView<event> extends NavigationView {
 		content.addComponent(box);
 		setContent(content);
 	}
-
+	 */
 }

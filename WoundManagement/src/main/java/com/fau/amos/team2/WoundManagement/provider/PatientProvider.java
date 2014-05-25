@@ -1,11 +1,13 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Ward;
 
 /**
  * <code>PatientProvider</code> manages the access to the
@@ -44,5 +46,20 @@ public class PatientProvider extends ObjectProvider<Patient> {
 		em.getTransaction().begin();
 		em.createNamedQuery("Patient.deleteAll").executeUpdate();
 		em.getTransaction().commit();
+	}
+	
+	public List<Patient> getPatientsOfWard(Ward ward){
+		List<Patient> patientsOfWard = new ArrayList<Patient>();
+		if (ward != null){
+			List<Patient> allPatients = this.getAllItems();
+			for (Patient p : allPatients){
+				if (p.getWard() != null){
+					if ((ward.getId()) == (p.getWard().getId())){
+						patientsOfWard.add(p);
+					}	
+				}
+			}
+		}
+		return patientsOfWard;
 	}
 }

@@ -2,7 +2,11 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.util.List;
 
+import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Ward;
+import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
@@ -18,6 +22,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.NativeSelect;
@@ -36,15 +41,32 @@ public class PatientSelectionView extends NavigationView {
 	private static PatientProvider patientProvider = PatientProvider.getInstance();
 	
 	private List<Patient> allPatients;
+	private List<Patient> patientsOfWard;
+	private List<Patient> patientsForTable;
 	private Table table;
 	private Container container;
-	private Property[][] properties;
+	private Property[][] propertiesOfWard;
+	private Property[][] allProperties;
+	private Property[][] propertiesForTable;
 	
 	public PatientSelectionView() 
 	{
 		setCaption(MessageResources.getString("patientSelection"));
 		
+		Ward currentWard = Environment.INSTANCE.getCurrentEmployee().getCurrentWard();
+		
 		setRightComponent(new UserBar());
+		
+		VerticalComponentGroup verticalGroup = new VerticalComponentGroup();
+		final OptionGroup optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
+		optionGroup.addItem("patientsOfWard");
+		optionGroup.setItemCaption("patientsOfWard", MessageResources.getString("patientsOfWard"));
+		optionGroup.addItem("allPatients");
+		optionGroup.setItemCaption("allPatients", MessageResources.getString("allPatients"));
+		optionGroup.setImmediate(true);
+		optionGroup.setValue("patientsOfWard");
+		optionGroup.setMultiSelect(false);
+		optionGroup.setNullSelectionAllowed(false);
 		
 		Panel tablePanel = new Panel();
 		tablePanel.setSizeUndefined();
@@ -55,25 +77,29 @@ public class PatientSelectionView extends NavigationView {
 		table.setImmediate(true);
 		
 		allPatients = patientProvider.getAllItems();
+		allProperties = new Property[allPatients.size()][2];
+		patientsOfWard = patientProvider.getPatientsOfWard(currentWard);
+		propertiesOfWard = new Property[patientsOfWard.size()][2];
 		
-		properties = new Property[allPatients.size()][2];
+		patientsForTable = patientsOfWard;
+		propertiesForTable = propertiesOfWard;
 		
 		table.addContainerProperty("name", String.class , null, MessageResources.getString("name"), null , null);
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		
+		table.setColumnWidth("name", 500);
+		
 		container = table.getContainerDataSource();
 		
-		for (Patient p : allPatients){
+		for (Patient p : patientsForTable){
 			table.addItem(p.getId());
 			Item item = table.getItem(p.getId());
-			properties[allPatients.indexOf(p)][0] = item.getItemProperty("name");
-			properties[allPatients.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
-			properties[allPatients.indexOf(p)][1] = item.getItemProperty("currentWounds");
-			properties[allPatients.indexOf(p)][1].setValue(p.getWounds().size());
+			propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
+			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
+			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
+			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
 			container.addItem(p.getId());
 		} 
-
-		//table.setContainerDataSource(container);
 		
 		tablePanel.setContent(table);
 		tablePanel.getContent().setSizeUndefined();
@@ -90,29 +116,56 @@ public class PatientSelectionView extends NavigationView {
 
 		});
 		
-		setContent(tablePanel);
+		optionGroup.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if (optionGroup.getValue().equals("allPatients")){
+					patientsForTable = allPatients;
+					propertiesForTable = allProperties;
+				} else {
+					patientsForTable = patientsOfWard;
+					propertiesForTable = propertiesOfWard;
+				}
+				
+				container.removeAllItems();
+				
+				for (Patient p : patientsForTable){
+					table.addItem(p.getId());
+					Item item = table.getItem(p.getId());
+					propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
+					propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
+					propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
+					propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
+					container.addItem(p.getId());
+				} 
+			}
+			
+		});
+		
+		verticalGroup.addComponent(optionGroup);
+		verticalGroup.addComponent(tablePanel);
+		
+		setContent(verticalGroup);
 		
 	}
-	
-	/*
+
 	@Override
 	protected void onBecomingVisible() {
-	    super.onBecomingVisible();
-	    allPatients = patientProvider.getAllItems();
-	    
-	    for (Patient p : allPatients){
-	    	Item item = table.getItem(p.getId());
-			if (table.getItem(p.getId()) == null){
-				table.addItem(p.getId());
-			}
-			properties[allPatients.indexOf(p)][0] = item.getItemProperty("name");
-			properties[allPatients.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
-			properties[allPatients.indexOf(p)][1] = item.getItemProperty("currentWounds");
-			properties[allPatients.indexOf(p)][1].setValue(p.getWounds().size());
-			container.addItem(p.getId());
-		} 
+		super.onBecomingVisible();
+		
+		//TODO: why aren't the new wounds here? in WoundManager they are!
+		System.out.println("I'm becoming visible!");
+		List<Patient> patients = patientProvider.getAllItems();
+		System.out.println("I got so many patients: " + patients.size());
+		List<Wound> woundsOfFirst = patients.get(0).getWounds();
+		System.out.println("First patient got so many wounds: " + woundsOfFirst.size());
+		List<Wound> woundsOfSecond = patients.get(1).getWounds();
+		System.out.println("Second patient got so many wounds: " + woundsOfSecond.size());
+		List<Wound> woundsOfThird = patients.get(2).getWounds();
+		System.out.println("Third patient got so many wounds: " + woundsOfThird.size());
+		
 	}
-*/
 
 }
 
