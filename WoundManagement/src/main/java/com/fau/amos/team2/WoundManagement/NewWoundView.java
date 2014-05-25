@@ -3,6 +3,8 @@ package com.fau.amos.team2.WoundManagement;
 import java.util.Collection;
 import java.util.Date;
 
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Origination;
@@ -15,6 +17,7 @@ import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -30,7 +33,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
-public class NewWoundView extends NavigationView {
+public class NewWoundView extends NavigationView implements WardChangeListener{
 
 	private Patient currentPatient;
 	
@@ -44,6 +47,8 @@ public class NewWoundView extends NavigationView {
 	public NewWoundView(final Patient patient, BodyLocation bodyLocation, final Employee currentUser){
 				
 		setCaption(MessageResources.getString("addNewWound")); //$NON-NLS-1$
+		
+		setRightComponent(new UserBar(this));
 		
 		currentPatient = patient;
 		
@@ -320,6 +325,11 @@ public class NewWoundView extends NavigationView {
 		layout.addComponent(buttons);
 		
 		setContent(layout);
+	}
+
+	@Override
+	public void wardChanged(WardChangeEvent event) {
+		getNavigationManager().setPreviousComponent(new PatientView(currentPatient));
 	}
 
 }

@@ -3,6 +3,8 @@ package com.fau.amos.team2.WoundManagement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.NewWoundChangeEvent;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.NewWoundChangeListener;
@@ -32,7 +34,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author ???
  */
-public class PatientView extends NavigationView implements SelectedWoundChangeListener, NewWoundChangeListener {
+public class PatientView extends NavigationView implements SelectedWoundChangeListener, NewWoundChangeListener, WardChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
 	private DateFormat dateFormat;
@@ -64,7 +66,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		
 		this.currentPatient = patient;
 		
-		setRightComponent(new UserBar());
+		setRightComponent(new UserBar(this));
 		
 		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
 		
@@ -315,6 +317,12 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	@Override
 	public void onBecomingVisible(){
 		super.onBecomingVisible();
+		getNavigationManager().setPreviousComponent(new PatientSelectionView());
+	}
+
+
+	@Override
+	public void wardChanged(WardChangeEvent event) {
 		getNavigationManager().setPreviousComponent(new PatientSelectionView());
 	}
 

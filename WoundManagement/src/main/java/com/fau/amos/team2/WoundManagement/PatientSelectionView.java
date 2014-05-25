@@ -2,6 +2,8 @@ package com.fau.amos.team2.WoundManagement;
 
 import java.util.List;
 
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
@@ -36,7 +38,7 @@ import com.vaadin.ui.Table.Align;
  * @param <event>
  */
 @SuppressWarnings("serial")
-public class PatientSelectionView extends NavigationView {
+public class PatientSelectionView extends NavigationView implements WardChangeListener{
 	
 	private static PatientProvider patientProvider = PatientProvider.getInstance();
 	
@@ -49,16 +51,18 @@ public class PatientSelectionView extends NavigationView {
 	private Property[][] allProperties;
 	private Property[][] propertiesForTable;
 	
+	private OptionGroup optionGroup;
+	
 	public PatientSelectionView() 
 	{
 		setCaption(MessageResources.getString("patientSelection"));
 		
 		Ward currentWard = Environment.INSTANCE.getCurrentEmployee().getCurrentWard();
 		
-		setRightComponent(new UserBar());
+		setRightComponent(new UserBar(this));
 		
 		VerticalComponentGroup verticalGroup = new VerticalComponentGroup();
-		final OptionGroup optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
+		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
 		optionGroup.addItem("patientsOfWard");
 		optionGroup.setItemCaption("patientsOfWard", MessageResources.getString("patientsOfWard"));
 		optionGroup.addItem("allPatients");
@@ -157,6 +161,34 @@ public class PatientSelectionView extends NavigationView {
 		getNavigationManager().setPreviousComponent(new LoggedInView());
 
 		
+	}
+
+	@Override
+	public void wardChanged(WardChangeEvent event) {
+		if (event.getWard() != null){
+			patientsOfWard = patientProvider.getPatientsOfWard(event.getWard());
+			propertiesOfWard = new Property[patientsOfWard.size()][2];
+			
+			if (optionGroup.getValue().equals("allPatients")){
+				patientsForTable = allPatients;
+				propertiesForTable = allProperties;
+			} else {
+				patientsForTable = patientsOfWard;
+				propertiesForTable = propertiesOfWard;
+			}
+			
+			container.removeAllItems();
+			
+			for (Patient p : patientsForTable){
+				table.addItem(p.getId());
+				Item item = table.getItem(p.getId());
+				propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
+				propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
+				propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
+				propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
+				container.addItem(p.getId());
+			} 
+		}
 	}
 
 }

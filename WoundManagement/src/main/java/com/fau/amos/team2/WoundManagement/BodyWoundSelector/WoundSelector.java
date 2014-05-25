@@ -99,16 +99,16 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		int yPosition = event.getRelativeY();
 
 		// Uncomment the following line so show clicked position coordinates.
-		Notification.show("X " + xPosition + " Y " + yPosition);
+		//Notification.show("X " + xPosition + " Y " + yPosition);
 
 		// Get the wound at this position
 		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(xPosition, yPosition);
-		Notification.show("hello");
+		//Notification.show("hello");
 		
 		if (woundPosition != null) {
 			selectedWoundPosition = woundPosition;
 			existingWoundSelected = woundManager.hasWoundAtPosition(selectedWoundPosition);
-			Notification.show("set selec");
+			//Notification.show("set selec");
 			if (existingWoundSelected){
 				woundManager.setSelectedWoundPosition(selectedWoundPosition);
 			} else {

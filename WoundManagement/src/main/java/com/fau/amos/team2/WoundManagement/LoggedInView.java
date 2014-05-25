@@ -1,5 +1,7 @@
 package com.fau.amos.team2.WoundManagement;
 
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
@@ -23,7 +25,7 @@ import com.vaadin.ui.UI;
  * @author ???
  */
 @SuppressWarnings("serial")
-public class LoggedInView extends NavigationView {
+public class LoggedInView extends NavigationView implements WardChangeListener{
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -38,7 +40,7 @@ public class LoggedInView extends NavigationView {
  * @author ???
  */
 	public LoggedInView() {
-		setRightComponent(new UserBar());
+		setRightComponent(new UserBar(this));
 		
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 
@@ -61,11 +63,11 @@ public class LoggedInView extends NavigationView {
 				BodyLocation.BRUSTBEIN, 
 				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
 		mainLayout.addComponent(addWoundDataButton);
-		*/
+		
 		NavigationButton wardButton = new NavigationButton(MessageResources.getString("wardView")); //$NON-NLS-1$
 		wardButton.setTargetView(new WardSelectionView());
 		mainLayout.addComponents(wardButton);
-
+		*/
 		NavigationButton logoutButton = new NavigationButton(MessageResources.getString("logout")); //$NON-NLS-1$
 		logoutButton.addClickListener(new NavigationButtonClickListener() {
 
@@ -84,7 +86,7 @@ public class LoggedInView extends NavigationView {
 	@Override
 	protected void onBecomingVisible() {
 		super.onBecomingVisible();
-		setRightComponent(new UserBar());
+		setRightComponent(new UserBar(this));
 		patientSelectorButton.setTargetView(new PatientSelectionView());
 		/*
 		addWoundDataButton.setTargetView(new NewWoundView(
@@ -93,6 +95,12 @@ public class LoggedInView extends NavigationView {
 				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
 		*/
 
+	}
+
+	@Override
+	public void wardChanged(WardChangeEvent event) {
+		System.out.println("WardEvent received in LoggedInView");
+		patientSelectorButton.setTargetView(new PatientSelectionView());
 	}
 	
 }
