@@ -93,12 +93,15 @@ public class WardSelectionView extends NavigationView {
 
 		mainLayout.addComponent(wardGroup);
 		
+		/*
 		/*natuerlich kann man jederzeit mit Hilfe der auto-back-Funktion zurueckgehen, 
 		 * erreicht dann aber einen veralteten LoggedInView, in dem noch nicht die -veraenderte- 
 		 * Station angezeigt wird. Problematisch ist dabei, dass die Station aber geandert ist, nur 
 		 * die anzeige veraltet (s.o.). Mit Hilfe dieses Buttons erreicht man einen refreshten LoggedInView, 
 		 * in dem die aktuelle Station angezeigt wird.
-		 */
+		
+		 SHOULD BE FIXED
+		 
 		NavigationButton zurueck = new NavigationButton(MessageResources.getString("back")); //$NON-NLS-1$
 		zurueck.addClickListener(new NavigationButtonClickListener() {
 			@Override
@@ -108,6 +111,9 @@ public class WardSelectionView extends NavigationView {
 		});
 		
 		mainLayout.addComponent(zurueck);
+		
+		*/ 
+		
 		setContent(mainLayout);
 	}
 }

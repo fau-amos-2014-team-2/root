@@ -30,6 +30,8 @@ public class LoggedInView extends NavigationView {
 	private EmployeeProvider employeeProvider = EmployeeProvider.getInstance();
 	private PatientProvider patientProvider = 
 			PatientProvider.getInstance();
+	private NavigationButton patientSelectorButton;
+	private NavigationButton addWoundDataButton;
 	
 	/**
  * The View that is shown, if a user has successfully logged in
@@ -49,11 +51,11 @@ public class LoggedInView extends NavigationView {
 				+ user.getFirstName() + " " + user.getLastName()); //$NON-NLS-1$
 		mainLayout.addComponent(greetingLable);
 
-		NavigationButton patientSelectorButton = new NavigationButton(MessageResources.getString("patientSelection")); //$NON-NLS-1$
+		patientSelectorButton = new NavigationButton(MessageResources.getString("patientSelection")); //$NON-NLS-1$
 		patientSelectorButton.setTargetView(new PatientSelectionView());
 		mainLayout.addComponent(patientSelectorButton);
 
-		NavigationButton addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$
+		addWoundDataButton = new NavigationButton(MessageResources.getString("addNewWound")); //$NON-NLS-1$
 		addWoundDataButton.setTargetView(new NewWoundView(
 				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
 				BodyLocation.BRUSTBEIN, 
@@ -78,4 +80,17 @@ public class LoggedInView extends NavigationView {
 		setContent(mainLayout);
 
 	}
+
+	@Override
+	protected void onBecomingVisible() {
+		super.onBecomingVisible();
+		setRightComponent(new UserBar());
+		patientSelectorButton.setTargetView(new PatientSelectionView());
+		addWoundDataButton.setTargetView(new NewWoundView(
+				patientProvider.getByID(patientProvider.getAll().getIdByIndex(0)), 
+				BodyLocation.BRUSTBEIN, 
+				employeeProvider.getByID(employeeProvider.getAll().getIdByIndex(0))));
+
+	}
+	
 }
