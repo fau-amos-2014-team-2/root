@@ -32,12 +32,12 @@ import com.vaadin.ui.TextField;
 @SuppressWarnings("serial")
 public class NewWoundView extends NavigationView {
 
-	private static WoundProvider<Wound> woundProvider = 
-			(WoundProvider<Wound>) WoundProvider.getInstance();
-	private static WoundTypeProvider<WoundType> woundTypeProvider = 
-			(WoundTypeProvider<WoundType>) WoundTypeProvider.getInstance();
-	private static WoundLevelProvider<WoundLevel> woundLevelProvider = 
-			(WoundLevelProvider<WoundLevel>) WoundLevelProvider.getInstance();
+	private static WoundProvider woundProvider = 
+			WoundProvider.getInstance();
+	private static WoundTypeProvider woundTypeProvider = 
+			WoundTypeProvider.getInstance();
+	private static WoundLevelProvider woundLevelProvider = 
+			WoundLevelProvider.getInstance();
 	
 	public NewWoundView(final Patient patient, BodyLocation bodyLocation, final Employee currentUser){
 				
