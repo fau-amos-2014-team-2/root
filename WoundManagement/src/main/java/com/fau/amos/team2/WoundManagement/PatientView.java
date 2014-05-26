@@ -14,7 +14,6 @@ import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -63,7 +62,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		rightContent.addComponent(patientNameLabel);
 		
 		if (selectedWound != null) {
-			rightContent.addComponent(new ExistingWound(selectedWound));
+			rightContent.addComponent(new ExistingWound(this, selectedWound));
 		}
 		else if (event.getWoundPosition() != null) {
 			rightContent.addComponent(new NewWound(this, currentPatient, event.getWoundPosition().getBodyLocation()));
@@ -90,6 +89,10 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		else {
 			woundManager.setSelectedWound(null);
 		}
+	}
+	
+	public Patient getPatient(){
+		return currentPatient;
 	}
 
 }

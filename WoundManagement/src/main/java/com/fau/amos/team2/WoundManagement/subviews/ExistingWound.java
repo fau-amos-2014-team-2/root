@@ -1,13 +1,15 @@
+
 package com.fau.amos.team2.WoundManagement.subviews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import com.fau.amos.team2.WoundManagement.PatientView;
+import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -19,6 +21,7 @@ public class ExistingWound extends VerticalLayout {
 	private static final long serialVersionUID = 4222621457384471453L;
 	
 	private Wound wound;
+	private PatientView parentView;
 
 	private DateFormat dateFormat;
 	
@@ -35,8 +38,10 @@ public class ExistingWound extends VerticalLayout {
 	private Label originationLabel;
 	private Label descriptionLabel;
 
-	public ExistingWound(Wound wound) {
+	@SuppressWarnings("serial")
+	public ExistingWound(PatientView patientView, Wound wound) {
 		this.wound = wound;
+		this.parentView = patientView;
 		
 		setSpacing(true);
 		HorizontalLayout woundDataContent = new HorizontalLayout();
@@ -122,7 +127,7 @@ public class ExistingWound extends VerticalLayout {
 		addWoundDescription.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(parentView.getPatient()));
 			}
 		});
 		
@@ -145,21 +150,6 @@ public class ExistingWound extends VerticalLayout {
 		this.setDepthLabel();
 		this.setOriginationLabel();
 		this.setDescriptionLabel();
-	}
-	
-	private void emptyAllFields(){
-		typeDecubitusLabel.setValue("");
-		recordingDateLabel.setValue("");
-		recordingEmployeeLabel.setValue("");
-		endDateLabel.setValue("");
-		cureEmployeeLabel.setValue("");
-		bodyLocationCodeLabel.setValue("");
-		bodyLocationLabel.setValue("");
-		woundLevelLabel.setValue("");
-		sizeLabel.setValue("");
-		depthLabel.setValue("");
-		originationLabel.setValue("");			
-		descriptionLabel.setValue("");
 	}
 	
 	private void setTypeDecubitusLabel(){
