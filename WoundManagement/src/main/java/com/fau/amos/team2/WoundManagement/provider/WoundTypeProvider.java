@@ -1,9 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 
-import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 
 /**

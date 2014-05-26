@@ -12,7 +12,6 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
@@ -155,11 +154,6 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
-					//TODO: where does the DecubitusId come from?
-					//TODO: what is SensoID? Do I need it?
-					//TODO: BodyLocation or BodyLocationCode required?
-					//TODO: how to react on different inputs for Date or Number
-					wound.setDecubitusId(42);
 					wound.setSensoID(7);
 					wound.setPatient(currentPatient);
 					

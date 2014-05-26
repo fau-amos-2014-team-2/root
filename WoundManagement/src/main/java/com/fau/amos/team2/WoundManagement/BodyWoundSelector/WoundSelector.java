@@ -44,11 +44,12 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		this.woundManager = woundManager;
 
 		Image backgroundImage;
-		if (sex == Sex.FEMALE)
+		
+		/* if (sex == Sex.FEMALE)
 			backgroundImage = getImage(BODY_IMAGE_FEMALE);
 		else if (sex == Sex.MALE)
 			backgroundImage = getImage(BODY_IMAGE_MALE);
-		else
+		else */
 			backgroundImage = getImage(BODY_IMAGE);
 
 		backgroundImage.addClickListener(this);

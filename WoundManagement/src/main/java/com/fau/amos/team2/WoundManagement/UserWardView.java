@@ -55,8 +55,7 @@ public class UserWardView extends Popover {
 				Ward newWard = (Ward) wardGroup.getValue();
 				user.setCurrentWard(newWard);
 				
-				//TODO: why is update not working?
-				employeeProvider.updateEmployeeWardManually(user);
+				employeeProvider.update(user);
 				
 				Notification.show(MessageResources.getString("currentWardChangedTo1")
 						+  newWard.getCharacterisation()

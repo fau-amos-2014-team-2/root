@@ -1,17 +1,11 @@
 package com.fau.amos.team2.WoundManagement;
 
-import com.fau.amos.team2.WoundManagement.model.Patient;
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.Environment;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 
 /**
  * View to see the StartMenu
@@ -20,11 +14,6 @@ import com.vaadin.ui.Label;
 public class StartMenuView extends NavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
-	private static EmployeeProvider employeeProvider = 
-			EmployeeProvider.getInstance();
-	private static PatientProvider patientProvider = 
-			PatientProvider.getInstance();
-	
 	/**
 	 * Creates an instance of StartMenuView
 	 * 

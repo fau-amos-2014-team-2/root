@@ -63,8 +63,8 @@ public class UserPasswordView extends Popover {
 								//set new password
 								try {
 									Integer newPasswordInt = Integer.parseInt(newPassword);
-									user.setQualificationNumber(newPasswordInt);
-									EmployeeProvider.getInstance().updateEmployee(user);
+									user.setPdaCode("" + newPasswordInt);
+									EmployeeProvider.getInstance().update(user);
 									close();
 								} catch (NumberFormatException e){
 									Notification.show(MessageResources.getString("newPINException")); //$NON-NLS-1$
@@ -101,14 +101,5 @@ public class UserPasswordView extends Popover {
 
 		setContent(layout);
 
-	}
-
-	private static boolean isNumeric(String str)
-	{
-	    for (char c : str.toCharArray())
-	    {
-	        if (!Character.isDigit(c)) return false;
-	    }
-	    return true;
 	}
 }

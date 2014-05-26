@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Sex;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
@@ -26,17 +27,12 @@ import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
-import com.fau.amos.team2.WoundManagement.provider.exceptions.DuplicateEmployeeException;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * The UI's "main" class
@@ -66,14 +62,7 @@ public class WoundManagementUI extends UI {
 	private static Wound testWound1 = new Wound();
 	private static Wound testWound2 = new Wound();
 
-	private static boolean isInitialized = false;
-	
 	static void initData() {
-		// curiosly breaks the connection
-		//if(isInitialized)
-		//	return;
-		//isInitialized = true;
-		
 		//empty tables
 		woundProvider.deleteAll();
 		woundLevelProvider.deleteAll();
@@ -96,14 +85,14 @@ public class WoundManagementUI extends UI {
 					testUser.setFirstName("Adam");
 					testUser.setLastName("Arbeit");
 					testUser.setAbbreviation("testuser1");
-					testUser.setQualificationNumber(1111);
+					testUser.setPdaCode("1111");
 					break;
 					
 				case 1:
 					testUser.setFirstName("Bernd");
 					testUser.setLastName("Bond");
 					testUser.setAbbreviation("testuser2");
-					testUser.setQualificationNumber(2222);
+					testUser.setPdaCode("2222");
 					testUser.setWorkingWard(ward);
 					break;
 					
@@ -111,7 +100,7 @@ public class WoundManagementUI extends UI {
 					testUser.setFirstName("Christina");
 					testUser.setLastName("Charles");
 					testUser.setAbbreviation("testuser3");
-					testUser.setQualificationNumber(3333);
+					testUser.setPdaCode("3333");
 					break;
 			}
 			
@@ -129,7 +118,7 @@ public class WoundManagementUI extends UI {
 					testPatient.setLastName("Daeumler");
 					testPatient.setBirthday(java.sql.Date.valueOf("1956-03-12"));
 					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
-					testPatient.setGender("f");
+					testPatient.setGender(Sex.FEMALE.toCharString());
 					testPatient.setTitle("Dr.");
 					testPatient.setWard(ward);
 					break;
@@ -139,7 +128,7 @@ public class WoundManagementUI extends UI {
 					testPatient.setLastName("Erhardt");
 					testPatient.setBirthday(java.sql.Date.valueOf("1957-04-13"));
 					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-12"));
-					testPatient.setGender("m");
+					testPatient.setGender(Sex.MALE.toCharString());
 					testPatient.setTitle("Prof.");
 					testPatient.setWard(ward);
 					break;
@@ -149,7 +138,7 @@ public class WoundManagementUI extends UI {
 					testPatient.setLastName("Fischer");
 					testPatient.setBirthday(java.sql.Date.valueOf("1958-05-14"));
 					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-13"));
-					testPatient.setGender("n");
+					testPatient.setGender(Sex.NEUTER.toCharString());
 					testPatient.setWard(ward);
 					break;
 			}
@@ -183,7 +172,6 @@ public class WoundManagementUI extends UI {
 		testWound1.setBodyLocation("Brustbein");
 		testWound1.setBodyLocationCode(64);
 		testWound1.setCureEmployee(firstEmployee);
-		testWound1.setDecubitusId(10);
 		testWound1.setDepth(3);
 		testWound1.setDescription("Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. ");
 		testWound1.setEndDate(java.sql.Date.valueOf("2014-05-12"));
@@ -201,7 +189,6 @@ public class WoundManagementUI extends UI {
 		testWound2.setBodyLocation("linke Wade");
 		testWound2.setBodyLocationCode(15);
 		//testWound2.setCureEmployee(firstEmployee);
-		testWound2.setDecubitusId(11);
 		testWound2.setDepth(4);
 		testWound2.setDescription("Ich bin eine Bemerkung.");
 		//testWound2.setEndDate(java.sql.Date.valueOf("2014-05-22"));
@@ -230,7 +217,7 @@ public class WoundManagementUI extends UI {
 		NavigationManager manager = new NavigationManager();
 
 		if (Environment.INSTANCE.getCurrentEmployee() != null) {
-			manager.setCurrentComponent(new LoggedInView());
+			manager.setCurrentComponent(new PatientSelectionView());
 		}
 		else {
 			manager.setCurrentComponent(new StartMenuView());

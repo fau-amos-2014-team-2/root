@@ -1,21 +1,19 @@
 package com.fau.amos.team2.WoundManagement.subviews;
 
+import com.fau.amos.team2.WoundManagement.UserLoginView;
 import com.fau.amos.team2.WoundManagement.UserPasswordView;
 import com.fau.amos.team2.WoundManagement.UserWardView;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
-import com.fau.amos.team2.WoundManagement.WardSelectionView;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
 
 public class UserBar extends HorizontalLayout implements WardChangeListener{
 
@@ -65,7 +63,8 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 				
 				@Override
 				public void buttonClick(ClickEvent event) {
-					//TODO: logout and show LoginView
+					Environment.INSTANCE.logout();
+					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
 				}
 			});
 			addComponent(logoutButton);

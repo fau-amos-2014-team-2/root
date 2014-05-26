@@ -18,6 +18,10 @@ public enum Sex {
 		return this.character;
 	}
 	
+	public String toCharString() {
+		return this.character + "";
+	}
+	
 	public String toString() {
 		return this.string;
 	}

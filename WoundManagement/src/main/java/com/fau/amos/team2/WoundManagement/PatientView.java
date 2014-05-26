@@ -9,24 +9,22 @@ import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.NewWoundChangeEvent;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.NewWoundChangeListener;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeEvent;
-import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundPosition;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeListener;
+import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundPosition;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -41,6 +39,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	private Patient currentPatient;
 	private WoundManager woundManager;
 	
+	private Label patientNameLabel;
 	private Label typeDecubitusLabel;
 	private Label recordingDateLabel;
 	private Label recordingEmployeeLabel;
@@ -56,14 +55,6 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient) {
-				
-		/*
-		// TODO: Remove the following lines after the previous view (PatientSelectionView) is passing a real patient object.
-		if (patient == null)
-			patient = PatientProvider.getInstance().getByID(PatientProvider.getInstance().getAll().firstItemId());
-		// End of code to remove
-		*/
-		
 		this.currentPatient = patient;
 		
 		setRightComponent(new UserBar(this));
@@ -87,7 +78,9 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		dataColumn.setSpacing(true);
 		
 		String width = "20em";
-
+		
+		patientNameLabel = new Label("<h2>" + patient.getFirstName() + " " + patient.getLastName() + "</h2>", ContentMode.HTML);
+		rightContent.addComponent(patientNameLabel);
 		
 		typeDecubitusLabel = new Label("");
 		typeDecubitusLabel.setWidth(width);

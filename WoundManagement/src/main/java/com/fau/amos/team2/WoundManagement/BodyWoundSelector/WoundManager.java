@@ -7,7 +7,6 @@ import java.util.List;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.vaadin.ui.Notification;
 
 public class WoundManager {
 	private final int THRESHOLD = 25;
