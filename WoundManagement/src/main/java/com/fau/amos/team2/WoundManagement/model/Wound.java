@@ -17,7 +17,8 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	@NamedQuery(name="Wound.currentForPatient",
 		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
-	@NamedQuery(name="Wound.deleteAll", query="DELETE FROM Wound")
+	@NamedQuery(name="Wound.deleteAll", query="DELETE FROM Wound"),
+	@NamedQuery(name="Wound.getMaxDecubitusId", query="SELECT MAX(w.decubitusId) FROM Wound w")
 })
 public class Wound implements BusinessObject {
 	@Id

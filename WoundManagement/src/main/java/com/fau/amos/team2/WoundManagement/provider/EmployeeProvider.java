@@ -69,20 +69,11 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 	 * @return true if login successful, false otherwise
 	 */
 	public Employee getEmployeeByUsernameAndPassword(String username, String password) {
-		int passwordInteger;
-		
-		try {
-			passwordInteger = Integer.parseInt(password);
-		}
-		catch (NumberFormatException e) {
-			return null;
-		}
-		
 		EntityManager em = container.getEntityProvider().getEntityManager();
 		
 		TypedQuery<Employee> query = em.createNamedQuery("Employee.findByUsernameAndPassword", Employee.class);
 		query.setParameter("username", username);
-		query.setParameter("password", passwordInteger);
+		query.setParameter("password", password);
 		
 		try {
 			Employee employee = query.getSingleResult();
@@ -140,26 +131,12 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 		return null;
 	}
 	
-	public void updateEmployeeWardManually(Employee employee){
-		Employee databaseEmployee = this.getEmployeeByUsername(employee.getAbbreviation());
-		databaseEmployee.setCurrentWard(employee.getCurrentWard());
-		this.update(databaseEmployee);
-	}
-	
 	public void createEmployee(Employee employee) throws DuplicateEmployeeException {
 		if (getEmployeeByUsername(employee.getAbbreviation()) == null) {
 			add(employee);
 		}
 		
 		throw new DuplicateEmployeeException(employee.getAbbreviation());
-	}
-
-	public void updateEmployee(Employee employee) {
-		EntityManager em = container.getEntityProvider().getEntityManager();
-		
-		em.getTransaction().begin();
-		em.persist(employee);
-		em.getTransaction().commit();
 	}
 	
 	public void deleteAll() {

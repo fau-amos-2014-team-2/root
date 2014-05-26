@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import com.fau.amos.team2.WoundManagement.model.BusinessObject;
-import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 
 /**
@@ -40,5 +38,22 @@ public class WoundProvider extends ObjectProvider<Wound> {
 		em.getTransaction().begin();
 		em.createNamedQuery("Wound.deleteAll").executeUpdate();
 		em.getTransaction().commit();
+	}
+	
+	public void add(Wound object) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		TypedQuery<Integer> decubitusQuery = em.createNamedQuery("Wound.getMaxDecubitusId", Integer.class);
+		List<Integer> resultList = decubitusQuery.getResultList();
+		
+		int decubitusId = 0;
+		if (resultList != null && !resultList.isEmpty()) {
+			decubitusId = resultList.get(0) != null ? resultList.get(0) : 0;
+		}
+		
+		decubitusId++;
+		
+		object.setDecubitusId(decubitusId);
+		
+		super.add(object);
 	}
 }

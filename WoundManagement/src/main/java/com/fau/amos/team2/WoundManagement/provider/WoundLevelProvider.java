@@ -2,7 +2,6 @@ package com.fau.amos.team2.WoundManagement.provider;
 
 import javax.persistence.EntityManager;
 
-import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 
 /**

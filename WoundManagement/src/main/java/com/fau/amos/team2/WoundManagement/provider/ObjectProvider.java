@@ -37,11 +37,7 @@ public class ObjectProvider<T extends BusinessObject> {
 	 * @return the Id of the inserted Employee
 	 */
 	public void add(T object) {
-		EntityManager em = container.getEntityProvider().getEntityManager();
-		
-		em.getTransaction().begin();
-		em.persist(object);
-		em.getTransaction().commit();
+		update(object);
 		
 		container.addEntity(object);
 	}

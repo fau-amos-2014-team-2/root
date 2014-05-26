@@ -1,7 +1,6 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 
 public enum Environment {
 	INSTANCE;
