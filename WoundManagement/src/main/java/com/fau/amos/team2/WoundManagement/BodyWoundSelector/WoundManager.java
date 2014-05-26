@@ -15,7 +15,6 @@ public class WoundManager {
 	private WoundSelector woundSelector;
 	
 	private WoundPosition selectedWoundPosition;
-	private WoundPosition newWoundPosition;
 	private Wound selectedWound;
 	
 	public WoundManager(Patient patient) {
@@ -83,6 +82,16 @@ public class WoundManager {
 
 	public void setSelectedWound(Wound selectedWound) {
 		this.selectedWound = selectedWound;
+		
+		if (this.selectedWound != null) {
+			WoundPosition woundPosition = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(selectedWound.getBodyLocationCode()));
+			setSelectedWoundPosition(woundPosition);
+			woundSelector.setSelectedWoundPosition(woundPosition);
+		}
+		else {
+			setSelectedWoundPosition(null);
+			woundSelector.setSelectedWoundPosition(null);
+		}
 	}
 
 	public List<SelectedWoundChangeListener> selectedWoundListeners = null;
@@ -136,54 +145,4 @@ public class WoundManager {
         }
     }
     
-    public List<NewWoundChangeListener> newWoundListeners = null;
-	
-	public interface NewWoundChangeListener {
-		public void newWoundChanged(NewWoundChangeEvent event);
-	}
-    
-    public class NewWoundChangeEvent {
-		final WoundManager woundManager;
-		final WoundPosition woundPosition;
-		
-		public NewWoundChangeEvent(WoundManager woundManager, WoundPosition woundPosition) {
-			this.woundManager = woundManager;
-			this.woundPosition = newWoundPosition;
-		}
-
-		public WoundManager getWoundManager() {
-			return woundManager;
-		}
-
-		public WoundPosition getWoundPosition() {
-			return woundPosition;
-		}
-
-	}
-    
-    public void fireNewWoundChangeEvent() {
-		if (selectedWoundListeners != null) {
-			NewWoundChangeEvent event = new NewWoundChangeEvent(this, newWoundPosition);
-			for (NewWoundChangeListener listener : newWoundListeners)
-				listener.newWoundChanged(event);
-		}
-	}
-    
-    public void setNewWoundPosition(WoundPosition selectedWoundPosition) {
-		this.newWoundPosition = selectedWoundPosition;
-		fireNewWoundChangeEvent();
-	}
-    
-    public void addNewWoundChangeListener(NewWoundChangeListener listener) {
-        if (newWoundListeners == null) {
-            newWoundListeners = new ArrayList<NewWoundChangeListener>();
-        }
-        newWoundListeners.add(listener);
-    }
-
-    public void removeNewWoundChangeListener(NewWoundChangeListener listener) {
-        if (newWoundListeners != null) {
-            newWoundListeners.remove(listener);
-        }
-    }
 }

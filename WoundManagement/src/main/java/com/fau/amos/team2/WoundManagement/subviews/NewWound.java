@@ -1,23 +1,20 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.subviews;
 
 import java.util.Collection;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
+import com.fau.amos.team2.WoundManagement.PatientView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
-import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.subviews.UserBar;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
@@ -32,7 +29,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
-public class NewWoundView extends NavigationView implements WardChangeListener{
+public class NewWound extends FormLayout {
 
 	private Patient currentPatient;
 	
@@ -43,21 +40,15 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 	private static WoundLevelProvider woundLevelProvider = 
 			WoundLevelProvider.getInstance();
 	
-	public NewWoundView(final Patient patient, BodyLocation bodyLocation, final Employee currentUser){
-				
-		setCaption(MessageResources.getString("addNewWound")); //$NON-NLS-1$
-		
-		setRightComponent(new UserBar(this));
-		
+	public NewWound(final PatientView parentView, final Patient patient, BodyLocation bodyLocation){
 		currentPatient = patient;
 		
-		String width = "20em";
-		String halfWidth = "10em";
+		String width = "16em";
+		String halfWidth = "8em";
 		
 		final Wound wound = new Wound();
 
-		FormLayout layout = new FormLayout();
-		layout.setSizeUndefined();
+		setSizeUndefined();
 		
 		//DateField - when is the wound recorded
 		final DateField recorded = new DateField(MessageResources.getString("recordingDate") + ":"); //$NON-NLS-1$
@@ -65,7 +56,7 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 		recorded.setDateFormat("dd.MM.yyyy");
 		recorded.setInvalidAllowed(false);
 		recorded.setWidth(width);
-		layout.addComponent(recorded);
+		addComponent(recorded);
 		
 		//ComboBox - body location code
 		final ComboBox location = new ComboBox(MessageResources.getString("bodyLocationCode") + ":"); //$NON-NLS-1$
@@ -76,13 +67,13 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 		location.setValue(bodyLocation); //select chosen location
 		location.setNullSelectionAllowed(false);
 		location.setWidth(width);
-		layout.addComponent(location);
+		addComponent(location);
 		
 		//TextField - body location (in words)
 		final TextField locationText = new TextField(MessageResources.getString("bodyLocation") + ":"); //$NON-NLS-1$
 		locationText.setMaxLength(200);
 		locationText.setWidth(width);
-		layout.addComponent(locationText);
+		addComponent(locationText);
 		
 		//ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
@@ -93,7 +84,7 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 			type.setItemCaption(tmp, tmp.getClassification());
 		}
 		type.setWidth(width);
-		layout.addComponent(type);
+		addComponent(type);
 		
 		//ComboBox - wound level
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
@@ -104,7 +95,7 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 			level.setItemCaption(tmp, tmp.getCharacterisation());
 		}
 		level.setWidth(width);
-		layout.addComponent(level);
+		addComponent(level);
 		
 		//ComboBox - origination of wound
 		final ComboBox origination = new ComboBox(MessageResources.getString("origination") + ":"); //$NON-NLS-1$
@@ -114,35 +105,35 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 		}
 		origination.setNullSelectionAllowed(false);
 		origination.setWidth(width);
-		layout.addComponent(origination);
+		addComponent(origination);
 		
 		//NumberField - height of wound
 		final NumberField size1 = new NumberField(MessageResources.getString("height") + " (mm):"); //$NON-NLS-1$
 		size1.setValue("0"); //$NON-NLS-1$
 		size1.setInvalidAllowed(false);
 		size1.setWidth(width);
-		layout.addComponent(size1);
+		addComponent(size1);
 		
 		//NumberField - width of wound
 		final NumberField size2 = new NumberField(MessageResources.getString("width") + " (mm):"); //$NON-NLS-1$
 		size2.setValue("0"); //$NON-NLS-1$
 		size2.setInvalidAllowed(false);
 		size2.setWidth(width);
-		layout.addComponent(size2);
+		addComponent(size2);
 		
 		//NumberField - depth of wound
 		final NumberField depth = new NumberField(MessageResources.getString("depth") + " (mm):"); //$NON-NLS-1$
 		depth.setValue("0"); //$NON-NLS-1$
 		depth.setInvalidAllowed(false);
 		depth.setWidth(width);
-		layout.addComponent(depth);
+		addComponent(depth);
 		
 		//TextField - commentary
 		final TextArea comment = new TextArea(MessageResources.getString("description") + ":"); //$NON-NLS-1$
 		comment.setMaxLength(2000);
 		comment.setWidth(width);
 		comment.setHeight(halfWidth);
-		layout.addComponent(comment);
+		addComponent(comment);
 		
 		HorizontalLayout buttons = new HorizontalLayout();
 		buttons.setSpacing(true);
@@ -212,7 +203,7 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 					//setDescription - is automatically cut to at most 2000 characters
 					wound.setDescription(comment.getValue());
 					//setRecordingEmployee - currently logged in
-					wound.setRecordingEmployee(currentUser);
+					wound.setRecordingEmployee(Environment.INSTANCE.getCurrentEmployee());
 
 					//setRecordingDate - all misformatted inputs result in "null"
 					try{
@@ -293,8 +284,7 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 					
 					currentPatient.getWounds().add(wound);
 					
-					getNavigationManager().navigateTo(new PatientView(currentPatient));
-				
+					parentView.setSelectedWound(wound);
 				} catch (Exception e){
 					//should never get here actually
 					Notification.show("Daten nicht korrekt eingegeben!"); //$NON-NLS-1$
@@ -309,21 +299,14 @@ public class NewWoundView extends NavigationView implements WardChangeListener{
 		cancel.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getNavigationManager().navigateBack();
+				parentView.setSelectedWound(null); 
 			}
 		});
 		
 		buttons.addComponent(submit);
 		buttons.addComponent(cancel);
 		
-		layout.addComponent(buttons);
+		addComponent(buttons);
 		
-		setContent(layout);
 	}
-
-	@Override
-	public void wardChanged(WardChangeEvent event) {
-		getNavigationManager().setPreviousComponent(new PatientView(currentPatient));
-	}
-
 }

@@ -104,20 +104,19 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 		// Get the wound at this position
 		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(xPosition, yPosition);
-		//Notification.show("hello");
+		
+		setSelectedWoundPosition(woundPosition);
+	}
+	
+	public void setSelectedWoundPosition(WoundPosition woundPosition) {
+		selectedWoundPosition = woundPosition;
 		
 		if (woundPosition != null) {
-			selectedWoundPosition = woundPosition;
 			existingWoundSelected = woundManager.hasWoundAtPosition(selectedWoundPosition);
-			//Notification.show("set selec");
-			if (existingWoundSelected){
-				woundManager.setSelectedWoundPosition(selectedWoundPosition);
-			} else {
-				woundManager.setNewWoundPosition(selectedWoundPosition);
-			}
-
-			refreshSelectedWound();
+			woundManager.setSelectedWoundPosition(selectedWoundPosition);
 		}
+
+		refreshSelectedWound();
 	}
 
 	private void refreshSelectedWound() {
@@ -195,12 +194,10 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 	}
 
 	private void refreshSelectionIndicator() {
-		if (existingWoundSelected) {
+		if (selectedWoundPosition == null || existingWoundSelected) {
 			selectionIndicator.setVisible(false);
 			return;
 		}
-
-		Notification.show(selectedWoundPosition.getDescription());
 
 		// Removing half the size of the indicator to put the click position in the middle of the indicator
 		float correctedXPos = (float)selectedWoundPosition.getXPosition() - (selectionIndicator.getWidth() / 2);
