@@ -22,7 +22,6 @@ public class ExistingWound extends VerticalLayout {
 
 	private DateFormat dateFormat;
 	
-	private Label patientNameLabel;
 	private Label typeDecubitusLabel;
 	private Label recordingDateLabel;
 	private Label recordingEmployeeLabel;
@@ -50,9 +49,6 @@ public class ExistingWound extends VerticalLayout {
 		dataColumn.setSpacing(true);
 		
 		String width = "16em";
-		
-		patientNameLabel = new Label("<h2>" + wound.getPatient().getFirstName() + " " + wound.getPatient().getLastName() + "</h2>", ContentMode.HTML);
-		addComponent(patientNameLabel);
 		
 		typeDecubitusLabel = new Label("");
 		typeDecubitusLabel.setWidth(width);

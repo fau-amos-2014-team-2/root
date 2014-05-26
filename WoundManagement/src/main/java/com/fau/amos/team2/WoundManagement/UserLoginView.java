@@ -100,6 +100,7 @@ public class UserLoginView extends NavigationView {
 		table.setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
 		table.setSelectable(true);
 		table.setImmediate(true);
+		table.setNullSelectionAllowed(false);
 		table.setSizeFull();
 		tablePanel.setContent(table);
 		
