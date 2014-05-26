@@ -43,6 +43,8 @@ public class NewWound extends FormLayout {
 	public NewWound(final PatientView parentView, final Patient patient, BodyLocation bodyLocation){
 		currentPatient = patient;
 		
+		setSpacing(false);
+		
 		String width = "16em";
 		String halfWidth = "8em";
 		
