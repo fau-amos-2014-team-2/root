@@ -28,12 +28,11 @@ public class ConnectionProvider<T extends BusinessObject> {
 	{
 		type = c;
 		
-		HashMap<String, String> properties = new HashMap<String,String>();
-		properties.put("javax.persistence.jdbc.password", getPassword("config.pwd"));
+		//HashMap<String, String> properties = new HashMap<String,String>();
+		//properties.put("javax.persistence.jdbc.password", getPassword("config.pwd"));
 		
 		entityManagerFactory = 
-				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT, 
-						properties);
+				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT);
 
 		entityManager = entityManagerFactory.createEntityManager();
 		
@@ -50,7 +49,7 @@ public class ConnectionProvider<T extends BusinessObject> {
 	}
 	
 	private String getPassword(String configFile) { 
-		BufferedReader b;
+		/*BufferedReader b;
 		try {
 			b = new BufferedReader(new FileReader(configFile));
 			String str = b.readLine();
@@ -59,7 +58,7 @@ public class ConnectionProvider<T extends BusinessObject> {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return "";
+		}*/
+		return "postgres";
 	}
 }

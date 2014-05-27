@@ -13,6 +13,8 @@ import org.eclipse.persistence.sessions.server.ServerSession;*/
 import java.util.Iterator;
 import java.util.Locale;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
@@ -26,17 +28,12 @@ import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
-import com.fau.amos.team2.WoundManagement.provider.exceptions.DuplicateEmployeeException;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * The UI's "main" class
@@ -65,8 +62,6 @@ public class WoundManagementUI extends UI {
 	private static WoundLevel testWoundLevel1 = new WoundLevel();
 	private static Wound testWound1 = new Wound();
 	private static Wound testWound2 = new Wound();
-
-	private static boolean isInitialized = false;
 	
 	static void initData() {
 		// curiosly breaks the connection
@@ -85,7 +80,7 @@ public class WoundManagementUI extends UI {
 		for (int i = 0; i < 3; i++) {
 			Ward ward = new Ward();
 			ward.setCharacterisation("Station " + (i+1));
-			wardProvider.getInstance().add(ward);
+			WardProvider.getInstance().add(ward);
 			
 			Employee testUser = new Employee();
 			testUser.setWorkingWard(ward);

@@ -1,13 +1,37 @@
-<web-app>
-	<persistence-context-ref>
-	    <persistence-context-ref-name>persistence/em</persistence-context-ref-name>
-	    <persistence-unit-name>fauDB</persistence-unit-name>
-	</persistence-context-ref>
-	
-	<resource-ref>
-    	<description>DB Connection</description>
-    	<res-ref-name>jdbc/postgresql</res-ref-name>
-    	<res-type>javax.sql.DataSource</res-type>
-    	<res-auth>Container</res-auth>
-	</resource-ref>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">  
+  <persistence-context-ref>
+      <persistence-unit-name>testdb</persistence-unit-name>
+      <persistence-context-ref-name>persistence/em</persistence-context-ref-name>
+  </persistence-context-ref>  
+  <resource-ref>
+      <res-ref-name>jdbc/postgresql</res-ref-name>
+      <res-type>javax.sql.DataSource</res-type>
+      <res-auth>Container</res-auth>
+  </resource-ref>
+  
+   <servlet>
+    <servlet-name>myservlet</servlet-name>
+    <servlet-class>
+        com.vaadin.server.VaadinServlet
+    </servlet-class>
+
+    <init-param>
+      <param-name>UI</param-name>
+      <param-value>com.fau.amos.team2.WoundManagement.WoundManagementUI</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>widgetset</param-name>
+      <param-value>com.fau.amos.team2.WoundManagement.gwt.AppWidgetSet</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>myservlet</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
 </web-app>
