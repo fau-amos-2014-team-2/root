@@ -9,10 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQueries({
+	@NamedQuery(name="WoundDescription.deleteAll", query="DELETE FROM WoundDescription"),
+	@NamedQuery(name="WoundDescription.allForWound", query="SELECT w FROM WoundDescription w WHERE w.wound=:wound")
+})
 public class WoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR")

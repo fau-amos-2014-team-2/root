@@ -10,6 +10,7 @@ import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.sessions.server.ServerSession;*/
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -18,12 +19,14 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Sex;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
@@ -56,6 +59,8 @@ public class WoundManagementUI extends UI {
 			WoundLevelProvider.getInstance();
 	private static WardProvider wardProvider = 
 			WardProvider.getInstance();
+	private static WoundDescriptionProvider woundDescriptionProvider = 
+			WoundDescriptionProvider.getInstance();
 	
 	private static WoundType testWoundType1 = new WoundType();
 	private static WoundLevel testWoundLevel1 = new WoundLevel();
@@ -64,6 +69,7 @@ public class WoundManagementUI extends UI {
 
 	static void initData() {
 		//empty tables
+		woundDescriptionProvider.deleteAll();
 		woundProvider.deleteAll();
 		woundLevelProvider.deleteAll();
 		woundTypeProvider.deleteAll();
@@ -104,7 +110,7 @@ public class WoundManagementUI extends UI {
 					break;
 			}
 			
-			EmployeeProvider.getInstance().add(testUser);
+			employeeProvider.add(testUser);
 			
 			Patient testPatient = new Patient();
 			testPatient.setSensoID(1);
@@ -143,7 +149,7 @@ public class WoundManagementUI extends UI {
 					break;
 			}
 			
-			PatientProvider.getInstance().add(testPatient);
+			patientProvider.add(testPatient);
 		}
 		
 		Employee firstEmployee = employeeProvider.getAllItems().iterator().next();
@@ -203,14 +209,55 @@ public class WoundManagementUI extends UI {
 		
 		woundProvider.add(testWound2);
 		
+		for (int i = 0; i < 4; i++){
+			WoundDescription woundDescription = new WoundDescription();
+			woundDescription.setEmployee(firstEmployee);
+			woundDescription.setWoundType(testWoundType1);
+			woundDescription.setWoundLevel(testWoundLevel1);
+			
+			switch(i){
+				case 0: 
+					woundDescription.setDate(Date.valueOf("2012-01-11"));
+					woundDescription.setWound(testWound1);
+					woundDescription.setSize1(1);
+					woundDescription.setSize2(2);
+					woundDescription.setDepth(3);
+					break;
+				case 1:
+					woundDescription.setDate(Date.valueOf("2012-02-12"));
+					woundDescription.setWound(testWound1);
+					woundDescription.setSize1(4);
+					woundDescription.setSize2(5);
+					woundDescription.setDepth(6);
+					break;
+				case 2:
+					woundDescription.setDate(Date.valueOf("2012-03-13"));
+					woundDescription.setWound(testWound2);
+					woundDescription.setSize1(7);
+					woundDescription.setSize2(8);
+					woundDescription.setDepth(9);
+					break;
+				case 3:
+					woundDescription.setDate(Date.valueOf("2012-04-14"));
+					woundDescription.setWound(testWound2);
+					woundDescription.setSize1(1);
+					woundDescription.setSize2(2);
+					woundDescription.setDepth(3);
+					break;
+			}
+			
+			woundDescriptionProvider.add(woundDescription);
+		}
+
+		
 	}
 	// END INIT //
 
 	@Override
 	protected void init(VaadinRequest request) {	
 		Locale currentLocale;
-		//currentLocale = Locale.GERMAN;
-		currentLocale = Locale.ENGLISH;
+		currentLocale = Locale.GERMAN;
+		//currentLocale = Locale.ENGLISH;
 
 		MessageResources.setLocale(currentLocale);
 

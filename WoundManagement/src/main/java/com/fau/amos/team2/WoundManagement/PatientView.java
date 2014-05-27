@@ -72,16 +72,27 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	@Override
 	public void onBecomingVisible(){
 		super.onBecomingVisible();
-		getNavigationManager().setPreviousComponent(new PatientSelectionView());
+		this.setNavigationManagerPreviousComponent();
 	}
 
 
 	@Override
 	public void wardChanged(WardChangeEvent event) {
-		getNavigationManager().setPreviousComponent(new PatientSelectionView());
+		this.setNavigationManagerPreviousComponent();
 	}
 	
 	public void setSelectedWound(Wound wound) {
+		if (wound != null && wound.getPatient().getId() == currentPatient.getId()) {
+			woundManager.addWound(wound);
+			woundManager.setSelectedWound(wound);
+		}
+		else {
+			woundManager.setSelectedWound(null);
+		}
+		this.setNavigationManagerPreviousComponent();
+	}
+	
+	public void prepareSelectedWound(Wound wound) {
 		if (wound != null && wound.getPatient().getId() == currentPatient.getId()) {
 			woundManager.addWound(wound);
 			woundManager.setSelectedWound(wound);
@@ -93,6 +104,10 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	
 	public Patient getPatient(){
 		return currentPatient;
+	}
+	
+	public void setNavigationManagerPreviousComponent(){
+		getNavigationManager().setPreviousComponent(new PatientSelectionView());
 	}
 
 }

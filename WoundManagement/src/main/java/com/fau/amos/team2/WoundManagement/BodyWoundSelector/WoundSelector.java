@@ -15,7 +15,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Notification;
 
 @SuppressWarnings("serial")
 public class WoundSelector extends AbsoluteLayout implements ClickListener {

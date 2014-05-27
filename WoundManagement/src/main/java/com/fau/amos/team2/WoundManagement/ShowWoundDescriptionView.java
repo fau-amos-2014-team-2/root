@@ -60,7 +60,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		} else {
 			//getsize2 not equal to zero means size 1 is not the diameter & both sizes are relevant
 			Label length = new Label();
-			length.setCaption(MessageResources.getString("length")+":");
+			length.setCaption(MessageResources.getString("height")+":");
 			length.setValue(""+wounddescription.getSize1());
 			
 			Label width = new Label();
@@ -110,7 +110,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		HorizontalLayout woundtypeandgrade = new HorizontalLayout();
 		
 		Label woundtypedesc=new Label();
-		woundtypedesc.setCaption(MessageResources.getString("woundType"));
+		woundtypedesc.setCaption(MessageResources.getString("woundType")+":");
 		woundtypedesc.setValue(wounddescription.getWoundType().getClassification());
 		
 		Label woundgradedesc= new Label();
@@ -141,12 +141,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 
 	@Override
 	public void wardChanged(WardChangeEvent event) {
-		// TODO Auto-generated method stub
 		WoundDescriptionListView newView = new WoundDescriptionListView(wounddescription.getWound());
-	
-		
 		getNavigationManager().setPreviousComponent(newView);
-
-		
 	}
 }

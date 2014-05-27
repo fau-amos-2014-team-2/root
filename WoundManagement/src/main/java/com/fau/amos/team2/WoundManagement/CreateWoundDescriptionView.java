@@ -6,7 +6,6 @@ import java.util.Date;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
@@ -38,7 +37,6 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 	private Wound wound;
 	public CreateWoundDescriptionView(final Wound wound) {
 		this.wound = wound;
-		Patient patient = wound.getPatient();
 		Employee user = Environment.INSTANCE.getCurrentEmployee();
 		setCaption(MessageResources.getString("newDesc"));
 		setRightComponent(new UserBar(this));
@@ -56,7 +54,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		greetingdate.setWidth("20em");
 
 		// DateField - when is the wound recorded/as seen in NewWoundView
-		final DateField recorded = new DateField(MessageResources.getString("createDate"));
+		final DateField recorded = new DateField(MessageResources.getString("createDate")+":");
 		recorded.setValue(new Date());
 		recorded.setDateFormat("dd.MM.yyyy");
 		recorded.setInvalidAllowed(false);
@@ -111,21 +109,21 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 
 		// Numberfields taken from NewWoundView
 		// NumberField - length of wound
-		final NumberField size1 = new NumberField(MessageResources.getString("length"));
+		final NumberField size1 = new NumberField(MessageResources.getString("height")+":");
 		size1.setValue("0");
 		size1.setInvalidAllowed(false);
 		size1.setWidth("20em");
 		wundGroessen.addComponent(size1);
 
 		// NumberField - width of wound
-		final NumberField size2 = new NumberField(MessageResources.getString("width"));
+		final NumberField size2 = new NumberField(MessageResources.getString("width")+":");
 		size2.setValue("0");
 		size2.setInvalidAllowed(false);
 		size2.setWidth("20em");
 		wundGroessen.addComponent(size2);
 
 		// NumberField - depth of wound
-		final NumberField depth = new NumberField(MessageResources.getString("depth"));
+		final NumberField depth = new NumberField(MessageResources.getString("depth")+":");
 		depth.setValue("0");
 		depth.setInvalidAllowed(false);
 		depth.setWidth("20em");
@@ -141,7 +139,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		
 		// ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
-		final ComboBox type = new ComboBox(MessageResources.getString("woundType"));
+		final ComboBox type = new ComboBox(MessageResources.getString("woundType")+":");
 		for (Object o : typeIds){
 			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
 			type.addItem(tmp);
@@ -154,7 +152,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		 
 		// ComboBox - woundlevel
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
-		final ComboBox level = new ComboBox(MessageResources.getString("woundLevel"));
+		final ComboBox level = new ComboBox(MessageResources.getString("woundLevel")+":");
 		for (Object o : levelIds){
 			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
 			level.addItem(tmp);
@@ -298,6 +296,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 					}
 					
 					
+					//TODO: look out for problems with new views.
 					wound.getWoundDescriptions().add(woundDescription);
 					WoundDescriptionProvider.getInstance().add(woundDescription);
 					

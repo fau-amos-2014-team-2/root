@@ -26,16 +26,17 @@ public class WoundDescriptionListView extends NavigationView implements WardChan
 	
 	private static final long serialVersionUID = 2998701886426658070L;
 	
+	private Wound wound;
 	private Patient patient;
 	private List<WoundDescription> descriptions;
 	private Object selected = null;
 	private Button showselected;
 	@SuppressWarnings("serial")
-	public WoundDescriptionListView(final Wound wound){
+	public WoundDescriptionListView(Wound wound){
 		
-		setCaption(MessageResources.getString("woundDescriptions"));
-		this.patient = wound.getPatient();
-		
+		setCaption(MessageResources.getString("woundDescriptionsHeader"));
+		this.wound = wound;
+		this.patient = this.wound.getPatient();
 		
 		Environment.INSTANCE.getCurrentEmployee();
 		
@@ -115,7 +116,7 @@ public class WoundDescriptionListView extends NavigationView implements WardChan
 		 * If no Description was selected yet, a Notification is shown
 		 */		
 		showselected = new Button();
-		showselected.setCaption("Anzeigen");
+		showselected.setCaption(MessageResources.getString("show"));
 		showselected.addClickListener(new Button.ClickListener() {
 	
 			public void buttonClick(ClickEvent event) {
@@ -190,12 +191,16 @@ public class WoundDescriptionListView extends NavigationView implements WardChan
 	@Override
 	public void onBecomingVisible(){
 		super.onBecomingVisible();
-		getNavigationManager().setPreviousComponent(new PatientView(patient));
+		PatientView patientView = new PatientView(patient);
+		patientView.prepareSelectedWound(wound);
+		getNavigationManager().setPreviousComponent(patientView);
 	}
 	
 	@Override
 	public void wardChanged(WardChangeEvent event) {
-		getNavigationManager().setPreviousComponent(new PatientView(patient));
+		PatientView patientView = new PatientView(patient);
+		patientView.prepareSelectedWound(wound);
+		getNavigationManager().setPreviousComponent(patientView);
 	}
 
 }

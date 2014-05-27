@@ -14,13 +14,16 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Wound.currentForPatient",
 		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
 	@NamedQuery(name="Wound.deleteAll", query="DELETE FROM Wound"),
-	@NamedQuery(name="Wound.getMaxDecubitusId", query="SELECT MAX(w.decubitusId) FROM Wound w")
+	@NamedQuery(name="Wound.getMaxDecubitusId", query="SELECT MAX(w.decubitusId) FROM Wound w"),
+	@NamedQuery(name="Wound.allForPatient", query="SELECT w FROM Wound w WHERE w.patient=:patient")
 })
 public class Wound implements BusinessObject {
 	@Id
@@ -224,8 +227,8 @@ public class Wound implements BusinessObject {
 		this.decubitusId = decubitusId;
 	}
 	
-	//inserted getter
 	public List<WoundDescription> getWoundDescriptions() {
-		return wounddescriptions;
+		//TODO: this is just a workaround! shall not call database every time a wounds wounddescriptions are needed.
+		return WoundDescriptionProvider.getInstance().getAllForWound(this);
 	}
 }

@@ -14,6 +14,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
@@ -168,6 +170,7 @@ public class Patient implements BusinessObject {
 	}
 	
 	public List<Wound> getWounds() {
-		return wounds;
+		//TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
+		return WoundProvider.getInstance().getAllForPatient(this);
 	}
 }

@@ -1,5 +1,11 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 
 /**
@@ -26,5 +32,20 @@ public class WoundDescriptionProvider extends ObjectProvider<WoundDescription>{
 			instance = new WoundDescriptionProvider(WoundDescription.class);
 		}
 		return instance;
+	}
+	
+	public void deleteAll() {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		em.getTransaction().begin();
+		em.createNamedQuery("WoundDescription.deleteAll").executeUpdate();
+		em.getTransaction().commit();
+	}
+	
+	public List<WoundDescription> getAllForWound(Wound wound) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		TypedQuery<WoundDescription> query = em.createNamedQuery("WoundDescription.allForWound", WoundDescription.class);
+		query.setParameter("wound", wound);
+		List<WoundDescription> resultList = query.getResultList();
+		return resultList;
 	}
 }

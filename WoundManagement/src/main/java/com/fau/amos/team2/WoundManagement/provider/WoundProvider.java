@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 
 /**
@@ -55,5 +56,13 @@ public class WoundProvider extends ObjectProvider<Wound> {
 		object.setDecubitusId(decubitusId);
 		
 		super.add(object);
+	}
+	
+	public List<Wound> getAllForPatient(Patient patient) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		TypedQuery<Wound> query = em.createNamedQuery("Wound.allForPatient", Wound.class);
+		query.setParameter("patient", patient);
+		List<Wound> resultList = query.getResultList();
+		return resultList;
 	}
 }
