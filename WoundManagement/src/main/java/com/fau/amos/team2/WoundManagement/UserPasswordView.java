@@ -45,15 +45,7 @@ public class UserPasswordView extends Popover {
 
 				boolean currentPasswordCorrect = false;
 
-				try {
-					currentPasswordCorrect = user.getQualificationNumber() == Integer.parseInt(currentPassword.getValue());
-				} catch (NumberFormatException e){
-					Notification.show(MessageResources.getString("currentPINException")); //$NON-NLS-1$
-					currentPassword.setValue(""); //$NON-NLS-1$
-					newPassword1.setValue(""); //$NON-NLS-1$
-					newPassword2.setValue(""); //$NON-NLS-1$
-					return;
-				}
+				currentPasswordCorrect = user.getPdaCode().equals(currentPassword.getValue());
 
 				if (currentPasswordCorrect){
 					String newPassword = newPassword1.getValue();
@@ -87,7 +79,7 @@ public class UserPasswordView extends Popover {
 					}
 
 				} else {
-					Notification.show(MessageResources.getString("currentPINException")); //$NON-NLS-1$
+					Notification.show(MessageResources.getString("currentPINException") + user.getPdaCode() + " vs " + currentPassword.getValue()); //$NON-NLS-1$
 
 					currentPassword.setValue(""); //$NON-NLS-1$
 					newPassword1.setValue(""); //$NON-NLS-1$
