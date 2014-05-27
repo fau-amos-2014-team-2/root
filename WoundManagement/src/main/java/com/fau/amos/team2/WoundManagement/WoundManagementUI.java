@@ -45,29 +45,30 @@ import com.vaadin.ui.UI;
 @Theme("touchkit")
 public class WoundManagementUI extends UI {
 
-	private static EmployeeProvider employeeProvider = 
-			EmployeeProvider.getInstance();
-	private static PatientProvider patientProvider = 
-			PatientProvider.getInstance();
-	private static WoundProvider woundProvider = 
-			WoundProvider.getInstance();
-	private static WoundTypeProvider woundTypeProvider = 
-			WoundTypeProvider.getInstance();
-	private static WoundLevelProvider woundLevelProvider = 
-			WoundLevelProvider.getInstance();
-	private static WardProvider wardProvider = 
-			WardProvider.getInstance();
+	private static EmployeeProvider employeeProvider;
+	private static PatientProvider patientProvider;
+	private static WoundProvider woundProvider;
+	private static WoundTypeProvider woundTypeProvider;
+	private static WoundLevelProvider woundLevelProvider;
+	private static WardProvider wardProvider;
 	
-	private static WoundType testWoundType1 = new WoundType();
-	private static WoundLevel testWoundLevel1 = new WoundLevel();
-	private static Wound testWound1 = new Wound();
-	private static Wound testWound2 = new Wound();
+	private static WoundType testWoundType1;
+	private static WoundLevel testWoundLevel1;
+	private static Wound testWound1;
+	private static Wound testWound2;
 	
 	static void initData() {
-		// curiosly breaks the connection
-		//if(isInitialized)
-		//	return;
-		//isInitialized = true;
+		employeeProvider = EmployeeProvider.getInstance();
+		patientProvider = PatientProvider.getInstance();
+		woundProvider = WoundProvider.getInstance();
+		woundTypeProvider = WoundTypeProvider.getInstance();
+		woundLevelProvider = WoundLevelProvider.getInstance();
+		wardProvider = WardProvider.getInstance();
+		
+		testWoundType1 = new WoundType();
+		testWoundLevel1 = new WoundLevel();
+		testWound1 = new Wound();
+		testWound2 = new Wound();
 		
 		//empty tables
 		woundProvider.deleteAll();
