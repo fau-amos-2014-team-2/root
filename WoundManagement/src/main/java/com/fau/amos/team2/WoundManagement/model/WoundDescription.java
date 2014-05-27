@@ -22,7 +22,7 @@ public class WoundDescription implements BusinessObject {
 	@Column(name = "KENMDT07_NR")
 	private int sensoID;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "BEWDKL07_NR", nullable = false, referencedColumnName="NR")
 	private Wound wound;
 	
@@ -169,4 +169,16 @@ public class WoundDescription implements BusinessObject {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
+	
+	//FIXME: Setter & Getter for Description added
+		//was this done correctly?
+		//@author: simon
+		public void setDescription(String value) {
+			// TODO Auto-generated method stub
+			this.description = value;
+		}
+
+		public String getDescription() {
+			return this.description;
+		}
 }

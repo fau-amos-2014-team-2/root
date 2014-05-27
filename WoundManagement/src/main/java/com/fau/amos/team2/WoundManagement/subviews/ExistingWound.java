@@ -20,7 +20,7 @@ import com.vaadin.ui.Button.ClickListener;
 public class ExistingWound extends VerticalLayout {
 	private static final long serialVersionUID = 4222621457384471453L;
 	
-	private Wound wound;
+	private final Wound wound;
 	private PatientView parentView;
 
 	private DateFormat dateFormat;
@@ -127,7 +127,7 @@ public class ExistingWound extends VerticalLayout {
 		addWoundDescription.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
-				parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(parentView.getPatient()));
+				parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(ExistingWound.this.wound));
 			}
 		});
 		
