@@ -79,7 +79,7 @@ public class UserPasswordView extends Popover {
 					}
 
 				} else {
-					Notification.show(MessageResources.getString("currentPINException") + user.getPdaCode() + " vs " + currentPassword.getValue()); //$NON-NLS-1$
+					Notification.show(MessageResources.getString("currentPINException")); //$NON-NLS-1$
 
 					currentPassword.setValue(""); //$NON-NLS-1$
 					newPassword1.setValue(""); //$NON-NLS-1$
