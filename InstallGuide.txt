@@ -1,0 +1,106 @@
+Install Guide Woundmanagment
+
+
+
+Step 1: Get the Woundmanagment directory
+
+Unpack the ROOT.war. Then you'll be able to unpack the T2.zip within, which can 
+be found at /ROOT/WEB-INF/classes/. The T2.zip should contain the latest stable  
+Woundmanagment-App-version within the Woundmanagment directory. 
+You may also browse the source code, which you can found at the following 
+directory (and it's sub-directories):
+T2/WoundManagement/src/main/java/com/fau/amos/team2/WoundManagement/
+
+Alternatively you may get the Woundmanagment directory from github (master-branch):
+https://github.com/fau-amos-2014-team-2/root
+
+
+Step 2: Get Maven
+
+Get the latest Maven-Version (& it's dependencies) for your OS. Further 
+information for installing maven can be found here:
+http://maven.apache.org/
+
+
+Step 3: Get a Postgresql Server running
+
+Install Postgresql (& it's dependencies) for your OS. Further information can be 
+found here:
+http://www.postgresql.org/
+To get a local test server running, you may want to look at specific guides for 
+your OS (like this one for arch-linux: 
+https://wiki.archlinux.org/index.php/PostgreSQL#Before_you_start).
+We suggest you to use username "postgres" & password "postgres" for your local 
+server (needed for further steps).
+
+
+Step 4: Create config.pwd
+
+Before running the app, you need to create a new file “config.pwd” within the 
+Woundmanagment main directory. Open the config.pwd file with a standard 
+texteditor. Enter the password you use at your local database (or the password 
+for the online database*), for example “postgres”, save & close the editor.
+
+[*]unfortunately, this password is secret and can not be published on github. To 
+get it, please contact us.
+
+
+Step 5: Check Constants.java
+
+You may have to change the value 
+	public static final String PERSISTANCE_UNIT = "testdb";
+to 
+	CONSTANTS.PERSISTANCE_UNIT = "fauDB"; 
+if you want to use the online-database. 
+Default (& suggested) is using a local testdatabase first, in this case set the 
+value to “testdb”.
+Important: the password previously stored in the config.pwd file has to match to 
+the database login. 
+
+
+Step 6: start Postgresql client
+
+If using a local postgresql server, you may need to start the client first.
+(on archlinux this is done with root$systemctl start postgresql)
+
+If you have tested previous versions of the app, you may need to clean up 
+your local database. You can do this by connecting to your local database (using 
+a shell/commandline) and psql commands like “DELETE FROM wound;” etc. 
+For further information you can look at:
+http://www.postgresql.org/docs/8.4/static/app-psql.html
+and corresponding help files.
+
+
+Step 7: Build and Start the Woundmanagment App
+
+If the previous steps have been done correctly, you can now open a 
+terminal/commandline in the Woundmanagment main directory. 
+Then first run the command “mvn install” to build the app (this will add some 
+folders/files into the Woundmanagment directory). 
+If this step finished successfully, the output prompt should include “BUILD 
+SUCCESS”.
+Then you actualy start the app using the command “mvn jetty:run”. Keep the 
+commandline/shell/terminal opened and untouched while using the app.
+
+
+Step 8: Using the application
+
+As a last step you can now check out the actual app. To do this, just open your 
+favorite web-browser (we suggest Firefox or Google-Chrome) and connect to 
+http://localhost:8080/
+If everything went fine, you should see a short loading-circle followed by the 
+app-login screen (and an data-initialize button). If this is the first time you 
+run the app, or you have previously cleared your local database, you should 
+first initialize some data & rerun the App.
+When pressing Login, you get to the User-Login-View. Here you can login using 
+pre-created testusers, for Example Adam Arbeit, which password is per default 
+“1111”.
+Have fun!
+To close the app, just close your browser & your terminal.
+
+
+Annotation: Most issues/problems correspond to the database connection – any 
+version you could get by following Step 1 should compile & run stable within a 
+correct setted environment. So if you encounter problems with the App, you may 
+look at the corresponding steps first.
+If you still keep having problems, or find some errors/bugs, please contact us. 
