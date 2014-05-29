@@ -1,6 +1,7 @@
 package com.fau.amos.team2.WoundManagement.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +10,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Wound.currentForPatient",
+		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
+	@NamedQuery(name="Wound.deleteAll", query="DELETE FROM Wound"),
+	@NamedQuery(name="Wound.getMaxDecubitusId", query="SELECT MAX(w.decubitusId) FROM Wound w"),
+	@NamedQuery(name="Wound.allForPatient", query="SELECT w FROM Wound w WHERE w.patient=:patient")
+})
 public class Wound implements BusinessObject {
 	@Id
 	@Column(name = "NR")
@@ -70,6 +83,9 @@ public class Wound implements BusinessObject {
 	
 	@Column(name = "DEKUBITUSNR")
 	private int decubitusId;
+	
+	@OneToMany(targetEntity = WoundDescription.class, mappedBy="wound")
+	private List<WoundDescription> wounddescriptions;
 	
 	public Wound() { 
 		
@@ -209,5 +225,10 @@ public class Wound implements BusinessObject {
 
 	public void setDecubitusId(int decubitusId) {
 		this.decubitusId = decubitusId;
+	}
+	
+	public List<WoundDescription> getWoundDescriptions() {
+		//TODO: this is just a workaround! shall not call database every time a wounds wounddescriptions are needed.
+		return WoundDescriptionProvider.getInstance().getAllForWound(this);
 	}
 }

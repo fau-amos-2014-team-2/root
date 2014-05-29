@@ -10,31 +10,32 @@ import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.sessions.server.ServerSession;*/
 
+import java.sql.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Sex;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
+import com.fau.amos.team2.WoundManagement.provider.WardProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
-import com.fau.amos.team2.WoundManagement.provider.exceptions.DuplicateEmployeeException;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * The UI's "main" class
@@ -48,56 +49,110 @@ public class WoundManagementUI extends UI {
 
 	private static EmployeeProvider employeeProvider = 
 			EmployeeProvider.getInstance();
-	private static PatientProvider<Patient> patientProvider = 
-			(PatientProvider<Patient>) PatientProvider.getInstance();
-	private static WoundProvider<Wound> woundProvider = 
-			(WoundProvider<Wound>) WoundProvider.getInstance();
-	private static WoundTypeProvider<WoundType> woundTypeProvider = 
-			(WoundTypeProvider<WoundType>) WoundTypeProvider.getInstance();
-	private static WoundLevelProvider<WoundLevel> woundLevelProvider = 
-			(WoundLevelProvider<WoundLevel>) WoundLevelProvider.getInstance();
+	private static PatientProvider patientProvider = 
+			PatientProvider.getInstance();
+	private static WoundProvider woundProvider = 
+			WoundProvider.getInstance();
+	private static WoundTypeProvider woundTypeProvider = 
+			WoundTypeProvider.getInstance();
+	private static WoundLevelProvider woundLevelProvider = 
+			WoundLevelProvider.getInstance();
+	private static WardProvider wardProvider = 
+			WardProvider.getInstance();
+	private static WoundDescriptionProvider woundDescriptionProvider = 
+			WoundDescriptionProvider.getInstance();
 	
-		private static WoundType testWoundType1 = new WoundType();
+	private static WoundType testWoundType1 = new WoundType();
 	private static WoundLevel testWoundLevel1 = new WoundLevel();
-	private static Patient testPatient1 = new Patient();
 	private static Wound testWound1 = new Wound();
-	
-	private static boolean isInitialized = false;
-	
+	private static Wound testWound2 = new Wound();
+
 	static void initData() {
-		// curiosly breaks the connection
-		//if(isInitialized)
-		//	return;
-		//isInitialized = true;
-		Ward ward = new Ward();
-		ward.setCharacterisation("blub");
+		//empty tables
+		woundDescriptionProvider.deleteAll();
+		woundProvider.deleteAll();
+		woundLevelProvider.deleteAll();
+		woundTypeProvider.deleteAll();
+		employeeProvider.deleteAll();
+		patientProvider.deleteAll();
+		wardProvider.deleteAll();
 		
-		Employee testUser1 = new Employee();
-		testUser1.setFirstName("Adam");
-		testUser1.setLastName("Arbeit");
-		testUser1.setAbbreviation("testuser1");
-		testUser1.setQualificationNumber(1111);
-		testUser1.setWorkingWard(ward);
-		
-		Employee testUser2 = new Employee();
-		testUser2.setFirstName("Bernd");
-		testUser2.setLastName("Bond");
-		testUser2.setAbbreviation("testuser2");
-		testUser2.setQualificationNumber(2222);
-		
-		Employee testUser3 = new Employee();
-		testUser3.setFirstName("Christina");
-		testUser3.setLastName("Charles");
-		testUser3.setAbbreviation("testuser3");
-		testUser3.setQualificationNumber(3333);
-		
-		try {
-			employeeProvider.createEmployee(testUser1);
-			employeeProvider.createEmployee(testUser2);
-			employeeProvider.createEmployee(testUser3);
-		} catch (DuplicateEmployeeException e) {
-			// Fail silently
+		for (int i = 0; i < 3; i++) {
+			Ward ward = new Ward();
+			ward.setCharacterisation("Station " + (i+1));
+			wardProvider.add(ward);
+			
+			Employee testUser = new Employee();
+			testUser.setWorkingWard(ward);
+			testUser.setCurrentWard(ward);
+
+			switch (i) {
+				case 0:
+					testUser.setFirstName("Adam");
+					testUser.setLastName("Arbeit");
+					testUser.setAbbreviation("testuser1");
+					testUser.setPdaCode("1111");
+					break;
+					
+				case 1:
+					testUser.setFirstName("Bernd");
+					testUser.setLastName("Bond");
+					testUser.setAbbreviation("testuser2");
+					testUser.setPdaCode("2222");
+					testUser.setWorkingWard(ward);
+					break;
+					
+				case 2:
+					testUser.setFirstName("Christina");
+					testUser.setLastName("Charles");
+					testUser.setAbbreviation("testuser3");
+					testUser.setPdaCode("3333");
+					break;
+			}
+			
+			employeeProvider.add(testUser);
+			
+			Patient testPatient = new Patient();
+			testPatient.setSensoID(1);
+			testPatient.setAccomodation('c');
+			testPatient.setKeyword("keyword");
+			testPatient.setRoom("room");
+
+			switch (i) {
+				case 0:
+					testPatient.setFirstName("Doerte");
+					testPatient.setLastName("Daeumler");
+					testPatient.setBirthday(java.sql.Date.valueOf("1956-03-12"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
+					testPatient.setGender(Sex.FEMALE.toCharString());
+					testPatient.setTitle("Dr.");
+					testPatient.setWard(ward);
+					break;
+					
+				case 1:
+					testPatient.setFirstName("Egon");
+					testPatient.setLastName("Erhardt");
+					testPatient.setBirthday(java.sql.Date.valueOf("1957-04-13"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-12"));
+					testPatient.setGender(Sex.MALE.toCharString());
+					testPatient.setTitle("Prof.");
+					testPatient.setWard(ward);
+					break;
+					
+				case 2:
+					testPatient.setFirstName("Fritz");
+					testPatient.setLastName("Fischer");
+					testPatient.setBirthday(java.sql.Date.valueOf("1958-05-14"));
+					testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-13"));
+					testPatient.setGender(Sex.NEUTER.toCharString());
+					testPatient.setWard(ward);
+					break;
+			}
+			
+			patientProvider.add(testPatient);
 		}
+		
+		Employee firstEmployee = employeeProvider.getAllItems().iterator().next();
 		
 		testWoundType1.setBodyLocationRequired(false);
 		testWoundType1.setClassification("Senso6 Dekubitus");
@@ -116,37 +171,85 @@ public class WoundManagementUI extends UI {
 		
 		woundLevelProvider.add(testWoundLevel1);
 		
-		testPatient1.setFirstName("Doerte");
-		testPatient1.setLastName("Daeumler");
-		testPatient1.setSensoID(1);
-		testPatient1.setAccomodation('c');
-		testPatient1.setBirthday(java.sql.Date.valueOf("1956-03-12"));
-		testPatient1.setEntryDate(java.sql.Date.valueOf("2014-04-11"));
-		testPatient1.setGender("f");
-		testPatient1.setKeyword("keyword");
-		testPatient1.setRoom("room");
-		testPatient1.setTitle("Dr.");
-		
-		patientProvider.add(testPatient1);
+		Iterator<Patient> iterator = patientProvider.getAllItems().iterator();
+		Patient firstPatient = iterator.next();
+		Patient secondPatient = iterator.next();
 		
 		testWound1.setBodyLocation("Brustbein");
 		testWound1.setBodyLocationCode(64);
-		testWound1.setCureEmployee(testUser3);
-		testWound1.setDecubitusId(10);
+		testWound1.setCureEmployee(firstEmployee);
 		testWound1.setDepth(3);
 		testWound1.setDescription("Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. Ich bin eine Bemerkung. ");
 		testWound1.setEndDate(java.sql.Date.valueOf("2014-05-12"));
 		testWound1.setOrigination(1);
 		testWound1.setRecordingDate(java.sql.Date.valueOf("2014-04-12"));
-		testWound1.setRecordingEmployee(testUser1);
+		testWound1.setRecordingEmployee(firstEmployee);
 		testWound1.setSize1(1);
 		testWound1.setSize2(2);
 		testWound1.setWoundType(testWoundType1);
 		testWound1.setWoundLevel(testWoundLevel1);
-		testWound1.setPatient(testPatient1);
+		testWound1.setPatient(firstPatient);
 		
 		woundProvider.add(testWound1);
+		
+		testWound2.setBodyLocation("linke Wade");
+		testWound2.setBodyLocationCode(15);
+		//testWound2.setCureEmployee(firstEmployee);
+		testWound2.setDepth(4);
+		testWound2.setDescription("Ich bin eine Bemerkung.");
+		//testWound2.setEndDate(java.sql.Date.valueOf("2014-05-22"));
+		testWound2.setOrigination(2);
+		testWound2.setRecordingDate(java.sql.Date.valueOf("2014-04-22"));
+		testWound2.setRecordingEmployee(firstEmployee);
+		testWound2.setSize1(2);
+		testWound2.setSize2(3);
+		testWound2.setWoundType(testWoundType1);
+		testWound2.setWoundLevel(testWoundLevel1);
+		testWound2.setPatient(secondPatient);
+		
+		woundProvider.add(testWound2);
+		
+		for (int i = 0; i < 4; i++){
+			WoundDescription woundDescription = new WoundDescription();
+			woundDescription.setEmployee(firstEmployee);
+			woundDescription.setWoundType(testWoundType1);
+			woundDescription.setWoundLevel(testWoundLevel1);
+			
+			switch(i){
+				case 0: 
+					woundDescription.setDate(Date.valueOf("2012-01-11"));
+					woundDescription.setWound(testWound1);
+					woundDescription.setSize1(1);
+					woundDescription.setSize2(2);
+					woundDescription.setDepth(3);
+					break;
+				case 1:
+					woundDescription.setDate(Date.valueOf("2012-02-12"));
+					woundDescription.setWound(testWound1);
+					woundDescription.setSize1(4);
+					woundDescription.setSize2(5);
+					woundDescription.setDepth(6);
+					break;
+				case 2:
+					woundDescription.setDate(Date.valueOf("2012-03-13"));
+					woundDescription.setWound(testWound2);
+					woundDescription.setSize1(7);
+					woundDescription.setSize2(8);
+					woundDescription.setDepth(9);
+					break;
+				case 3:
+					woundDescription.setDate(Date.valueOf("2012-04-14"));
+					woundDescription.setWound(testWound2);
+					woundDescription.setSize1(1);
+					woundDescription.setSize2(2);
+					woundDescription.setDepth(3);
+					break;
+			}
+			
+			woundDescriptionProvider.add(woundDescription);
+		}
 
+		
 	}
 	// END INIT //
 
@@ -161,7 +264,7 @@ public class WoundManagementUI extends UI {
 		NavigationManager manager = new NavigationManager();
 
 		if (Environment.INSTANCE.getCurrentEmployee() != null) {
-			manager.setCurrentComponent(new LoggedInView());
+			manager.setCurrentComponent(new PatientSelectionView());
 		}
 		else {
 			manager.setCurrentComponent(new StartMenuView());

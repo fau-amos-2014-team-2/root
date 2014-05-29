@@ -23,4 +23,5 @@ public enum Environment {
 	public void logout() {
 		currentEmployee = null;
 	}
+
 }

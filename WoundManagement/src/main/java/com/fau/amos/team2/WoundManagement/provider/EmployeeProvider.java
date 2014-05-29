@@ -69,20 +69,11 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 	 * @return true if login successful, false otherwise
 	 */
 	public Employee getEmployeeByUsernameAndPassword(String username, String password) {
-		int passwordInteger;
-		
-		try {
-			passwordInteger = Integer.parseInt(password);
-		}
-		catch (NumberFormatException e) {
-			return null;
-		}
-		
 		EntityManager em = container.getEntityProvider().getEntityManager();
 		
 		TypedQuery<Employee> query = em.createNamedQuery("Employee.findByUsernameAndPassword", Employee.class);
 		query.setParameter("username", username);
-		query.setParameter("password", passwordInteger);
+		query.setParameter("password", password);
 		
 		try {
 			Employee employee = query.getSingleResult();
@@ -148,11 +139,10 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 		throw new DuplicateEmployeeException(employee.getAbbreviation());
 	}
 	
-	public void updateEmployee(Employee employee) {
+	public void deleteAll() {
 		EntityManager em = container.getEntityProvider().getEntityManager();
-		
 		em.getTransaction().begin();
-		em.persist(employee);
+		em.createNamedQuery("Employee.deleteAll").executeUpdate();
 		em.getTransaction().commit();
 	}
 }

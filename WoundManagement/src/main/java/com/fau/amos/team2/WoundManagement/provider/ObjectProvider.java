@@ -1,5 +1,7 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import javax.persistence.EntityManager;
+
 import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
@@ -34,8 +36,18 @@ public class ObjectProvider<T extends BusinessObject> {
 	 * @param Employee
 	 * @return the Id of the inserted Employee
 	 */
-	public Object add(T object) {
-		return container.addEntity(object);
+	public void add(T object) {
+		update(object);
+		
+		container.addEntity(object);
+	}
+	
+	public void update(T object) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		
+		em.getTransaction().begin();
+		em.persist(object);
+		em.getTransaction().commit();
 	}
 	
 	/**

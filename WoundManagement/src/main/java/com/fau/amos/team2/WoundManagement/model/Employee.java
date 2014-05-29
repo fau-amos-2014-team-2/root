@@ -13,8 +13,9 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e"),
+	@NamedQuery(name="Employee.deleteAll", query="DELETE FROM Employee"),
 	@NamedQuery(name="Employee.findByUsernameAndPassword",
-			query="SELECT e FROM Employee e WHERE e.abbreviation = :username AND e.qualificationNumber = :password"),
+			query="SELECT e FROM Employee e WHERE e.abbreviation = :username AND e.pdaCode = :password"),
 	@NamedQuery(name="Employee.findByUsername",
 			query="SELECT e FROM Employee e WHERE e.abbreviation = :username"),
 })

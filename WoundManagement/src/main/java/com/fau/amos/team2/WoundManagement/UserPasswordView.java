@@ -45,15 +45,7 @@ public class UserPasswordView extends Popover {
 
 				boolean currentPasswordCorrect = false;
 
-				try {
-					currentPasswordCorrect = user.getQualificationNumber() == Integer.parseInt(currentPassword.getValue());
-				} catch (NumberFormatException e){
-					Notification.show(MessageResources.getString("currentPINException")); //$NON-NLS-1$
-					currentPassword.setValue(""); //$NON-NLS-1$
-					newPassword1.setValue(""); //$NON-NLS-1$
-					newPassword2.setValue(""); //$NON-NLS-1$
-					return;
-				}
+				currentPasswordCorrect = user.getPdaCode().equals(currentPassword.getValue());
 
 				if (currentPasswordCorrect){
 					String newPassword = newPassword1.getValue();
@@ -63,8 +55,8 @@ public class UserPasswordView extends Popover {
 								//set new password
 								try {
 									Integer newPasswordInt = Integer.parseInt(newPassword);
-									user.setQualificationNumber(newPasswordInt);
-									EmployeeProvider.getInstance().updateEmployee(user);
+									user.setPdaCode("" + newPasswordInt);
+									EmployeeProvider.getInstance().update(user);
 									close();
 								} catch (NumberFormatException e){
 									Notification.show(MessageResources.getString("newPINException")); //$NON-NLS-1$
@@ -101,14 +93,5 @@ public class UserPasswordView extends Popover {
 
 		setContent(layout);
 
-	}
-
-	private static boolean isNumeric(String str)
-	{
-	    for (char c : str.toCharArray())
-	    {
-	        if (!Character.isDigit(c)) return false;
-	    }
-	    return true;
 	}
 }

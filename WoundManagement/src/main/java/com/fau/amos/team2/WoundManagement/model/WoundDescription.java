@@ -9,10 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQueries({
+	@NamedQuery(name="WoundDescription.deleteAll", query="DELETE FROM WoundDescription"),
+	@NamedQuery(name="WoundDescription.allForWound", query="SELECT w FROM WoundDescription w WHERE w.wound=:wound")
+})
 public class WoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR")
@@ -22,7 +27,7 @@ public class WoundDescription implements BusinessObject {
 	@Column(name = "KENMDT07_NR")
 	private int sensoID;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "BEWDKL07_NR", nullable = false, referencedColumnName="NR")
 	private Wound wound;
 	
@@ -169,4 +174,16 @@ public class WoundDescription implements BusinessObject {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
+	
+	//FIXME: Setter & Getter for Description added
+		//was this done correctly?
+		//@author: simon
+		public void setDescription(String value) {
+			// TODO Auto-generated method stub
+			this.description = value;
+		}
+
+		public String getDescription() {
+			return this.description;
+		}
 }

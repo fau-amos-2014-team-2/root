@@ -121,7 +121,7 @@
             <!-- Configure database to be created on startup if not already existing. -->
             <!-- property name="eclipselink.ddl-generation" value="create-tables" / -->
             <!-- To drop and replace existing schema this can be used. -->
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
 
             <!-- Configure simple SQL logging for demonstration. -->
             <property name="eclipselink.logging.level" value="FINE" />
