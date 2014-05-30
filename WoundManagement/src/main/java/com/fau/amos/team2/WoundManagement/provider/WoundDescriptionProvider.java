@@ -1,5 +1,6 @@
 package com.fau.amos.team2.WoundManagement.provider;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -47,5 +48,18 @@ public class WoundDescriptionProvider extends ObjectProvider<WoundDescription>{
 		query.setParameter("wound", wound);
 		List<WoundDescription> resultList = query.getResultList();
 		return resultList;
+	}
+	
+	public WoundDescription getNewestForWound(Wound wound) {
+		List<WoundDescription> descriptions = this.getAllForWound(wound);
+		WoundDescription maxDescription = new WoundDescription();
+		Date maxDate = new Date(0);
+		for (WoundDescription wd : descriptions){
+			if (wd.getDate() != null && wd.getDate().after(maxDate)){
+				maxDate = wd.getDate();
+				maxDescription = wd;
+			}
+		}
+		return maxDescription;
 	}
 }

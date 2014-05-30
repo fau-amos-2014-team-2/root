@@ -18,6 +18,7 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.NumberField;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -35,8 +36,17 @@ import com.vaadin.ui.TextField;
 public class CreateWoundDescriptionView extends NavigationView implements WardChangeListener {
 
 	private Wound wound;
+	private WoundDescriptionProvider woundDescriptionProvider =
+			WoundDescriptionProvider.getInstance();
+	private WoundLevelProvider woundLevelProvider =
+			WoundLevelProvider.getInstance();
+	private WoundTypeProvider woundTypeProvider = 
+			WoundTypeProvider.getInstance();
+	
 	public CreateWoundDescriptionView(final Wound wound) {
 		this.wound = wound;
+		WoundDescription latest = woundDescriptionProvider.getNewestForWound(wound);
+		
 		Employee user = Environment.INSTANCE.getCurrentEmployee();
 		setCaption(MessageResources.getString("newDesc"));
 		setRightComponent(new UserBar(this));
@@ -72,6 +82,8 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		taschen.setCaption(MessageResources.getString("woundBags")+":");
 		taschen.setImmediate(false);
 		taschen.setWidth("20em");
+		taschen.setValue(latest.isBaggy());
+
 
 		// taschen.setWidth("-1px");
 		// taschen.setHeight("-1px");
@@ -81,12 +93,19 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		bagLocation.setImmediate(false);
 		bagLocation.setWidth("20em");
 		bagLocation.setMaxLength(200);
+		if (latest.getBagLocation() != null){
+			bagLocation.setValue(latest.getBagLocation());
+		}
 
 		final TextField bagDirection = new TextField();
 		bagDirection.setCaption(MessageResources.getString("bagdirection")+":");
 		bagDirection.setImmediate(false);
 		bagDirection.setWidth("20em");
 		bagDirection.setMaxLength(200);
+		if (latest.getBagDirection() != null){
+			bagLocation.setValue(latest.getBagDirection());
+		}
+
 
 		taschenErfassen.addComponents(taschen, bagLocation,
 				bagDirection);
@@ -101,6 +120,9 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		comment.setMaxLength(2000);
 		comment.setWidth("61em");
 		comment.setHeight("5em");
+		if (latest.getDescription() != null){
+			comment.setValue(latest.getDescription());
+		}
 
 		mainLayout.addComponent(comment);
 
@@ -114,6 +136,8 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		size1.setInvalidAllowed(false);
 		size1.setWidth("20em");
 		wundGroessen.addComponent(size1);
+		size1.setValue(latest.getSize1()+"");
+		
 
 		// NumberField - width of wound
 		final NumberField size2 = new NumberField(MessageResources.getString("width")+":");
@@ -121,6 +145,8 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		size2.setInvalidAllowed(false);
 		size2.setWidth("20em");
 		wundGroessen.addComponent(size2);
+		size2.setValue(latest.getSize2()+"");
+
 
 		// NumberField - depth of wound
 		final NumberField depth = new NumberField(MessageResources.getString("depth")+":");
@@ -128,6 +154,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		depth.setInvalidAllowed(false);
 		depth.setWidth("20em");
 		wundGroessen.addComponent(depth);
+		depth.setValue(latest.getDepth()+"");
 
 		mainLayout.addComponent(wundGroessen);
 		
@@ -142,12 +169,15 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		final ComboBox type = new ComboBox(MessageResources.getString("woundType")+":");
 		for (Object o : typeIds){
 			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
-			type.addItem(tmp);
-			type.setItemCaption(tmp, tmp.getClassification());
+			type.addItem(o);
+			type.setItemCaption(o, tmp.getClassification());
 		}
 		type.setWidth("20em");
 		type.setNewItemsAllowed(false);
 		type.setTextInputAllowed(false);
+		if (latest.getWoundType() != null){
+			type.setValue(latest.getWoundType().getId());
+		}
 		woundlevelandtype.addComponent(type);
 		 
 		// ComboBox - woundlevel
@@ -155,12 +185,15 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		final ComboBox level = new ComboBox(MessageResources.getString("woundLevel")+":");
 		for (Object o : levelIds){
 			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
-			level.addItem(tmp);
-			level.setItemCaption(tmp, tmp.getCharacterisation());
+			level.addItem(o);
+			level.setItemCaption(o, tmp.getCharacterisation());
 		}
 		level.setNewItemsAllowed(false);
 		level.setTextInputAllowed(false);
 		level.setWidth("20em");
+		if (latest.getWoundLevel() != null){
+			level.setValue(latest.getWoundLevel().getId());
+		}
 		woundlevelandtype.addComponent(level);
 		
 		mainLayout.addComponent(woundlevelandtype);
@@ -189,25 +222,26 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 					 */
 					//setWoundLevel
 					if (level.getValue() != null){
-						woundDescription.setWoundLevel((WoundLevel)level.getValue());
+						woundDescription.setWoundLevel(woundLevelProvider.getByID(level.getValue()));
 					}
 					
 					//setWoundType
 					if (type.getValue() != null){
-						woundDescription.setWoundType((WoundType)type.getValue());
+						WoundType woundType = woundTypeProvider.getByID(type.getValue());
+						woundDescription.setWoundType(woundType);
 						
 						//check if WoundLevel is set according to chosen WoundType
 						//'P''p' - level required
 						//'V''v' - level forbidden
 						//'E''e' - level allowed
-						if ('p' == (((WoundType)type.getValue()).getLevel()) || 'P' == (((WoundType)type.getValue()).getLevel())){
+						if ('p' == (woundType.getLevel()) || 'P' == (woundType.getLevel())){
 							if (level.getValue() == null){
-								Notification.show(MessageResources.getString("woundType") + ((WoundType)type.getValue()).getClassification() + MessageResources.getString("woundLevelRequired"));
+								Notification.show(MessageResources.getString("woundType") + woundType.getClassification() + MessageResources.getString("woundLevelRequired"));
 								return;
 							}
-						} else if ('v' == (((WoundType)type.getValue()).getLevel()) || 'V' == (((WoundType)type.getValue()).getLevel())){
+						} else if ('v' == (woundType.getLevel()) || 'V' == (woundType.getLevel())){
 							if (level.getValue() != null){
-								Notification.show(MessageResources.getString("woundType") + ((WoundType)type.getValue()).getClassification() + MessageResources.getString("woundLevelForbidden"));
+								Notification.show(MessageResources.getString("woundType") + woundType.getClassification() + MessageResources.getString("woundLevelForbidden"));
 								return;
 							}
 						}
@@ -318,10 +352,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 	}
 	@Override
 	public void wardChanged(WardChangeEvent event) {
-		// TODO Auto-generated method stub
-
 		WoundDescriptionListView newView = new WoundDescriptionListView(wound);
-
 		getNavigationManager().setPreviousComponent(newView);
 
 		
