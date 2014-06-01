@@ -93,7 +93,9 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 			propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
 			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
 			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
-			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
+			// changed to show only current wounds
+			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getCurrentWounds().size());
+			// propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
 			container.addItem(p.getId());
 		} 
 		

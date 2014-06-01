@@ -138,6 +138,10 @@ public class Wound implements BusinessObject {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public void setEndDate(int year, int month, int day) {
+		this.endDate = new Date(year, month, day);	
+	}
 
 	public Employee getCureEmployee() {
 		return cureEmployee;
@@ -231,4 +235,5 @@ public class Wound implements BusinessObject {
 		//TODO: this is just a workaround! shall not call database every time a wounds wounddescriptions are needed.
 		return WoundDescriptionProvider.getInstance().getAllForWound(this);
 	}
+
 }
