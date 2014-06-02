@@ -73,17 +73,20 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 		table.setImmediate(true);
 		
 		allPatients = patientProvider.getAllItems();
-		allProperties = new Property[allPatients.size()][2];
+		allProperties = new Property[allPatients.size()][3];
 		patientsOfWard = patientProvider.getPatientsOfWard(currentWard);
-		propertiesOfWard = new Property[patientsOfWard.size()][2];
+		propertiesOfWard = new Property[patientsOfWard.size()][3];
 		
 		patientsForTable = patientsOfWard;
 		propertiesForTable = propertiesOfWard;
 		
 		table.addContainerProperty("name", String.class , null, MessageResources.getString("name"), null , null);
+		table.addContainerProperty("ward", String.class, null, MessageResources.getString("ward"), null, null);
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		
 		table.setColumnWidth("name", 500);
+		table.setColumnWidth("ward", 200);
+		table.setColumnWidth("currentWounds", 200);
 		
 		container = table.getContainerDataSource();
 		
@@ -91,9 +94,11 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 			table.addItem(p.getId());
 			Item item = table.getItem(p.getId());
 			propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
-			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
-			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
-			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
+			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());
+			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
+			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard().getCharacterisation());
+			propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
+			propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
 			container.addItem(p.getId());
 		} 
 		
@@ -131,8 +136,10 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 					Item item = table.getItem(p.getId());
 					propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
 					propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
-					propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
-					propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
+					propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
+					propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard().getCharacterisation());
+					propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
+					propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
 					container.addItem(p.getId());
 				} 
 			}
@@ -143,14 +150,13 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 		verticalGroup.addComponent(tablePanel);
 		
 		setContent(verticalGroup);
-		
 	}
 
 	@Override
 	public void wardChanged(WardChangeEvent event) {
 		if (event.getWard() != null){
 			patientsOfWard = patientProvider.getPatientsOfWard(event.getWard());
-			propertiesOfWard = new Property[patientsOfWard.size()][2];
+			propertiesOfWard = new Property[patientsOfWard.size()][3];
 			
 			if (optionGroup.getValue().equals("allPatients")){
 				patientsForTable = allPatients;
@@ -166,9 +172,11 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 				table.addItem(p.getId());
 				Item item = table.getItem(p.getId());
 				propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
-				propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
-				propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("currentWounds");
-				propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWounds().size());
+				propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());
+				propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
+				propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard());
+				propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
+				propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
 				container.addItem(p.getId());
 			} 
 		}
