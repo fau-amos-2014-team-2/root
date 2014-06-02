@@ -45,6 +45,7 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 	
 	private OptionGroup optionGroup;
 	
+	@SuppressWarnings("unchecked")
 	public PatientSelectionView() 
 	{
 		setCaption(MessageResources.getString("patientSelection"));
@@ -85,8 +86,8 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		
 		table.setColumnWidth("name", 500);
-		table.setColumnWidth("ward", 200);
-		table.setColumnWidth("currentWounds", 200);
+		table.setColumnWidth("ward", 250);
+		table.setColumnWidth("currentWounds", 250);
 		
 		container = table.getContainerDataSource();
 		
@@ -152,6 +153,7 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 		setContent(verticalGroup);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void wardChanged(WardChangeEvent event) {
 		if (event.getWard() != null){
