@@ -26,8 +26,7 @@ import com.vaadin.ui.Table.Align;
 
 /**
  * View to see patients of selected ward
- * @author Eugen
- * @param <event>
+ * @author ???
  */
 @SuppressWarnings("serial")
 public class PatientSelectionView extends NavigationView implements WardChangeListener{
@@ -98,8 +97,10 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());
 			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
 			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard().getCharacterisation());
+			// changed to show only current wounds
 			propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
-			propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
+			propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getCurrentWounds().size());
+			// propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
 			container.addItem(p.getId());
 		} 
 		
@@ -140,7 +141,9 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 					propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
 					propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard().getCharacterisation());
 					propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
-					propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
+					// changed to show only current wounds
+					propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getCurrentWounds().size());
+					//propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
 					container.addItem(p.getId());
 				} 
 			}
@@ -178,7 +181,9 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 				propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
 				propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard());
 				propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
-				propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
+				// changed to get current wounds only
+				propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getCurrentWounds().size());
+				//propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
 				container.addItem(p.getId());
 			} 
 		}

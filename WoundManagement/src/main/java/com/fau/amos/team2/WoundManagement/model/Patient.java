@@ -173,4 +173,9 @@ public class Patient implements BusinessObject {
 		//TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
 		return WoundProvider.getInstance().getAllForPatient(this);
 	}
+	
+	public List<Wound> getCurrentWounds() {
+		//TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
+		return WoundProvider.getInstance().getCurrentForPatient(this);
+	}
 }

@@ -27,11 +27,13 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 	final String SELECTION_INDICATOR = "orb.png";
 	final String WOUND_INDICATOR = "wound.png";
+	final String WOUND_HEALED_INDICATOR = "woundHealed.png";
 	final String WOUND_SELECTION_INDICATOR = "orbsel.png";
 	final int INDICATOR_HEIGHT = 24;
 	final int INDICATOR_WIDTH = 24;
 
 	private Image selectionIndicator;
+	private Image selctedWoundHealedIndicator;
 	private Image selectedWoundIndicator;
 	private WoundManager woundManager;
 	private WoundPosition selectedWoundPosition;
@@ -58,8 +60,12 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 		selectedWoundIndicator = getImage(WOUND_SELECTION_INDICATOR);
 		selectedWoundIndicator.setVisible(false);
+		
+		selctedWoundHealedIndicator = getImage(WOUND_HEALED_INDICATOR);
+		selctedWoundHealedIndicator.setVisible(false); 
 
-		addComponents(backgroundImage, selectionIndicator, selectedWoundIndicator);
+		addComponents(backgroundImage, 
+				selectionIndicator, selectedWoundIndicator, selctedWoundHealedIndicator);
 
 		setWidth(backgroundImage.getWidth(), Unit.PIXELS);
 		setHeight(backgroundImage.getHeight(), Unit.PIXELS);
@@ -76,7 +82,10 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 			image.setHeight(BODY_IMAGE_HEIGHT, Unit.PIXELS);
 			image.setWidth(BODY_IMAGE_WIDTH, Unit.PIXELS);
 		}
-		else if (imageFilename == SELECTION_INDICATOR || imageFilename == WOUND_INDICATOR || imageFilename == WOUND_SELECTION_INDICATOR) {
+		else if (imageFilename == SELECTION_INDICATOR 
+					|| imageFilename == WOUND_INDICATOR
+					|| imageFilename == WOUND_HEALED_INDICATOR
+					|| imageFilename == WOUND_SELECTION_INDICATOR) {
 			image.setHeight(INDICATOR_HEIGHT, Unit.PIXELS);
 			image.setWidth(INDICATOR_WIDTH, Unit.PIXELS);
 		}
