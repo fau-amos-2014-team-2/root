@@ -138,10 +138,6 @@ public class Wound implements BusinessObject {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
-	public void setEndDate(int year, int month, int day) {
-		this.endDate = new Date(year, month, day);	
-	}
 
 	public Employee getCureEmployee() {
 		return cureEmployee;

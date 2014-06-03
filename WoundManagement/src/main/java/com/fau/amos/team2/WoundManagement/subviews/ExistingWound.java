@@ -2,22 +2,22 @@ package com.fau.amos.team2.WoundManagement.subviews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.PatientSelectionView;
 import com.fau.amos.team2.WoundManagement.PatientView;
 import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.fau.amos.team2.WoundManagement.provider.DateProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Window;
 
 public class ExistingWound extends VerticalLayout {
@@ -40,10 +40,13 @@ public class ExistingWound extends VerticalLayout {
 	private Label depthLabel;
 	private Label originationLabel;
 	private Label descriptionLabel;
+	
+	private WoundProvider woundProvider =
+			WoundProvider.getInstance();
 
 	@SuppressWarnings("serial")
-	public ExistingWound(PatientView patientView, Wound wound) {
-		this.wound = wound;
+	public ExistingWound(PatientView patientView, Wound w) {
+		this.wound = w;
 		this.parentView = patientView;
 		
 		setSpacing(true);
@@ -119,7 +122,7 @@ public class ExistingWound extends VerticalLayout {
 		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
-		if (wound.getEndDate() == null) {
+		if (w.getEndDate() == null) {
 			
 			Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
 			endWound.addClickListener(new ClickListener(){
@@ -140,17 +143,12 @@ public class ExistingWound extends VerticalLayout {
 			        	@Override
 			        	public void buttonClick(ClickEvent event) {
 			        		
-							DateProvider endDateProvider = new DateProvider();
-							
-							int year = endDateProvider.getYear();
-							int month = endDateProvider.getMonth();
-							int day = endDateProvider.getDay();
-							
-							getWound().setEndDate(year, month, day);
-							
+			        		wound.setEndDate(new java.sql.Date(new Date().getTime()));
+							woundProvider.update(wound);
 							setEndDateLabel();
 							
 							doubleCheckSubWindow.close();
+							
 							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
 							
 			        	}
@@ -193,10 +191,6 @@ public class ExistingWound extends VerticalLayout {
 		}
 		
 		setAllFields();
-	}
-	
-	protected Wound getWound() {
-		return wound;
 	}
 	
 	private void setAllFields(){

@@ -17,19 +17,10 @@ public class WoundManager {
 	private WoundPosition selectedWoundPosition;
 	private Wound selectedWound;
 	
-	// TODO: since only used from PatientView it can be removed
-	// ...of course only if current method for showing only current wounds is accepted
-	public WoundManager(Patient patient) {
-		woundSelector = new WoundSelector(this, patient.getSex());
-		wounds = new HashMap<WoundPosition, Wound>();
-		for (Wound wound : patient.getWounds())
-			addWound(wound);
-	}
-	
 	public WoundManager(Patient patient, boolean showCurrentWoundsOnly) {
 		woundSelector = new WoundSelector(this, patient.getSex());
 		wounds = new HashMap<WoundPosition, Wound>();
-		if(showCurrentWoundsOnly == true) {
+		if(showCurrentWoundsOnly) {
 			for (Wound wound : patient.getCurrentWounds())
 				addWound(wound);
 		}else{
