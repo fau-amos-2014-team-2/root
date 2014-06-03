@@ -1,9 +1,7 @@
-
 package com.fau.amos.team2.WoundManagement.subviews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 
 import com.fau.amos.team2.WoundManagement.PatientSelectionView;
 import com.fau.amos.team2.WoundManagement.PatientView;
@@ -13,7 +11,6 @@ import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.DateProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -30,7 +27,6 @@ public class ExistingWound extends VerticalLayout {
 	private PatientView parentView;
 
 	private DateFormat dateFormat;
-	private Date endDate;
 	
 	private Label typeDecubitusLabel;
 	private Label recordingDateLabel;
@@ -123,7 +119,6 @@ public class ExistingWound extends VerticalLayout {
 		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
-		// check if wound is healed and only show options in case not healed
 		if (wound.getEndDate() == null) {
 			
 			Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
@@ -132,15 +127,14 @@ public class ExistingWound extends VerticalLayout {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					
-			        // Create a subWindow for checking if user really wants to end wound
-			        final Window doubleCheckSubWindow = new Window("Double Check End Wound");
+			        final Window doubleCheckSubWindow = new Window(MessageResources.getString("checkAgain")); //$NON-NLS-1$
 			        
 			        doubleCheckSubWindow.setClosable(false);
 			        
 			        HorizontalLayout subContent = new HorizontalLayout();
-			        subContent.addComponent(new Label("End selected wound finally?"));
+			        subContent.addComponent(new Label(MessageResources.getString("checkEndWound"))); //$NON-NLS-1$
 			        
-			        Button yesButton = new Button("Yes");
+			        Button yesButton = new Button(MessageResources.getString("yes")); //$NON-NLS-1$
 			        yesButton.addClickListener(new ClickListener() {
 			        	
 			        	@Override
@@ -148,7 +142,6 @@ public class ExistingWound extends VerticalLayout {
 			        		
 							DateProvider endDateProvider = new DateProvider();
 							
-							// java.sql.Date doesn't create Date() without integer y,m,d
 							int year = endDateProvider.getYear();
 							int month = endDateProvider.getMonth();
 							int day = endDateProvider.getDay();
@@ -158,24 +151,19 @@ public class ExistingWound extends VerticalLayout {
 							setEndDateLabel();
 							
 							doubleCheckSubWindow.close();
-							
-							// navigate to PatientSelectionView
-							parentView.getNavigationManager().navigateTo(new PatientSelectionView());
+							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
 							
 			        	}
 			        });
 					
 			        subContent.addComponent(yesButton);
 			        
-			        Button noButton = new Button("No");
+			        Button noButton = new Button(MessageResources.getString("no")); //$NON-NLS-1$
 			        noButton.addClickListener(new ClickListener() {
 			        	
 			        	@Override
 			        	public void buttonClick(ClickEvent event) {
-							
 			        		doubleCheckSubWindow.close();
-			        		parentView.getNavigationManager().navigateTo(new PatientSelectionView());
-			        		
 			        	}
 			        });
 			        
@@ -186,7 +174,6 @@ public class ExistingWound extends VerticalLayout {
 			        doubleCheckSubWindow.setContent(subContent);
 			        doubleCheckSubWindow.center();
 			        
-			        // open subWindow by adding to current UI
 			        UI.getCurrent().addWindow(doubleCheckSubWindow);
 				
 				}
@@ -208,7 +195,6 @@ public class ExistingWound extends VerticalLayout {
 		setAllFields();
 	}
 	
-	// added function for handling wound @endDate-ClickEvent
 	protected Wound getWound() {
 		return wound;
 	}
