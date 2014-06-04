@@ -102,7 +102,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		bagDirection.setWidth("20em");
 		bagDirection.setMaxLength(200);
 		if (latest.getBagDirection() != null){
-			bagLocation.setValue(latest.getBagDirection());
+			bagDirection.setValue(latest.getBagDirection());
 		}
 
 
