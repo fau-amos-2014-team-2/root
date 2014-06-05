@@ -1,5 +1,8 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
@@ -25,6 +28,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		setRightComponent(new UserBar(this));
 		this.wounddescription = wounddescription;
 
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		setCaption(MessageResources.getString("showWoundDescView"));
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
@@ -37,7 +41,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		greeting.setCaption(MessageResources.getString("author")+": " + wounddescription.getEmployee().getLastName() + ", " + wounddescription.getEmployee().getFirstName());
 		
 		Label date= new Label();
-		date.setCaption("" + wounddescription.getDate().toLocaleString());
+		date.setCaption(dateFormat.format(wounddescription.getDate()));
 		
 		greetingandDate.addComponents(greeting, date);
 		greetingandDate.setSpacing(true);

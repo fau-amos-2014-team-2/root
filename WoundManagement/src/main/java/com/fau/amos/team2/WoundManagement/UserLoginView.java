@@ -48,6 +48,7 @@ public class UserLoginView extends NavigationView {
 	 * If user login correct creates a new View
 	 * @see com.fau.amos.team2.WoundManagement.LoggedInView
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public UserLoginView() {
 		GridLayout main = new GridLayout(2, 1);
 		main.setSizeFull();

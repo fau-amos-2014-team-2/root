@@ -65,4 +65,13 @@ public class WoundProvider extends ObjectProvider<Wound> {
 		List<Wound> resultList = query.getResultList();
 		return resultList;
 	}
+	
+	// TODO
+	public List<Wound> getCurrentForPatient(Patient patient) {
+		EntityManager em = container.getEntityProvider().getEntityManager();
+		TypedQuery<Wound> query = em.createNamedQuery("Wound.currentForPatient", Wound.class);
+		query.setParameter("patient", patient);
+		List<Wound> resultList = query.getResultList();
+		return resultList;
+	}
 }

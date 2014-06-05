@@ -1,21 +1,24 @@
-
 package com.fau.amos.team2.WoundManagement.subviews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fau.amos.team2.WoundManagement.PatientView;
 import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 public class ExistingWound extends VerticalLayout {
 	private static final long serialVersionUID = 4222621457384471453L;
@@ -37,10 +40,13 @@ public class ExistingWound extends VerticalLayout {
 	private Label depthLabel;
 	private Label originationLabel;
 	private Label descriptionLabel;
+	
+	private WoundProvider woundProvider =
+			WoundProvider.getInstance();
 
 	@SuppressWarnings("serial")
-	public ExistingWound(PatientView patientView, Wound wound) {
-		this.wound = wound;
+	public ExistingWound(PatientView patientView, Wound w) {
+		this.wound = w;
 		this.parentView = patientView;
 		
 		setSpacing(true);
@@ -116,23 +122,73 @@ public class ExistingWound extends VerticalLayout {
 		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
-		Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
-		endWound.addClickListener(new ClickListener(){
-			@Override
-			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-			}
-		});
-		Button addWoundDescription = new Button(MessageResources.getString("woundDescriptions") + "..."); //$NON-NLS-1$
-		addWoundDescription.addClickListener(new ClickListener(){
-			@Override
-			public void buttonClick(ClickEvent event) {
-				parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(ExistingWound.this.wound));
-			}
-		});
+		if (w.getEndDate() == null) {
+			
+			Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
+			endWound.addClickListener(new ClickListener(){
+			
+				@Override
+				public void buttonClick(ClickEvent event) {
+					
+			        final Window doubleCheckSubWindow = new Window(MessageResources.getString("checkAgain")); //$NON-NLS-1$
+			        
+			        doubleCheckSubWindow.setClosable(false);
+			        
+			        HorizontalLayout subContent = new HorizontalLayout();
+			        subContent.addComponent(new Label(MessageResources.getString("checkEndWound"))); //$NON-NLS-1$
+			        
+			        Button yesButton = new Button(MessageResources.getString("yes")); //$NON-NLS-1$
+			        yesButton.addClickListener(new ClickListener() {
+			        	
+			        	@Override
+			        	public void buttonClick(ClickEvent event) {
+			        		
+			        		wound.setEndDate(new java.sql.Date(new Date().getTime()));
+							woundProvider.update(wound);
+							setEndDateLabel();
+							
+							doubleCheckSubWindow.close();
+							
+							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
+							
+			        	}
+			        });
+					
+			        subContent.addComponent(yesButton);
+			        
+			        Button noButton = new Button(MessageResources.getString("no")); //$NON-NLS-1$
+			        noButton.addClickListener(new ClickListener() {
+			        	
+			        	@Override
+			        	public void buttonClick(ClickEvent event) {
+			        		doubleCheckSubWindow.close();
+			        	}
+			        });
+			        
+			        subContent.addComponent(noButton);
+			        
+			        subContent.setMargin(true);
+			        
+			        doubleCheckSubWindow.setContent(subContent);
+			        doubleCheckSubWindow.center();
+			        
+			        UI.getCurrent().addWindow(doubleCheckSubWindow);
+				
+				}
+			
+			});
+			
+			Button addWoundDescription = new Button(MessageResources.getString("woundDescriptions") + "..."); //$NON-NLS-1$
+			addWoundDescription.addClickListener(new ClickListener(){
+				@Override
+				public void buttonClick(ClickEvent event) {
+					parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(ExistingWound.this.wound));
+				}
+			});
 		
-		addComponent(endWound);
-		addComponent(addWoundDescription);
+			addComponent(endWound);
+			addComponent(addWoundDescription);
+		}
 		
 		setAllFields();
 	}

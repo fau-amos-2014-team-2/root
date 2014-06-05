@@ -231,4 +231,5 @@ public class Wound implements BusinessObject {
 		//TODO: this is just a workaround! shall not call database every time a wounds wounddescriptions are needed.
 		return WoundDescriptionProvider.getInstance().getAllForWound(this);
 	}
+
 }

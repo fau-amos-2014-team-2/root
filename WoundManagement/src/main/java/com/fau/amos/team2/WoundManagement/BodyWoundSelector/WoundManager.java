@@ -17,11 +17,17 @@ public class WoundManager {
 	private WoundPosition selectedWoundPosition;
 	private Wound selectedWound;
 	
-	public WoundManager(Patient patient) {
+	public WoundManager(Patient patient, boolean showCurrentWoundsOnly) {
 		woundSelector = new WoundSelector(this, patient.getSex());
 		wounds = new HashMap<WoundPosition, Wound>();
-		for (Wound wound : patient.getWounds())
-			addWound(wound);
+		if(showCurrentWoundsOnly) {
+			for (Wound wound : patient.getCurrentWounds())
+				addWound(wound);
+		}else{
+			for (Wound wound : patient.getWounds())
+				addWound(wound);
+		}
+
 	}
 
 	public WoundSelector getWoundSelector() {
