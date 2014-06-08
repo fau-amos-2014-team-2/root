@@ -25,6 +25,7 @@ public class StartMenuView extends NavigationView {
 	 */
 	@SuppressWarnings("serial")
 	public StartMenuView() {
+		
 		setCaption(MessageResources.getString("mainMenu")); //$NON-NLS-1$
 
 		final VerticalComponentGroup content = new VerticalComponentGroup();

@@ -23,14 +23,25 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 
 	@SuppressWarnings("serial")
 	public UserBar(final NavigationView currentView) {
-		if (Environment.INSTANCE.getCurrentEmployee() != null) {
+
+		//if (Environment.INSTANCE.getCurrentEmployee() != null) {
+		if (Environment.instance.get().getCurrentEmployee() != null) {
+		//if (ApplicationSettings.instance.get().getCurrentEmployee() != null) {
 						
 			VerticalLayout userAndWardPanel = new VerticalLayout();
 
-			Label usernameLabel = new Label(Environment.INSTANCE.getCurrentEmployee().getFirstName() + " " + Environment.INSTANCE.getCurrentEmployee().getLastName());
+			// TODO
+			//Label usernameLabel = new Label(Environment.INSTANCE.getCurrentEmployee().getFirstName() + " " + Environment.INSTANCE.getCurrentEmployee().getLastName());
+			Label usernameLabel = new Label(Environment.instance.get().getCurrentEmployee().getFirstName()
+						+ " " + Environment.instance.get().getCurrentEmployee().getLastName());
+			//Label usernameLabel = new Label(ApplicationSettings.instance.get().getCurrentEmployee().getFirstName() 
+						//+ " " + ApplicationSettings.instance.get().getCurrentEmployee().getLastName());
 			userAndWardPanel.addComponent(usernameLabel);
 			
-			wardLabel = new Label(Environment.INSTANCE.getCurrentEmployee().getCurrentWard().getCharacterisation());
+			// TODO
+			//wardLabel = new Label(Environment.INSTANCE.getCurrentEmployee().getCurrentWard().getCharacterisation());
+			wardLabel = new Label(Environment.instance.get().getCurrentEmployee().getCurrentWard().getCharacterisation());
+			//wardLabel = new Label(ApplicationSettings.instance.get().getCurrentEmployee().getCurrentWard().getCharacterisation());
 			userAndWardPanel.addComponent(wardLabel);
 			
 			addComponent(userAndWardPanel);
@@ -63,7 +74,10 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 				
 				@Override
 				public void buttonClick(ClickEvent event) {
-					Environment.INSTANCE.logout();
+					// TODO
+					//Environment.INSTANCE.logout();
+					Environment.instance.get().logout();
+					//ApplicationSettings.instance.get().logout();
 					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
 				}
 			});

@@ -44,7 +44,18 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Widgetset("com.fau.amos.team2.WoundManagement.gwt.AppWidgetSet")
+// TODO: store theme in ApplicationSettings
 @Theme("touchkit")
+// TODO
+//@Push(PushMode.AUTOMATIC)
+// ... example for access
+/* ui.access(new Runnable() {
+ * 	@Override
+ * 	public void run() {
+ * 		series.add(new DataSeriesItem(x,y));
+ * 	}
+ * });
+ */
 public class WoundManagementUI extends UI {
 
 	private static EmployeeProvider employeeProvider = 
@@ -68,6 +79,7 @@ public class WoundManagementUI extends UI {
 	private static Wound testWound2 = new Wound();
 
 	static void initData() {
+		
 		//empty tables
 		woundDescriptionProvider.deleteAll();
 		woundProvider.deleteAll();
@@ -251,19 +263,23 @@ public class WoundManagementUI extends UI {
 
 		
 	}
-	// END INIT //
+	// END INIT DATA //
 
 	@Override
 	protected void init(VaadinRequest request) {	
-		Locale currentLocale;
-		currentLocale = Locale.GERMAN;
+		
+		//Locale currentLocale = ApplicationSettings.instance.get().getLanguage();
+		Locale currentLocale = Locale.GERMAN;
 		//currentLocale = Locale.ENGLISH;
 
 		MessageResources.setLocale(currentLocale);
 
 		NavigationManager manager = new NavigationManager();
 
-		if (Environment.INSTANCE.getCurrentEmployee() != null) {
+		// TODO
+		//if (Environment.INSTANCE.getCurrentEmployee() != null) {
+		if (Environment.instance.get().getCurrentEmployee() != null) {
+		//if (ApplicationSettings.instance.get().getCurrentEmployee() != null) {
 			manager.setCurrentComponent(new PatientSelectionView());
 		}
 		else {

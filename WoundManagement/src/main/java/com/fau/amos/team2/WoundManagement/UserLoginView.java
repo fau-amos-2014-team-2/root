@@ -174,10 +174,17 @@ public class UserLoginView extends NavigationView {
 		String username = usernameField.getValue();
 		String password = passwordField.getValue();
 		
-		Environment.INSTANCE.loginEmployee(username, password);
-		boolean correctdata = Environment.INSTANCE.getCurrentEmployee() != null;
+		// TODO
+		// ApplicationSettings.initialize(this);
+		//Environment.INSTANCE.loginEmployee(username, password);
+		Environment.instance.get().loginEmployee(username, password);
+		// TODO
+		//WoundManagementApplication wouManApp = new WoundManagementApplication();
+		//ApplicationSettings.instance.get().loginEmployee(username, password);
+		//boolean correctdata = Environment.INSTANCE.getCurrentEmployee() != null;
+		boolean correctdata = Environment.instance.get().getCurrentEmployee() != null;
+		//boolean correctdata = ApplicationSettings.instance.get().getCurrentEmployee() != null;
 		
-		//Falls korrekte daten:
 		if (correctdata) {
 			NavigationView next = new PatientSelectionView();
 			getNavigationManager().navigateTo(next);

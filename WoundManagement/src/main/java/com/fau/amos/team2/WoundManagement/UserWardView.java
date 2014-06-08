@@ -34,7 +34,10 @@ public class UserWardView extends Popover {
 		//setHeight("250px");
 
 		setCaption(MessageResources.getString("changeWard"));
-		final Employee user = Environment.INSTANCE.getCurrentEmployee();
+		// TODO
+		//final Employee user = Environment.INSTANCE.getCurrentEmployee();
+		final Employee user = Environment.instance.get().getCurrentEmployee(); 
+		//final Employee user = ApplicationSettings.instance.get().getCurrentEmployee();
 
 		VerticalLayout layout = new VerticalLayout();
 		

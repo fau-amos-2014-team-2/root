@@ -44,8 +44,11 @@ public class WoundDescriptionListView extends NavigationView implements WardChan
 		setCaption(MessageResources.getString("woundDescriptionsHeader"));
 		this.wound = wound;
 		this.patient = this.wound.getPatient();
-		
-		Environment.INSTANCE.getCurrentEmployee();
+
+		// TODO: why is this code-line needed ?!
+		Environment.instance.get().getCurrentEmployee();
+		//Environment.INSTANCE.getCurrentEmployee();
+		//ApplicationSettings.instance.get().getCurrentEmployee();
 		
 		
 		setRightComponent(new UserBar(this));

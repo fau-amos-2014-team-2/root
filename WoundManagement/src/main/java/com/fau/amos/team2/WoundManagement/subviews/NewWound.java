@@ -204,8 +204,12 @@ public class NewWound extends FormLayout {
 					wound.setBodyLocationCode(((BodyLocation)location.getValue()).getValue());
 					//setDescription - is automatically cut to at most 2000 characters
 					wound.setDescription(comment.getValue());
+					// TODO
 					//setRecordingEmployee - currently logged in
-					wound.setRecordingEmployee(Environment.INSTANCE.getCurrentEmployee());
+					// TODO
+					//wound.setRecordingEmployee(Environment.INSTANCE.getCurrentEmployee());
+					wound.setRecordingEmployee(Environment.instance.get().getCurrentEmployee());
+					//wound.setRecordingEmployee(ApplicationSettings.instance.get().getCurrentEmployee());
 
 					//setRecordingDate - all misformatted inputs result in "null"
 					try{

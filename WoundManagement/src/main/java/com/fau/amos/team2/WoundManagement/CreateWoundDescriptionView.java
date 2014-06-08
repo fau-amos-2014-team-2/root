@@ -42,11 +42,16 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 	private WoundTypeProvider woundTypeProvider = 
 			WoundTypeProvider.getInstance();
 	
+	// TODO
+	@SuppressWarnings("static-access")
 	public CreateWoundDescriptionView(final Wound wound) {
 		this.wound = wound;
 		WoundDescription latest = woundDescriptionProvider.getNewestForWound(wound);
 		
-		Employee user = Environment.INSTANCE.getCurrentEmployee();
+		// TODO: replace Environment by ApplicationSettings
+		//Employee user = ApplicationSettings.instance.get().getCurrentEmployee();
+		//Employee user = Environment.INSTANCE.getCurrentEmployee();
+		Employee user = Environment.instance.get().getCurrentEmployee();
 		setCaption(MessageResources.getString("newDesc"));
 		setRightComponent(new UserBar(this));
 
@@ -102,7 +107,7 @@ public class CreateWoundDescriptionView extends NavigationView implements WardCh
 		bagDirection.setWidth("20em");
 		bagDirection.setMaxLength(200);
 		if (latest.getBagDirection() != null){
-			bagLocation.setValue(latest.getBagDirection());
+			bagDirection.setValue(latest.getBagDirection());
 		}
 
 

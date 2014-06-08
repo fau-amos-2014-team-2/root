@@ -49,7 +49,10 @@ public class PatientSelectionView extends NavigationView implements WardChangeLi
 	{
 		setCaption(MessageResources.getString("patientSelection"));
 		
-		Ward currentWard = Environment.INSTANCE.getCurrentEmployee().getCurrentWard();
+		// TODO
+		//Ward currentWard = Environment.INSTANCE.getCurrentEmployee().getCurrentWard();
+		Ward currentWard = Environment.instance.get().getCurrentEmployee().getCurrentWard();
+		//Ward currentWard = ApplicationSettings.instance.get().getCurrentEmployee().getCurrentWard();
 		
 		setRightComponent(new UserBar(this));
 		
