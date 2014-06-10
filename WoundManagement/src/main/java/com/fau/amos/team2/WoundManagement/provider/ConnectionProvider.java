@@ -4,10 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.sql.DataSource;
 
 import com.fau.amos.team2.WoundManagement.model.BusinessObject;
 import com.fau.amos.team2.WoundManagement.model.Constants;
@@ -28,12 +33,8 @@ public class ConnectionProvider<T extends BusinessObject> {
 	{
 		type = c;
 		
-		HashMap<String, String> properties = new HashMap<String,String>();
-		properties.put("javax.persistence.jdbc.password", getPassword("config.pwd"));
-		
 		entityManagerFactory = 
-				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT, 
-						properties);
+				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT);
 
 		entityManager = entityManagerFactory.createEntityManager();
 		
