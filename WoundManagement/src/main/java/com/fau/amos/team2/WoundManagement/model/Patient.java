@@ -14,6 +14,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 
 @SuppressWarnings("serial")
@@ -24,40 +25,52 @@ import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 })
 public class Patient implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable=false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable=false)
 	private int sensoID;
 	
 	@Column(name = "NAME")
-	private String lastName;
+	private String lastName;//35
 	
 	@Column(name = "VORNAME")
-	private String firstName;
+	private String firstName;//35
 	
 	@Column(name = "GESCHLECHT")
-	private String gender;
+	private String gender;//100
+	
+	@Column(name = "TITEL")
+	private String title;//100
 	
 	@Column(name = "ANREDE")
-	private String title;
+	private String salutation;//100
 	
 	@Column(name = "GEBDATUM")
 	private Date birthday;
 	
 	@Column(name = "ZIMMER")
-	private String room;
+	private String room;//8
 	
+	/*
 	@ManyToOne
 	@JoinColumn(name = "STATIONEN07_NR", referencedColumnName="NR")
 	private Ward ward;
+	*/
+	@ManyToOne
+	@JoinColumn(name = "STATIONEN07_WARD", referencedColumnName = "NR")
+	private Ward ward;
+	
+	@Column(name = "STATIONEN07_NR")
+	private int wardId;
+		
 	
 	@OneToMany(targetEntity = Wound.class, mappedBy="patient")
 	private List<Wound> wounds;
 
 	@Column(name = "SUCHBEZ")
-	private String keyword;
+	private String keyword;//35
 	
 	@Column(name = "EINZUG")
 	private Date entryDate;
@@ -65,15 +78,16 @@ public class Patient implements BusinessObject {
 	@Column(name = "UNTERBRINGUNG")
 	private char accomodation;
 	
+	//Standard Constructor is setting the sensoID to default value
 	public Patient() {
-		
+		this.sensoID =1;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -120,7 +134,14 @@ public class Patient implements BusinessObject {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	
+	public String getSalutation() {
+		return salutation;
+	}
+	
+	public void setSalutation(String salutation) {
+		this.salutation = salutation;
+	}
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -138,11 +159,12 @@ public class Patient implements BusinessObject {
 	}
 
 	public Ward getWard() {
-		return ward;
+		return WardProvider.getInstance().getByID(wardId);
 	}
 
 	public void setWard(Ward ward) {
 		this.ward = ward;
+		this.wardId = ward.getId();
 	}
 
 	public String getKeyword() {

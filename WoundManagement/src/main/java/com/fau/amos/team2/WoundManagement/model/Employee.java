@@ -21,30 +21,30 @@ import javax.persistence.NamedQuery;
 })
 public class Employee implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable=false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable=false)
 	private int sensoID;
 	
 	@Column(name = "SUCHBEZ", nullable=false)
-	private String keyword;
+	private String keyword;//30
 	
 	@Column(name = "NAME")
-	private String lastName;
+	private String lastName;//30
 	
 	@Column(name = "VORNAME")
-	private String firstName;
+	private String firstName;//30
 	
 	@Column(name = "KUERZL")
-	private String abbreviation;
+	private String abbreviation;//5
 	
 	@Column(name = "QUALNR")
 	private int qualificationNumber;
 	
 	@Column(name = "PDACODE")
-	private String pdaCode;
+	private String pdaCode;//12
 	
 	@Column(name = "GLKONTR", nullable=false)
 	private char collectiveAcc;
@@ -53,7 +53,7 @@ public class Employee implements BusinessObject {
 	private char collectiveAccMedication;
 	
 	@Column(name = "GESCHLECHT")
-	private String gender;
+	private String gender;//100
 	
 	@JoinColumn(name = "DERZSTATION", referencedColumnName="NR")
 	private Ward currentWard;
@@ -65,16 +65,17 @@ public class Employee implements BusinessObject {
 		keyword = "key";
 		collectiveAcc = 'a';
 		collectiveAccMedication = 'a';
+		this.sensoID =1;
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setID(long id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 
-	public int getSensoKennung() {
+	public int getSensoID() {
 		return sensoID;
 	}
 

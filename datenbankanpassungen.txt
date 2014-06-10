@@ -1,0 +1,164 @@
+Patient: /BEWOPE07
+CREATE TABLE BEWOPE07("NR" NUMBER(12,0) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "NAME" VARCHAR2(35), "VORNAME" VARCHAR2(35), "GESCHLECHT" VARCHAR2(100), 
+"ANREDE" VARCHAR2(100), "TITEL" VARCHAR2(100), "GEBDATUM" DATE, "ZIMMER" 
+VARCHAR2(8), "STATIONEN07_NR" INTEGER(5), "SUCHBEZ" VARCHAR2(35), "EINZUG" 
+DATE, "UNTERBRINGUNG" VARCHAR2(1), PRIMARY KEY ("NR","KENMDT07_NR"))
+
+
+-long id -> int id (max 5 stellen)
+-String anrede hinzugefügt (salutation)
+-STATIONEN07_NR wardId (int) hinzugefügt
+-getter/setter Ward angepasst, setzt wardId //funktionalität 
+wie bisher
+-konstruktor setzt sensoId=1 (default)
+-getter/setter Anrede hinzugefügt
+-added Nullable=false zu Id & sensoId
+-setter/getter id auf int id angepasst
+
+
+Ward: /STATIONEN07 
+CREATE TABLE STATIONEN07("NR" INTEGER(5) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "BEZEICH" VARCHAR2(30) NOT NULL, "HAUS_NR" INTEGER(5) NOT NULL, PRIMARY 
+KEY ("NR","KENMDT07_NR"))
+
+-long id -> int 
+-added Nullable=false zu Id & sensoId
+-konstruktor setzt sensoId=1 (default)
+-setter/getter id auf int id angepasst
+
+
+Employee: /MITAPE07
+CREATE TABLE MITAPE07("NR" NUMBER(12,0) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "SUCHBEZ" VARCHAR2(30) NOT NULL, "NAME" VARCHAR2(30), "VORNAME" 
+VARCHAR2(30), "KUERZL" VARCHAR2(5) NOT NULL, "QUALNR" INTEGER(5), "PDACODE" 
+VARCHAR2(12), "GLKONTR" VARCHAR2(1) NOT NULL DEFAULT 'n' , "SAMMQUIT_M" 
+VARCHAR2(1) NOT NULL DEFAULT 'n' , "GESCHLECHT" VARCHAR2(100), PRIMARY KEY 
+("NR","KENMDT07_NR"))
+
+-added Nullable=false zu Id & sensoId
+-long id -> int 
+-konstruktor setzt sensoId=1 (default)
+-setter/getter id auf int id angepasst
+
+
+Woundlevel: KENDEK07
+/CREATE TABLE KENDEK07("NR" INTEGER(5) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "BEZEICH" VARCHAR2(2000) NOT NULL, "GRAD" INTEGER(1) NOT NULL, 
+"KENWUN07_NR" INTEGER(5) NOT NULL, "BESCHREIB" VARCHAR2(4000), "KUERZL" 
+VARCHAR2(5) NOT NULL, "POS" INTEGER(2), PRIMARY KEY ("NR","KENMDT07_NR"))
+
+-long id -> int 
+-added Nullable=false zu Id & sensoId
+-woundtypeID (int) hinzugefügt
+-getter/setter Woundtype angepasst, setzt woundtypeId //funktionalität wie 
+bisher
+-konstruktor setzt sensoId=1 (default)
+-setter/getter id auf int id angepasst
+-added getter/setter für Position (Sortierung)
+
+
+Woundtype: /KENWUN07
+CREATE TABLE KENWUN07("NR" INTEGER(5) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "BEZEICH" VARCHAR2(30) NOT NULL, "TYP" VARCHAR2(1) NOT NULL, "GROESSEPFL" 
+VARCHAR2(1) NOT NULL, "GRADSTATUS" VARCHAR2(1) NOT NULL DEFAULT 'E' , 
+"KOERPERSTELLEPFL" VARCHAR2(1) NOT NULL DEFAULT 'n' , PRIMARY KEY 
+("NR","KENMDT07_NR"))
+
+-long id -> int 
+-added Nullable=false zu Id & sensoId
+-sizeIsRequired (char) hinzugefügt
+-isBodyLocationRequired (char) hinzugefügt
+-konstruktor setzt sensoId=1 (default)
+-konstruktor setzt level auf 'E' (default)
+-konstruktor setzt isBodyLocationRequired auf 'n' (default)
+-setter/getter id auf int id angepasst
+-getter/setter zu sizeIsRequired angepasst (funktionalität wie bisher)
+-getter/setter zu isBodyLocationRequired angepasst (funktionalität wie bisher)
+
+
+CoreDataWoundDescription: /KENWBS07
+CREATE TABLE KENWBS07("NR" INTEGER(5) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "TYP" VARCHAR2(3), "BEZEICH" VARCHAR2(50) NOT NULL, "KENWBS07_NR" 
+INTEGER(5), "MITFREITEXT" VARCHAR2(1), "POSITION" INTEGER(3), PRIMARY KEY 
+("NR","KENMDT07_NR"))
+
+-added Nullable=false zu Id & sensoId
+-long id -> int 
+-nullable=false bei Typ entfernt
+-Selbstreferenz auf coreDataWoundDescriptionId (int) geändert
+-isFreeText von boolean auf char geändert
+-konstruktor setzt sensoId=1 (default)
+-setter/getter id auf int id angepasst
+-getter/setter zu coreDataWoundDescription angepasst (funktionalität wie bisher)
+-getter/setter zu isFreeText angepasst (funktionalität wie bisher)
+-TODO: funktionalität von varchar2(3) TYP nicht ganz verstanden, nur feste 
+werte zulässig?
+
+
+Wound: /BEWDKL07
+CREATE TABLE BEWDKL07("NR" NUMBER(12,0) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "BEWOPE07_NR" NUMBER(12,0) NOT NULL, "ERFASSUNGSDATUM" DATE NOT NULL, 
+"MITAPE07_NR" NUMBER(12,0) NOT NULL, "ENDEDATUM" DATE, "ENDE_MITAPE07_NR" 
+NUMBER(12,0), "KOERPERSTELLE" VARCHAR2(200), "KOERPERSTELLE_CODE" INTEGER(3) 
+NOT NULL, "GROESSE1" INTEGER(4), "GROESSE2" INTEGER(4), "TIEFE" INTEGER(2), 
+"BEMERKUNG" VARCHAR2(2000), "ENTSTEHUNG" VARCHAR2(1), "KENDEK07_NR" INTEGER(5), 
+"KENWUN07_NR" INTEGER(5), "DEKUBITUSNR" NUMBER(12,0) NOT NULL, PRIMARY KEY 
+("NR","KENMDT07_NR"))
+
+-added Nullable=false zu Id & sensoId
+-long id -> int 
+-patientID (int) hinzugefügt
+-recordingEmployeeId (int) hinzugefügt
+-cureEmployee zu cureEmployeeId (int) hinzugefügt
+-woundTypeId (int) hinzugefügt
+-woundLevelId (int) hinzugefügt
+-setter/getter id auf int id angepasst
+-konstruktor setzt sensoId=1 (default)
+-getter/setter zu Patient angepasst (funktionalität wie bisher)
+-getter/setter zu recordingEmployee angepasst (funktionalität wie bisher)
+-getter/setter zu cureEmployee angepasst (funktionalität wie bisher)
+-getter/setter zu Woundlevel angepasst (funktionalität wie bisher)
+-getter/setter zu woundtype angepasst (funktionalität wie bisher)
+
+
+WoundDescription: /BEWWBS07
+CREATE TABLE BEWWBS07("NR" INTEGER(5) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "BEWDKL07_NR" NUMBER(12,0) NOT NULL, "DATUM" DATE NOT NULL, "MITAPE07_NR" 
+NUMBER(12,0) NOT NULL, "TASCHEN" VARCHAR2(1), "TASCHLOK" VARCHAR2(200), 
+"TASCHRICHT" VARCHAR2(200), "BEMERKUNG" VARCHAR2(2000), "GROESSE1" INTEGER(4), 
+"GROESSE2" INTEGER(4), "KENDEK07_NR" INTEGER(5), "KENWUN07_NR" INTEGER(5) NOT 
+NULL, "TIEFE" INTEGER(2), PRIMARY KEY ("NR","KENMDT07_NR"))
+
+-added Nullable=false zu Id & sensoId
+-konstruktor setzt sensoId=1 (default)
+-long id -> int 
+-woundId (int) hinzugefügt
+-employeeId (int) hinzugefügt
+-isBaggy (char) hinzugefügt
+-woundLevelId (int) hinzugefügt
+-woundtypeId (int) hinzugefügt
+-byte[] image hinzugefügt
+-setter/getter id auf int id angepasst
+-getter/setter zu woundid angepasst (funktionalität wie bisher)
+-getter/setter zu employeeid angepasst (funktionalität wie bisher)
+-getter/setter zu isBaggy angepasst (funktionalität wie bisher)
+-getter/setter zu woundlevelId angepasst (funktionalität wie bisher)
+-getter/setter zu WoundTypeId angepasst (funktionalität wie bisher)
+
+
+Zuordnung Wundbeschreibung Stammdaten: /BEWWBZ07
+CREATE TABLE BEWWBZ07("NR" INTEGER(5) NOT NULL, "KENMDT07_NR" INTEGER(5) NOT 
+NULL, "KENWBS07_NR" NUMBER(12,0), "BEWWBS07_NR" NUMBER(12,0) NOT NULL, 
+"FREITEXT" VARCHAR2(4000), PRIMARY KEY ("NR","KENMDT07_NR"))
+
+-long id -> int 
+-added Nullable=false zu Id & sensoId
+-coreDataWoundDescriptionId (int) hinzugefügt
+-WoundDescriptionId (int) hinzugefügt
+-konstruktor setzt sensoId=1 (default)
+-setter/getter id auf int id angepasst
+-getter/setter zu coreDataWoundDescriptionId angepasst (funktionalität wie bisher)
+-getter/setter zu WoundDescriptionId angepasst (funktionalität wie bisher)
+
+

@@ -15,39 +15,48 @@ import javax.persistence.NamedQuery;
 })
 public class WoundType implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
 	@Column(name = "BEZEICH", nullable = false)
-	private String classification;
+	private String classification;//30
 	
 	@Column(name = "TYP", nullable = false)
 	private char type;
 	
 	@Column(name = "GROESSEPFL", nullable = false)
-	private boolean sizeIsRequired;
+	private char sizeIsRequired;//j || n
+	
+	@Column(name = "GROESSEPFLB", nullable = false)
+	private boolean sizeIsRequiredB;
 	
 	@Column(name = "GRADSTATUS", nullable = false)
 	private char level;
 	
 	@Column(name = "KOERPERSTELLEPFL", nullable = false)
-	private boolean isBodyLocationRequired;
+	private char isBodyLocationRequired;
+	
+	@Column(name = "KOERPERSTELLEPFLB", nullable = false)
+	private boolean isBodyLocationRequiredB;
 	
 	//TODO: translation of 'j'/'n' to boolean?
 	
 	public WoundType() {
-		
+		this.sensoID=1;
+		this.level= 'E';
+		this.isBodyLocationRequired = 'n';
+		this.isBodyLocationRequiredB = false;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -76,11 +85,12 @@ public class WoundType implements BusinessObject {
 	}
 
 	public boolean isSizeIsRequired() {
-		return sizeIsRequired;
+		return (sizeIsRequired=='j')?(true):(false);
 	}
 
 	public void setSizeIsRequired(boolean sizeIsRequired) {
-		this.sizeIsRequired = sizeIsRequired;
+		this.sizeIsRequiredB = sizeIsRequired;
+		this.sizeIsRequired = (sizeIsRequired)?('j'):('n');
 	}
 
 	public char getLevel() {
@@ -92,10 +102,11 @@ public class WoundType implements BusinessObject {
 	}
 
 	public boolean isBodyLocationRequired() {
-		return isBodyLocationRequired;
+		return (isBodyLocationRequired=='j')?(true):(false);
 	}
 
 	public void setBodyLocationRequired(boolean isBodyLocationRequired) {
-		this.isBodyLocationRequired = isBodyLocationRequired;
+		this.isBodyLocationRequired = (isBodyLocationRequired)?('j'):('n');
+		this.isBodyLocationRequiredB = isBodyLocationRequired;
 	}
 }

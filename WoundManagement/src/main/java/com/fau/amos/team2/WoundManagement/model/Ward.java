@@ -16,28 +16,28 @@ import javax.persistence.NamedQuery;
 })
 public class Ward implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
 	@Column(name = "BEZEICH", nullable = false)
-	private String characterisation;
+	private String characterisation;//30
 	
 	@Column(name = "HAUS_NR", nullable = false)
 	private int houseNumber;
 	
 	public Ward() {
-		
+		this.sensoID=1;
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

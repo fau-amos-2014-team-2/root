@@ -8,37 +8,47 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
+
 @SuppressWarnings("serial")
 @Entity
 public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 
 	@OneToOne
-	@JoinColumn(name = "KENWBS07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "KENWBS07_CDWD", nullable = false, referencedColumnName="NR")
 	private CoreDataWoundDescription coreDataWoundDescription;
 	
+	@Column(name = "KENWBS07_NR", nullable = false)
+	private int coreDataWoundDescriptionId;
+	
 	@OneToOne
-	@JoinColumn(name = "BEWWBS07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "BEWWBS07_WDesc", nullable = false, referencedColumnName="NR")
 	private WoundDescription woundDescription;
 	
+
+	@Column(name = "BEWWBS07_NR", nullable = false)
+	private int woundDescriptionId;
+	
 	@Column(name = "FREITEXT")
-	private String freeText;
+	private String freeText;//4000
 	
 	public CoreDataWoundDescriptionMapping() {
-		
+		this.sensoID = 1;
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -51,18 +61,20 @@ public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	}
 
 	public CoreDataWoundDescription getCoreDataWoundDescription() {
-		return coreDataWoundDescription;
+		return CoreDataWoundDescriptionProvider.getInstance().getByID(coreDataWoundDescriptionId);
 	}
 
 	public void setCoreDataWoundDescription(CoreDataWoundDescription coreDataWoundDescription) {
+		this.coreDataWoundDescriptionId = coreDataWoundDescription.getId();
 		this.coreDataWoundDescription = coreDataWoundDescription;
 	}
 
 	public WoundDescription getWoundDescription() {
-		return woundDescription;
+		return WoundDescriptionProvider.getInstance().getByID(woundDescriptionId);
 	}
 
 	public void setWoundDescription(WoundDescription woundDescription) {
+		this.woundDescriptionId = woundDescription.getId();
 		this.woundDescription = woundDescription;
 	}
 
