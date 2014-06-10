@@ -1,4 +1,4 @@
-<web-app>
+<web-app metadata-complete="true">
 	<persistence-context-ref>
 	    <persistence-context-ref-name>persistence/em</persistence-context-ref-name>
 	    <persistence-unit-name>fauDB</persistence-unit-name>
