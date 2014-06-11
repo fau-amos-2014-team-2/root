@@ -5,17 +5,19 @@ import java.text.SimpleDateFormat;
 
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
+import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
-import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 @SuppressWarnings("serial")
-public class ShowWoundDescriptionView extends NavigationView implements WardChangeListener {
+public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
 
 
 	/*
@@ -23,13 +25,20 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 	 * information listed to the previously selected description.
 	 * @Param: Wounddescription to be shown
 	 */
-	private WoundDescription wounddescription;
-	public ShowWoundDescriptionView(WoundDescription wounddescription) {
+	private WoundDescription woundDescription;
+	public ShowWoundDescriptionView(WoundDescription woundDescription) {
 		setRightComponent(new UserBar(this));
-		this.wounddescription = wounddescription;
+		this.woundDescription = woundDescription;
 
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		setCaption(MessageResources.getString("showWoundDescView"));
+		Wound wound = this.woundDescription.getWound();
+		if (wound != null){
+			Patient patient = wound.getPatient();
+			if (patient != null){
+				setCaption(patient.getFirstName() + " " + patient.getLastName());
+			}
+		}
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		mainLayout.setSizeFull();
@@ -38,10 +47,10 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		
 		
 		Label greeting = new Label();
-		greeting.setCaption(MessageResources.getString("author")+": " + wounddescription.getEmployee().getLastName() + ", " + wounddescription.getEmployee().getFirstName());
+		greeting.setCaption(MessageResources.getString("author")+": " + this.woundDescription.getEmployee().getLastName() + ", " + woundDescription.getEmployee().getFirstName());
 		
 		Label date= new Label();
-		date.setCaption(dateFormat.format(wounddescription.getDate()));
+		date.setCaption(dateFormat.format(this.woundDescription.getDate()));
 		
 		greetingandDate.addComponents(greeting, date);
 		greetingandDate.setSpacing(true);
@@ -49,31 +58,31 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		mainLayout.addComponent(greetingandDate);
 
 		HorizontalLayout groesen =new HorizontalLayout();
-		if (wounddescription.getSize2() ==0){
+		if (this.woundDescription.getSize2() ==0){
 			//getSize2 equal to zero means that size 1 has to be interpreted as diameter/durchmesser & size2 is not relevant
 			Label diameter=new Label();
 			diameter.setCaption(MessageResources.getString("diameter")+":");
-			diameter.setValue(""+wounddescription.getSize1());
+			diameter.setValue(""+this.woundDescription.getSize1());
 			
 			
 			Label depth=new Label();
 			depth.setCaption(MessageResources.getString("depth")+":");
-			depth.setValue(""+ wounddescription.getDepth());
+			depth.setValue(""+ this.woundDescription.getDepth());
 			
 			groesen.addComponents(diameter, depth);
 		} else {
 			//getsize2 not equal to zero means size 1 is not the diameter & both sizes are relevant
 			Label length = new Label();
 			length.setCaption(MessageResources.getString("height")+":");
-			length.setValue(""+wounddescription.getSize1());
+			length.setValue(""+this.woundDescription.getSize1());
 			
 			Label width = new Label();
 			width.setCaption(MessageResources.getString("width")+":");
-			width.setValue(""+wounddescription.getSize2());
+			width.setValue(""+this.woundDescription.getSize2());
 			
 			Label depth = new Label();
 			depth.setCaption(MessageResources.getString("depth")+":");
-			depth.setValue(""+wounddescription.getDepth());
+			depth.setValue(""+this.woundDescription.getDepth());
 			
 			groesen.addComponents(length, width, depth);
 		}
@@ -83,25 +92,23 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		
 		GridLayout taschen = new GridLayout();
 		taschen.setRows(1);
-		taschen.setColumns(3);
-		
-		
+		taschen.setColumns(3);		
 		
 		Label besitzt =new Label();
-		String hasbags = (wounddescription.isBaggy())?(MessageResources.getString("yes")):(MessageResources.getString("no"));
+		String hasbags = (this.woundDescription.isBaggy())?(MessageResources.getString("yes")):(MessageResources.getString("no"));
 		besitzt.setCaption(MessageResources.getString("woundBags")+":");
 		besitzt.setValue(hasbags);
 		
 		Label taschenLokal = new Label();
-		String baglocal = (wounddescription.getBagLocation() == null)?(MessageResources.getString("noInformation")):(wounddescription.getBagLocation());
+		String baglocal = (this.woundDescription.getBagLocation() == null)?(MessageResources.getString("noInformation")):(this.woundDescription.getBagLocation());
 		taschenLokal.setCaption(MessageResources.getString("baglocation")+":");
 		taschenLokal.setValue(baglocal);
 		
 
 		Label taschenRicht	= new Label();
-		String bagdirect = (wounddescription.getBagDirection() == null)?(MessageResources.getString("noInformation")):(wounddescription.getBagDirection());
+		String bagdirect = (this.woundDescription.getBagDirection() == null)?(MessageResources.getString("noInformation")):(this.woundDescription.getBagDirection());
 		taschenRicht.setCaption(MessageResources.getString("bagdirection")+":");
-		taschenRicht.setValue( bagdirect);
+		taschenRicht.setValue(bagdirect);
 		
 		taschen.addComponents(besitzt, taschenLokal, taschenRicht);
 		taschen.setSpacing(true);
@@ -115,10 +122,10 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		
 		Label woundtypedesc=new Label();
 		woundtypedesc.setCaption(MessageResources.getString("woundType")+":");
-		woundtypedesc.setValue(wounddescription.getWoundType().getClassification());
+		woundtypedesc.setValue(this.woundDescription.getWoundType().getClassification());
 		
 		Label woundgradedesc= new Label();
-		String woundgrade = (wounddescription.getWoundLevel()==null)?(MessageResources.getString("noInformation")):(wounddescription.getWoundLevel().getCharacterisation());
+		String woundgrade = (this.woundDescription.getWoundLevel()==null)?(MessageResources.getString("noInformation")):(this.woundDescription.getWoundLevel().getCharacterisation());
 		woundgradedesc.setCaption(MessageResources.getString("woundLevel")+":");
 		woundgradedesc.setValue(woundgrade);
 		
@@ -132,7 +139,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 		berichtBeschreibung.setCaption(MessageResources.getString("description") + ":");
 		
 		Label beschreibung = new Label();
-		String description = (wounddescription.getDescription() == null)?(MessageResources.getString("noInformation")):(wounddescription.getDescription());
+		String description = (this.woundDescription.getDescription() == null)?(MessageResources.getString("noInformation")):(this.woundDescription.getDescription());
 		beschreibung.setCaption(description);
 
 		mainLayout.addComponents(berichtBeschreibung, beschreibung);
@@ -145,7 +152,7 @@ public class ShowWoundDescriptionView extends NavigationView implements WardChan
 
 	@Override
 	public void wardChanged(WardChangeEvent event) {
-		WoundDescriptionListView newView = new WoundDescriptionListView(wounddescription.getWound());
+		WoundDescriptionListView newView = new WoundDescriptionListView(this.woundDescription.getWound());
 		getNavigationManager().setPreviousComponent(newView);
 	}
 }

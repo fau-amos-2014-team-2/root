@@ -2,9 +2,8 @@ package com.fau.amos.team2.WoundManagement;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.touchkit.ui.Popover;
+import com.fau.amos.team2.WoundManagement.ui.SessionedPopover;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -13,7 +12,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 
 @SuppressWarnings("serial")
-public class UserPasswordView extends Popover {
+public class UserPasswordView extends SessionedPopover {
 
 		
 	public UserPasswordView() {
@@ -24,7 +23,7 @@ public class UserPasswordView extends Popover {
 		setHeight("250px");
 
 		setCaption(MessageResources.getString("changePIN"));
-		final Employee user = Environment.INSTANCE.getCurrentEmployee();
+		final Employee user = getEnvironment().getCurrentEmployee();
 
 		FormLayout layout = new FormLayout();
 		layout.setMargin(true);

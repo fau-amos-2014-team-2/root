@@ -156,7 +156,13 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 	public void addWoundAtPosition(WoundPosition woundPosition) {
 		if (!markedWounds.containsKey(woundPosition)) {
+			
 			Image image = getImage(WOUND_INDICATOR);
+			
+			if (woundManager.getWoundAtWoundPosition(woundPosition).getEndDate() != null) {
+				image = getImage(WOUND_HEALED_INDICATOR);
+			}
+			
 			image.addClickListener(woundClickListener);
 			image.setDescription(woundPosition.getDescription());
 			image.setAlternateText(woundPosition.getDescription());
