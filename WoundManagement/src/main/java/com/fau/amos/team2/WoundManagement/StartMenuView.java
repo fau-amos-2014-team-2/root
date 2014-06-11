@@ -1,13 +1,16 @@
 package com.fau.amos.team2.WoundManagement;
 
+import com.fau.amos.team2.WoundManagement.provider.TestDataLoader;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.ui.UI;
 
-public class StartMenuView extends NavigationView {
+public class StartMenuView extends SessionedNavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
 	/**
@@ -21,6 +24,7 @@ public class StartMenuView extends NavigationView {
 	 */
 	@SuppressWarnings("serial")
 	public StartMenuView() {
+		
 		setCaption(MessageResources.getString("mainMenu")); //$NON-NLS-1$
 
 		final VerticalComponentGroup content = new VerticalComponentGroup();
@@ -32,7 +36,7 @@ public class StartMenuView extends NavigationView {
 		NavigationButton initializeDataButton = new NavigationButton("For Software Developers only: initialize data");
 		initializeDataButton.addClickListener(new NavigationButtonClickListener() {
 			public void buttonClick(NavigationButtonClickEvent event) {
-				WoundManagementUI.initData();
+				TestDataLoader.resetData();
 			}
 		});
 		content.addComponent(initializeDataButton);

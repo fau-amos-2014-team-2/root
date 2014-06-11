@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import com.fau.amos.team2.WoundManagement.PatientView;
+import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Patient;
@@ -27,6 +28,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
 public class NewWound extends FormLayout {
@@ -205,7 +207,7 @@ public class NewWound extends FormLayout {
 					//setDescription - is automatically cut to at most 2000 characters
 					wound.setDescription(comment.getValue());
 					//setRecordingEmployee - currently logged in
-					wound.setRecordingEmployee(Environment.INSTANCE.getCurrentEmployee());
+					wound.setRecordingEmployee(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentEmployee());
 
 					//setRecordingDate - all misformatted inputs result in "null"
 					try{

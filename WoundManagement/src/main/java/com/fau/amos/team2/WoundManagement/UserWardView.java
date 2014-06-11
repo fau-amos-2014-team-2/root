@@ -9,16 +9,18 @@ import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.SessionedPopover;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class UserWardView extends Popover {
+public class UserWardView extends SessionedPopover {
 	
 	private static WardProvider wardProvider = 
 			WardProvider.getInstance();
@@ -34,8 +36,8 @@ public class UserWardView extends Popover {
 		//setHeight("250px");
 
 		setCaption(MessageResources.getString("changeWard"));
-		final Employee user = Environment.INSTANCE.getCurrentEmployee();
-
+		final Employee user = getEnvironment().getCurrentEmployee(); 
+		
 		VerticalLayout layout = new VerticalLayout();
 		
 		final OptionGroup wardGroup = new OptionGroup();

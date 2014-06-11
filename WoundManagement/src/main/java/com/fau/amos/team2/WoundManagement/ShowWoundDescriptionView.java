@@ -10,6 +10,7 @@ import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.GridLayout;
@@ -17,7 +18,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 @SuppressWarnings("serial")
-public class ShowWoundDescriptionView extends NavigationView implements WardChangeListener {
+public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
 
 
 	/*
