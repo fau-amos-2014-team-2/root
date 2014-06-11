@@ -12,7 +12,6 @@ import com.fau.amos.team2.WoundManagement.subviews.ExistingWound;
 import com.fau.amos.team2.WoundManagement.subviews.NewWound;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;

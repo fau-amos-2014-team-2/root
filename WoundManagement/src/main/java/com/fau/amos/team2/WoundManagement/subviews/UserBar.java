@@ -7,7 +7,6 @@ import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Button;

@@ -8,7 +8,6 @@ import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
-import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
@@ -23,7 +22,6 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.UI;
 //added import Ward
 import com.vaadin.ui.Table.Align;
 

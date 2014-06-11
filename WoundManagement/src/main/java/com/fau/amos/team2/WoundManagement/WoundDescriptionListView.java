@@ -25,7 +25,6 @@ import com.vaadin.data.util.DefaultItemSorter;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.UI;
 
 public class WoundDescriptionListView extends SessionedNavigationView implements WardChangeListener {
 	
