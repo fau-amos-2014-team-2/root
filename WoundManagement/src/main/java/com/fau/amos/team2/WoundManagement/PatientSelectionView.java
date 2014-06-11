@@ -151,7 +151,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 	public void wardChanged(WardChangeEvent event) {
 		if (event.getWard() != null){
 			patientsOfWard = patientProvider.getPatientsOfWard(event.getWard());
-			propertiesOfWard = new Property[patientsOfWard.size()][3];
+			propertiesOfWard = new Property[patientsOfWard.size()][5];
 			
 			if (optionGroup.getValue().equals("allPatients")){
 				patientsForTable = allPatients;
