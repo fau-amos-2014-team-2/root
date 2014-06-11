@@ -83,7 +83,6 @@ public class TestDataLoader {
 			testPatient.setSensoID(1);
 			testPatient.setAccomodation('c');
 			testPatient.setKeyword("keyword");
-			testPatient.setRoom("room");
 
 			switch (i) {
 			case 0:
@@ -94,6 +93,7 @@ public class TestDataLoader {
 				testPatient.setGender(Sex.FEMALE.toCharString());
 				testPatient.setTitle("Dr.");
 				testPatient.setWard(ward);
+				testPatient.setRoom("A1.11");
 				break;
 
 			case 1:
@@ -104,6 +104,7 @@ public class TestDataLoader {
 				testPatient.setGender(Sex.MALE.toCharString());
 				testPatient.setTitle("Prof.");
 				testPatient.setWard(ward);
+				testPatient.setRoom("B2.22");
 				break;
 
 			case 2:
@@ -113,6 +114,7 @@ public class TestDataLoader {
 				testPatient.setEntryDate(java.sql.Date.valueOf("2014-04-13"));
 				testPatient.setGender(Sex.NEUTER.toCharString());
 				testPatient.setWard(ward);
+				testPatient.setRoom("C3.33");
 				break;
 			}
 

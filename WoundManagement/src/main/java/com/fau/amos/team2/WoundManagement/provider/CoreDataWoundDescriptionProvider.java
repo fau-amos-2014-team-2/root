@@ -10,8 +10,6 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
  * Database 'coredatawounddescription', which handles objects
  * of the type <code>CoreDataWoundDescription</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.CoreDataWoundDescription
- * @author Stefan, Betz
  * */
 public class CoreDataWoundDescriptionProvider {
 
@@ -32,7 +30,7 @@ public class CoreDataWoundDescriptionProvider {
 	}
 	
 	/**
-	 * @return The instance of <code>WardProvider</code> 
+	 * @return The instance of <code>CoreDataWoundDescriptionProvider</code> 
 	 * */
 	public static CoreDataWoundDescriptionProvider getInstance() {
 		if(instance == null) {
@@ -42,17 +40,17 @@ public class CoreDataWoundDescriptionProvider {
 	}
 	
 	/**
-	 * Adds an CoreDataWoundDescription to the Database
+	 * Adds a CoreDataWoundDescription to the database
 	 * 
 	 * @param CoreDataWoundDescription
 	 * @return the Id of the inserted CoreDataWoundDescription
 	 */
-	public Object add(CoreDataWoundDescription ward) {
-		return cdWoundDescriptions.addEntity(ward);
+	public Object add(CoreDataWoundDescription coreDataWoundDescription) {
+		return cdWoundDescriptions.addEntity(coreDataWoundDescription);
 	}
 	
 	/**
-	 * Get all CoreDataWoundDescription from the Database
+	 * Get all CoreDataWoundDescription from the database
 	 * 
 	 * @return JPAContainer containing all CoreDataWoundDescription
 	 */
@@ -60,9 +58,9 @@ public class CoreDataWoundDescriptionProvider {
 		return cdWoundDescriptions;
 	}
 	/**
-	 * Get the CoreDataWoundDescription with id from the Database 
+	 * Get the CoreDataWoundDescription with id from the database 
 	 * 
-	 * @param id - The unique id of an CoreDataWoundDescription
+	 * @param id - The unique id of a CoreDataWoundDescription
 	 * @return instance of the according CoreDataWoundDescription, or null
 	 */
 	public CoreDataWoundDescription getByID(Object id) { 

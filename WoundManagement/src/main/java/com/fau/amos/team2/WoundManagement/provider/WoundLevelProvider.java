@@ -9,8 +9,6 @@ import com.fau.amos.team2.WoundManagement.model.WoundLevel;
  * Database 'woundlevel', which handles objects
  * of the type <code>WoundLevel</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.WoundLevel
- * @author Stefan, Betz
  * */
 public class WoundLevelProvider extends ObjectProvider<WoundLevel> {
 
@@ -21,7 +19,7 @@ public class WoundLevelProvider extends ObjectProvider<WoundLevel> {
 	}
 	
 	/**
-	 * @return The instance of <code>EmployeeProvider</code> 
+	 * @return The instance of <code>WoundLevelProvider</code> 
 	 * */
 	public static WoundLevelProvider getInstance() {
 		if(instance == null) {

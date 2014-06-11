@@ -6,6 +6,7 @@ import java.util.Date;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
@@ -50,6 +51,10 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		
 		Employee user = getEnvironment().getCurrentEmployee();
 		setCaption(MessageResources.getString("newDesc"));
+		Patient patient = wound.getPatient();
+		if (patient != null){
+			setCaption(patient.getFirstName() + " " + patient.getLastName());
+		}
 		setRightComponent(new UserBar(this));
 
 

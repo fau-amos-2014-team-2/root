@@ -16,22 +16,15 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-/**
- * View to see a picture
- * 
- * @author ???
- */
 public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener, WardChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
 	private Patient currentPatient;
 	private WoundManager woundManager;
-	private Label patientNameLabel;
 	
 	private boolean showCurrentWoundsOnly;
 	
@@ -40,16 +33,14 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient) {
 		this.currentPatient = patient;
-		this.showCurrentWoundsOnly = false;
-		
-		patientNameLabel = new Label("<h2>" + currentPatient.getFirstName() + " " + currentPatient.getLastName() + "</h2>", ContentMode.HTML);
-		
+		this.showCurrentWoundsOnly = true;
+				
 		setRightComponent(new UserBar(this));
 		
-		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
+		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 		
 		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
-		showOnlyCurrentWoundsSwitch.setValue(false);
+		showOnlyCurrentWoundsSwitch.setValue(true);
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -72,7 +63,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		woundManager.addSelectedWoundChangeListener(this);
 		
 		content.addComponents(showOnlyCurrentWoundsSwitch, woundManager.getWoundSelector(), rightContent);
-		rightContent.addComponent(patientNameLabel);
+		content.setComponentAlignment(rightContent, Alignment.MIDDLE_LEFT);
 		
 		setContent(content);
 	}
@@ -81,9 +72,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	public PatientView(Patient patient, boolean showCurrentWoundsOnly) {
 		this.currentPatient = patient;
 		this.showCurrentWoundsOnly = showCurrentWoundsOnly;
-		
-		patientNameLabel = new Label("<h2>" + currentPatient.getFirstName() + " " + currentPatient.getLastName() + "</h2>", ContentMode.HTML);
-		
+				
 		setRightComponent(new UserBar(this));
 		
 		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
@@ -114,7 +103,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		woundManager.addSelectedWoundChangeListener(this);
 		
 		content.addComponents(showOnlyCurrentWoundsSwitch, woundManager.getWoundSelector(), rightContent);
-		rightContent.addComponent(patientNameLabel);
+		content.setComponentAlignment(rightContent, Alignment.MIDDLE_LEFT);
 		
 		setContent(content);
 	}
@@ -124,9 +113,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
 		Wound selectedWound = event.getWound();
 		rightContent.removeAllComponents();	
-		
-		rightContent.addComponent(patientNameLabel);
-		
+				
 		if (selectedWound != null) {
 			rightContent.addComponent(new ExistingWound(this, selectedWound));
 		}

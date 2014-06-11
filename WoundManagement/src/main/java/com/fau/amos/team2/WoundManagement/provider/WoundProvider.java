@@ -13,8 +13,6 @@ import com.fau.amos.team2.WoundManagement.model.Wound;
  * Database 'wound', which handles objects
  * of the type <code>Wound</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.Wound
- * @author Stefan, Betz
  * */
 public class WoundProvider extends ObjectProvider<Wound> {
 
@@ -25,7 +23,7 @@ public class WoundProvider extends ObjectProvider<Wound> {
 	}
 	
 	/**
-	 * @return The instance of <code>EmployeeProvider</code> 
+	 * @return The instance of <code>WoundProvider</code> 
 	 * */
 	public static WoundProvider getInstance() {
 		if(instance == null) {

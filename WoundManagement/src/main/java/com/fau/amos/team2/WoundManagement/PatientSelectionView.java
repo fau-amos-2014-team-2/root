@@ -1,5 +1,7 @@
 package com.fau.amos.team2.WoundManagement;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
@@ -25,11 +27,6 @@ import com.vaadin.ui.UI;
 //added import Ward
 import com.vaadin.ui.Table.Align;
 
-
-/**
- * View to see patients of selected ward
- * @author ???
- */
 @SuppressWarnings("serial")
 public class PatientSelectionView extends SessionedNavigationView implements WardChangeListener{
 	
@@ -45,8 +42,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 	private Property[][] propertiesForTable;
 	
 	private OptionGroup optionGroup;
-	
-	@SuppressWarnings("unchecked")
+
 	public PatientSelectionView() 
 	{
 		setCaption(MessageResources.getString("patientSelection"));
@@ -70,41 +66,48 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		tablePanel.setSizeUndefined();
 		tablePanel.setImmediate(true);
 		
-		table = new Table();
+		table = new Table() {
+		    @Override
+		    protected String formatPropertyValue(Object rowId,
+		            Object colId, Property property) {
+		        if (property.getType() == Date.class) {
+		            SimpleDateFormat df =
+		                new SimpleDateFormat("dd.MM.yyyy");
+		            if (property.getValue() != null){
+			            return df.format((Date)property.getValue());
+		            }
+		            return "";
+		        }
+		        return super.formatPropertyValue(rowId, colId, property);
+		    }
+		};
+		
 		table.setSelectable(true);
 		table.setImmediate(true);
 		
 		allPatients = patientProvider.getAllItems();
-		allProperties = new Property[allPatients.size()][3];
+		allProperties = new Property[allPatients.size()][5];
 		patientsOfWard = patientProvider.getPatientsOfWard(currentWard);
-		propertiesOfWard = new Property[patientsOfWard.size()][3];
+		propertiesOfWard = new Property[patientsOfWard.size()][5];
 		
 		patientsForTable = patientsOfWard;
 		propertiesForTable = propertiesOfWard;
 		
 		table.addContainerProperty("name", String.class , null, MessageResources.getString("name"), null , null);
+		table.addContainerProperty("birthdate", Date.class, null, MessageResources.getString("birthdate"), null, null);
 		table.addContainerProperty("ward", String.class, null, MessageResources.getString("ward"), null, null);
+		table.addContainerProperty("room", String.class, null, MessageResources.getString("room"), null, null);
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		
-		table.setColumnWidth("name", 500);
-		table.setColumnWidth("ward", 250);
-		table.setColumnWidth("currentWounds", 250);
+		table.setColumnWidth("name", 300);
+		table.setColumnWidth("birthdate", 200);
+		table.setColumnWidth("ward", 200);
+		table.setColumnWidth("room", 200);
+		table.setColumnWidth("currentWounds", 200);
 		
 		container = table.getContainerDataSource();
 		
-		for (Patient p : patientsForTable){
-			table.addItem(p.getId());
-			Item item = table.getItem(p.getId());
-			propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
-			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());
-			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
-			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard().getCharacterisation());
-			// changed to show only current wounds
-			propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
-			propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getCurrentWounds().size());
-			// propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
-			container.addItem(p.getId());
-		} 
+		fillTable(); 
 		
 		tablePanel.setContent(table);
 		tablePanel.getContent().setSizeUndefined();
@@ -135,19 +138,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 				
 				container.removeAllItems();
 				
-				for (Patient p : patientsForTable){
-					table.addItem(p.getId());
-					Item item = table.getItem(p.getId());
-					propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
-					propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());	
-					propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
-					propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard().getCharacterisation());
-					propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
-					// changed to show only current wounds
-					propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getCurrentWounds().size());
-					//propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
-					container.addItem(p.getId());
-				} 
+				fillTable();
 			}
 			
 		});
@@ -158,7 +149,6 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		setContent(verticalGroup);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void wardChanged(WardChangeEvent event) {
 		if (event.getWard() != null){
@@ -175,19 +165,26 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			
 			container.removeAllItems();
 			
-			for (Patient p : patientsForTable){
-				table.addItem(p.getId());
-				Item item = table.getItem(p.getId());
-				propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
-				propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());
-				propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("ward");
-				propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getWard());
-				propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("currentWounds");
-				// changed to get current wounds only
-				propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getCurrentWounds().size());
-				//propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWounds().size());
-				container.addItem(p.getId());
-			} 
+			fillTable();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void fillTable(){
+		for (Patient p : patientsForTable){
+			table.addItem(p.getId());
+			Item item = table.getItem(p.getId());
+			propertiesForTable[patientsForTable.indexOf(p)][0] = item.getItemProperty("name");
+			propertiesForTable[patientsForTable.indexOf(p)][0].setValue(p.getFirstName() + " " + p.getLastName());
+			propertiesForTable[patientsForTable.indexOf(p)][1] = item.getItemProperty("birthdate");
+			propertiesForTable[patientsForTable.indexOf(p)][1].setValue(p.getBirthday());
+			propertiesForTable[patientsForTable.indexOf(p)][2] = item.getItemProperty("ward");
+			propertiesForTable[patientsForTable.indexOf(p)][2].setValue(p.getWard().getCharacterisation());
+			propertiesForTable[patientsForTable.indexOf(p)][3] = item.getItemProperty("room");
+			propertiesForTable[patientsForTable.indexOf(p)][3].setValue(p.getRoom());
+			propertiesForTable[patientsForTable.indexOf(p)][4] = item.getItemProperty("currentWounds");
+			propertiesForTable[patientsForTable.indexOf(p)][4].setValue(p.getCurrentWounds().size());
+			container.addItem(p.getId());
 		}
 	}
 

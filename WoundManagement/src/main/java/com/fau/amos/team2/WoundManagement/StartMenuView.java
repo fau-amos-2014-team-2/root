@@ -10,10 +10,6 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.UI;
 
-/**
- * View to see the StartMenu
- * @author ???
- */
 public class StartMenuView extends SessionedNavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 

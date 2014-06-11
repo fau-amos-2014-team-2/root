@@ -11,7 +11,6 @@ import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
-import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
@@ -43,13 +42,13 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 	public WoundDescriptionListView(Wound wound){
 		
-		setCaption(MessageResources.getString("woundDescriptionsHeader"));
 		this.wound = wound;
 		this.patient = this.wound.getPatient();
-
-		// TODO: Check if this apparently not-doing-anything code line is needed.
-		getEnvironment().getCurrentEmployee();
 		
+		setCaption(MessageResources.getString("woundDescriptionsHeader"));
+//		if (patient != null){
+//			setCaption(patient.getFirstName() + " " + patient.getLastName());
+//		}
 		
 		setRightComponent(new UserBar(this));
 		
@@ -90,11 +89,11 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		tablePanel.getContent().setSizeUndefined();
 		
 		table.addContainerProperty("date", Date.class , null, MessageResources.getString("recordingDate"), null , null);
-		table.addContainerProperty("woundType", String.class, null, MessageResources.getString("woundType"), null, null);
+		table.addContainerProperty("author", String.class, null, MessageResources.getString("author"), null, null);
 		table.addContainerProperty("description", String.class, null, MessageResources.getString("description"), null, null);
 		
 		table.setColumnWidth("date", 250);
-		table.setColumnWidth("woundType", 250);
+		table.setColumnWidth("author", 250);
 		table.setColumnWidth("description", 500);
 			
 		Property[][] properties = new Property[descriptions.size()][3];
@@ -107,7 +106,7 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
         };
 
         ic.addContainerProperty("date", Date.class , null);
-		ic.addContainerProperty("woundType", String.class, "");
+		ic.addContainerProperty("author", String.class, "");
 		ic.addContainerProperty("description", String.class, "");
 		
         ic.setItemSorter(new DefaultItemSorter(new Comparator<Object>() {
@@ -126,18 +125,21 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
             }
         }));
 
-
 		for (WoundDescription wd : descriptions){
 			Item item = ic.addItem(wd.getId());
 			properties[descriptions.indexOf(wd)][0] = item.getItemProperty("date");
 			properties[descriptions.indexOf(wd)][0].setValue(wd.getDate());
-			properties[descriptions.indexOf(wd)][1] = item.getItemProperty("woundType");
-			properties[descriptions.indexOf(wd)][1].setValue(wd.getWoundType().getClassification());
+			properties[descriptions.indexOf(wd)][1] = item.getItemProperty("author");
+			properties[descriptions.indexOf(wd)][1].setValue(wd.getEmployee().getFirstName() + " " + wd.getEmployee().getLastName());
 			properties[descriptions.indexOf(wd)][2] = item.getItemProperty("description");
 			properties[descriptions.indexOf(wd)][2].setValue(wd.getDescription());
 		} 
 		
 		table.setContainerDataSource(ic);
+		
+		table.setSortContainerPropertyId("date");
+		table.setSortAscending(false);
+		table.sort();
 		
 		table.addValueChangeListener(new Property.ValueChangeListener() {
 		    public void valueChange(ValueChangeEvent event) {

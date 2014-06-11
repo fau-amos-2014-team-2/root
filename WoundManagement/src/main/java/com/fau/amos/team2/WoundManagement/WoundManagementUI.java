@@ -24,7 +24,6 @@ import com.vaadin.ui.UI;
 /**
  * The UI's "main" class
  * 
- * @author ???
  */
 @SuppressWarnings("serial")
 @Widgetset("com.fau.amos.team2.WoundManagement.gwt.AppWidgetSet")
