@@ -15,6 +15,7 @@ import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
@@ -25,8 +26,9 @@ import com.vaadin.data.util.DefaultItemSorter;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 
-public class WoundDescriptionListView extends NavigationView implements WardChangeListener {
+public class WoundDescriptionListView extends SessionedNavigationView implements WardChangeListener {
 	
 	private static final long serialVersionUID = 2998701886426658070L;
 	
@@ -45,10 +47,8 @@ public class WoundDescriptionListView extends NavigationView implements WardChan
 		this.wound = wound;
 		this.patient = this.wound.getPatient();
 
-		// TODO: why is this code-line needed ?!
-		Environment.instance.get().getCurrentEmployee();
-		//Environment.INSTANCE.getCurrentEmployee();
-		//ApplicationSettings.instance.get().getCurrentEmployee();
+		// TODO: Check if this apparently not-doing-anything code line is needed.
+		getEnvironment().getCurrentEmployee();
 		
 		
 		setRightComponent(new UserBar(this));

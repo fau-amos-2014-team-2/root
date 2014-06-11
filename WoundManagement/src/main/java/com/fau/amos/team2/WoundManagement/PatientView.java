@@ -11,6 +11,7 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.ExistingWound;
 import com.fau.amos.team2.WoundManagement.subviews.NewWound;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -25,7 +26,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author ???
  */
-public class PatientView extends NavigationView implements SelectedWoundChangeListener, WardChangeListener {
+public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener, WardChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
 	private Patient currentPatient;

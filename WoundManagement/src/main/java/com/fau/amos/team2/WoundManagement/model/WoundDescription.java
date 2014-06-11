@@ -175,15 +175,11 @@ public class WoundDescription implements BusinessObject {
 		this.depth = depth;
 	}
 	
-	//FIXME: Setter & Getter for Description added
-		//was this done correctly?
-		//@author: simon
-		public void setDescription(String value) {
-			// TODO Auto-generated method stub
-			this.description = value;
-		}
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-		public String getDescription() {
-			return this.description;
-		}
+	public String getDescription() {
+		return this.description;
+	}
 }
