@@ -15,14 +15,10 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.VerticalLayout;
 
-/**
- * View to see a picture
- * 
- * @author ???
- */
 public class PatientView extends NavigationView implements SelectedWoundChangeListener, WardChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
@@ -36,14 +32,14 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient) {
 		this.currentPatient = patient;
-		this.showCurrentWoundsOnly = false;
+		this.showCurrentWoundsOnly = true;
 				
 		setRightComponent(new UserBar(this));
 		
 		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 		
 		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
-		showOnlyCurrentWoundsSwitch.setValue(false);
+		showOnlyCurrentWoundsSwitch.setValue(true);
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -66,6 +62,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		woundManager.addSelectedWoundChangeListener(this);
 		
 		content.addComponents(showOnlyCurrentWoundsSwitch, woundManager.getWoundSelector(), rightContent);
+		content.setComponentAlignment(rightContent, Alignment.MIDDLE_LEFT);
 		
 		setContent(content);
 	}
@@ -105,6 +102,7 @@ public class PatientView extends NavigationView implements SelectedWoundChangeLi
 		woundManager.addSelectedWoundChangeListener(this);
 		
 		content.addComponents(showOnlyCurrentWoundsSwitch, woundManager.getWoundSelector(), rightContent);
+		content.setComponentAlignment(rightContent, Alignment.MIDDLE_LEFT);
 		
 		setContent(content);
 	}

@@ -14,8 +14,6 @@ import com.fau.amos.team2.WoundManagement.model.WoundDescription;
  * Database 'wounddescription', which handles objects
  * of the type <code>WoundDescription</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.WoundDescription
- * @author Stefan, Betz
  * */
 public class WoundDescriptionProvider extends ObjectProvider<WoundDescription>{
 
@@ -26,7 +24,7 @@ public class WoundDescriptionProvider extends ObjectProvider<WoundDescription>{
 	}
 	
 	/**
-	 * @return The instance of <code>EmployeeProvider</code> 
+	 * @return The instance of <code>WoundDescriptionProvider</code> 
 	 * */
 	public static WoundDescriptionProvider getInstance() {
 		if(instance == null) {

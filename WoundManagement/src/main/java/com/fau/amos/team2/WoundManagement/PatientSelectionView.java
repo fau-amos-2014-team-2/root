@@ -25,11 +25,6 @@ import com.vaadin.ui.Table;
 //added import Ward
 import com.vaadin.ui.Table.Align;
 
-
-/**
- * View to see patients of selected ward
- * @author ???
- */
 @SuppressWarnings("serial")
 public class PatientSelectionView extends NavigationView implements WardChangeListener{
 	
