@@ -1,0 +1,13 @@
+TESTING CONCEPT ***
+
+Since UI errors are visible very quick while debugging, our tests focus on the components manipulating data (i.e. the provider classes).
+
+The tests for database methods should at least cover the CRUD scenarios (Create, Read, Update and Delete). Further implemented methods should also be testet for expected results. A typical test run for a class C should look like this:
+
+1. Create an entity
+2. Retrieve the entity from the database
+3. If given: Test other methods that retrieve data (i.e. filtered return methods)
+4. Update the entity and check if all modifications are persisted
+5. If given: Test other methods that modify data (i.e. the change password method)
+6. Delete the entity
+7. If given: Test other methods (i.e. the delete all methods).
