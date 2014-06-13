@@ -74,7 +74,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 				
 		setRightComponent(new UserBar(this));
 		
-		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
+		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 		
 		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
 		showOnlyCurrentWoundsSwitch.setValue(getBoolShowCurrentWoundsOnly());

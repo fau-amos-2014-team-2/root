@@ -9,6 +9,7 @@ import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
+import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.ui.Button;
@@ -144,6 +145,8 @@ public class ExistingWound extends VerticalLayout {
 			        	public void buttonClick(ClickEvent event) {
 			        		
 			        		wound.setEndDate(new java.sql.Date(new Date().getTime()));
+			        		wound.setCureEmployee(parentView.getEnvironment().getCurrentEmployee());
+			        		
 							woundProvider.update(wound);
 							setEndDateLabel();
 							
