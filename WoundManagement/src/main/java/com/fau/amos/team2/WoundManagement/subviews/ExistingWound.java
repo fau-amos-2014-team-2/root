@@ -9,7 +9,6 @@ import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.ui.Button;
@@ -49,7 +48,7 @@ public class ExistingWound extends VerticalLayout {
 	public ExistingWound(PatientView patientView, Wound w) {
 		this.wound = w;
 		this.parentView = patientView;
-		
+				
 		setSpacing(true);
 		HorizontalLayout woundDataContent = new HorizontalLayout();
 		woundDataContent.setSpacing(true);
