@@ -12,11 +12,16 @@ import org.eclipse.persistence.sessions.server.ServerSession;*/
 
 import java.util.Locale;
 
+import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.PatientSelectionView;
+import com.fau.amos.team2.WoundManagement.ui.StartMenuView;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.UI;
@@ -26,11 +31,15 @@ import com.vaadin.ui.UI;
  * 
  */
 @SuppressWarnings("serial")
-@Widgetset("com.fau.amos.team2.WoundManagement.gwt.AppWidgetSet")
+@Widgetset("WoundManagementWidgetset")
 @Theme("touchkit")
+@PreserveOnRefresh
 public class WoundManagementUI extends UI {
 	
+	private OfflineModeExtension offlineModeSettings;
+	private BeanItemContainer<WoundDescription> woundDescriptionContainer;
 	private WrappedSession session;
+	
 	public WrappedSession getMySession() {
 		return session;
 	}
@@ -53,12 +62,13 @@ public class WoundManagementUI extends UI {
 	}
 
 	@Override
-	protected void init(VaadinRequest request) {		
-		//Locale currentLocale = ApplicationSettings.instance.get().getLanguage();
-		Locale currentLocale = Locale.GERMAN;
-		//currentLocale = Locale.ENGLISH;
-
-		MessageResources.setLocale(currentLocale);
+	protected void init(VaadinRequest request) {
+		// TODO: Check for second parameter "loadDescriptions"
+		woundDescriptionContainer = new BeanItemContainer<WoundDescription>(WoundDescription.class);
+		
+		enableOfflineMode();
+		setLocale();
+		setImmediate(true);
 
 		initializeEnvironment(request);
 		
@@ -73,5 +83,25 @@ public class WoundManagementUI extends UI {
 		
 		setContent(manager);
 		getPage().setTitle("Wound Management Session " + session.getId());
+	}
+
+	private void setLocale() {
+		//Locale currentLocale = ApplicationSettings.instance.get().getLanguage();
+		Locale currentLocale = Locale.GERMAN;
+		//currentLocale = Locale.ENGLISH;
+
+		MessageResources.setLocale(currentLocale);
+	}
+	
+	public void goOffline() {
+		// TODO: Check if needed
+		offlineModeSettings.goOffline();
+	}
+
+	private void enableOfflineMode() {
+		offlineModeSettings = new OfflineModeExtension();
+		offlineModeSettings.extend(this);
+		offlineModeSettings.setPersistentSessionCookie(true);
+		offlineModeSettings.setOfflineModeEnabled(true);
 	}
 }

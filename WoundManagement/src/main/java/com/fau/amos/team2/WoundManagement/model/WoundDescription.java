@@ -182,4 +182,24 @@ public class WoundDescription implements BusinessObject {
 	public String getDescription() {
 		return this.description;
 	}
+	
+	private static final String DELIMITER = "<wd-d>";
+	
+	public String serialize() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(id + DELIMITER);
+		// TODO: Finish
+		return sb.toString();
+	}
+	
+	public static WoundDescription deserialize(final String str) {
+		WoundDescription result = null;
+		if (str != null) {
+			result = new WoundDescription();
+			String[] split = str.split(DELIMITER);
+			result.setId(Long.parseLong(split[0]));
+		}
+		
+		return result;
+	}
 }

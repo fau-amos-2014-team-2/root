@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement.subviews;
 import java.util.Collection;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.PatientView;
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
@@ -15,6 +14,7 @@ import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.PatientView;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;

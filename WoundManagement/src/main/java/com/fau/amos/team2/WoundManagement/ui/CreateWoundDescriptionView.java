@@ -1,10 +1,8 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
 import java.util.Collection;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
@@ -16,7 +14,8 @@ import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
-import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
