@@ -1,6 +1,6 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview;
 
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
 import com.vaadin.addon.touchkit.gwt.client.ui.VerticalComponentGroupWidget;
 
 public class InformationLayout extends VerticalComponentGroupWidget {

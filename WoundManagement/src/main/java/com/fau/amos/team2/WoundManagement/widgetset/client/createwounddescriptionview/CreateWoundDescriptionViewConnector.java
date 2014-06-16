@@ -2,7 +2,7 @@ package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescripti
 
 import java.util.Arrays;
 
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview.CreateWoundDescriptionViewWidget.CreateWoundDescriptionViewWidgetListener;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;

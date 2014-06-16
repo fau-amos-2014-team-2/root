@@ -3,10 +3,9 @@ package com.fau.amos.team2.WoundManagement.widgetset.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.storage.client.StorageMap;
-import com.vaadin.data.util.sqlcontainer.TicketTests;
 
 public class OfflineDataService {
 	

@@ -2,7 +2,7 @@ package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescripti
 
 import java.util.List;
 
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
 import com.vaadin.shared.annotations.Delayed;
 import com.vaadin.shared.communication.ServerRpc;
 

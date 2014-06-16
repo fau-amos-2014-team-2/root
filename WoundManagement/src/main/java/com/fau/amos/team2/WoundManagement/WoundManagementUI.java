@@ -31,7 +31,7 @@ import com.vaadin.ui.UI;
  * 
  */
 @SuppressWarnings("serial")
-@Widgetset("WoundManagementWidgetset")
+@Widgetset("com.fau.amos.team2.WoundManagement.widgetset.WoundManagementWidgetset")
 @Theme("touchkit")
 @PreserveOnRefresh
 public class WoundManagementUI extends UI {

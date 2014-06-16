@@ -3,7 +3,7 @@ package com.fau.amos.team2.WoundManagement.widgetset.client;
 import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.OfflineModeExtension;
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.vaadin.addon.touchkit.gwt.client.vcom.OfflineModeConnector;

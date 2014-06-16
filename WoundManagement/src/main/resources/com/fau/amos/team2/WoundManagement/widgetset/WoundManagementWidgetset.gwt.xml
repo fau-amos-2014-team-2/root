@@ -15,7 +15,7 @@
 	<!-- <set-property name="user.agent" value="gecko1_8"/> -->
 
 	<inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
-
+	
 	<!-- <inherits name="org.vaadin.addon.leaflet.Widgetset" />
 	
 	<inherits name="com.vaadin.addon.charts.Widgetset" />

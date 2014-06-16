@@ -1,6 +1,6 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview;
 
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
