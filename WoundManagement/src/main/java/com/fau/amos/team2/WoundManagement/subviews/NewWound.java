@@ -10,6 +10,7 @@ import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
+import com.fau.amos.team2.WoundManagement.model.WoundLevelState;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
@@ -165,38 +166,28 @@ public class NewWound extends FormLayout {
 					
 					//setWoundType
 					if (type.getValue() != null){
-						wound.setWoundType((WoundType)type.getValue());
+						WoundType woundType = (WoundType)type.getValue();
+						wound.setWoundType(woundType);
 						
-						//check if WoundLevel is set according to chosen WoundType
-						//'P''p' - level required
-						//'V''v' - level forbidden
-						//'E''e' - level allowed
-						if ('p' == (((WoundType)type.getValue()).getLevel()) || 'P' == (((WoundType)type.getValue()).getLevel())){
-							if (level.getValue() == null){
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
-						} else if ('v' == (((WoundType)type.getValue()).getLevel()) || 'V' == (((WoundType)type.getValue()).getLevel())){
-							if (level.getValue() != null){
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
+						if (woundType.getLevelState() == WoundLevelState.REQUIRED && level.getValue() == null) {
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
 						}
+						else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN && level.getValue() != null) {
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
+						}
+						
 						//check if BodyLocation is set according to chosen WoundType
-						if (((WoundType)type.getValue()).isBodyLocationRequired()){
-							if (locationText.getValue().equals("")){ //$NON-NLS-1$
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
+						if (woundType.isBodyLocationRequired() && locationText.getValue().equals("")) { //$NON-NLS-1$
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
 						}
 						// check if Size is set according to chosen WoundType
-						if (((WoundType)type.getValue()).isSizeIsRequired()){
-							if (size1.getValue().equals("") && size2.getValue().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
-						}
-						
+						if (woundType.isSizeIsRequired() && size1.getValue().equals("") && size2.getValue().equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
+						}						
 					}
 					
 					//setBodyLocation (in words)
