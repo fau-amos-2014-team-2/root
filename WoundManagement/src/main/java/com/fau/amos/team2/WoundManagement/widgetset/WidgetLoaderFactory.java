@@ -1,6 +1,7 @@
 package com.fau.amos.team2.WoundManagement.widgetset;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.vaadin.addon.leaflet.client.LeafletCircleConnector;
@@ -30,7 +31,10 @@ import com.vaadin.addon.touchkit.gwt.client.vcom.navigation.NavigationManagerCon
 import com.vaadin.addon.touchkit.gwt.client.vcom.navigation.NavigationViewConnector;
 import com.vaadin.addon.touchkit.gwt.client.vcom.popover.PopoverConnector;
 import com.vaadin.client.extensions.javascriptmanager.JavaScriptManagerConnector;
+import com.vaadin.client.ui.absolutelayout.AbsoluteLayoutConnector;
 import com.vaadin.client.ui.button.ButtonConnector;
+import com.vaadin.client.ui.checkbox.CheckBoxConnector;
+import com.vaadin.client.ui.combobox.ComboBoxConnector;
 import com.vaadin.client.ui.csslayout.CssLayoutConnector;
 import com.vaadin.client.ui.formlayout.FormLayoutConnector;
 import com.vaadin.client.ui.gridlayout.GridLayoutConnector;
@@ -38,55 +42,71 @@ import com.vaadin.client.ui.image.ImageConnector;
 import com.vaadin.client.ui.label.LabelConnector;
 import com.vaadin.client.ui.link.LinkConnector;
 import com.vaadin.client.ui.nativeselect.NativeSelectConnector;
+import com.vaadin.client.ui.optiongroup.OptionGroupConnector;
+import com.vaadin.client.ui.orderedlayout.HorizontalLayoutConnector;
 import com.vaadin.client.ui.orderedlayout.VerticalLayoutConnector;
+import com.vaadin.client.ui.panel.PanelConnector;
+import com.vaadin.client.ui.passwordfield.PasswordFieldConnector;
 import com.vaadin.client.ui.table.TableConnector;
+import com.vaadin.client.ui.textarea.TextAreaConnector;
 import com.vaadin.client.ui.textfield.TextFieldConnector;
 import com.vaadin.client.ui.ui.UIConnector;
 import com.vaadin.client.ui.upload.UploadConnector;
 import com.vaadin.client.ui.window.WindowConnector;
 import com.vaadin.shared.ui.Connect.LoadStyle;
+import com.vaadin.shared.ui.datefield.DateFieldConstants;
+import com.vaadin.ui.DateField;
 
 public class WidgetLoaderFactory extends TouchKitBundleLoaderFactory {
 	
 	private final ArrayList<String> usedConnectors;
 	
 	public WidgetLoaderFactory() {
-		usedConnectors = new ArrayList<String>();
-		usedConnectors.add(WoundManagementOfflineConnector.class.getName());
-		usedConnectors.add(CreateWoundDescriptionViewConnector.class.getName());
-		usedConnectors.add(ButtonConnector.class.getName());
-        usedConnectors.add(CssLayoutConnector.class.getName());
-        usedConnectors.add(DatePickerConnector.class.getName());
-        usedConnectors.add(HorizontalButtonGroupConnector.class.getName());
-        usedConnectors.add(ImageConnector.class.getName());
-        usedConnectors.add(GeolocatorConnector.class.getName());
-        usedConnectors.add(LabelConnector.class.getName());
-        usedConnectors.add(LeafletCircleConnector.class.getName());
-        usedConnectors.add(LeafletMapConnector.class.getName());
-        usedConnectors.add(LeafletTileLayerConnector.class.getName());
-        usedConnectors.add(LeafletMarkerConnector.class.getName());
-        usedConnectors.add(LeafletLayersConnector.class.getName());
-        usedConnectors.add(LinkConnector.class.getName());
-        usedConnectors.add(NativeSelectConnector.class.getName());
-        usedConnectors.add(NavigationBarConnector.class.getName());
-        usedConnectors.add(NavigationButtonConnector.class.getName());
-        usedConnectors.add(NavigationManagerConnector.class.getName());
-        usedConnectors.add(NavigationViewConnector.class.getName());
-        usedConnectors.add(NumberFieldConnector.class.getName());
-        usedConnectors.add(PopoverConnector.class.getName());
-        usedConnectors.add(SwitchConnector.class.getName());
-        usedConnectors.add(TabBarConnector.class.getName());
-        usedConnectors.add(TableConnector.class.getName());
-        usedConnectors.add(TextFieldConnector.class.getName());
-        usedConnectors.add(UIConnector.class.getName());
-        usedConnectors.add(UploadConnector.class.getName());
-        usedConnectors.add(VerticalComponentGroupConnector.class.getName());
-        usedConnectors.add(WindowConnector.class.getName());
-        usedConnectors.add(ResponsiveConnector.class.getName());
-        usedConnectors.add(JavaScriptManagerConnector.class.getName());
-        usedConnectors.add(VerticalLayoutConnector.class.getName());
-        usedConnectors.add(FormLayoutConnector.class.getName());
-        usedConnectors.add(GridLayoutConnector.class.getName());
+		usedConnectors = new ArrayList<String>(Arrays.asList(
+				AbsoluteLayoutConnector.class.getName(),
+		        ButtonConnector.class.getName(),
+		        CheckBoxConnector.class.getName(),
+		        ComboBoxConnector.class.getName(),
+		        CreateWoundDescriptionViewConnector.class.getName(),
+		        CssLayoutConnector.class.getName(),
+		        DatePickerConnector.class.getName(),
+		        FormLayoutConnector.class.getName(),
+		        GeolocatorConnector.class.getName(),
+		        GridLayoutConnector.class.getName(),
+		        HorizontalButtonGroupConnector.class.getName(),
+		        HorizontalLayoutConnector.class.getName(),
+		        ImageConnector.class.getName(),
+		        JavaScriptManagerConnector.class.getName(),
+		        LabelConnector.class.getName(),
+		        LeafletCircleConnector.class.getName(),
+		        LeafletLayersConnector.class.getName(),
+		        LeafletMapConnector.class.getName(),
+		        LeafletMarkerConnector.class.getName(),
+		        LeafletTileLayerConnector.class.getName(),
+		        LinkConnector.class.getName(),
+		        NativeSelectConnector.class.getName(),
+		        NavigationBarConnector.class.getName(),
+		        NavigationButtonConnector.class.getName(),
+		        NavigationManagerConnector.class.getName(),
+		        NavigationViewConnector.class.getName(),
+		        NumberFieldConnector.class.getName(),
+		        OptionGroupConnector.class.getName(),
+		        PanelConnector.class.getName(),
+		        PasswordFieldConnector.class.getName(),
+		        PopoverConnector.class.getName(),
+		        ResponsiveConnector.class.getName(),
+		        SwitchConnector.class.getName(),
+		        TabBarConnector.class.getName(),
+		        TableConnector.class.getName(),
+		        TextAreaConnector.class.getName(),
+		        TextFieldConnector.class.getName(),
+		        UIConnector.class.getName(),
+		        UploadConnector.class.getName(),
+		        VerticalComponentGroupConnector.class.getName(),
+		        VerticalLayoutConnector.class.getName(),
+		        WindowConnector.class.getName(),
+		        WoundManagementOfflineConnector.class.getName()
+				));
 	}
 	
 	@Override
