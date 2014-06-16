@@ -1,15 +1,20 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview;
 
 import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.addon.touchkit.gwt.client.offlinemode.OfflineMode;
 import com.vaadin.addon.touchkit.gwt.client.ui.VNavigationBar;
 import com.vaadin.addon.touchkit.gwt.client.ui.VNavigationView;
+import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.ui.VCssLayout;
 import com.vaadin.client.ui.VOverlay;
 
@@ -35,13 +40,22 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		setWidget(contentView);
 		
 		show();
+		
+		getElement().getStyle().setWidth(100, Unit.PCT);
+        getElement().getStyle().setHeight(100, Unit.PCT);
+        getElement().getFirstChildElement().getStyle().setHeight(100, Unit.PCT);
+		
+		woundDescriptionUpdated(new WoundDescription(), false, true);
+		Scheduler.get().scheduleFixedPeriod(this, 1000);
 	}
 	
 	private Widget buildContentView() {
 		VNavigationView contentView = new VNavigationView();
 		contentView.setHeight("100%");
+		contentView.setWidth("100%");
 		VNavigationBar navigationBar = new VNavigationBar();
 		navigationBar.setCaption("New Ticket");
+		navigationBar.setWidth("100%");
 		
 		contentView.setNavigationBar(navigationBar);
 		
@@ -180,4 +194,16 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		
 		void updateState(WoundDescription woundDescription);
 	}
+	
+	@Override
+    public Element getOverlayContainer() {
+        ApplicationConnection ac = getApplicationConnection();
+        if (ac == null) {
+            // could not figure out which one we belong to, styling will
+            // probably fail
+            return RootPanel.get().getElement();
+        } else {
+            return getOverlayContainer(ac);
+        }
+    }
 }
