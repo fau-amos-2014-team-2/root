@@ -10,7 +10,6 @@
 	<inherits name="com.vaadin.DefaultWidgetSet" /> 
 	
 	<inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
-    
 
     <inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
 

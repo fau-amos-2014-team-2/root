@@ -1,13 +1,13 @@
-package com.fau.amos.team2.WoundManagement.subviews;
+package com.fau.amos.team2.WoundManagement.ui.subviews;
 
-import com.fau.amos.team2.WoundManagement.UserLoginView;
-import com.fau.amos.team2.WoundManagement.UserPasswordView;
-import com.fau.amos.team2.WoundManagement.UserWardView;
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.UserLoginView;
+import com.fau.amos.team2.WoundManagement.ui.UserPasswordView;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;

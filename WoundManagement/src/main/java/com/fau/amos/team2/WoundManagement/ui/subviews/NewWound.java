@@ -1,29 +1,30 @@
-package com.fau.amos.team2.WoundManagement.subviews;
+package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import java.util.Collection;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.PatientView;
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
+import com.fau.amos.team2.WoundManagement.model.WoundLevelState;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.PatientView;
+import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -54,15 +55,15 @@ public class NewWound extends FormLayout {
 		setSizeUndefined();
 		
 		//DateField - when is the wound recorded
-		final DateField recorded = new DateField(MessageResources.getString("recordingDate") + ":"); //$NON-NLS-1$
+		final DatePicker recorded = new DatePicker(MessageResources.getString("recordingDate") + ":"); //$NON-NLS-1$
 		recorded.setValue(new Date());
-		recorded.setDateFormat("dd.MM.yyyy");
+		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
 		recorded.setWidth(width);
 		addComponent(recorded);
 		
 		//ComboBox - body location code
-		final ComboBox location = new ComboBox(MessageResources.getString("bodyLocationCode") + ":"); //$NON-NLS-1$
+		final NativeSelect location = new NativeSelect(MessageResources.getString("bodyLocationCode") + ":"); //$NON-NLS-1$
 		for (BodyLocation b : BodyLocation.values()){
 			location.addItem(b);
 			location.setItemCaption(b, b.toFullString());
@@ -80,7 +81,7 @@ public class NewWound extends FormLayout {
 		
 		//ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
-		final ComboBox type = new ComboBox(MessageResources.getString("woundType") + ":"); //$NON-NLS-1$
+		final NativeSelect type = new NativeSelect(MessageResources.getString("woundType") + ":"); //$NON-NLS-1$
 		for (Object o : typeIds){
 			WoundType tmp = woundTypeProvider.getByID(o);
 			type.addItem(tmp);
@@ -91,7 +92,7 @@ public class NewWound extends FormLayout {
 		
 		//ComboBox - wound level
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
-		final ComboBox level = new ComboBox(MessageResources.getString("woundLevel") + ":"); //$NON-NLS-1$
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":"); //$NON-NLS-1$
 		for (Object o : levelIds){
 			WoundLevel tmp = woundLevelProvider.getByID(o);
 			level.addItem(tmp);
@@ -101,7 +102,7 @@ public class NewWound extends FormLayout {
 		addComponent(level);
 		
 		//ComboBox - origination of wound
-		final ComboBox origination = new ComboBox(MessageResources.getString("origination") + ":"); //$NON-NLS-1$
+		final NativeSelect origination = new NativeSelect(MessageResources.getString("origination") + ":"); //$NON-NLS-1$
 		for (Origination o : Origination.values()){
 			origination.addItem(o);
 			origination.setItemCaption(o, o.toFullString());
@@ -165,38 +166,28 @@ public class NewWound extends FormLayout {
 					
 					//setWoundType
 					if (type.getValue() != null){
-						wound.setWoundType((WoundType)type.getValue());
+						WoundType woundType = (WoundType)type.getValue();
+						wound.setWoundType(woundType);
 						
-						//check if WoundLevel is set according to chosen WoundType
-						//'P''p' - level required
-						//'V''v' - level forbidden
-						//'E''e' - level allowed
-						if ('p' == (((WoundType)type.getValue()).getLevel()) || 'P' == (((WoundType)type.getValue()).getLevel())){
-							if (level.getValue() == null){
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
-						} else if ('v' == (((WoundType)type.getValue()).getLevel()) || 'V' == (((WoundType)type.getValue()).getLevel())){
-							if (level.getValue() != null){
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
+						if (woundType.getLevelState() == WoundLevelState.REQUIRED && level.getValue() == null) {
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
 						}
+						else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN && level.getValue() != null) {
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
+						}
+						
 						//check if BodyLocation is set according to chosen WoundType
-						if (((WoundType)type.getValue()).isBodyLocationRequired()){
-							if (locationText.getValue().equals("")){ //$NON-NLS-1$
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
+						if (woundType.isBodyLocationRequired() && locationText.getValue().equals("")) { //$NON-NLS-1$
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
 						}
 						// check if Size is set according to chosen WoundType
-						if (((WoundType)type.getValue()).isSizeIsRequired()){
-							if (size1.getValue().equals("") && size2.getValue().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
-								Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
-								return;
-							}
-						}
-						
+						if (woundType.isSizeIsRequired() && size1.getValue().equals("") && size2.getValue().equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							return;
+						}						
 					}
 					
 					//setBodyLocation (in words)

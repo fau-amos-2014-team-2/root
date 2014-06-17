@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 public class CoreDataWoundDescription implements BusinessObject {
@@ -19,8 +21,8 @@ public class CoreDataWoundDescription implements BusinessObject {
 	@Column(name = "KENMDT07_NR")
 	private int sensoID;
 	
-	@Column(name = "TYP", nullable = false)
-	private String typ;
+	@Column(name = "TYP", nullable = false, length=3)
+	private String type;
 	
 	@Column(name = "BEZEICH", nullable = false)
 	private String characterisation;
@@ -29,8 +31,8 @@ public class CoreDataWoundDescription implements BusinessObject {
 	@JoinColumn(name = "KENWBS07_NR", referencedColumnName="NR")
 	private CoreDataWoundDescription coreDataWoundDescription;
 	
-	@Column(name = "MITFEITEXT")
-	private boolean isFreeText;
+	@Column(name = "MITFEITEXT", length=1)
+	private String isFreeText;
 	
 	@Column(name = "POSITION")
 	private int position;
@@ -60,12 +62,12 @@ public class CoreDataWoundDescription implements BusinessObject {
 	}
 
 
-	public String getTyp() {
-		return typ;
+	public CoreDataWoundDescriptionType getType() {
+		return CoreDataWoundDescriptionType.enumOf(this.type);
 	}
 
-	public void setTyp(String typ) {
-		this.typ = typ;
+	public void setType(CoreDataWoundDescriptionType type) {
+		this.type = type.toString();
 	}
 
 	public String getCharacterisation() {
@@ -85,11 +87,11 @@ public class CoreDataWoundDescription implements BusinessObject {
 	}
 
 	public boolean isFreeText() {
-		return isFreeText;
+		return BooleanToStringConverter.convertBack(isFreeText);
 	}
 
 	public void setFreeText(boolean isFreeText) {
-		this.isFreeText = isFreeText;
+		this.isFreeText = BooleanToStringConverter.convert(isFreeText);
 	}
 
 	public int getPosition() {

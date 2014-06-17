@@ -1,16 +1,16 @@
-package com.fau.amos.team2.WoundManagement.subviews;
+package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.PatientView;
-import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.PatientView;
+import com.fau.amos.team2.WoundManagement.ui.WoundDescriptionListView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;

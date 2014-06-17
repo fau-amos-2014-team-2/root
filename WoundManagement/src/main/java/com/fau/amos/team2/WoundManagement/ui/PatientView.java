@@ -1,17 +1,16 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeEvent;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.subviews.ExistingWound;
-import com.fau.amos.team2.WoundManagement.subviews.NewWound;
-import com.fau.amos.team2.WoundManagement.subviews.UserBar;
-import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
+import com.fau.amos.team2.WoundManagement.ui.subviews.ExistingWound;
+import com.fau.amos.team2.WoundManagement.ui.subviews.NewWound;
+import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;

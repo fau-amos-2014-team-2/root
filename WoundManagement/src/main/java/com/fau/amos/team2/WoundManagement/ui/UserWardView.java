@@ -1,4 +1,4 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.SessionedPopover;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
