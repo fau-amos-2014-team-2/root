@@ -1,4 +1,4 @@
-package com.fau.amos.team2.WoundManagement.subviews;
+package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
