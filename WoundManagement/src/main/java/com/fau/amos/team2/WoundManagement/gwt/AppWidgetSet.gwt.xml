@@ -13,4 +13,12 @@
     
 
     <inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
+
+    <inherits name="org.vaadin.hene.flexibleoptiongroup.widgetset.FlexibleOptionGroupWidgetset" />
+
+    <inherits name="org.vaadin.jonatan.contexthelp.widgetset.ContexthelpWidgetset" />
+
+    <inherits name="org.vaadin.risto.stepper.widgetset.StepperWidgetset" />
+
+    <inherits name="org.aperteworkflow.widgets.refresherwrapper.widgetset.RefresherWrapperWidgetset" />
 </module>

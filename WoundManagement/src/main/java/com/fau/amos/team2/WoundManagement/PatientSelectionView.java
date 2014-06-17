@@ -19,9 +19,17 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 //added import Ward
 import com.vaadin.ui.Table.Align;
 
@@ -43,6 +51,19 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 
 	public PatientSelectionView() 
 	{
+		
+		// ResizeListener
+		UI.getCurrent().setImmediate(true);
+		UI.getCurrent().setResizeLazy(true);
+		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			@Override
+			public void browserWindowResized(BrowserWindowResizeEvent event) {
+				getEnvironment().setOrientation();
+				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
+				Page.getCurrent().reload();
+			}
+		});
+		
 		setCaption(MessageResources.getString("patientSelection"));
 		
 		Ward currentWard = getEnvironment().getCurrentEmployee().getCurrentWard();
@@ -50,6 +71,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		setRightComponent(new UserBar(this));
 		
 		VerticalComponentGroup verticalGroup = new VerticalComponentGroup();
+		
 		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
 		optionGroup.addItem("patientsOfWard");
 		optionGroup.setItemCaption("patientsOfWard", MessageResources.getString("patientsOfWard"));
@@ -95,13 +117,33 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		table.addContainerProperty("birthdate", Date.class, null, MessageResources.getString("birthdate"), null, null);
 		table.addContainerProperty("ward", String.class, null, MessageResources.getString("ward"), null, null);
 		table.addContainerProperty("room", String.class, null, MessageResources.getString("room"), null, null);
-		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
+		//table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
+		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("wounds"), null, Align.RIGHT);
 		
-		table.setColumnWidth("name", 300);
-		table.setColumnWidth("birthdate", 200);
-		table.setColumnWidth("ward", 200);
-		table.setColumnWidth("room", 200);
-		table.setColumnWidth("currentWounds", 200);
+		if(getEnvironment().isHorizontalLayout()){
+			
+			table.setColumnWidth("name", 250);
+			table.setColumnWidth("birthdate", 170);
+			table.setColumnWidth("room", 100);
+			table.setColumnWidth("ward", 100);
+			table.setColumnWidth("currentWounds", 50);
+			
+		}else{
+			
+			float width = getEnvironment().getWindowWidth();
+			
+			int widthName = (int) (width * 0.35); 
+			int widthBday = (int) (width * 0.1); 
+			int widthOther = (int) (width * 0.1); 
+			int widthWoundN = (int) (width * 0.05); 
+			
+			table.setColumnWidth("name", widthName);
+			table.setColumnWidth("birthdate", widthBday);
+			table.setColumnWidth("room", widthOther);
+			table.setColumnWidth("ward", widthOther);
+			table.setColumnWidth("currentWounds", widthWoundN);
+			
+		}
 		
 		container = table.getContainerDataSource();
 		
@@ -140,12 +182,15 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			}
 			
 		});
-		
+			
 		verticalGroup.addComponent(optionGroup);
 		verticalGroup.addComponent(tablePanel);
-		
+			
 		setContent(verticalGroup);
+		
 	}
+
+
 
 	@Override
 	public void wardChanged(WardChangeEvent event) {

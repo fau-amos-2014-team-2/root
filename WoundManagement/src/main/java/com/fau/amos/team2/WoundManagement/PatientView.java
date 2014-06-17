@@ -15,8 +15,13 @@ import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener, WardChangeListener {
@@ -35,6 +40,22 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient, boolean showCurrentWoundsOnly) {
+		
+		// ResizeListener
+		UI.getCurrent().setImmediate(true);
+		UI.getCurrent().setResizeLazy(true);
+
+		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void browserWindowResized(BrowserWindowResizeEvent event) {
+				getEnvironment().setOrientation();
+				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
+				//Page.getCurrent().reload();
+				UI.getCurrent().requestRepaintAll();
+			}
+		});
+		
 		this.currentPatient = patient;
 		this.showCurrentWoundsOnly = showCurrentWoundsOnly;
 				
@@ -44,32 +65,40 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		
 		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
 		showOnlyCurrentWoundsSwitch.setValue(getBoolShowCurrentWoundsOnly());
-		
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
-
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				
 				setBoolShowCurrentWoundsOnly(showOnlyCurrentWoundsSwitch.getValue());
 				getNavigationManager().navigateTo(
 					new PatientView(currentPatient, getBoolShowCurrentWoundsOnly()));
 			}
 			
 		});
-		
 		showOnlyCurrentWoundsSwitch.setImmediate(true);
-		
-		GridLayout content = new GridLayout(2,2);
 		
 		createWoundManager();
 		
 		Label spacing = new Label("");
 		spacing.setWidth("250pt");
 		spacing.setHeight("1pt");
-				
-		content.addComponents(showOnlyCurrentWoundsSwitch, spacing, woundManager.getWoundSelector(), rightContent);
 		
-		setContent(content);
+		// case: horizontal layout
+		if(getEnvironment().isHorizontalLayout()) {
+			
+			GridLayout content = new GridLayout(2,2);
+			content.addComponents(showOnlyCurrentWoundsSwitch, spacing, 
+						woundManager.getWoundSelector(), rightContent);
+			setContent(content);
+			
+		// case: vertical layout
+		}else{
+			
+			VerticalLayout content = new VerticalLayout();
+			content.addComponents(showOnlyCurrentWoundsSwitch, spacing, 
+					woundManager.getWoundSelector(), rightContent);
+			setContent(content);
+		}
+		
 	}
 
 	

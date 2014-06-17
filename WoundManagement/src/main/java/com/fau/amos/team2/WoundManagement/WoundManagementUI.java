@@ -54,7 +54,7 @@ public class WoundManagementUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {		
-		//Locale currentLocale = ApplicationSettings.instance.get().getLanguage();
+
 		Locale currentLocale = Locale.GERMAN;
 		//currentLocale = Locale.ENGLISH;
 

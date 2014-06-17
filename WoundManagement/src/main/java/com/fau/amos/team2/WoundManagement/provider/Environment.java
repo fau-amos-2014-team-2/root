@@ -7,9 +7,8 @@ public class Environment {
 	
 	private Employee currentEmployee;
 	private static EmployeeProvider provider = EmployeeProvider.getInstance();
-	// TODO
-	boolean hasHorizontalOrientation;
-	
+
+	boolean isHorizontalLayout;
 	
 	public Employee getCurrentEmployee() {
 		return currentEmployee;
@@ -32,25 +31,27 @@ public class Environment {
 		return UI.getCurrent().getPage().getBrowserWindowWidth();
 	}
 
-	// TODO
 	public void setOrientation() {
 		float height = getWindowHeight();
 		float width = getWindowWidth();
 		
 		if(height > width) {
-			hasHorizontalOrientation = false;
+			isHorizontalLayout = false;
 		}else{
-			hasHorizontalOrientation = true;
+			isHorizontalLayout = true;
 		}
 	}
-	
-	/**
-	 * If orientation detection using screen size, 
-	 * emulate the modes by resizing the browser.
-	 */
-	
-	// TODO
-	public boolean getOrientation() {
-		return hasHorizontalOrientation;
+
+	public boolean isHorizontalLayout() {
+		return isHorizontalLayout;
 	}
 }
+/**
+// case: horizontal layout
+if(getEnvironment().isHorizontalLayout()){
+	
+// case: vertical layout
+}else{
+	
+}
+*/
