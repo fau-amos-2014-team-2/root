@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement.subviews;
 import java.util.Collection;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.PatientView;
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
@@ -15,15 +14,16 @@ import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.PatientView;
+import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -54,15 +54,15 @@ public class NewWound extends FormLayout {
 		setSizeUndefined();
 		
 		//DateField - when is the wound recorded
-		final DateField recorded = new DateField(MessageResources.getString("recordingDate") + ":"); //$NON-NLS-1$
+		final DatePicker recorded = new DatePicker(MessageResources.getString("recordingDate") + ":"); //$NON-NLS-1$
 		recorded.setValue(new Date());
-		recorded.setDateFormat("dd.MM.yyyy");
+		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
 		recorded.setWidth(width);
 		addComponent(recorded);
 		
 		//ComboBox - body location code
-		final ComboBox location = new ComboBox(MessageResources.getString("bodyLocationCode") + ":"); //$NON-NLS-1$
+		final NativeSelect location = new NativeSelect(MessageResources.getString("bodyLocationCode") + ":"); //$NON-NLS-1$
 		for (BodyLocation b : BodyLocation.values()){
 			location.addItem(b);
 			location.setItemCaption(b, b.toFullString());
@@ -80,7 +80,7 @@ public class NewWound extends FormLayout {
 		
 		//ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
-		final ComboBox type = new ComboBox(MessageResources.getString("woundType") + ":"); //$NON-NLS-1$
+		final NativeSelect type = new NativeSelect(MessageResources.getString("woundType") + ":"); //$NON-NLS-1$
 		for (Object o : typeIds){
 			WoundType tmp = woundTypeProvider.getByID(o);
 			type.addItem(tmp);
@@ -91,7 +91,7 @@ public class NewWound extends FormLayout {
 		
 		//ComboBox - wound level
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
-		final ComboBox level = new ComboBox(MessageResources.getString("woundLevel") + ":"); //$NON-NLS-1$
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":"); //$NON-NLS-1$
 		for (Object o : levelIds){
 			WoundLevel tmp = woundLevelProvider.getByID(o);
 			level.addItem(tmp);
@@ -101,7 +101,7 @@ public class NewWound extends FormLayout {
 		addComponent(level);
 		
 		//ComboBox - origination of wound
-		final ComboBox origination = new ComboBox(MessageResources.getString("origination") + ":"); //$NON-NLS-1$
+		final NativeSelect origination = new NativeSelect(MessageResources.getString("origination") + ":"); //$NON-NLS-1$
 		for (Origination o : Origination.values()){
 			origination.addItem(o);
 			origination.setItemCaption(o, o.toFullString());

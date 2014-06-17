@@ -1,10 +1,8 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
 import java.util.Collection;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
@@ -16,17 +14,18 @@ import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
-import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
+import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -67,9 +66,9 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		greetingdate.setWidth("20em");
 
 		// DateField - when is the wound recorded/as seen in NewWoundView
-		final DateField recorded = new DateField(MessageResources.getString("createDate")+":");
+		final DatePicker recorded = new DatePicker(MessageResources.getString("createDate")+":");
 		recorded.setValue(new Date());
-		recorded.setDateFormat("dd.MM.yyyy");
+		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
 		recorded.setWidth("20em");
 		greetingdate.addComponent(recorded);
@@ -169,7 +168,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		
 		// ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
-		final ComboBox type = new ComboBox(MessageResources.getString("woundType")+":");
+		final NativeSelect type = new NativeSelect(MessageResources.getString("woundType")+":");
 		for (Object o : typeIds){
 			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
 			type.addItem(o);
@@ -177,7 +176,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		}
 		type.setWidth("20em");
 		type.setNewItemsAllowed(false);
-		type.setTextInputAllowed(false);
+		// type.setTextInputAllowed(false);
 		if (latest.getWoundType() != null){
 			type.setValue(latest.getWoundType().getId());
 		}
@@ -185,14 +184,13 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		 
 		// ComboBox - woundlevel
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
-		final ComboBox level = new ComboBox(MessageResources.getString("woundLevel")+":");
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel")+":");
 		for (Object o : levelIds){
 			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
 			level.addItem(o);
 			level.setItemCaption(o, tmp.getCharacterisation());
 		}
 		level.setNewItemsAllowed(false);
-		level.setTextInputAllowed(false);
 		level.setWidth("20em");
 		if (latest.getWoundLevel() != null){
 			level.setValue(latest.getWoundLevel().getId());

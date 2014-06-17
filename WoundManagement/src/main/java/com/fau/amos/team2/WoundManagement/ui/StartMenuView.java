@@ -1,8 +1,7 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
 import com.fau.amos.team2.WoundManagement.provider.TestDataLoader;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
@@ -16,9 +15,9 @@ public class StartMenuView extends SessionedNavigationView {
 	 * 
 	 * Navigates to one of the following Views
 	 * 
-	 * @see com.fau.amos.team2.WoundManagement.UserLoginView
-	 * @see com.fau.amos.team2.WoundManagement.PatientSelectionView
-	 * @see com.fau.amos.team2.WoundManagement.PatientView
+	 * @see com.fau.amos.team2.WoundManagement.ui.UserLoginView
+	 * @see com.fau.amos.team2.WoundManagement.ui.PatientSelectionView
+	 * @see com.fau.amos.team2.WoundManagement.ui.PatientView
 	 */
 	@SuppressWarnings("serial")
 	public StartMenuView() {
