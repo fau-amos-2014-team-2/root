@@ -4,13 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.fau.amos.team2.WoundManagement.PatientView;
-import com.fau.amos.team2.WoundManagement.WoundDescriptionListView;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Origination;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.PatientView;
+import com.fau.amos.team2.WoundManagement.ui.WoundDescriptionListView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -48,7 +48,7 @@ public class ExistingWound extends VerticalLayout {
 	public ExistingWound(PatientView patientView, Wound w) {
 		this.wound = w;
 		this.parentView = patientView;
-		
+				
 		setSpacing(true);
 		HorizontalLayout woundDataContent = new HorizontalLayout();
 		woundDataContent.setSpacing(true);
@@ -144,6 +144,8 @@ public class ExistingWound extends VerticalLayout {
 			        	public void buttonClick(ClickEvent event) {
 			        		
 			        		wound.setEndDate(new java.sql.Date(new Date().getTime()));
+			        		wound.setCureEmployee(parentView.getEnvironment().getCurrentEmployee());
+			        		
 							woundProvider.update(wound);
 							setEndDateLabel();
 							

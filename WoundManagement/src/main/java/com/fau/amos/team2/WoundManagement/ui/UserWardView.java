@@ -1,4 +1,4 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.SessionedPopover;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -28,9 +27,6 @@ public class UserWardView extends SessionedPopover {
 	public UserWardView() {
 		setClosable(true);
 		setModal(true);
-		
-		//setWidth("450px");
-		//setHeight("250px");
 
 		setCaption(MessageResources.getString("changeWard"));
 		final Employee user = getEnvironment().getCurrentEmployee(); 
@@ -41,22 +37,23 @@ public class UserWardView extends SessionedPopover {
 		
 		List<Ward> wards = wardProvider.getAllItems();
 		for (Ward ward : wards) {
-			wardGroup.addItem(ward);
-			wardGroup.setItemCaption(ward, ward.getCharacterisation());
+			wardGroup.addItem(ward.getId());
+			wardGroup.setItemCaption(ward.getId(), ward.getCharacterisation());
 		}
-		
+				
+		wardGroup.select(user.getCurrentWard().getId());
 		
 		Button changeWardButton = new Button(MessageResources.getString("changeWard")); //$NON-NLS-1$
 		changeWardButton.addClickListener(new ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Ward newWard = (Ward) wardGroup.getValue();
+				Ward newWard = wardProvider.getByID(wardGroup.getValue());
 				user.setCurrentWard(newWard);
 				
 				employeeProvider.update(user);
 				
-				Notification.show(MessageResources.getString("currentWardChangedTo1")
+				Notification.show(MessageResources.getString("currentWardChangedTo1") + " "
 						+  newWard.getCharacterisation()
 						+ " " + MessageResources.getString("currentWardChangedTo2"));
 				

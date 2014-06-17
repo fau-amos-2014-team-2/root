@@ -1,7 +1,5 @@
-package com.fau.amos.team2.WoundManagement;
+package com.fau.amos.team2.WoundManagement.ui;
 
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeEvent;
 import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.SelectedWoundChangeListener;
@@ -11,12 +9,13 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.subviews.ExistingWound;
 import com.fau.amos.team2.WoundManagement.subviews.NewWound;
 import com.fau.amos.team2.WoundManagement.subviews.UserBar;
-import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener, WardChangeListener {
@@ -29,42 +28,8 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	
 	VerticalLayout rightContent = new VerticalLayout();
 	
-	@SuppressWarnings("serial")
 	public PatientView(Patient patient) {
-		this.currentPatient = patient;
-		this.showCurrentWoundsOnly = true;
-				
-		setRightComponent(new UserBar(this));
-		
-		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
-		
-		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
-		showOnlyCurrentWoundsSwitch.setValue(true);
-		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				
-				setBoolShowCurrentWoundsOnly(showOnlyCurrentWoundsSwitch.getValue());
-				
-				getNavigationManager().navigateTo(new PatientView(currentPatient, getBoolShowCurrentWoundsOnly()));
-			}
-			
-		});
-		showOnlyCurrentWoundsSwitch.setImmediate(true);
-		
-		GridLayout content = new GridLayout(3, 1);
-		content.setColumnExpandRatio(0, 0);
-		content.setColumnExpandRatio(1, 0);
-		content.setColumnExpandRatio(2, 0);
-		
-		woundManager = new WoundManager(currentPatient, getBoolShowCurrentWoundsOnly());
-		woundManager.addSelectedWoundChangeListener(this);
-		
-		content.addComponents(showOnlyCurrentWoundsSwitch, woundManager.getWoundSelector(), rightContent);
-		content.setComponentAlignment(rightContent, Alignment.MIDDLE_LEFT);
-		
-		setContent(content);
+		this(patient, true);
 	}
 	
 	@SuppressWarnings("serial")
@@ -74,7 +39,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 				
 		setRightComponent(new UserBar(this));
 		
-		setCaption(MessageResources.getString("patientView")); //$NON-NLS-1$
+		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 		
 		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
 		showOnlyCurrentWoundsSwitch.setValue(getBoolShowCurrentWoundsOnly());
@@ -93,21 +58,35 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		
 		showOnlyCurrentWoundsSwitch.setImmediate(true);
 		
-		GridLayout content = new GridLayout(3, 1);
-		content.setColumnExpandRatio(0, 0);
-		content.setColumnExpandRatio(1, 0);
-		content.setColumnExpandRatio(2, 0);
+		GridLayout content = new GridLayout(2,2);
 		
-		woundManager = new WoundManager(currentPatient, getBoolShowCurrentWoundsOnly());
-		woundManager.addSelectedWoundChangeListener(this);
+		createWoundManager();
 		
-		content.addComponents(showOnlyCurrentWoundsSwitch, woundManager.getWoundSelector(), rightContent);
-		content.setComponentAlignment(rightContent, Alignment.MIDDLE_LEFT);
+		Label spacing = new Label("");
+		spacing.setWidth("250pt");
+		spacing.setHeight("1pt");
+				
+		content.addComponents(showOnlyCurrentWoundsSwitch, spacing, woundManager.getWoundSelector(), rightContent);
 		
 		setContent(content);
 	}
 
 	
+	private void createWoundManager() {
+		float heightFactor = (getEnvironment().getWindowHeight()-104)/513;
+		float widthFactor = getEnvironment().getWindowWidth()/600;
+		
+		float scaleFactor = widthFactor < heightFactor ? widthFactor : heightFactor;
+
+		if (scaleFactor < 1){
+			woundManager = new WoundManager(currentPatient, getBoolShowCurrentWoundsOnly(), scaleFactor);
+		} else {
+			woundManager = new WoundManager(currentPatient, getBoolShowCurrentWoundsOnly(), 1);
+		}
+		
+		woundManager.addSelectedWoundChangeListener(this);
+	}
+
 	@Override
 	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
 		Wound selectedWound = event.getWound();
