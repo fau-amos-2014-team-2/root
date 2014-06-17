@@ -1,7 +1,8 @@
 package com.fau.amos.team2.WoundManagement.ui;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
@@ -9,8 +10,8 @@ import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.VaadinService;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Layout;
@@ -40,58 +41,52 @@ public class ShowWoundPhotoView extends NavigationView {
 		this.woundDescription = woundDescription;
 
 		setCaption("Wound-Photo-View");
-		
+
+		// using stream-resource class to avoid creation/deletion of unnecessary
+		// files to show the image, inspired by example of vaadin-book:
+		// https://vaadin.com/book/vaadin7/-/page/application.resources.html
+		final class MyImageSource implements StreamSource {
+			ByteArrayInputStream imagebuffer = null;
+
+			/*
+			 * We need to implement this method that returns the resource as a
+			 * stream.
+			 */
+			public InputStream getStream() {
+
+				try {
+
+					imagebuffer = new ByteArrayInputStream(
+							woundDescription.getImage());
+
+					return imagebuffer;
+				} catch (Exception e) {
+					Notification
+							.show("Something ugly went wrong, plz tell an SD about this - Error in ShowWoundPhotoView/getStream(catced Exception");
+					return null;
+				}
+			}
+		}
+
 		final Embedded image = new Embedded("Woundimage");
 		image.setVisible(false);
 		image.setMimeType("image/*");
 
-		/* just for Debug/Testing purposes, checking whether length/size of uploaded image is correct
-		if (woundDescription.getImage() != null) {
-			Notification.show("testwunde --:"
-					+ woundDescription.getImage().length);
-		} else {
-			Notification.show("testwunde --: noch null");
-
-		}
-	   */
-
 		showImage = new Button("Bild anzeigen");
-		
+
 		showImage.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				try {
-					String basepath = VaadinService.getCurrent()
-							.getBaseDirectory().getAbsolutePath();
-					//Notification.show("verzeichnis: " + basepath);
 
-					
-					/*new testing stuff starts here
-					ByteArrayOutputStream imagebuffer = new ByteArrayOutputStream();
-					imagebuffer.write(woundDescription.getImage());
-					StreamResource resource = new StreamResource;
+				// Fixed: by using streamresources, the image is now shown
+				// without creating a file
+				StreamSource imagesource = new MyImageSource();
+				StreamResource resource = new StreamResource(imagesource,
+						"bufferedimage.png");
 
-					
-					//until here
-					*/
-					FileOutputStream fos = new FileOutputStream(
-							"/tmp/uploads/temp.jpg");
-					fos.write(woundDescription.getImage());
-					fos.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				// FIXME: show image with database as source, not creating a
-				// file.
-
-				File fileaddr = new File("/tmp/uploads/temp.jpg");
-				image.setSource(new FileResource(fileaddr));
+				image.setSource(resource);
 				image.setVisible(true);
-				//Notification.show("hmm jep jep hjep");
-				fileaddr.deleteOnExit();
-
 			}
 		});
 
@@ -109,13 +104,14 @@ public class ShowWoundPhotoView extends NavigationView {
 
 		// if there is no image yet, the button show image will be disabled (&
 		// -ausgegraut-)
-		//will add functionality so that the user will actually not get to this view, if there is no image present in the database
+		// will add functionality so that the user will actually not get to this
+		// view, if there is no image present in the database
 		if (woundDescription.getImage() == null) {
 			Notification.show("Zu dieser Beschreibung gibt es noch kein Bild!");
 			showImage.setEnabled(false);
 		} else {
 			showImage.setEnabled(true);
-			//Notification.show("es gibt ein Bild =)");
+			// Notification.show("es gibt ein Bild =)");
 		}
 	}
 }
