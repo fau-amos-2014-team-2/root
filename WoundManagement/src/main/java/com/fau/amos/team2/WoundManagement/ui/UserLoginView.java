@@ -66,8 +66,8 @@ public class UserLoginView extends SessionedNavigationView {
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
 				getEnvironment().setOrientation();
 				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
+				UI.getCurrent().requestRepaint();
 				//Page.getCurrent().reload();
-				UI.getCurrent().requestRepaintAll();
 			}
 		});
 		

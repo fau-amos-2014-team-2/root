@@ -11,9 +11,13 @@ import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
 public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
@@ -26,6 +30,20 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 	 */
 	private WoundDescription woundDescription;
 	public ShowWoundDescriptionView(WoundDescription woundDescription) {
+		
+		// ResizeListener
+		UI.getCurrent().setImmediate(true);
+		UI.getCurrent().setResizeLazy(true);
+		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void browserWindowResized(BrowserWindowResizeEvent event) {
+				getEnvironment().setOrientation();
+				UI.getCurrent().requestRepaint();
+				//Page.getCurrent().reload();
+			}
+		});
+		
 		setRightComponent(new UserBar(this));
 		this.woundDescription = woundDescription;
 

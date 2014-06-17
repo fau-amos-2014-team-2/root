@@ -49,9 +49,9 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 			@Override
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
 				getEnvironment().setOrientation();
-				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
-				//Page.getCurrent().reload();
 				UI.getCurrent().requestRepaintAll();
+				//Page.getCurrent().reload();
+				
 			}
 		});
 		

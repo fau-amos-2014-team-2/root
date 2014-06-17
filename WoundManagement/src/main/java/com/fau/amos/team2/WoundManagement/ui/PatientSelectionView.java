@@ -55,11 +55,12 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		UI.getCurrent().setImmediate(true);
 		UI.getCurrent().setResizeLazy(true);
 		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
 				getEnvironment().setOrientation();
-				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
-				Page.getCurrent().reload();
+				UI.getCurrent().requestRepaint();
+				//Page.getCurrent().reload();
 			}
 		});
 		
@@ -125,16 +126,16 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			table.setColumnWidth("birthdate", 170);
 			table.setColumnWidth("room", 100);
 			table.setColumnWidth("ward", 100);
-			table.setColumnWidth("currentWounds", 50);
+			table.setColumnWidth("currentWounds", 60);
 			
 		}else{
 			
 			float width = getEnvironment().getWindowWidth();
 			
 			int widthName = (int) (width * 0.35); 
-			int widthBday = (int) (width * 0.1); 
+			int widthBday = (int) (width * 0.15); 
 			int widthOther = (int) (width * 0.1); 
-			int widthWoundN = (int) (width * 0.05); 
+			int widthWoundN = (int) (width * 0.08); 
 			
 			table.setColumnWidth("name", widthName);
 			table.setColumnWidth("birthdate", widthBday);

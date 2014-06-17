@@ -58,9 +58,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 			@Override
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
 				getEnvironment().setOrientation();
-				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
-				requestRepaintAll();
-				getNavigationManager().navigateTo(new CreateWoundDescriptionView(wound));
+				UI.getCurrent().requestRepaintAll();
+				//Page.getCurrent().reload();
 			}
 		});
 		

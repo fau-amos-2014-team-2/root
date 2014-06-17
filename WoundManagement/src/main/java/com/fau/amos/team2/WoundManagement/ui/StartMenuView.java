@@ -31,11 +31,12 @@ public class StartMenuView extends SessionedNavigationView {
 		UI.getCurrent().setImmediate(true);
 		UI.getCurrent().setResizeLazy(true);
 		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
 				getEnvironment().setOrientation();
-				Notification.show("height="+ event.getHeight() + "..." + "width="+ event.getWidth());
-				Page.getCurrent().reload();
+				UI.getCurrent().requestRepaint();
+				//Page.getCurrent().reload();
 			}
 		});
 

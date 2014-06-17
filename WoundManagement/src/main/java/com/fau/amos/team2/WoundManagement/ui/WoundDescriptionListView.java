@@ -22,6 +22,9 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.DefaultItemSorter;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
@@ -39,6 +42,14 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 	
 	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 	public WoundDescriptionListView(Wound wound){
+		
+		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void browserWindowResized(BrowserWindowResizeEvent event) {
+				getEnvironment().setOrientation();
+			}
+		});
 		
 		this.wound = wound;
 		this.patient = this.wound.getPatient();
