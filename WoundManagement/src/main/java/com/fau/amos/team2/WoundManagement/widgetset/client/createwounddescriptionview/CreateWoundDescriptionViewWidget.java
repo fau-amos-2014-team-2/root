@@ -54,7 +54,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		contentView.setHeight("100%");
 		contentView.setWidth("100%");
 		VNavigationBar navigationBar = new VNavigationBar();
-		navigationBar.setCaption("New Ticket");
+		navigationBar.setCaption("Wound Management App");
 		navigationBar.setWidth("100%");
 		
 		contentView.setNavigationBar(navigationBar);
@@ -68,16 +68,15 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		VCssLayout indicatorWrapper = new VCssLayout();
 		indicatorWrapper.setWidth("100%");
 		
-		onlineStatusLabel = new Label("Connection Offline");
+		onlineStatusLabel = new Label("Connection offline");
         indicatorWrapper.add(onlineStatusLabel);
         reconnectLabel = new Anchor("Reconnect", Window.Location.getHref());
         reconnectLabel.setVisible(false);
         indicatorWrapper.add(reconnectLabel);
         offlineOnlineIndicator.add(indicatorWrapper);
         panel.add(offlineOnlineIndicator);
-        informationLayout = new InformationLayout(this);
-        panel.add(buildSectionWrapper(informationLayout, "Information",
-                "informationlayout"));
+        // informationLayout = new InformationLayout(this);
+        // panel.add(buildSectionWrapper(informationLayout, "Information", "informationlayout"));
         // photoLayout = new PhotoLayout(this);
         // panel.add(buildSectionWrapper(photoLayout, "Photo", "photolayout"));
         // panel.add(buildNotesLayout());
@@ -100,19 +99,16 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 
 	@Override
 	public boolean execute() {
-		if (isActive()) {
-			if (isNetworkOnline()) {
-				// offline -> online
-				offlineOnlineIndicator.addStyleName("connection");
-				// TODO: Other kram
-			}			
+		if (isActive() && isNetworkOnline()) {
+			// offline -> online
+			offlineOnlineIndicator.addStyleName("connection");
+			reconnectLabel.setVisible(true);
+			onlineStatusLabel.setText("Connection available");
 		}
-		else {
-			if (!isNetworkOnline()) {
-				// online -> offline
-				listener = null;
-				refreshOnSave = true;
-			}
+		else if (!isNetworkOnline()) {
+			// online -> offline
+			listener = null;
+			refreshOnSave = true;
 		}
 		return true;
 	}
