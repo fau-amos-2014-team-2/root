@@ -1,4 +1,4 @@
-package com.fau.amos.team2.WoundManagement.subviews;
+package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.Employee;

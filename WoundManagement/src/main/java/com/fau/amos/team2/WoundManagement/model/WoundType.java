@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
@@ -25,19 +27,17 @@ public class WoundType implements BusinessObject {
 	@Column(name = "BEZEICH", nullable = false)
 	private String classification;
 	
-	@Column(name = "TYP", nullable = false)
-	private char type;
+	@Column(name = "TYP", nullable = false, length=1)
+	private String type;
 	
-	@Column(name = "GROESSEPFL", nullable = false)
-	private boolean sizeIsRequired;
+	@Column(name = "GROESSEPFL", nullable = false, length=1)
+	private String sizeIsRequired;
 	
-	@Column(name = "GRADSTATUS", nullable = false)
-	private char level;
+	@Column(name = "GRADSTATUS", nullable = false, length=1)
+	private String levelState;
 	
-	@Column(name = "KOERPERSTELLEPFL", nullable = false)
-	private boolean isBodyLocationRequired;
-	
-	//TODO: translation of 'j'/'n' to boolean?
+	@Column(name = "KOERPERSTELLEPFL", nullable = false, length=1)
+	private String isBodyLocationRequired;
 	
 	public WoundType() {
 		
@@ -67,35 +67,35 @@ public class WoundType implements BusinessObject {
 		this.classification = classification;
 	}
 
-	public char getType() {
-		return type;
+	public WoundKind getType() {
+		return WoundKind.enumOf(type);
 	}
 
-	public void setType(char type) {
-		this.type = type;
+	public void setType(WoundKind type) {
+		this.type = type.toString();
 	}
 
 	public boolean isSizeIsRequired() {
-		return sizeIsRequired;
+		return BooleanToStringConverter.convertBack(sizeIsRequired);
 	}
 
 	public void setSizeIsRequired(boolean sizeIsRequired) {
-		this.sizeIsRequired = sizeIsRequired;
+		this.sizeIsRequired = BooleanToStringConverter.convert(sizeIsRequired);
 	}
 
-	public char getLevel() {
-		return level;
+	public WoundLevelState getLevelState() {
+		return WoundLevelState.enumOf(levelState);
 	}
 
-	public void setLevel(char level) {
-		this.level = level;
+	public void setLevelState(WoundLevelState level) {
+		this.levelState = level.toString();
 	}
 
 	public boolean isBodyLocationRequired() {
-		return isBodyLocationRequired;
+		return BooleanToStringConverter.convertBack(isBodyLocationRequired);
 	}
 
 	public void setBodyLocationRequired(boolean isBodyLocationRequired) {
-		this.isBodyLocationRequired = isBodyLocationRequired;
+		this.isBodyLocationRequired = BooleanToStringConverter.convert(isBodyLocationRequired);
 	}
 }

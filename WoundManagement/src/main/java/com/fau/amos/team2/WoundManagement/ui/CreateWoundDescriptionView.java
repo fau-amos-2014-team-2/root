@@ -8,14 +8,15 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
+import com.fau.amos.team2.WoundManagement.model.WoundLevelState;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.subviews.UserBar;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
+import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.ui.Button;
@@ -235,12 +236,13 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 						//'P''p' - level required
 						//'V''v' - level forbidden
 						//'E''e' - level allowed
-						if ('p' == (woundType.getLevel()) || 'P' == (woundType.getLevel())){
+						if (woundType.getLevelState() == WoundLevelState.REQUIRED) {
 							if (level.getValue() == null){
 								Notification.show(MessageResources.getString("woundType") + woundType.getClassification() + MessageResources.getString("woundLevelRequired"));
 								return;
 							}
-						} else if ('v' == (woundType.getLevel()) || 'V' == (woundType.getLevel())){
+						}
+						else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN) {
 							if (level.getValue() != null){
 								Notification.show(MessageResources.getString("woundType") + woundType.getClassification() + MessageResources.getString("woundLevelForbidden"));
 								return;
