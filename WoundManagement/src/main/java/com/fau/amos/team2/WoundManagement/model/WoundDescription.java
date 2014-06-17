@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -66,6 +67,19 @@ public class WoundDescription implements BusinessObject {
 	
 	@Column(name = "TIEFE")
 	private int depth;
+	
+	@Lob
+	@Column(name = "WOUNDDESCIMAGE")
+	private byte[] image;
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	
+	public byte[] getImage() {
+		return this.image;
+	}
+
 	
 	public WoundDescription() {
 		

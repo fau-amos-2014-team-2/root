@@ -3,13 +3,15 @@ package com.fau.amos.team2.WoundManagement.ui;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
@@ -18,6 +20,8 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Notification;
+
 
 @SuppressWarnings("serial")
 public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
@@ -29,6 +33,9 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 	 * @Param: Wounddescription to be shown
 	 */
 	private WoundDescription woundDescription;
+	
+	private final NavigationButton showwoundphoto;
+	
 	public ShowWoundDescriptionView(WoundDescription woundDescription) {
 		
 		// ResizeListener
@@ -59,7 +66,15 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		mainLayout.setSizeFull();
+		
+		final NavigationButton uploadnewphoto = new NavigationButton("Foto hinzufuegen");
+		uploadnewphoto.setTargetView(new UploadPhotoView(this.woundDescription));
+		mainLayout.addComponent(uploadnewphoto);
 
+		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
+		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));
+		mainLayout.addComponent(showwoundphoto);
+		
 		HorizontalLayout greetingandDate =new HorizontalLayout();
 		
 		
@@ -171,5 +186,19 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 	public void wardChanged(WardChangeEvent event) {
 		WoundDescriptionListView newView = new WoundDescriptionListView(this.woundDescription.getWound());
 		getNavigationManager().setPreviousComponent(newView);
+	}
+	
+	//if there is no image yet, disable the navigation button, so that the user can not go to the 
+	//in this case useless- show image view
+public void onBecomingVisible() {
+		
+		if (woundDescription.getImage() == null) {
+			Notification.show("Es wurde noch kein Bild zu dieser Beschreibung hinzugefügt.");
+			
+			showwoundphoto.setVisible(false);
+		} else {
+			showwoundphoto.setVisible(true);
+			//Notification.show("es gibt ein Bild =)");
+		}
 	}
 }
