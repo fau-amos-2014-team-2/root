@@ -36,6 +36,7 @@ import com.vaadin.client.ui.button.ButtonConnector;
 import com.vaadin.client.ui.checkbox.CheckBoxConnector;
 import com.vaadin.client.ui.combobox.ComboBoxConnector;
 import com.vaadin.client.ui.csslayout.CssLayoutConnector;
+import com.vaadin.client.ui.embedded.EmbeddedConnector;
 import com.vaadin.client.ui.formlayout.FormLayoutConnector;
 import com.vaadin.client.ui.gridlayout.GridLayoutConnector;
 import com.vaadin.client.ui.image.ImageConnector;
@@ -71,6 +72,7 @@ public class WidgetLoaderFactory extends TouchKitBundleLoaderFactory {
 		        CssLayoutConnector.class.getName(),
 		        DatePickerConnector.class.getName(),
 		        FormLayoutConnector.class.getName(),
+		        EmbeddedConnector.class.getName(),
 		        GeolocatorConnector.class.getName(),
 		        GridLayoutConnector.class.getName(),
 		        HorizontalButtonGroupConnector.class.getName(),
