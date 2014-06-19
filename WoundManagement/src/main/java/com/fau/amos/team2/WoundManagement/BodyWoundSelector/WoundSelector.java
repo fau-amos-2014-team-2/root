@@ -40,9 +40,11 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 	private Map<WoundPosition, Image> markedWounds = new HashMap<WoundPosition, Image>();
 
 	private Boolean existingWoundSelected = false;
-
-	public WoundSelector(WoundManager woundManager, Sex sex) {
+	private float scaleFactor = 1;
+	
+	public WoundSelector(WoundManager woundManager, Sex sex, float scaleFactor) {
 		this.woundManager = woundManager;
+		this.scaleFactor = scaleFactor;
 
 		Image backgroundImage;
 		
@@ -79,22 +81,22 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		Image image = new Image(null, new FileResource(imageFile));
 
 		if (imageFilename == BODY_IMAGE || imageFilename == BODY_IMAGE_FEMALE || imageFilename == BODY_IMAGE_MALE) {
-			image.setHeight(BODY_IMAGE_HEIGHT, Unit.PIXELS);
-			image.setWidth(BODY_IMAGE_WIDTH, Unit.PIXELS);
+			image.setHeight(Math.round(scaleFactor*BODY_IMAGE_HEIGHT), Unit.PIXELS);
+			image.setWidth(Math.round(scaleFactor*BODY_IMAGE_WIDTH), Unit.PIXELS);
 		}
 		else if (imageFilename == SELECTION_INDICATOR 
 					|| imageFilename == WOUND_INDICATOR
 					|| imageFilename == WOUND_HEALED_INDICATOR
 					|| imageFilename == WOUND_SELECTION_INDICATOR) {
-			image.setHeight(INDICATOR_HEIGHT, Unit.PIXELS);
-			image.setWidth(INDICATOR_WIDTH, Unit.PIXELS);
+			image.setHeight(Math.round(scaleFactor*INDICATOR_HEIGHT), Unit.PIXELS);
+			image.setWidth(Math.round(scaleFactor*INDICATOR_WIDTH), Unit.PIXELS);
 		}
 		else {
 			// We need to load the image and get the size since Vaadin Touchkit cannot read the size itself
 			try {
 				bufferedImage = ImageIO.read(imageFile);
-				image.setHeight(bufferedImage.getHeight(), Unit.PIXELS);
-				image.setWidth(bufferedImage.getWidth(), Unit.PIXELS);
+				image.setHeight(Math.round(scaleFactor*bufferedImage.getHeight()), Unit.PIXELS);
+				image.setWidth(Math.round(scaleFactor*bufferedImage.getWidth()), Unit.PIXELS);
 			} catch (IOException e) {
 				// we fail silently and let Vaadin use autosizing
 			}
@@ -111,7 +113,9 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		//Notification.show("X " + xPosition + " Y " + yPosition);
 
 		// Get the wound at this position
-		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(xPosition, yPosition);
+		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(
+				(int) Math.round(xPosition/scaleFactor),
+				(int) Math.round(yPosition/scaleFactor));
 		
 		setSelectedWoundPosition(woundPosition);
 	}
@@ -132,8 +136,8 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 			// Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
 
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
-			float correctedXPos = (float)selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2);
-			float correctedYPos = (float)selectedWoundPosition.getYPosition() - (selectedWoundIndicator.getHeight() / 2);
+			float correctedXPos = (float) scaleFactor*(selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2));
+			float correctedYPos = (float) scaleFactor*(selectedWoundPosition.getYPosition() - (selectedWoundIndicator.getHeight() / 2));
 
 			ComponentPosition imagePosition = new ComponentPosition();
 			imagePosition.setLeft((float)correctedXPos, Unit.PIXELS);
@@ -168,8 +172,8 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 			image.setAlternateText(woundPosition.getDescription());
 
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
-			float correctedXPos = (float)woundPosition.getXPosition() - (image.getWidth() / 2);
-			float correctedYPos = (float)woundPosition.getYPosition() - (image.getHeight() / 2);
+			float correctedXPos = (float) scaleFactor*(woundPosition.getXPosition() - (image.getWidth() / 2));
+			float correctedYPos = (float) scaleFactor*(woundPosition.getYPosition() - (image.getHeight() / 2));
 
 			ComponentPosition imagePosition = new ComponentPosition();
 			imagePosition.setLeft((float)correctedXPos, Unit.PIXELS);
@@ -214,8 +218,8 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		}
 
 		// Removing half the size of the indicator to put the click position in the middle of the indicator
-		float correctedXPos = (float)selectedWoundPosition.getXPosition() - (selectionIndicator.getWidth() / 2);
-		float correctedYPos = (float)selectedWoundPosition.getYPosition() - (selectionIndicator.getHeight() / 2);
+		float correctedXPos = (float) scaleFactor*(selectedWoundPosition.getXPosition() - (selectionIndicator.getWidth() / 2));
+		float correctedYPos = (float) scaleFactor*(selectedWoundPosition.getYPosition() - (selectionIndicator.getHeight() / 2));
 
 		ComponentPosition newPosition = new ComponentPosition();
 		newPosition.setLeft(correctedXPos, Unit.PIXELS);

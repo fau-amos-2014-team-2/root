@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
@@ -46,11 +48,11 @@ public class Employee implements BusinessObject {
 	@Column(name = "PDACODE")
 	private String pdaCode;
 	
-	@Column(name = "GLKONTR", nullable=false)
-	private char collectiveAcc;
+	@Column(name = "GLKONTR", nullable=false, length=1)
+	private String accumulativeAck;
 	
-	@Column(name = "SAMMQUIT_M", nullable=false)
-	private char collectiveAccMedication;
+	@Column(name = "SAMMQUIT_M", nullable=false, length=1)
+	private String collectiveAccMedication;
 	
 	@Column(name = "GESCHLECHT")
 	private String gender;
@@ -63,13 +65,14 @@ public class Employee implements BusinessObject {
 	
 	public Employee() {
 		keyword = "key";
-		collectiveAcc = 'a';
-		collectiveAccMedication = 'a';
+		setAccumulativeAckType(AccumulativeAckType.NOT_ALLOWED);
+		setCollectiveAccMedicationAllowed(false);
 	}
 	
 	public long getId() {
 		return id;
 	}
+	
 	public void setID(long id) {
 		this.id = id;
 	}
@@ -152,26 +155,26 @@ public class Employee implements BusinessObject {
 
 
 
-	public char getCollectiveAcc() {
-		return collectiveAcc;
+	public AccumulativeAckType getAccumulativeAckType() {
+		return AccumulativeAckType.enumOf(accumulativeAck);
 	}
 
 
 
-	public void setCollectiveAcc(char collectiveAcc) {
-		this.collectiveAcc = collectiveAcc;
+	public void setAccumulativeAckType(AccumulativeAckType accumulativeAckType) {
+		this.accumulativeAck = accumulativeAckType.toString();
 	}
 
 
 
-	public char getCollectiveAccMedication() {
-		return collectiveAccMedication;
+	public boolean isCollectiveAccMedicationAllowed() {
+		return BooleanToStringConverter.convertBack(collectiveAccMedication);
 	}
 
 
 
-	public void setCollectiveAccMedication(char collectiveAccMedication) {
-		this.collectiveAccMedication = collectiveAccMedication;
+	public void setCollectiveAccMedicationAllowed(boolean collectiveAccMedication) {
+		this.collectiveAccMedication = BooleanToStringConverter.convert(collectiveAccMedication);
 	}
 
 

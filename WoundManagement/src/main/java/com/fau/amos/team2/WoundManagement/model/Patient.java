@@ -62,8 +62,8 @@ public class Patient implements BusinessObject {
 	@Column(name = "EINZUG")
 	private Date entryDate;
 	
-	@Column(name = "UNTERBRINGUNG")
-	private char accomodation;
+	@Column(name = "UNTERBRINGUNG", length=1)
+	private String accomodation;
 	
 	public Patient() {
 		
@@ -161,12 +161,12 @@ public class Patient implements BusinessObject {
 		this.entryDate = entryDate;
 	}
 
-	public char getAccomodation() {
-		return accomodation;
+	public AccomodationType getAccomodation() {
+		return AccomodationType.valueOf(accomodation);
 	}
 
-	public void setAccomodation(char accomodation) {
-		this.accomodation = accomodation;
+	public void setAccomodation(AccomodationType accomodation) {
+		this.accomodation = accomodation.toString();
 	}
 	
 	public List<Wound> getWounds() {

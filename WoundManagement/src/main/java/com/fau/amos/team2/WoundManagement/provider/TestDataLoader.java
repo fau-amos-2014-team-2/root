@@ -3,13 +3,16 @@ package com.fau.amos.team2.WoundManagement.provider;
 import java.sql.Date;
 import java.util.Iterator;
 
+import com.fau.amos.team2.WoundManagement.model.AccomodationType;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Sex;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.model.WoundKind;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
+import com.fau.amos.team2.WoundManagement.model.WoundLevelState;
 import com.fau.amos.team2.WoundManagement.model.WoundType;
 
 public class TestDataLoader {
@@ -81,7 +84,7 @@ public class TestDataLoader {
 
 			Patient testPatient = new Patient();
 			testPatient.setSensoID(1);
-			testPatient.setAccomodation('c');
+			testPatient.setAccomodation(AccomodationType.STATIONARY);
 			testPatient.setKeyword("keyword");
 
 			switch (i) {
@@ -125,8 +128,8 @@ public class TestDataLoader {
 
 		testWoundType1.setBodyLocationRequired(false);
 		testWoundType1.setClassification("Senso6 Dekubitus");
-		testWoundType1.setLevel('p');
-		testWoundType1.setType('d');
+		testWoundType1.setLevelState(WoundLevelState.REQUIRED);
+		testWoundType1.setType(WoundKind.DECUBITUS);
 		testWoundType1.setSizeIsRequired(true);
 		testWoundType1.setBodyLocationRequired(true);
 
