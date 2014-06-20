@@ -1,5 +1,8 @@
 package com.fau.amos.team2.WoundManagement.ui;
 
+import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Sex;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.TestDataLoader;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -55,6 +58,17 @@ public class StartMenuView extends SessionedNavigationView {
 			}
 		});
 		content.addComponent(initializeDataButton);
+		
+		Patient p = new Patient();
+		p.setFirstName("Stefan");
+		p.setLastName("Betz");
+		p.setGender("w");
+		PatientProvider.getInstance().add(p);
+		
+		NavigationButton genderWoundButton = new NavigationButton("Gender Wound View.");
+		genderWoundButton.setTargetView(new PatientView(p, true));
+		content.addComponent(genderWoundButton);
+		
 		
 		setContent(content);
 
