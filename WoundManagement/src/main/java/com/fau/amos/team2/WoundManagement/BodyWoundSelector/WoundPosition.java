@@ -1,6 +1,7 @@
 package com.fau.amos.team2.WoundManagement.BodyWoundSelector;
 
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
+import com.fau.amos.team2.WoundManagement.model.Sex;
 
 public enum WoundPosition {
 
@@ -35,8 +36,8 @@ public enum WoundPosition {
 	ZEHENOBERSEITE_RE(BodyLocation.ZEHENOBERSEITE_RE, 322, 305),
 	FUSSOBERSEITE_RE(BodyLocation.FUSSOBERSEITE_RE, 322, 343),
 	OBERARM_RE(BodyLocation.OBERARM_RE, 420, 163),
-	UNTERARM_RE(BodyLocation.UNTERARM_RE, 547, 214),
-
+	UNTERARM_RE(BodyLocation.UNTERARM_RE, 408, 214),
+	
 	OHR_LI(BodyLocation.OHR_LI, 503, 48),
 	SCHULTER_LI(BodyLocation.SCHULTER_LI, 528, 106),
 	TROCHANTER_LI(BodyLocation.TROCHANTER_LI, 72, 271),
@@ -47,7 +48,7 @@ public enum WoundPosition {
 	ZEHENOBERSEITE_LI(BodyLocation.ZEHENOBERSEITE_LI, 277, 305),
 	FUSSOBERSEITE_LI(BodyLocation.FUSSOBERSEITE_LI, 277, 343),
 	OBERARM_LI(BodyLocation.OBERARM_LI, 535, 163),
-	UNTERARM_LI(BodyLocation.UNTERARM_LI, 408, 214),
+	UNTERARM_LI(BodyLocation.UNTERARM_LI, 547, 214),
 
 	GESICHT(BodyLocation.GESICHT, 478, 53),
 	KNIE_RE(BodyLocation.KNIE_RE, 454, 373),
@@ -94,11 +95,54 @@ public enum WoundPosition {
 		return bodyLocation.toString();
 	}
 	
-	public static WoundPosition getPositionForBodyLocation(BodyLocation bodyLocation) {
-		for (WoundPosition p : WoundPosition.values())
+	public static WoundPosition getPositionForBodyLocation(BodyLocation bodyLocation, Sex sex) {
+		for (WoundPosition p : getWoundPositionValues(sex))
 			if (p.getBodyLocation() == bodyLocation)
 				return p;
 		
 		return null;
+	}
+
+	public static WoundPosition[] getWoundPositionValues(Sex sex) { 
+		if(sex.compareTo(Sex.MALE) == 0
+				|| sex.compareTo(Sex.NEUTER) == 0) {
+			return WoundPosition.values();
+		}
+		return getFemaleWoundPositions();
+	}
+	
+	private static WoundPosition[] getFemaleWoundPositions() { 
+		int i = 0;
+		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length];
+		for (WoundPosition p : WoundPosition.values()) {
+				// Need to adjust a couple Positions
+				BodyLocation bodyLocation = p.getBodyLocation();
+				if(bodyLocation.compareTo(BodyLocation.WADE_LI) == 0) {
+					p.xPosition = 109;
+					p.yPosition = 410;
+				} else if(bodyLocation.compareTo(BodyLocation.WADE_RE) == 0) {
+					p.xPosition = 140;
+					p.yPosition = 410;
+				} else if(bodyLocation.compareTo(BodyLocation.HAND_RE) == 0) {
+					p.xPosition = 404;
+					p.yPosition = 270;
+				} else if(bodyLocation.compareTo(BodyLocation.HAND_LI) == 0) {
+					p.xPosition = 557;
+					p.yPosition = 270;
+				} else if(bodyLocation.compareTo(BodyLocation.SCHULTER_RE) == 0) {
+					p.xPosition = 435;
+					p.yPosition = 105;
+				} else if(bodyLocation.compareTo(BodyLocation.OBERARM_RE) == 0 ||
+						bodyLocation.compareTo(BodyLocation.UNTERARM_RE) == 0||
+						bodyLocation.compareTo(BodyLocation.KNIE_RE)  == 0 || 
+						bodyLocation.compareTo(BodyLocation.SCHIENBEIN_RE) == 0) {
+
+					p.xPosition = p.getXPosition() + 5;
+					
+					com.vaadin.ui.Notification.show("Geht");
+				}
+				woundPositions[i++] = p;
+		}
+		return woundPositions;
 	}
 }
