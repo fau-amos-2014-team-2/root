@@ -20,7 +20,9 @@ public enum WoundPosition {
 	GESAESS_LI(BodyLocation.GESAESS_LI, 91, 256),
 	GESAESS_RE(BodyLocation.GESAESS_RE, 146, 256),
 	WADE_LI(BodyLocation.WADE_LI, 94, 410),
+	WADE_LI_FEMALE(BodyLocation.WADE_LI, 109, 410),
 	WADE_RE(BodyLocation.WADE_RE, 149, 410),
+	WADE_RE_FEMALE(BodyLocation.WADE_RE, 140, 410),
 	WIRBELSAEULE(BodyLocation.WIRBELSAEULE, 121, 160),
 	ANALFALTE(BodyLocation.ANALFALTE, 121, 261),
 	HAND_AUSSEN_LI(BodyLocation.HAND_AUSSEN_LI, 36, 270),
@@ -28,6 +30,7 @@ public enum WoundPosition {
 
 	OHR_RE(BodyLocation.OHR_RE, 457, 48),
 	SCHULTER_RE(BodyLocation.SCHULTER_RE, 427, 106),
+	SCHULTER_RE_FEMALE(BodyLocation.SCHULTER_RE, 435, 105),
 	TROCHANTER_RE(BodyLocation.TROCHANTER_RE, 171, 271),
 	KNOECHEL_RE(BodyLocation.KNOECHEL_RE, 131, 481),
 	UNTERE_FERSE_RE(BodyLocation.UNTERE_FERSE_RE, 278, 480),
@@ -36,7 +39,9 @@ public enum WoundPosition {
 	ZEHENOBERSEITE_RE(BodyLocation.ZEHENOBERSEITE_RE, 322, 305),
 	FUSSOBERSEITE_RE(BodyLocation.FUSSOBERSEITE_RE, 322, 343),
 	OBERARM_RE(BodyLocation.OBERARM_RE, 420, 163),
+	OBERARM_RE_FEMALE(BodyLocation.OBERARM_RE, 425, 163),
 	UNTERARM_RE(BodyLocation.UNTERARM_RE, 408, 214),
+	UNTERARM_RE_FEMALE(BodyLocation.UNTERARM_RE, 413, 214),
 	
 	OHR_LI(BodyLocation.OHR_LI, 503, 48),
 	SCHULTER_LI(BodyLocation.SCHULTER_LI, 528, 106),
@@ -52,6 +57,7 @@ public enum WoundPosition {
 
 	GESICHT(BodyLocation.GESICHT, 478, 53),
 	KNIE_RE(BodyLocation.KNIE_RE, 454, 373),
+	KNIE_RE_FEMALE(BodyLocation.KNIE_RE, 459, 373),
 	KNIE_LI(BodyLocation.KNIE_LI, 504, 373),
 	BRUSTBEIN(BodyLocation.BRUSTBEIN, 478, 130),
 	BRUST_RE(BodyLocation.BRUST_RE, 458, 140),
@@ -60,8 +66,11 @@ public enum WoundPosition {
 	LEISTE_RE(BodyLocation.LEISTE_RE, 457, 239),
 	LEISTE_LI(BodyLocation.LEISTE_LI, 500, 239),
 	HAND_RE(BodyLocation.HAND_RE, 391, 266),
+	HAND_RE_FEMALE(BodyLocation.HAND_RE, 404, 270),
 	HAND_LI(BodyLocation.HAND_LI, 563, 266),
+	HAND_LI_FEMALE(BodyLocation.HAND_LI, 557, 270),
 	SCHIENBEIN_RE(BodyLocation.SCHIENBEIN_RE, 452, 421),
+	SCHIENBEIN_RE_FEMALE(BodyLocation.SCHIENBEIN_RE, 457, 421),
 	SCHIENBEIN_LI(BodyLocation.SCHIENBEIN_LI, 503, 421),
 	OBERSCHENKEL_RE(BodyLocation.OBERSCHENKEL_RE, 452, 305),
 	OBERSCHENKEL_LI(BodyLocation.OBERSCHENKEL_LI, 505, 305),
@@ -106,40 +115,47 @@ public enum WoundPosition {
 	public static WoundPosition[] getWoundPositionValues(Sex sex) { 
 		if(sex.compareTo(Sex.MALE) == 0
 				|| sex.compareTo(Sex.NEUTER) == 0) {
-			return WoundPosition.values();
+			return getMaleWoundPositions();
 		}
 		return getFemaleWoundPositions();
 	}
 	
 	private static WoundPosition[] getFemaleWoundPositions() { 
 		int i = 0;
-		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length];
+		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 9];
 		for (WoundPosition p : WoundPosition.values()) {
-				// Need to adjust a couple Positions
-				BodyLocation bodyLocation = p.getBodyLocation();
-				if(bodyLocation.compareTo(BodyLocation.WADE_LI) == 0) {
-					p.xPosition = 109;
-					p.yPosition = 410;
-				} else if(bodyLocation.compareTo(BodyLocation.WADE_RE) == 0) {
-					p.xPosition = 140;
-					p.yPosition = 410;
-				} else if(bodyLocation.compareTo(BodyLocation.HAND_RE) == 0) {
-					p.xPosition = 404;
-					p.yPosition = 270;
-				} else if(bodyLocation.compareTo(BodyLocation.HAND_LI) == 0) {
-					p.xPosition = 557;
-					p.yPosition = 270;
-				} else if(bodyLocation.compareTo(BodyLocation.SCHULTER_RE) == 0) {
-					p.xPosition = 435;
-					p.yPosition = 105;
-				} else if(bodyLocation.compareTo(BodyLocation.OBERARM_RE) == 0 ||
-						bodyLocation.compareTo(BodyLocation.UNTERARM_RE) == 0||
-						bodyLocation.compareTo(BodyLocation.KNIE_RE)  == 0 || 
-						bodyLocation.compareTo(BodyLocation.SCHIENBEIN_RE) == 0) {
+			// Not add Male enums
+				if(p.compareTo(OBERARM_RE) == 0 ||
+						p.compareTo(UNTERARM_RE) == 0||
+						p.compareTo(KNIE_RE)  == 0 || 
+						p.compareTo(SCHIENBEIN_RE) == 0 ||
+						p.compareTo(WADE_RE) == 0 ||
+						p.compareTo(HAND_RE) == 0 || 
+						p.compareTo(HAND_LI) == 0 || 
+						p.compareTo(SCHULTER_RE) == 0 ||
+						p.compareTo(WADE_LI) == 0) {
+					continue;
+				}
+				woundPositions[i++] = p;
+		}
+		return woundPositions;
+	}
 
-					p.xPosition = p.getXPosition() + 5;
-					
-					com.vaadin.ui.Notification.show("Geht");
+	private static WoundPosition[] getMaleWoundPositions() { 
+		int i = 0;
+		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 9];
+		for (WoundPosition p : WoundPosition.values()) {
+			// Not add Female enums
+				if(p.compareTo(OBERARM_RE_FEMALE) == 0 ||
+						p.compareTo(UNTERARM_RE_FEMALE) == 0||
+						p.compareTo(KNIE_RE_FEMALE)  == 0 || 
+						p.compareTo(SCHIENBEIN_RE_FEMALE) == 0 ||
+						p.compareTo(WADE_RE_FEMALE) == 0 ||
+						p.compareTo(HAND_RE_FEMALE) == 0 || 
+						p.compareTo(HAND_LI_FEMALE) == 0 || 
+						p.compareTo(SCHULTER_RE_FEMALE) == 0 ||
+						p.compareTo(WADE_LI_FEMALE) == 0) {
+					continue;
 				}
 				woundPositions[i++] = p;
 		}
