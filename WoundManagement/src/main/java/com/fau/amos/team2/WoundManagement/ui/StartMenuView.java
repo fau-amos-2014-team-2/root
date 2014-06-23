@@ -63,19 +63,6 @@ public class StartMenuView extends SessionedNavigationView {
 			}
 		});
 		content.addComponent(initializeDataButton);
-		
-		Patient p = new Patient();
-		p.setFirstName("Stefan");
-		p.setLastName("Betz");
-		p.setGender("w");
-		PatientProvider.getInstance().add(p);
-		
-		NavigationButton genderWoundButton = new NavigationButton("Gender Wound View.");
-		genderWoundButton.setTargetView(new PatientView(p, true));
-		content.addComponent(genderWoundButton);
-		
-		
-		setContent(content);
 
 	}
 }
