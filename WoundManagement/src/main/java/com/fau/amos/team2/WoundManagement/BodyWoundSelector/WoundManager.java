@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
 import com.fau.amos.team2.WoundManagement.model.Patient;
+import com.fau.amos.team2.WoundManagement.model.Sex;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 
 public class WoundManager {
@@ -17,17 +18,20 @@ public class WoundManager {
 	private WoundPosition selectedWoundPosition;
 	private Wound selectedWound;
 	
+	private Sex sex;
+	
 	public WoundManager(Patient patient, boolean showCurrentWoundsOnly, float scaleFactor) {
 		woundSelector = new WoundSelector(this, patient.getSex(), scaleFactor);
 		wounds = new HashMap<WoundPosition, Wound>();
 		if(showCurrentWoundsOnly) {
 			for (Wound wound : patient.getCurrentWounds())
 				addWound(wound);
-		}else{
+		} else{
 			for (Wound wound : patient.getWounds())
 				addWound(wound);
 		}
-
+		this.sex = (patient.getSex() != null) 
+				? patient.getSex() : Sex.NEUTER;
 	}
 
 	public WoundSelector getWoundSelector() {
@@ -35,7 +39,8 @@ public class WoundManager {
 	}
 
 	public void addWound(Wound wound) {
-		WoundPosition pos = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(wound.getBodyLocationCode()));
+		WoundPosition pos = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(wound.getBodyLocationCode()),
+				woundSelector.getSex());
 		
 		wounds.put(pos, wound);
 		woundSelector.addWoundAtPosition(pos);
@@ -58,7 +63,7 @@ public class WoundManager {
 		int nearestPosDiff = -1;
 		WoundPosition nearestPos = null;
 
-		for (WoundPosition p : WoundPosition.values()) {
+		for (WoundPosition p : WoundPosition.getWoundPositionValues(sex)) {
 			int xDiff = Math.abs(p.getXPosition() - x);
 			int yDiff = Math.abs(p.getYPosition() - y);
 			int diff = xDiff + yDiff;
@@ -90,7 +95,8 @@ public class WoundManager {
 		this.selectedWound = selectedWound;
 		
 		if (this.selectedWound != null) {
-			WoundPosition woundPosition = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(selectedWound.getBodyLocationCode()));
+			WoundPosition woundPosition = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(selectedWound.getBodyLocationCode()),
+					woundSelector.getSex());
 			setSelectedWoundPosition(woundPosition);
 			woundSelector.setSelectedWoundPosition(woundPosition);
 		}
