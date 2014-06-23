@@ -63,6 +63,7 @@ public class StartMenuView extends SessionedNavigationView {
 			}
 		});
 		content.addComponent(initializeDataButton);
-
+		
+		setContent(content);
 	}
 }
