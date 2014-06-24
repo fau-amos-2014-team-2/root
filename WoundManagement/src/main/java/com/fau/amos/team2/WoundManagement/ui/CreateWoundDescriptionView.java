@@ -498,6 +498,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 				upload.setCaption(MessageResources.getString("uploadsuccessful") + " - " + filename);
 				System.out.println("Event filename: " + event.getFilename());
 				System.out.println("bFile: " + bFile.hashCode());
+				//After successful upload, the disable the button
+				upload.setEnabled(false);
 				
 			}
 
