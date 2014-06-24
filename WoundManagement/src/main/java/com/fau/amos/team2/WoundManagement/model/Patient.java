@@ -13,12 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "BEWOPE07")
 @NamedQueries({
 		@NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p"),
 		@NamedQuery(name = "Patient.deleteAll", query = "DELETE FROM Patient") })

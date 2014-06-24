@@ -8,11 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "MITAPE07")
 @NamedQueries({
 	@NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e"),
 	@NamedQuery(name="Employee.deleteAll", query="DELETE FROM Employee"),

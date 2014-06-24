@@ -9,11 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
-import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "KENDEK07")
 @NamedQueries({
 	@NamedQuery(name="WoundLevel.deleteAll", query="DELETE FROM WoundLevel")
 })

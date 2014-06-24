@@ -5,13 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
+
 import converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "KENWBS07")
 public class CoreDataWoundDescription implements BusinessObject {
 	@Id
 	@Column(name = "NR", nullable = false)

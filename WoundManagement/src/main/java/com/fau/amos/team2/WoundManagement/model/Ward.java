@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "STATIONEN07")
 @NamedQueries({
 	@NamedQuery(name="Ward.findAll", query="SELECT w FROM Ward w"),
 	@NamedQuery(name="Ward.deleteAll", query="DELETE FROM Ward")

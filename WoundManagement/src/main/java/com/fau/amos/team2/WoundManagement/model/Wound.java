@@ -9,20 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
-import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "BEWDKL07")
 @NamedQueries({
 		@NamedQuery(name = "Wound.currentForPatient", query = "SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
 		@NamedQuery(name = "Wound.deleteAll", query = "DELETE FROM Wound"),

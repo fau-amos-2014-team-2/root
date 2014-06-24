@@ -7,12 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
-import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "BEWWBZ07")
 public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	@Id
 	@Column(name = "NR", nullable = false)
