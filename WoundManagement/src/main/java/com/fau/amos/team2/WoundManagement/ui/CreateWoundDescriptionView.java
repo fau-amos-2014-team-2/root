@@ -463,7 +463,9 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
 		class ImageUploader implements Receiver, SucceededListener {
-
+			
+			private String filename = "";
+			
 			public OutputStream receiveUpload(String filename, String mimeType) {
 
 				/*
@@ -475,6 +477,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 							.show("Invalid file selected for Upload. Please only Upload Photos!");
 					return null;
 				}
+				
+				this.filename = filename;
 
 				return bos;
 
@@ -484,14 +488,16 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 				// if upload succeeded, add picture to database
 				
 				byte[] bFile = bos.toByteArray();
+				
 
 				woundDescription.setImage(bFile);
 				Notification
 						.show(MessageResources.getString("uploadsuccessful"));
 				
 			
-				upload.setCaption(MessageResources.getString("uploadsuccessful"));
-
+				upload.setCaption(MessageResources.getString("uploadsuccessful") + " - " + filename);
+				System.out.println("Event filename: " + event.getFilename());
+				System.out.println("bFile: " + bFile.hashCode());
 				
 			}
 
@@ -501,7 +507,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 
 		//if file upload was successful, the caption of the upload element will change
 		upload = new Upload(MessageResources.getString("takepicture"), receiver);
-		
+		upload.setImmediate(true);
 		upload.setButtonCaption(MessageResources.getString("addpicture"));
 		upload.addSucceededListener(receiver);
 

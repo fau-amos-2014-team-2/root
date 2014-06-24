@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import com.fau.amos.team2.WoundManagement.model.Sex;
-import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.server.FileResource;
@@ -120,7 +119,7 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 				(int) Math.round(xPosition/scaleFactor),
 				(int) Math.round(yPosition/scaleFactor));
 		
-		com.vaadin.ui.Notification.show(woundPosition.getBodyLocation().toFullString());
+		//com.vaadin.ui.Notification.show(woundPosition.getBodyLocation().toFullString());
 		
 		setSelectedWoundPosition(woundPosition);
 	}

@@ -21,16 +21,12 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.UI;
 //added import Ward
 import com.vaadin.ui.Table.Align;
+import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
 public class PatientSelectionView extends SessionedNavigationView implements WardChangeListener{

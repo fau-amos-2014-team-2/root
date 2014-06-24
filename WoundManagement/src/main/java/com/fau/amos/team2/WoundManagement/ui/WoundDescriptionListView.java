@@ -44,7 +44,6 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 	public WoundDescriptionListView(Wound wound){
 		
 		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
-			@SuppressWarnings("deprecation")
 			@Override
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
 				getEnvironment().setOrientation();
@@ -99,9 +98,9 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		
 		table.addContainerProperty("date", Date.class , null, MessageResources.getString("recordingDate"), null , null);
 		table.addContainerProperty("author", String.class, null, MessageResources.getString("author"), null, null);
-//
+
 		table.addContainerProperty("picture", String.class, null, "Bild", null, null);
-	//
+	
 		table.addContainerProperty("description", String.class, null, MessageResources.getString("description"), null, null);
 
 		
@@ -168,6 +167,10 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		    	Object value = table.getValue();
 		    	if (value != null){
 		    		WoundDescription woundDescription = woundDescriptionProvider.getByID(value);
+		    		 SimpleDateFormat df =
+				                new SimpleDateFormat("dd.MM.yyyy");
+		    		System.out.println("WD Date: " + df.format(woundDescription.getDate()));
+		    		System.out.println("WD image: " + woundDescription.getImage().hashCode());
 		    		NavigationView next = new ShowWoundDescriptionView(woundDescription);
 		    		getNavigationManager().navigateTo(next);
 		    	}

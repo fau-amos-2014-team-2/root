@@ -2,47 +2,30 @@ package com.fau.amos.team2.WoundManagement.ui;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
-import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
-import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.google.gwt.user.client.ui.Image;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 
 public class ShowWoundPhotoView extends NavigationView {
 	private static final long serialVersionUID = -530803657027928140L;
-	private Wound wound;
-
-	private WoundDescriptionProvider woundDescriptionProvider = WoundDescriptionProvider
-			.getInstance();
-	private WoundLevelProvider woundLevelProvider = WoundLevelProvider
-			.getInstance();
-	private WoundTypeProvider woundTypeProvider = WoundTypeProvider
-			.getInstance();
-	private WoundProvider woundProvider = WoundProvider.getInstance();
-
-	private final WoundDescription woundDescription;
 
 	@SuppressWarnings("serial")
 	public ShowWoundPhotoView(final WoundDescription woundDescription) {
-		this.woundDescription = woundDescription;
 
-		setCaption("Wound-Photo-View");
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		setCaption(MessageResources.getString("photo") + " " + dateFormat.format(woundDescription.getDate()));
 
+		System.out.println("Photo: " + woundDescription.getImage().hashCode());
 		// using stream-resource class to avoid creation/deletion of unnecessary
 		// files to show the image, inspired by example of vaadin-book:
 		// https://vaadin.com/book/vaadin7/-/page/application.resources.html
@@ -69,7 +52,7 @@ public class ShowWoundPhotoView extends NavigationView {
 			}
 		}
 
-		final Embedded image = new Embedded("Woundimage");
+		final Embedded image = new Embedded();
 		image.setVisible(false);
 		image.setMimeType("image/*");
 
@@ -80,7 +63,7 @@ public class ShowWoundPhotoView extends NavigationView {
 				"bufferedimage.png");
 
 
-		Panel panel = new Panel(MessageResources.getString("picture"));
+		Panel panel = new Panel();
 		Layout panelContent = new VerticalLayout();
 
 		panelContent.addComponent(image);
