@@ -99,13 +99,19 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		
 		table.addContainerProperty("date", Date.class , null, MessageResources.getString("recordingDate"), null , null);
 		table.addContainerProperty("author", String.class, null, MessageResources.getString("author"), null, null);
+//
+		table.addContainerProperty("picture", String.class, null, "Bild", null, null);
+	//
 		table.addContainerProperty("description", String.class, null, MessageResources.getString("description"), null, null);
+
+		
 		
 		table.setColumnWidth("date", 250);
 		table.setColumnWidth("author", 250);
+		table.setColumnWidth("picture", 50);
 		table.setColumnWidth("description", 500);
 			
-		Property[][] properties = new Property[descriptions.size()][3];
+		Property[][] properties = new Property[descriptions.size()][4];
 				
 		IndexedContainer ic = new IndexedContainer() {
             @Override
@@ -116,7 +122,10 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 
         ic.addContainerProperty("date", Date.class , null);
 		ic.addContainerProperty("author", String.class, "");
+		ic.addContainerProperty("picture", String.class, "");
+		//new
 		ic.addContainerProperty("description", String.class, "");
+
 		
         ic.setItemSorter(new DefaultItemSorter(new Comparator<Object>() {
 
@@ -140,8 +149,12 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 			properties[descriptions.indexOf(wd)][0].setValue(wd.getDate());
 			properties[descriptions.indexOf(wd)][1] = item.getItemProperty("author");
 			properties[descriptions.indexOf(wd)][1].setValue(wd.getEmployee().getFirstName() + " " + wd.getEmployee().getLastName());
-			properties[descriptions.indexOf(wd)][2] = item.getItemProperty("description");
-			properties[descriptions.indexOf(wd)][2].setValue(wd.getDescription());
+			//new
+			properties[descriptions.indexOf(wd)][2] = item.getItemProperty("picture");
+			properties[descriptions.indexOf(wd)][2].setValue((wd.getImage() != null)?(MessageResources.getString("yes")):(MessageResources.getString("no")));
+			
+			properties[descriptions.indexOf(wd)][3] = item.getItemProperty("description");
+			properties[descriptions.indexOf(wd)][3].setValue(wd.getDescription());
 		} 
 		
 		table.setContainerDataSource(ic);

@@ -1,5 +1,7 @@
 package com.fau.amos.team2.WoundManagement.ui;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Date;
 
@@ -25,6 +27,9 @@ import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -34,6 +39,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
@@ -46,6 +52,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 			WoundLevelProvider.getInstance();
 	private WoundTypeProvider woundTypeProvider = 
 			WoundTypeProvider.getInstance();
+	private Upload upload;
 	
 	public CreateWoundDescriptionView(final Wound wound) {
 		
@@ -452,8 +459,59 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 			}
 
 		});
+	
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+		class ImageUploader implements Receiver, SucceededListener {
+
+			public OutputStream receiveUpload(String filename, String mimeType) {
+
+				/*
+				 * if the selected File is NOT an image (mimeType: image/*), do
+				 * not upload.
+				 */
+				if (!(mimeType.startsWith("image"))) {
+					Notification
+							.show("Invalid file selected for Upload. Please only Upload Photos!");
+					return null;
+				}
+
+				return bos;
+
+			}
+
+			public void uploadSucceeded(SucceededEvent event) {
+				// if upload succeeded, add picture to database
+				
+				byte[] bFile = bos.toByteArray();
+
+				woundDescription.setImage(bFile);
+				Notification
+						.show(MessageResources.getString("uploadsuccessful"));
+				
+			
+				upload.setCaption(MessageResources.getString("uploadsuccessful"));
+
+				
+			}
+
+		}
+		;
+		ImageUploader receiver = new ImageUploader();
+
+		//if file upload was successful, the caption of the upload element will change
+		upload = new Upload(MessageResources.getString("takepicture"), receiver);
+		
+		upload.setButtonCaption(MessageResources.getString("addpicture"));
+		upload.addSucceededListener(receiver);
+
+		HorizontalLayout uploadLayout = new HorizontalLayout();
+		uploadLayout.addComponent(upload);
+		
+		mainLayout.addComponent(uploadLayout);
 		
 		mainLayout.addComponent(createNewDescription);
+		
 		
 		setContent(mainLayout);
 

@@ -72,7 +72,7 @@ public class WoundDescription implements BusinessObject {
 	@Column(name = "TIEFE")
 	private int depth;
 
-	@Lob
+//	@Lob
 	@Column(name = "WOUNDDESCIMAGE")
 	private byte[] image;
 

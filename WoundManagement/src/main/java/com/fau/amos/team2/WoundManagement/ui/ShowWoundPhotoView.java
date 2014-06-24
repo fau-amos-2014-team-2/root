@@ -9,6 +9,8 @@ import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
+import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.google.gwt.user.client.ui.Image;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
@@ -72,7 +74,7 @@ public class ShowWoundPhotoView extends NavigationView {
 		image.setVisible(false);
 		image.setMimeType("image/*");
 
-		showImage = new Button("Bild anzeigen");
+		showImage = new Button(MessageResources.getString("showpicture"));
 
 		showImage.addClickListener(new ClickListener() {
 
@@ -90,7 +92,7 @@ public class ShowWoundPhotoView extends NavigationView {
 			}
 		});
 
-		Panel panel = new Panel("Wundbild:");
+		Panel panel = new Panel(MessageResources.getString("picture"));
 		Layout panelContent = new VerticalLayout();
 		panelContent.addComponent(showImage);
 
@@ -107,7 +109,7 @@ public class ShowWoundPhotoView extends NavigationView {
 		// will add functionality so that the user will actually not get to this
 		// view, if there is no image present in the database
 		if (woundDescription.getImage() == null) {
-			Notification.show("Zu dieser Beschreibung gibt es noch kein Bild!");
+			
 			showImage.setEnabled(false);
 		} else {
 			showImage.setEnabled(true);
