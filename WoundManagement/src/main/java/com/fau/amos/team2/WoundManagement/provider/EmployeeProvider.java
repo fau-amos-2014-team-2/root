@@ -15,8 +15,6 @@ import com.fau.amos.team2.WoundManagement.provider.exceptions.DuplicateEmployeeE
  * Database 'employee', which handles objects
  * of the type <code>Employee</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.Employee
- * @author Stefan, Betz
  * */
 public class EmployeeProvider extends ObjectProvider<Employee> {
 

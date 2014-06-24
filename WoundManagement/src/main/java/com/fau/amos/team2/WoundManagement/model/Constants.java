@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement.model;
 /**
  * <code>Constants</code> manages global Constants
  * 
- * @author Stefan, Betz
  * */
 public final class Constants 
 {

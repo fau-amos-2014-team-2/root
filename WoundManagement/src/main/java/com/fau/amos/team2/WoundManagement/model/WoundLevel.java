@@ -26,23 +26,23 @@ public class WoundLevel implements BusinessObject {
 	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "BEZEICH", nullable = false)
+	@Column(name = "BEZEICH", nullable = false, length=2000)
 	private String characterisation;//2000
 	
 	@Column(name = "GRAD", nullable = false)
 	private int level;
 	
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_WType", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_WT", nullable = false, referencedColumnName = "NR")
 	private WoundType woundType;
 	
 	@Column(name = "KENWUN07_NR", nullable = false)
 	private int woundTypeId;
 
-	@Column(name = "BESCHREIB")
+	@Column(name = "BESCHREIB", length=4000)
 	private String description;//4000
 	
-	@Column(name = "KUERZL", nullable = false)
+	@Column(name = "KUERZL", nullable = false, length=5)
 	private String abbreviation;//5
 	
 	@Column(name = "POS")

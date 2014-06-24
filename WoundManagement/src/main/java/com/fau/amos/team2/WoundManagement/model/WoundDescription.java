@@ -52,16 +52,13 @@ public class WoundDescription implements BusinessObject {
 	@Column(name = "TASCHEN")
 	private char isBaggy;
 
-	@Column(name = "TASCHENB")
-	private boolean isBaggyB;
-
-	@Column(name = "TASCHLOK")
+	@Column(name = "TASCHLOK", length=200)
 	private String bagLocation;// 200
 
-	@Column(name = "TASCHRICHT")
+	@Column(name = "TASCHRICHT", length=200)
 	private String bagDirection;// 200
 
-	@Column(name = "BEMERKUNG")
+	@Column(name = "BEMERKUNG", length=1)
 	private String description;// 2000
 
 	@Column(name = "GROESSE1")
@@ -71,14 +68,14 @@ public class WoundDescription implements BusinessObject {
 	private int size2;
 
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_WLevel", referencedColumnName = "NR")
+	@JoinColumn(name = "KENDEK07_WL", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
 
-	@Column(name = "KENDEK07_Nr")
+	@Column(name = "KENDEK07_NR")
 	private int woundLevelId;
 
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_WType", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_WT", nullable = false, referencedColumnName = "NR")
 	private WoundType woundType;
 
 	@Column(name = "KENWUN07_Nr", nullable = false)
@@ -87,7 +84,7 @@ public class WoundDescription implements BusinessObject {
 	@Column(name = "TIEFE")
 	private int depth;
 
-	@Lob
+		@Lob
 	@Column(name = "WOUNDDESCIMAGE")
 	private byte[] image;
 
@@ -151,7 +148,6 @@ public class WoundDescription implements BusinessObject {
 
 	public void setBaggy(boolean isBaggy) {
 		this.isBaggy = (isBaggy) ? ('j') : ('n');
-		this.isBaggyB = isBaggy;
 	}
 
 	public String getBagLocation() {
@@ -211,7 +207,7 @@ public class WoundDescription implements BusinessObject {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}

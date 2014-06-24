@@ -23,21 +23,21 @@ public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	private int sensoID;
 
 	@OneToOne
-	@JoinColumn(name = "KENWBS07_CDWD", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "KENWBS07_CDWD", referencedColumnName="NR")
 	private CoreDataWoundDescription coreDataWoundDescription;
 	
-	@Column(name = "KENWBS07_NR", nullable = false)
+	@Column(name = "KENWBS07_NR")
 	private int coreDataWoundDescriptionId;
 	
 	@OneToOne
-	@JoinColumn(name = "BEWWBS07_WDesc", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "BEWWBS07_WD", nullable = false, referencedColumnName="NR")
 	private WoundDescription woundDescription;
 	
 
 	@Column(name = "BEWWBS07_NR", nullable = false)
 	private int woundDescriptionId;
 	
-	@Column(name = "FREITEXT")
+	@Column(name = "FREITEXT", length=4000)
 	private String freeText;//4000
 	
 	public CoreDataWoundDescriptionMapping() {

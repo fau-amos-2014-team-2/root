@@ -1,0 +1,104 @@
+Bild-Upload-Schwierigkeiten:
+
+Problem: der Beispiel-FileUpload (book of vaadin) bietet meines Wissens nach 
+keine Möglichkeit, den Upload nur auf Bilder (am Gerät dann kamera oder galerie 
+...) zu beschränken.
+
+Also habe ich mir die parking-demo-App, die genau die gewünschte Funktionalität 
+bietet,  https://github.com/vaadin/parking-demo genau angeschaut. Hier wird 
+folgendes verwendet:
+
+    private final ImageUpload fileUpload = new ImageUpload();
+
+//aus: PhotoLayout.java
+
+wobei ImageUpload eine extra Klasse aus einem Packet[*] ist:
+
+/**
+ * FileUpload with additional features specific to images
+ *
+ * @author Juho Nurminen
+ */
+public class ImageUpload extends FileUploadExt implements ImageDataSource {
+
+genutzter Konstruktor:
+
+public ImageUpload() {
+        super(false);
+        getElement().removeAttribute("
+multiple");
+        getElement().setAttribute("accept", "image/*");
+
+        addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
+                loadImage();
+            }
+        });
+    }
+
+Der entscheidende Befehl ist vermutlich: getElement().setAttribute("accept", 
+"image/*"); 
+
+Das .getElement() kommt von: com.google.gwt.user.client.Element getElement()
+
+Und damit geht eigentliches Problem los, sobald ich versuche irgendwas in der 
+Richtung (com.google.gwt.*) einzubauen (mvn install keine probleme, mvn 
+jetty:run startet nen jetty) kriege ich im Browser nur:
+
+HTTP ERROR 500
+Problem accessing /. Reason:
+
+java.lang.NoClassDefFoundError: com/google/gwt/core/shared/GWTBridge
+        at com.google.gwt.user.client.ui.UIObject.<clinit>(UIObject.java:194)
+        at 
+com.fau.amos.team2.WoundManagement.PhotoView.<init>(PhotoView.java:62)
+
+Mir war es nicht möglich, dieses Fehler zu beheben, egal welche 
+imports/maven-dependencies ich hinzufüge.
+Das Repo kennt das geforderte Paket auch scheinbar nicht:
+
+MVNrepo (http://mvnrepository.com/search.html?query=com.google.gwt.core) sagt 
+dazu: Your search - com.google.gwt.core - did not match any artifact
+
+
+Ich habe wirklich viel rumprobiert, zuerst dachte ich das unter GNU-lizensierte 
+FileUploadExt (von dem juho mit seinem eigenen Image-Upload erbt) reicht mir. 
+Fehler. Dann habe ich versucht, das (u.U. für unser Projekt nicht passend 
+lizensierte(?)) Paket von Juho zu verwenden [*],  also praktisch wirklich 
+direkt (erstmal) die Implementierung der Parking demo zu übernehmen, ging auch 
+nicht.
+
+Am Ende habe ich jetzt versucht, den gwt-FileUpload 
+http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/
+FileUpload.html zu implementieren, -erstmal- einfach nach dem dort angegebenen 
+Beispielcode (natürlich müssen sämtliche vaadin-imports auf gwt umgestellt 
+werden, Button usw). Immernoch der Fehler.
+
+
+Vermutlich viel zu spät stelle ich fest, mein Fehler liegt woanders :( Da auch 
+andere SD's mittlerweile bei der implementierung von vollkommen anderen 
+Features auf ähnliche Probleme gestoßen sind, und diese nicht lösen konnten, 
+werde ich es nun dabei belassen und erstmal einen nicht ganz so umfangreichen, 
+kleineren Pictureupload implementieren. Leider hat die oben beschriebene 
+Sackgasse die Fertigstellung dieses Features stark verzögert.
+
+Nebenbei bemerkt kriege ich die Parking demo app (siehe git oben) bei mir lokal 
+auch nicht zum laufen, dem pom.xml nach sollte es -mMn- über jetty ausführbar 
+sein, mvn install & mvn jetty:run arbeiten ganz normal (fehler & exception 
+frei), aber im Browser krieg ich nur ein:
+
+The server cannot be reached
+
+The application didn't start properly.
+
+
+[*]vermutlich dieses:
+<dependency>
+            <groupId>org.vaadin.juho</groupId>
+            <artifactId>lib-gwt-imageupload</artifactId>
+            <version>0.0.3</version>
+        </dependency>
+
+Sobald uns eine Lösung für java.lang.NoClassDefFoundError: 
+com/google/gwt/core/shared/GWTBridge bekannt ist, kann man sich das hier ja mal 
+wieder anschauen.

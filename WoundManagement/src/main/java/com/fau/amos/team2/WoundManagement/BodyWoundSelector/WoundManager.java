@@ -17,8 +17,8 @@ public class WoundManager {
 	private WoundPosition selectedWoundPosition;
 	private Wound selectedWound;
 	
-	public WoundManager(Patient patient, boolean showCurrentWoundsOnly) {
-		woundSelector = new WoundSelector(this, patient.getSex());
+	public WoundManager(Patient patient, boolean showCurrentWoundsOnly, float scaleFactor) {
+		woundSelector = new WoundSelector(this, patient.getSex(), scaleFactor);
 		wounds = new HashMap<WoundPosition, Wound>();
 		if(showCurrentWoundsOnly) {
 			for (Wound wound : patient.getCurrentWounds())

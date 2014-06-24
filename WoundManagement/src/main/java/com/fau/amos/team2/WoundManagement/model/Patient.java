@@ -32,35 +32,36 @@ public class Patient implements BusinessObject {
 	@Column(name = "KENMDT07_NR", nullable=false)
 	private int sensoID;
 	
-	@Column(name = "NAME")
+	@Column(name = "NAME", length=35)
 	private String lastName;//35
 	
-	@Column(name = "VORNAME")
+	@Column(name = "VORNAME", length=35)
 	private String firstName;//35
 	
-	@Column(name = "GESCHLECHT")
+	@Column(name = "GESCHLECHT", length=100)
 	private String gender;//100
 	
-	@Column(name = "TITEL")
+	@Column(name = "TITEL", length=100)
 	private String title;//100
 	
-	@Column(name = "ANREDE")
+	@Column(name = "ANREDE", length=100)
 	private String salutation;//100
 	
 	@Column(name = "GEBDATUM")
 	private Date birthday;
 	
-	@Column(name = "ZIMMER")
+	@Column(name = "ZIMMER", length=8)
 	private String room;//8
 	
-	/*
+	
 	@ManyToOne
-	@JoinColumn(name = "STATIONEN07_NR", referencedColumnName="NR")
+	@JoinColumn(name = "STATIONEN07_Ward", referencedColumnName="NR")
 	private Ward ward;
-	*/
-	@ManyToOne
-	@JoinColumn(name = "STATIONEN07_WARD", referencedColumnName = "NR")
-	private Ward ward;
+	
+	
+//	@ManyToOne
+//	@JoinColumn(name = "STATIONEN07_WARD", referencedColumnName = "NR")
+//	private Ward ward;
 	
 	@Column(name = "STATIONEN07_NR")
 	private int wardId;
@@ -69,14 +70,14 @@ public class Patient implements BusinessObject {
 	@OneToMany(targetEntity = Wound.class, mappedBy="patient")
 	private List<Wound> wounds;
 
-	@Column(name = "SUCHBEZ")
+	@Column(name = "SUCHBEZ", length=35)
 	private String keyword;//35
 	
 	@Column(name = "EINZUG")
 	private Date entryDate;
 	
-	@Column(name = "UNTERBRINGUNG")
-	private char accomodation;
+	@Column(name = "UNTERBRINGUNG", length=1)
+	private String accomodation;
 	
 	//Standard Constructor is setting the sensoID to default value
 	public Patient() {
@@ -183,12 +184,12 @@ public class Patient implements BusinessObject {
 		this.entryDate = entryDate;
 	}
 
-	public char getAccomodation() {
-		return accomodation;
+	public AccomodationType getAccomodation() {
+		return AccomodationType.valueOf(accomodation);
 	}
 
-	public void setAccomodation(char accomodation) {
-		this.accomodation = accomodation;
+	public void setAccomodation(AccomodationType accomodation) {
+		this.accomodation = accomodation.toString();
 	}
 	
 	public List<Wound> getWounds() {

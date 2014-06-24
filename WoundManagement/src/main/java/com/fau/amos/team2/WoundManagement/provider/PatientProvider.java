@@ -14,8 +14,6 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
  * Database 'patient', which handles objects
  * of the type <code>Patient</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.Patient
- * @author Stefan, Betz
  * */
 public class PatientProvider extends ObjectProvider<Patient> {
 
@@ -26,7 +24,7 @@ public class PatientProvider extends ObjectProvider<Patient> {
 	}
 	
 	/**
-	 * @return The instance of <code>EmployeeProvider</code> 
+	 * @return The instance of <code>PatientProvider</code> 
 	 * */
 	public static PatientProvider getInstance() {
 		if(instance == null) {

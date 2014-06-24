@@ -23,7 +23,7 @@ public class Ward implements BusinessObject {
 	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "BEZEICH", nullable = false)
+	@Column(name = "BEZEICH", nullable = false, length=30)
 	private String characterisation;//30
 	
 	@Column(name = "HAUS_NR", nullable = false)

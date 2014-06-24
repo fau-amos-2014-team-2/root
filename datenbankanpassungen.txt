@@ -161,4 +161,5 @@ NULL, "KENWBS07_NR" NUMBER(12,0), "BEWWBS07_NR" NUMBER(12,0) NOT NULL,
 -getter/setter zu coreDataWoundDescriptionId angepasst (funktionalität wie bisher)
 -getter/setter zu WoundDescriptionId angepasst (funktionalität wie bisher)
 
+-KENWBS07_NR nullable false entfernt
 

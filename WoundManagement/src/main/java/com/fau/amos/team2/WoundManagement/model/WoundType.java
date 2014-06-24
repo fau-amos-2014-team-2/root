@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
@@ -22,34 +24,25 @@ public class WoundType implements BusinessObject {
 	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "BEZEICH", nullable = false)
+	@Column(name = "BEZEICH", nullable = false, length=30)
 	private String classification;//30
 	
-	@Column(name = "TYP", nullable = false)
-	private char type;
+	@Column(name = "TYP", nullable = false, length=1)
+	private String type;
 	
-	@Column(name = "GROESSEPFL", nullable = false)
-	private char sizeIsRequired;//j || n
+	@Column(name = "GROESSEPFL", nullable = false, length=1)
+	private String sizeIsRequired;
+
+	@Column(name = "GRADSTATUS", nullable = false, length=1)
+	private String levelState;
 	
-	@Column(name = "GROESSEPFLB", nullable = false)
-	private boolean sizeIsRequiredB;
-	
-	@Column(name = "GRADSTATUS", nullable = false)
-	private char level;
-	
-	@Column(name = "KOERPERSTELLEPFL", nullable = false)
-	private char isBodyLocationRequired;
-	
-	@Column(name = "KOERPERSTELLEPFLB", nullable = false)
-	private boolean isBodyLocationRequiredB;
-	
-	//TODO: translation of 'j'/'n' to boolean?
+	@Column(name = "KOERPERSTELLEPFL", nullable = false, length=1)
+	private String isBodyLocationRequired;
 	
 	public WoundType() {
 		this.sensoID=1;
-		this.level= 'E';
-		this.isBodyLocationRequired = 'n';
-		this.isBodyLocationRequiredB = false;
+		this.levelState= "E";
+		this.isBodyLocationRequired = "n";
 	}
 
 	public int getId() {
@@ -76,37 +69,35 @@ public class WoundType implements BusinessObject {
 		this.classification = classification;
 	}
 
-	public char getType() {
-		return type;
+	public WoundKind getType() {
+		return WoundKind.enumOf(type);
 	}
 
-	public void setType(char type) {
-		this.type = type;
+	public void setType(WoundKind type) {
+		this.type = type.toString();
 	}
 
 	public boolean isSizeIsRequired() {
-		return (sizeIsRequired=='j')?(true):(false);
+		return BooleanToStringConverter.convertBack(sizeIsRequired);
 	}
-
+		
 	public void setSizeIsRequired(boolean sizeIsRequired) {
-		this.sizeIsRequiredB = sizeIsRequired;
-		this.sizeIsRequired = (sizeIsRequired)?('j'):('n');
+		this.sizeIsRequired = BooleanToStringConverter.convert(sizeIsRequired);
 	}
 
-	public char getLevel() {
-		return level;
+	public WoundLevelState getLevelState() {
+		return WoundLevelState.enumOf(levelState);
 	}
 
-	public void setLevel(char level) {
-		this.level = level;
+	public void setLevelState(WoundLevelState level) {
+		this.levelState = level.toString();
 	}
 
 	public boolean isBodyLocationRequired() {
-		return (isBodyLocationRequired=='j')?(true):(false);
+		return BooleanToStringConverter.convertBack(isBodyLocationRequired);
 	}
 
 	public void setBodyLocationRequired(boolean isBodyLocationRequired) {
-		this.isBodyLocationRequired = (isBodyLocationRequired)?('j'):('n');
-		this.isBodyLocationRequiredB = isBodyLocationRequired;
+		this.isBodyLocationRequired = BooleanToStringConverter.convert(isBodyLocationRequired);
 	}
 }

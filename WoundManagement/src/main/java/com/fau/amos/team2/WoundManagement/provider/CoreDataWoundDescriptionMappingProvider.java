@@ -8,8 +8,6 @@ import com.fau.amos.team2.WoundManagement.model.CoreDataWoundDescriptionMapping;
  * Database 'coredatawounddescriptionmapping', which handles the mapping of the objects
  * of the type <code>CoreDataWoundDescriptionMapping</code>
  * 
- * @see com.fau.amos.team2.WoundManagement.CoreDataWoundDescriptionMapping
- * @author Stefan, Betz
  * */
 public class CoreDataWoundDescriptionMappingProvider<T extends BusinessObject> extends ObjectProvider<T> {
 
@@ -21,7 +19,7 @@ public class CoreDataWoundDescriptionMappingProvider<T extends BusinessObject> e
 	}
 	
 	/**
-	 * @return The instance of <code>EmployeeProvider</code> 
+	 * @return The instance of <code>CoreDataWoundDescriptionMappingProvider</code> 
 	 * */
 	public static CoreDataWoundDescriptionMappingProvider
 					<? extends BusinessObject> 

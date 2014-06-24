@@ -9,8 +9,6 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
  * <code>ObjectProvider</code> manages the access to the
  * Database.
  * 
- * @see com.fau.amos.team2.WoundManagement.Employee
- * @author Stefan, Betz
  * */
 public class ObjectProvider<T extends BusinessObject> {
 	
@@ -18,8 +16,8 @@ public class ObjectProvider<T extends BusinessObject> {
 	protected ConnectionProvider<T> connection;
 
 	/**
-	 * Constructs an empty <code>JPAContainer<Employee></code>
-	 * and in this context an empty Database with the
+	 * Constructs an empty <code>JPAContainer<T></code>
+	 * and in this context an empty database with the
 	 * credentials of <code>Constants.PERSISTANCE_UNIT</code>
 	 * 
 	 * @see com.fau.amos.team2.WoundManagement.model.Constants
@@ -31,10 +29,9 @@ public class ObjectProvider<T extends BusinessObject> {
 	}
 
 	/**
-	 * Adds an Employee to the Database
+	 * Adds an object to the database
 	 * 
-	 * @param Employee
-	 * @return the Id of the inserted Employee
+	 * @param T
 	 */
 	public void add(T object) {
 		update(object);
@@ -51,18 +48,18 @@ public class ObjectProvider<T extends BusinessObject> {
 	}
 	
 	/**
-	 * Get all Employees from the Database
+	 * Get all T objects from the database
 	 * 
-	 * @return JPAContainer containing all Employees
+	 * @return JPAContainer containing all T objects
 	 */
 	public JPAContainer<T> getAll() {
 		return container;
 	}
 	/**
-	 * Get the Employee with id from the Database 
+	 * Get the T object with id from the database 
 	 * 
-	 * @param id - The unique id of an Employee
-	 * @return instance of the according Employee, or null
+	 * @param id - The unique id of a T object
+	 * @return instance of the according object, or null
 	 */
 	public T getByID(Object id) { 
 		return container.getItem(id).getEntity();

@@ -58,7 +58,6 @@ public class ConnectionProvider<T extends BusinessObject> {
 			b.close();
 			return str;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "";

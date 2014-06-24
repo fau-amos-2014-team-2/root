@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
@@ -28,31 +30,31 @@ public class Employee implements BusinessObject {
 	@Column(name = "KENMDT07_NR", nullable=false)
 	private int sensoID;
 	
-	@Column(name = "SUCHBEZ", nullable=false)
+	@Column(name = "SUCHBEZ", nullable=false, length=30)
 	private String keyword;//30
 	
-	@Column(name = "NAME")
+	@Column(name = "NAME", length=30)
 	private String lastName;//30
 	
-	@Column(name = "VORNAME")
+	@Column(name = "VORNAME", length=30)
 	private String firstName;//30
 	
-	@Column(name = "KUERZL")
+	@Column(name = "KUERZL", length=5)
 	private String abbreviation;//5
 	
 	@Column(name = "QUALNR")
 	private int qualificationNumber;
 	
-	@Column(name = "PDACODE")
+	@Column(name = "PDACODE", length=12)
 	private String pdaCode;//12
 	
-	@Column(name = "GLKONTR", nullable=false)
-	private char collectiveAcc;
+	@Column(name = "GLKONTR", nullable=false, length=1)
+	private String accumulativeAck;
 	
-	@Column(name = "SAMMQUIT_M", nullable=false)
-	private char collectiveAccMedication;
+	@Column(name = "SAMMQUIT_M", nullable=false, length=1)
+	private String collectiveAccMedication;
 	
-	@Column(name = "GESCHLECHT")
+	@Column(name = "GESCHLECHT", length=100)
 	private String gender;//100
 	
 	@JoinColumn(name = "DERZSTATION", referencedColumnName="NR")
@@ -63,15 +65,17 @@ public class Employee implements BusinessObject {
 	
 	public Employee() {
 		keyword = "key";
-		collectiveAcc = 'a';
-		collectiveAccMedication = 'a';
 		this.sensoID =1;
+		setAccumulativeAckType(AccumulativeAckType.NOT_ALLOWED);
+		setCollectiveAccMedicationAllowed(false);
 	}
 	
 	public int getId() {
 		return id;
 	}
+	
 	public void setID(int id) {
+
 		this.id = id;
 	}
 
@@ -153,26 +157,26 @@ public class Employee implements BusinessObject {
 
 
 
-	public char getCollectiveAcc() {
-		return collectiveAcc;
+	public AccumulativeAckType getAccumulativeAckType() {
+		return AccumulativeAckType.enumOf(accumulativeAck);
 	}
 
 
 
-	public void setCollectiveAcc(char collectiveAcc) {
-		this.collectiveAcc = collectiveAcc;
+	public void setAccumulativeAckType(AccumulativeAckType accumulativeAckType) {
+		this.accumulativeAck = accumulativeAckType.toString();
 	}
 
 
 
-	public char getCollectiveAccMedication() {
-		return collectiveAccMedication;
+	public boolean isCollectiveAccMedicationAllowed() {
+		return BooleanToStringConverter.convertBack(collectiveAccMedication);
 	}
 
 
 
-	public void setCollectiveAccMedication(char collectiveAccMedication) {
-		this.collectiveAccMedication = collectiveAccMedication;
+	public void setCollectiveAccMedicationAllowed(boolean collectiveAccMedication) {
+		this.collectiveAccMedication = BooleanToStringConverter.convert(collectiveAccMedication);
 	}
 
 

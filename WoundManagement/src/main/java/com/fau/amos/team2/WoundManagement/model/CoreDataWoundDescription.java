@@ -7,8 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
 import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
+import converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
@@ -21,17 +21,17 @@ public class CoreDataWoundDescription implements BusinessObject {
 	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "TYP")
-	private String typ;//3
+	@Column(name = "TYP", length=3)
+	private String type;//3
 	
-	@Column(name = "BEZEICH", nullable = false)
+	@Column(name = "BEZEICH", nullable = false, length=50)
 	private String characterisation;//50
 	
 	@Column(name = "KENWBS07_NR")
 	private int coreDataWoundDescriptionId;
 	
-	@Column(name = "MITFREITEXT")
-	private char isFreeText;//j ||n
+	@Column(name = "MITFREITEXT", length=1)
+	private String isFreeText;
 	
 	@Column(name = "POSITION")
 	private int position;
@@ -61,13 +61,12 @@ public class CoreDataWoundDescription implements BusinessObject {
 	}
 
 
-	public String getTyp() {
-		return typ;
+	public CoreDataWoundDescriptionType getType() {
+		return CoreDataWoundDescriptionType.enumOf(this.type);
 	}
-	
-	//TODO: nur bestimmte Werte für String erlaubt (siehe Anforderungen.pdf)
-	public void setTyp(String typ) {
-		this.typ = typ;
+
+	public void setType(CoreDataWoundDescriptionType type) {
+		this.type = type.toString();
 	}
 
 	public String getCharacterisation() {
@@ -87,11 +86,11 @@ public class CoreDataWoundDescription implements BusinessObject {
 	}
 
 	public boolean isFreeText() {
-		return (isFreeText=='j')?(true):(false);
+		return BooleanToStringConverter.convertBack(isFreeText);
 	}
 
 	public void setFreeText(boolean isFreeText) {
-		this.isFreeText = (isFreeText)?('j'):('n');
+		this.isFreeText = BooleanToStringConverter.convert(isFreeText);
 	}
 
 	public int getPosition() {

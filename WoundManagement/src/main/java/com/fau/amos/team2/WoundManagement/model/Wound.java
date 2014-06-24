@@ -38,7 +38,7 @@ public class Wound implements BusinessObject {
 	private int sensoID;
 
 	@ManyToOne
-	@JoinColumn(name = "BEWOPE07_Patient", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "BEWOPE07_Pat", nullable = false, referencedColumnName = "NR")
 	private Patient patient;
 	
 	@Column(name = "BEWOPE07_NR", nullable = false)
@@ -48,11 +48,11 @@ public class Wound implements BusinessObject {
 	private Date recordingDate;
 
 	@ManyToOne
-	@JoinColumn(name = "MITAPE07_Empl", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "MITAPE07_REmpl", nullable = false, referencedColumnName = "NR")
 	private Employee recordingEmployee;
 
 	
-	@Column(name = "MITAPE07_nr", nullable = false)
+	@Column(name = "MITAPE07_NR", nullable = false)
 	private int recordingEmployeeId;
 
 	
@@ -60,13 +60,13 @@ public class Wound implements BusinessObject {
 	private Date endDate;
 
 	@ManyToOne
-	@JoinColumn(name = "ENDE_MITAPE07_CureEmpl", referencedColumnName = "NR")
+	@JoinColumn(name = "ENDE_MITAPE07_CEmpl", referencedColumnName = "NR")
 	private Employee cureEmployee;
 
 	@Column(name = "ENDE_MITAPE07_NR")
 	private int cureEmployeeId;
 	
-	@Column(name = "KOERPERSTELLE")
+	@Column(name = "KOERPERSTELLE", length=200)
 	private String bodyLocation;//200
 
 	@Column(name = "KOERPERSTELLE_CODE", nullable = false)
@@ -81,14 +81,14 @@ public class Wound implements BusinessObject {
 	@Column(name = "TIEFE")
 	private int depth;
 
-	@Column(name = "BEMERKUNG")
+	@Column(name = "BEMERKUNG", length=2000)
 	private String description;//2000
 
 	@Column(name = "ENTSTEHUNG")
 	private int origination;
 
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_WType", referencedColumnName = "NR")
+	@JoinColumn(name = "KENDEK07_WT", referencedColumnName = "NR")
 	private WoundType woundType;
 
 	
@@ -96,7 +96,7 @@ public class Wound implements BusinessObject {
 	private int woundTypeId;
 	
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_WLevel", referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_WL", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
 	
 	@Column(name = "KENWUN07_NR")
@@ -146,7 +146,7 @@ public class Wound implements BusinessObject {
 	}
 
 	public Employee getRecordingEmployee() {
-		return recordingEmployee;
+		return EmployeeProvider.getInstance().getByID(recordingEmployeeId);
 	}
 
 	public void setRecordingEmployee(Employee recordingEmployee) {
@@ -168,7 +168,7 @@ public class Wound implements BusinessObject {
 	}
 
 	public Employee getCureEmployee() {
-		return cureEmployee;
+		return EmployeeProvider.getInstance().getByID(cureEmployeeId);
 	}
 
 	public void setCureEmployee(Employee cureEmployee) {
@@ -233,7 +233,7 @@ public class Wound implements BusinessObject {
 	}
 
 	public WoundLevel getWoundLevel() {
-		return woundLevel;
+		return WoundLevelProvider.getInstance().getByID(woundLevelId);
 	}
 
 	public void setWoundLevel(WoundLevel woundLevel) {
@@ -242,7 +242,7 @@ public class Wound implements BusinessObject {
 	}
 
 	public WoundType getWoundType() {
-		return woundType;
+		return WoundTypeProvider.getInstance().getByID(woundTypeId);
 	}
 
 	public void setWoundType(WoundType woundType) {

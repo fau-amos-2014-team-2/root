@@ -10,22 +10,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.8</vaadin.version>
+		<vaadin.version>7.1.13</vaadin.version>
 	</properties>
 	<repositories>
 		<repository>
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
-		</repository>
-		<repository>
-			<id>vaadin-snapshots</id>
-			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
 		</repository>
 	</repositories>
 	<pluginRepositories>
@@ -45,7 +35,6 @@
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>vaadin-touchkit-agpl</artifactId>
 			<version>4.0.0.alpha2</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -72,16 +61,37 @@
 			<version>${vaadin.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.servlet</artifactId>
-            <version>3.0</version>
-        	<scope>provided</scope>
-        </dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-			<version>6.0</version>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiler</artifactId>
+			<version>${vaadin.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-testbench</artifactId>
+			<version>3.0.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>v-leaflet</artifactId>
+			<version>0.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin.addon.responsive</groupId>
+			<artifactId>responsive</artifactId>
+			<version>1.0.0.alpha1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin.addon</groupId>
@@ -104,6 +114,11 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.aperteworkflow</groupId>
+			<artifactId>refresher-wrapper</artifactId>
+			<version>2.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -111,7 +126,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-                                <version>2.5.1</version>
+<!--                                 <version>2.5.1</version> -->
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -134,7 +149,7 @@
 					</webappDirectory>
 					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
 					</hostedWebapp>
-					<extraJvmArgs>-Xmx1g -Xss4024k</extraJvmArgs>
+					<extraJvmArgs>-Xmx1g -Xss1024k</extraJvmArgs>
 					<noServer>true</noServer>
 					<!-- Remove draftCompile when project is ready -->
 					<draftCompile>false</draftCompile>
@@ -143,12 +158,13 @@
 					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
 					<deploy>${project.build.directory}/gwt-deploy</deploy>
 					<runTarget>http://localhost:8080/</runTarget>
+					<strict>true</strict>
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
 							<goal>resources</goal>
-							<goal>update-widgetset</goal>
+							<!-- <goal>update-widgetset</goal> -->
 							<goal>compile</goal>
 						</goals>
 					</execution>
@@ -192,12 +208,12 @@
 											vaadin-maven-plugin
 										</artifactId>
 										<versionRange>
-											[7.0-SNAPSHOT,)
+											[7.0.6,)
 										</versionRange>
 										<goals>
-											<goal>
+											<!-- <goal>
 												update-widgetset
-											</goal>
+											</goal> -->
 											<goal>resources</goal>
 										</goals>
 									</pluginExecutionFilter>

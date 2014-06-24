@@ -11,9 +11,7 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
  * <code>WardProvider</code> manages the access to the
  * Database 'ward', which handles objects
  * of the type <code>Ward</code>
- * 
- * @see com.fau.amos.team2.WoundManagement.Ward
- * @author Stefan, Betz
+ *
  * */
 public class WardProvider extends ObjectProvider<Ward> {
 
@@ -24,7 +22,7 @@ public class WardProvider extends ObjectProvider<Ward> {
 	}
 	
 	/**
-	 * @return The instance of <code>EmployeeProvider</code> 
+	 * @return The instance of <code>WardProvider</code> 
 	 * */
 	public static WardProvider getInstance() {
 		if(instance == null) {
