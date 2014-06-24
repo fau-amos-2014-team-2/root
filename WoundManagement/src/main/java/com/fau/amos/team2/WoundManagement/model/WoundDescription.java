@@ -43,8 +43,8 @@ public class WoundDescription implements BusinessObject {
 	@JoinColumn(name = "MITAPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Employee employee;
 
-	@Column(name = "TASCHEN")
-	private char isBaggy;
+	@Column(name = "TASCHEN", length = 1)
+	private String isBaggy;
 
 	@Column(name = "TASCHLOK", length = 200)
 	private String bagLocation;// 200
@@ -52,7 +52,7 @@ public class WoundDescription implements BusinessObject {
 	@Column(name = "TASCHRICHT", length = 200)
 	private String bagDirection;// 200
 
-	@Column(name = "BEMERKUNG", length = 1)
+	@Column(name = "BEMERKUNG", length = 2000)
 	private String description;// 2000
 
 	@Column(name = "GROESSE1")
@@ -129,11 +129,11 @@ public class WoundDescription implements BusinessObject {
 	}
 
 	public boolean isBaggy() {
-		return (isBaggy == 'j') ? (true) : (false);
+		return (isBaggy == "j") ? (true) : (false);
 	}
 
 	public void setBaggy(boolean isBaggy) {
-		this.isBaggy = (isBaggy) ? ('j') : ('n');
+		this.isBaggy = (isBaggy) ? ("j") : ("n");
 	}
 
 	public String getBagLocation() {
