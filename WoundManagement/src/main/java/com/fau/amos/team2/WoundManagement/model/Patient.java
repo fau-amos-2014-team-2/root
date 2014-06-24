@@ -20,68 +20,57 @@ import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Patient.findAll", query="SELECT p FROM Patient p"),
-	@NamedQuery(name="Patient.deleteAll", query="DELETE FROM Patient")
-})
+		@NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p"),
+		@NamedQuery(name = "Patient.deleteAll", query = "DELETE FROM Patient") })
 public class Patient implements BusinessObject {
 	@Id
-	@Column(name = "NR", nullable=false)
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
-	
-	@Column(name = "KENMDT07_NR", nullable=false)
+
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
-	
-	@Column(name = "NAME", length=35)
-	private String lastName;//35
-	
-	@Column(name = "VORNAME", length=35)
-	private String firstName;//35
-	
-	@Column(name = "GESCHLECHT", length=100)
-	private String gender;//100
-	
-	@Column(name = "TITEL", length=100)
-	private String title;//100
-	
-	@Column(name = "ANREDE", length=100)
-	private String salutation;//100
-	
+
+	@Column(name = "NAME", length = 35)
+	private String lastName;// 35
+
+	@Column(name = "VORNAME", length = 35)
+	private String firstName;// 35
+
+	@Column(name = "GESCHLECHT", length = 100)
+	private String gender;// 100
+
+	@Column(name = "TITEL", length = 100)
+	private String title;// 100
+
+	@Column(name = "ANREDE", length = 100)
+	private String salutation;// 100
+
 	@Column(name = "GEBDATUM")
 	private Date birthday;
-	
-	@Column(name = "ZIMMER", length=8)
-	private String room;//8
-	
-	
+
+	@Column(name = "ZIMMER", length = 8)
+	private String room;// 8
+
 	@ManyToOne
-	@JoinColumn(name = "STATIONEN07_Ward", referencedColumnName="NR")
+	@JoinColumn(name = "STATIONEN07_NR", referencedColumnName = "NR")
 	private Ward ward;
-	
-	
-//	@ManyToOne
-//	@JoinColumn(name = "STATIONEN07_WARD", referencedColumnName = "NR")
-//	private Ward ward;
-	
-	@Column(name = "STATIONEN07_NR")
-	private int wardId;
-		
-	
-	@OneToMany(targetEntity = Wound.class, mappedBy="patient")
+
+	@OneToMany(targetEntity = Wound.class, mappedBy = "patient")
 	private List<Wound> wounds;
 
-	@Column(name = "SUCHBEZ", length=35)
-	private String keyword;//35
-	
+	@Column(name = "SUCHBEZ", length = 35)
+	private String keyword;// 35
+
 	@Column(name = "EINZUG")
 	private Date entryDate;
-	
-	@Column(name = "UNTERBRINGUNG", length=1)
+
+	@Column(name = "UNTERBRINGUNG", length = 1)
 	private String accomodation;
-	
-	//Standard Constructor is setting the sensoID to default value
+
+	// Standard Constructor is setting the sensoID to default value
 	public Patient() {
-		this.sensoID =1;
+		this.sensoID = 1;
 	}
 
 	public int getId() {
@@ -119,7 +108,7 @@ public class Patient implements BusinessObject {
 	public String getGender() {
 		return gender;
 	}
-	
+
 	public Sex getSex() {
 		return Sex.valueOf(getGender().charAt(0));
 	}
@@ -135,14 +124,15 @@ public class Patient implements BusinessObject {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	public String getSalutation() {
 		return salutation;
 	}
-	
+
 	public void setSalutation(String salutation) {
 		this.salutation = salutation;
 	}
+
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -160,12 +150,11 @@ public class Patient implements BusinessObject {
 	}
 
 	public Ward getWard() {
-		return WardProvider.getInstance().getByID(wardId);
+		return ward;
 	}
 
 	public void setWard(Ward ward) {
 		this.ward = ward;
-		this.wardId = ward.getId();
 	}
 
 	public String getKeyword() {
@@ -191,14 +180,16 @@ public class Patient implements BusinessObject {
 	public void setAccomodation(AccomodationType accomodation) {
 		this.accomodation = accomodation.toString();
 	}
-	
+
 	public List<Wound> getWounds() {
-		//TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
+		// TODO: this is just a workaround! shall not call database every time a
+		// patients wounds are needed.
 		return WoundProvider.getInstance().getAllForPatient(this);
 	}
-	
+
 	public List<Wound> getCurrentWounds() {
-		//TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
+		// TODO: this is just a workaround! shall not call database every time a
+		// patients wounds are needed.
 		return WoundProvider.getInstance().getCurrentForPatient(this);
 	}
 }

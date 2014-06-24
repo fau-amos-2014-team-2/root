@@ -38,33 +38,22 @@ public class Wound implements BusinessObject {
 	private int sensoID;
 
 	@ManyToOne
-	@JoinColumn(name = "BEWOPE07_Pat", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "BEWOPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Patient patient;
 	
-	@Column(name = "BEWOPE07_NR", nullable = false)
-	private int patientId;
-
 	@Column(name = "ERFASSUNGSDATUM", nullable = false)
 	private Date recordingDate;
 
 	@ManyToOne
-	@JoinColumn(name = "MITAPE07_REmpl", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "MITAPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Employee recordingEmployee;
-
-	
-	@Column(name = "MITAPE07_NR", nullable = false)
-	private int recordingEmployeeId;
-
 	
 	@Column(name = "ENDEDATUM")
 	private Date endDate;
 
 	@ManyToOne
-	@JoinColumn(name = "ENDE_MITAPE07_CEmpl", referencedColumnName = "NR")
+	@JoinColumn(name = "ENDE_MITAPE07_NR", referencedColumnName = "NR")
 	private Employee cureEmployee;
-
-	@Column(name = "ENDE_MITAPE07_NR")
-	private int cureEmployeeId;
 	
 	@Column(name = "KOERPERSTELLE", length=200)
 	private String bodyLocation;//200
@@ -88,19 +77,12 @@ public class Wound implements BusinessObject {
 	private int origination;
 
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_WT", referencedColumnName = "NR")
+	@JoinColumn(name = "KENDEK07_NR", referencedColumnName = "NR")
 	private WoundType woundType;
 
-	
-	@Column(name = "KENDEK07_NR")
-	private int woundTypeId;
-	
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_WL", referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_NR", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
-	
-	@Column(name = "KENWUN07_NR")
-	private int woundLevelId;
 
 	@Column(name = "DEKUBITUSNR")
 	private int decubitusId;
@@ -129,11 +111,10 @@ public class Wound implements BusinessObject {
 	}
 
 	public Patient getPatient() {
-		return PatientProvider.getInstance().getByID(patientId);
+		return patient;
 	}
 
 	public void setPatient(Patient patient) {
-		this.patientId = patient.getId();
 		this.patient = patient;
 	}
 
@@ -146,11 +127,10 @@ public class Wound implements BusinessObject {
 	}
 
 	public Employee getRecordingEmployee() {
-		return EmployeeProvider.getInstance().getByID(recordingEmployeeId);
+		return recordingEmployee;
 	}
 
 	public void setRecordingEmployee(Employee recordingEmployee) {
-		this.recordingEmployeeId = recordingEmployee.getId();
 		this.recordingEmployee = recordingEmployee;
 	}
 
@@ -168,11 +148,10 @@ public class Wound implements BusinessObject {
 	}
 
 	public Employee getCureEmployee() {
-		return EmployeeProvider.getInstance().getByID(cureEmployeeId);
+		return cureEmployee;
 	}
 
 	public void setCureEmployee(Employee cureEmployee) {
-		this.cureEmployeeId = cureEmployee.getId();
 		this.cureEmployee = cureEmployee;
 	}
 
@@ -233,20 +212,18 @@ public class Wound implements BusinessObject {
 	}
 
 	public WoundLevel getWoundLevel() {
-		return WoundLevelProvider.getInstance().getByID(woundLevelId);
+		return woundLevel;
 	}
 
 	public void setWoundLevel(WoundLevel woundLevel) {
-		this.woundLevelId = woundLevel.getId();
 		this.woundLevel = woundLevel;
 	}
 
 	public WoundType getWoundType() {
-		return WoundTypeProvider.getInstance().getByID(woundTypeId);
+		return woundType;
 	}
 
 	public void setWoundType(WoundType woundType) {
-		this.woundTypeId = woundType.getId();
 		this.woundType = woundType;
 	}
 

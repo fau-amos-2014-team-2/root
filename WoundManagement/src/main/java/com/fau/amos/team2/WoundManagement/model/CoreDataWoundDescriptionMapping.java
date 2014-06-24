@@ -23,19 +23,12 @@ public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	private int sensoID;
 
 	@OneToOne
-	@JoinColumn(name = "KENWBS07_CDWD", referencedColumnName="NR")
+	@JoinColumn(name = "KENWBS07_NR", referencedColumnName="NR")
 	private CoreDataWoundDescription coreDataWoundDescription;
 	
-	@Column(name = "KENWBS07_NR")
-	private int coreDataWoundDescriptionId;
-	
 	@OneToOne
-	@JoinColumn(name = "BEWWBS07_WD", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "BEWWBS07_NR", nullable = false, referencedColumnName="NR")
 	private WoundDescription woundDescription;
-	
-
-	@Column(name = "BEWWBS07_NR", nullable = false)
-	private int woundDescriptionId;
 	
 	@Column(name = "FREITEXT", length=4000)
 	private String freeText;//4000
@@ -61,20 +54,18 @@ public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	}
 
 	public CoreDataWoundDescription getCoreDataWoundDescription() {
-		return CoreDataWoundDescriptionProvider.getInstance().getByID(coreDataWoundDescriptionId);
+		return coreDataWoundDescription;
 	}
 
 	public void setCoreDataWoundDescription(CoreDataWoundDescription coreDataWoundDescription) {
-		this.coreDataWoundDescriptionId = coreDataWoundDescription.getId();
 		this.coreDataWoundDescription = coreDataWoundDescription;
 	}
 
 	public WoundDescription getWoundDescription() {
-		return WoundDescriptionProvider.getInstance().getByID(woundDescriptionId);
+		return woundDescription;
 	}
 
 	public void setWoundDescription(WoundDescription woundDescription) {
-		this.woundDescriptionId = woundDescription.getId();
 		this.woundDescription = woundDescription;
 	}
 

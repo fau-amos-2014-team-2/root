@@ -33,12 +33,9 @@ public class WoundLevel implements BusinessObject {
 	private int level;
 	
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_WT", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_NR", nullable = false, referencedColumnName = "NR")
 	private WoundType woundType;
 	
-	@Column(name = "KENWUN07_NR", nullable = false)
-	private int woundTypeId;
-
 	@Column(name = "BESCHREIB", length=4000)
 	private String description;//4000
 	
@@ -93,12 +90,11 @@ public class WoundLevel implements BusinessObject {
 	}
 
 	public WoundType getWoundType() {
-		return WoundTypeProvider.getInstance().getByID(woundTypeId);
+		return woundType;
 	}
 
 	public void setWoundType(WoundType woundType) {
 		this.woundType = woundType;
-		this.woundTypeId = woundType.getId();
 	}
 
 	public String getDescription() {

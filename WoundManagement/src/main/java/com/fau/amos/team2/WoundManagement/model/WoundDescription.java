@@ -33,32 +33,26 @@ public class WoundDescription implements BusinessObject {
 	private int sensoID;
 
 	@ManyToOne
-	@JoinColumn(name = "BEWDKL07_Wound", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "BEWDKL07_NR", nullable = false, referencedColumnName = "NR")
 	private Wound wound;
-
-	@Column(name = "BEWDKL07_NR", nullable = false)
-	private int woundId;
 
 	@Column(name = "DATUM", nullable = false)
 	private Date date;
 
 	@ManyToOne
-	@JoinColumn(name = "MITAPE07_Empl", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "MITAPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Employee employee;
-
-	@Column(name = "MITAPE07_NR", nullable = false)
-	private int employeeId;
 
 	@Column(name = "TASCHEN")
 	private char isBaggy;
 
-	@Column(name = "TASCHLOK", length=200)
+	@Column(name = "TASCHLOK", length = 200)
 	private String bagLocation;// 200
 
-	@Column(name = "TASCHRICHT", length=200)
+	@Column(name = "TASCHRICHT", length = 200)
 	private String bagDirection;// 200
 
-	@Column(name = "BEMERKUNG", length=1)
+	@Column(name = "BEMERKUNG", length = 1)
 	private String description;// 2000
 
 	@Column(name = "GROESSE1")
@@ -68,23 +62,17 @@ public class WoundDescription implements BusinessObject {
 	private int size2;
 
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_WL", referencedColumnName = "NR")
+	@JoinColumn(name = "KENDEK07_NR", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
 
-	@Column(name = "KENDEK07_NR")
-	private int woundLevelId;
-
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_WT", nullable = false, referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_NR", nullable = false, referencedColumnName = "NR")
 	private WoundType woundType;
-
-	@Column(name = "KENWUN07_Nr", nullable = false)
-	private int woundTypeId;
 
 	@Column(name = "TIEFE")
 	private int depth;
 
-		@Lob
+	@Lob
 	@Column(name = "WOUNDDESCIMAGE")
 	private byte[] image;
 
@@ -117,11 +105,10 @@ public class WoundDescription implements BusinessObject {
 	}
 
 	public Wound getWound() {
-		return WoundProvider.getInstance().getByID(this.woundId);
+		return wound;
 	}
 
 	public void setWound(Wound wound) {
-		this.woundId = wound.getId();
 		this.wound = wound;
 	}
 
@@ -134,11 +121,10 @@ public class WoundDescription implements BusinessObject {
 	}
 
 	public Employee getEmployee() {
-		return EmployeeProvider.getInstance().getByID(this.employeeId);
+		return employee;
 	}
 
 	public void setEmployee(Employee employee) {
-		this.employeeId = employee.getId();
 		this.employee = employee;
 	}
 
@@ -183,20 +169,18 @@ public class WoundDescription implements BusinessObject {
 	}
 
 	public WoundLevel getWoundLevel() {
-		return WoundLevelProvider.getInstance().getByID(this.woundLevelId);
+		return woundLevel;
 	}
 
 	public void setWoundLevel(WoundLevel woundLevel) {
-		this.woundLevelId = woundLevel.getId();
 		this.woundLevel = woundLevel;
 	}
 
 	public WoundType getWoundType() {
-		return WoundTypeProvider.getInstance().getByID(this.woundTypeId);
+		return woundType;
 	}
 
 	public void setWoundType(WoundType woundType) {
-		this.woundTypeId = woundType.getId();
 		this.woundType = woundType;
 	}
 
@@ -207,7 +191,7 @@ public class WoundDescription implements BusinessObject {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
