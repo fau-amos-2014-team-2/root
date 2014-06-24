@@ -13,6 +13,8 @@ import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
@@ -22,7 +24,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Notification;
 
-
+@Theme("wm-responsive")
+@PreserveOnRefresh
 @SuppressWarnings("serial")
 public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
 

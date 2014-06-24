@@ -6,10 +6,7 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-/*import com.vaadin.server.Page;
-import com.vaadin.server.Page.BrowserWindowResizeEvent;
-import com.vaadin.server.Page.BrowserWindowResizeListener;
-import com.vaadin.addon.responsive.Responsive;*/
+//import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.annotations.Theme;
 
 @Theme("wm-responsive")
@@ -37,11 +34,6 @@ public class StartMenuView extends SessionedNavigationView {
 		loginScreenButton.setTargetView(new UserLoginView());
 		content.addComponent(loginScreenButton);
 		
-		/*NavigationButton testView = new NavigationButton(MessageResources.getString("login")); //$NON-NLS-1$
-		testView.setTargetView(new TestView());
-		content.addComponent(testView);
-		*/
-		
 		NavigationButton initializeDataButton = new NavigationButton("For Software Developers only: initialize data");
 		initializeDataButton.addClickListener(new NavigationButtonClickListener() {
 			public void buttonClick(NavigationButtonClickEvent event) {
@@ -50,7 +42,8 @@ public class StartMenuView extends SessionedNavigationView {
 		});
 		content.addComponent(initializeDataButton);
 		
-		//new Responsive(content);
+		// ...not necessary atm: 
+		/* new Responsive(content); */
 		
 		setContent(content);
 

@@ -14,9 +14,12 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -28,6 +31,8 @@ import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
+@Theme("wm-responsive")
+@PreserveOnRefresh 
 public class WoundDescriptionListView extends SessionedNavigationView implements WardChangeListener {
 	
 	private static final long serialVersionUID = 2998701886426658070L;
@@ -43,14 +48,6 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 	public WoundDescriptionListView(Wound wound){
 		
-		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void browserWindowResized(BrowserWindowResizeEvent event) {
-				getEnvironment().setOrientation();
-			}
-		});
-		
 		this.wound = wound;
 		this.patient = this.wound.getPatient();
 		
@@ -59,21 +56,30 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 //			setCaption(patient.getFirstName() + " " + patient.getLastName());
 //		}
 		
-		setRightComponent(new UserBar(this));
-		
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
+		
+		mainLayout.addComponent(new UserBar(this));
 
 		NavigationButton createWoundDescriptionButton = new NavigationButton(
-				MessageResources.getString("createDesc")	);
-		createWoundDescriptionButton
-				.setTargetView(new CreateWoundDescriptionView(wound));
-
-		// some preparations for proper sorting
-		descriptions =  wound.getWoundDescriptions();
+					MessageResources.getString("createDesc"));
+		
+		createWoundDescriptionButton.setTargetView(
+					new CreateWoundDescriptionView(wound));
+		
+		mainLayout.addComponent(createWoundDescriptionButton);
+		
+		descriptions = wound.getWoundDescriptions();
 		
 		Panel tablePanel = new Panel();
+		
+		tablePanel.addStyleName("panel");
+		tablePanel.setWidth("100%");
 		tablePanel.setSizeUndefined();
 		tablePanel.setImmediate(true);
+		
+		new Responsive(tablePanel);
+		
+		mainLayout.addComponent(tablePanel);
 		
 		table = new Table() {
 		    @Override
@@ -93,6 +99,10 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		
 		table.setSelectable(true);
 		table.setImmediate(true);
+		table.setWidth("100%");
+		table.addStyleName("table");
+		
+		new Responsive(table);
 		
 		tablePanel.setContent(table);
 		tablePanel.getContent().setSizeUndefined();
@@ -101,9 +111,9 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		table.addContainerProperty("author", String.class, null, MessageResources.getString("author"), null, null);
 		table.addContainerProperty("description", String.class, null, MessageResources.getString("description"), null, null);
 		
-		table.setColumnWidth("date", 250);
-		table.setColumnWidth("author", 250);
-		table.setColumnWidth("description", 500);
+		//table.setColumnWidth("date", 250);
+		//table.setColumnWidth("author", 250);
+		//table.setColumnWidth("description", 500);
 			
 		Property[][] properties = new Property[descriptions.size()][3];
 				
@@ -162,9 +172,6 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 
 		});
 		
-		mainLayout.addComponent(createWoundDescriptionButton);
-		mainLayout.addComponent(tablePanel);
-
 		setContent(mainLayout);
 	}
 	

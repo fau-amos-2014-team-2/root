@@ -8,6 +8,8 @@ import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.provider.WardProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
@@ -19,6 +21,8 @@ import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Theme("wm-responsive")
+@PreserveOnRefresh
 @SuppressWarnings("serial")
 public class UserWardView extends SessionedPopover {
 	
