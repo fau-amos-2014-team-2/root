@@ -36,7 +36,6 @@ public class ShowWoundPhotoView extends NavigationView {
 	private WoundProvider woundProvider = WoundProvider.getInstance();
 
 	private final WoundDescription woundDescription;
-	private Button showImage;
 
 	@SuppressWarnings("serial")
 	public ShowWoundPhotoView(final WoundDescription woundDescription) {
@@ -74,46 +73,22 @@ public class ShowWoundPhotoView extends NavigationView {
 		image.setVisible(false);
 		image.setMimeType("image/*");
 
-		showImage = new Button(MessageResources.getString("showpicture"));
+		// Fixed: by using streamresources, the image is now shown
+		// without creating a file
+		StreamSource imagesource = new MyImageSource();
+		StreamResource resource = new StreamResource(imagesource,
+				"bufferedimage.png");
 
-		showImage.addClickListener(new ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-
-				// Fixed: by using streamresources, the image is now shown
-				// without creating a file
-				StreamSource imagesource = new MyImageSource();
-				StreamResource resource = new StreamResource(imagesource,
-						"bufferedimage.png");
-
-				image.setSource(resource);
-				image.setVisible(true);
-			}
-		});
 
 		Panel panel = new Panel(MessageResources.getString("picture"));
 		Layout panelContent = new VerticalLayout();
-		panelContent.addComponent(showImage);
 
-		panelContent.addComponents(image);
+		panelContent.addComponent(image);
+		image.setSource(resource);
+		image.setVisible(true);
+		image.setSizeFull();
 		panel.setContent(panelContent);
 
 		setContent(panel);
-	}
-
-	public void onBecomingVisible() {
-
-		// if there is no image yet, the button show image will be disabled (&
-		// -ausgegraut-)
-		// will add functionality so that the user will actually not get to this
-		// view, if there is no image present in the database
-		if (woundDescription.getImage() == null) {
-			
-			showImage.setEnabled(false);
-		} else {
-			showImage.setEnabled(true);
-			// Notification.show("es gibt ein Bild =)");
-		}
 	}
 }
