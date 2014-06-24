@@ -37,12 +37,6 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 
 	public ShowWoundDescriptionView(WoundDescription woundDescription) {
 
-		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-		System.out.println("WoundDescription: " + df.format(woundDescription.getDate()));
-		if (woundDescription.getImage() != null){
-			System.out.println("WoundDescription image: " + woundDescription.getImage().hashCode());
-		}
-		
 		// ResizeListener
 		UI.getCurrent().setImmediate(true);
 		UI.getCurrent().setResizeLazy(true);

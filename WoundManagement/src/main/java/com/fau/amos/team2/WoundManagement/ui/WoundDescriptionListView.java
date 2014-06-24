@@ -179,13 +179,6 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 				if (value != null) {
 					WoundDescription woundDescription = woundDescriptionProvider
 							.getByID(value);
-					SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-					System.out.println("WD Date: "
-							+ df.format(woundDescription.getDate()));
-					if (woundDescription.getImage() != null) {
-						System.out.println("WD image: "
-								+ woundDescription.getImage().hashCode());
-					}
 					NavigationView next = new ShowWoundDescriptionView(
 							woundDescription);
 					getNavigationManager().navigateTo(next);

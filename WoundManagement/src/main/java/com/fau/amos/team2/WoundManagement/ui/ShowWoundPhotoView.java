@@ -11,6 +11,7 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -65,14 +66,17 @@ public class ShowWoundPhotoView extends NavigationView {
 			StreamSource imagesource = new MyImageSource();
 			StreamResource resource = new StreamResource(imagesource,
 					"bufferedimage.png");
+			
+			Image myImage = new Image(null, resource);
 
 			Panel panel = new Panel();
 			Layout panelContent = new VerticalLayout();
 
-			panelContent.addComponent(image);
+			panelContent.addComponent(myImage);
+			/*panelContent.addComponent(image);
 			image.setSource(resource);
 			image.setVisible(true);
-			image.setSizeFull();
+			image.setSizeFull();*/
 			panel.setContent(panelContent);
 
 			setContent(panel);
