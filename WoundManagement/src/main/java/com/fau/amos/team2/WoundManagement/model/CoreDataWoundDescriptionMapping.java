@@ -8,37 +8,40 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
+
 @SuppressWarnings("serial")
 @Entity
 public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 
 	@OneToOne
-	@JoinColumn(name = "KENWBS07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "KENWBS07_NR", referencedColumnName="NR")
 	private CoreDataWoundDescription coreDataWoundDescription;
 	
 	@OneToOne
 	@JoinColumn(name = "BEWWBS07_NR", nullable = false, referencedColumnName="NR")
 	private WoundDescription woundDescription;
 	
-	@Column(name = "FREITEXT")
-	private String freeText;
+	@Column(name = "FREITEXT", length=4000)
+	private String freeText;//4000
 	
 	public CoreDataWoundDescriptionMapping() {
-		
+		this.sensoID = 1;
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

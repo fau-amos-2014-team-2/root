@@ -13,61 +13,65 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
-	@NamedQuery(name="WoundDescription.deleteAll", query="DELETE FROM WoundDescription"),
-	@NamedQuery(name="WoundDescription.allForWound", query="SELECT w FROM WoundDescription w WHERE w.wound=:wound")
-})
+		@NamedQuery(name = "WoundDescription.deleteAll", query = "DELETE FROM WoundDescription"),
+		@NamedQuery(name = "WoundDescription.allForWound", query = "SELECT w FROM WoundDescription w WHERE w.wound=:wound") })
 public class WoundDescription implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
-	
-	@Column(name = "KENMDT07_NR")
+	private int id;
+
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "BEWDKL07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "BEWDKL07_NR", nullable = false, referencedColumnName = "NR")
 	private Wound wound;
-	
+
 	@Column(name = "DATUM", nullable = false)
 	private Date date;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "MITAPE07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "MITAPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Employee employee;
-	
+
 	@Column(name = "TASCHEN")
-	private boolean isBaggy;
-	
-	@Column(name = "TASCHLOK")
-	private String bagLocation;
-	
-	@Column(name = "TASCHRICHT")
-	private String bagDirection;
-	
-	@Column(name = "BEMERKUNG")
-	private String description;
-	
+	private char isBaggy;
+
+	@Column(name = "TASCHLOK", length = 200)
+	private String bagLocation;// 200
+
+	@Column(name = "TASCHRICHT", length = 200)
+	private String bagDirection;// 200
+
+	@Column(name = "BEMERKUNG", length = 1)
+	private String description;// 2000
+
 	@Column(name = "GROESSE1")
 	private int size1;
-	
+
 	@Column(name = "GROESSE2")
 	private int size2;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_Nr", referencedColumnName="NR")
+	@JoinColumn(name = "KENDEK07_NR", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_Nr", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "KENWUN07_NR", nullable = false, referencedColumnName = "NR")
 	private WoundType woundType;
-	
+
 	@Column(name = "TIEFE")
 	private int depth;
-	
+
 	@Lob
 	@Column(name = "WOUNDDESCIMAGE")
 	private byte[] image;
@@ -75,21 +79,20 @@ public class WoundDescription implements BusinessObject {
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-	
+
 	public byte[] getImage() {
 		return this.image;
 	}
 
-	
 	public WoundDescription() {
-		
+		this.sensoID = 1;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -126,11 +129,11 @@ public class WoundDescription implements BusinessObject {
 	}
 
 	public boolean isBaggy() {
-		return isBaggy;
+		return (isBaggy == 'j') ? (true) : (false);
 	}
 
 	public void setBaggy(boolean isBaggy) {
-		this.isBaggy = isBaggy;
+		this.isBaggy = (isBaggy) ? ('j') : ('n');
 	}
 
 	public String getBagLocation() {
@@ -188,9 +191,9 @@ public class WoundDescription implements BusinessObject {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-	
-	public void setDescription(String value) {
-		this.description = value;
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getDescription() {

@@ -9,93 +9,96 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
+import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Wound.currentForPatient",
-		query="SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
-	@NamedQuery(name="Wound.deleteAll", query="DELETE FROM Wound"),
-	@NamedQuery(name="Wound.getMaxDecubitusId", query="SELECT MAX(w.decubitusId) FROM Wound w"),
-	@NamedQuery(name="Wound.allForPatient", query="SELECT w FROM Wound w WHERE w.patient=:patient")
-})
+		@NamedQuery(name = "Wound.currentForPatient", query = "SELECT w FROM Wound w WHERE w.patient=:patient AND w.endDate IS NULL"),
+		@NamedQuery(name = "Wound.deleteAll", query = "DELETE FROM Wound"),
+		@NamedQuery(name = "Wound.getMaxDecubitusId", query = "SELECT MAX(w.decubitusId) FROM Wound w"),
+		@NamedQuery(name = "Wound.allForPatient", query = "SELECT w FROM Wound w WHERE w.patient=:patient") })
 public class Wound implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
-	
-	@Column(name = "KENMDT07_NR")
+	private int id;
+
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "BEWOPE07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "BEWOPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Patient patient;
 	
 	@Column(name = "ERFASSUNGSDATUM", nullable = false)
 	private Date recordingDate;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "MITAPE07_nr", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "MITAPE07_NR", nullable = false, referencedColumnName = "NR")
 	private Employee recordingEmployee;
 	
 	@Column(name = "ENDEDATUM")
 	private Date endDate;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "ENDE_MITAPE07_NR", referencedColumnName="NR")
+	@JoinColumn(name = "ENDE_MITAPE07_NR", referencedColumnName = "NR")
 	private Employee cureEmployee;
 	
-	@Column(name = "KOERPERSTELLE")
-	private String bodyLocation;
-	
+	@Column(name = "KOERPERSTELLE", length=200)
+	private String bodyLocation;//200
+
 	@Column(name = "KOERPERSTELLE_CODE", nullable = false)
 	private int bodyLocationCode;
-	
+
 	@Column(name = "GROESSE1")
 	private int size1;
-	
+
 	@Column(name = "GROESSE2")
 	private int size2;
-	
+
 	@Column(name = "TIEFE")
 	private int depth;
-	
-	@Column(name = "BEMERKUNG")
-	private String description;
-	
+
+	@Column(name = "BEMERKUNG", length=2000)
+	private String description;//2000
+
 	@Column(name = "ENTSTEHUNG")
 	private int origination;
 
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_NR", referencedColumnName="NR")
+	@JoinColumn(name = "KENDEK07_NR", referencedColumnName = "NR")
 	private WoundType woundType;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_NR", referencedColumnName="NR")
+	@JoinColumn(name = "KENWUN07_NR", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
-	
+
 	@Column(name = "DEKUBITUSNR")
 	private int decubitusId;
-	
-	@OneToMany(targetEntity = WoundDescription.class, mappedBy="wound")
+
+	@OneToMany(targetEntity = WoundDescription.class, mappedBy = "wound")
 	private List<WoundDescription> wounddescriptions;
-	
-	public Wound() { 
-		
+
+	public Wound() {
+		this.sensoID = 1;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -137,6 +140,11 @@ public class Wound implements BusinessObject {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setEndDate(int year, int month, int day) {
+		this.endDate = new Date(year, month, day);
 	}
 
 	public Employee getCureEmployee() {
@@ -226,10 +234,12 @@ public class Wound implements BusinessObject {
 	public void setDecubitusId(int decubitusId) {
 		this.decubitusId = decubitusId;
 	}
-	
+
 	public List<WoundDescription> getWoundDescriptions() {
-		//TODO: this is just a workaround! shall not call database every time a wounds wounddescriptions are needed.
+		// TODO: this is just a workaround! shall not call database every time a
+		// wounds wounddescriptions are needed.
 		return WoundDescriptionProvider.getInstance().getAllForWound(this);
 	}
 
+	
 }

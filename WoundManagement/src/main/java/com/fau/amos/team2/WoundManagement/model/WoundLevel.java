@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
+
 @SuppressWarnings("serial")
 @Entity
 @NamedQueries({
@@ -17,42 +19,50 @@ import javax.persistence.NamedQuery;
 })
 public class WoundLevel implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "BEZEICH", nullable = false)
-	private String characterisation;
+	@Column(name = "BEZEICH", nullable = false, length=2000)
+	private String characterisation;//2000
 	
 	@Column(name = "GRAD", nullable = false)
 	private int level;
 	
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_NR", nullable = false, referencedColumnName="NR")
+	@JoinColumn(name = "KENWUN07_NR", nullable = false, referencedColumnName = "NR")
 	private WoundType woundType;
 	
-	@Column(name = "BESCHREIB")
-	private String description;
+	@Column(name = "BESCHREIB", length=4000)
+	private String description;//4000
 	
-	@Column(name = "KUERZL", nullable = false)
-	private String abbreviation;
+	@Column(name = "KUERZL", nullable = false, length=5)
+	private String abbreviation;//5
 	
 	@Column(name = "POS")
 	private int position;
 	
 	public WoundLevel() { 
-		
+		this.sensoID=1;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getPos() {
+		return this.position;
+	}
+	
+	public void setPos(int pos) {
+		this.position = pos;
 	}
 
 	public int getSensoID() {

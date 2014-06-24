@@ -17,22 +17,22 @@ import converter.BooleanToStringConverter;
 })
 public class WoundType implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "BEZEICH", nullable = false)
-	private String classification;
+	@Column(name = "BEZEICH", nullable = false, length=30)
+	private String classification;//30
 	
 	@Column(name = "TYP", nullable = false, length=1)
 	private String type;
 	
 	@Column(name = "GROESSEPFL", nullable = false, length=1)
 	private String sizeIsRequired;
-	
+
 	@Column(name = "GRADSTATUS", nullable = false, length=1)
 	private String levelState;
 	
@@ -40,14 +40,16 @@ public class WoundType implements BusinessObject {
 	private String isBodyLocationRequired;
 	
 	public WoundType() {
-		
+		this.sensoID=1;
+		this.levelState= "E";
+		this.isBodyLocationRequired = "n";
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -78,7 +80,7 @@ public class WoundType implements BusinessObject {
 	public boolean isSizeIsRequired() {
 		return BooleanToStringConverter.convertBack(sizeIsRequired);
 	}
-
+		
 	public void setSizeIsRequired(boolean sizeIsRequired) {
 		this.sizeIsRequired = BooleanToStringConverter.convert(sizeIsRequired);
 	}
