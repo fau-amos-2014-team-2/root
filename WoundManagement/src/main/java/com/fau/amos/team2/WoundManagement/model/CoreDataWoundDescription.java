@@ -5,49 +5,50 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
 
 import converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "KENWBS07")
 public class CoreDataWoundDescription implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable = false)
 	private int sensoID;
 	
-	@Column(name = "TYP", nullable = false, length=3)
-	private String type;
+	@Column(name = "TYP", length=3)
+	private String type;//3
 	
-	@Column(name = "BEZEICH", nullable = false)
-	private String characterisation;
+	@Column(name = "BEZEICH", nullable = false, length=50)
+	private String characterisation;//50
 	
-	@OneToOne
-	@JoinColumn(name = "KENWBS07_NR", referencedColumnName="NR")
-	private CoreDataWoundDescription coreDataWoundDescription;
+	@Column(name = "KENWBS07_NR")
+	private int coreDataWoundDescriptionId;
 	
-	@Column(name = "MITFEITEXT", length=1)
+	@Column(name = "MITFREITEXT", length=1)
 	private String isFreeText;
 	
 	@Column(name = "POSITION")
 	private int position;
 	
 	public CoreDataWoundDescription() { 
-		
+		this.sensoID = 1;
 	}
 
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -79,11 +80,11 @@ public class CoreDataWoundDescription implements BusinessObject {
 	}
 
 	public CoreDataWoundDescription getCoreDataWoundDescription() {
-		return coreDataWoundDescription;
+		return CoreDataWoundDescriptionProvider.getInstance().getByID(this.coreDataWoundDescriptionId);
 	}
 
 	public void setCoreDataWoundDescription(CoreDataWoundDescription coreDataWoundDescription) {
-		this.coreDataWoundDescription = coreDataWoundDescription;
+		this.coreDataWoundDescriptionId = coreDataWoundDescription.getId();
 	}
 
 	public boolean isFreeText() {
