@@ -19,8 +19,11 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
@@ -31,6 +34,7 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -42,6 +46,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 
+@Theme("wm-responsive")
+@PreserveOnRefresh
 @SuppressWarnings("serial")
 public class CreateWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
 
@@ -56,20 +62,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 	
 	public CreateWoundDescriptionView(final Wound wound) {
 		
-		// ResizeListener
-		UI.getCurrent().setImmediate(true);
-		UI.getCurrent().setResizeLazy(true);
-
-		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void browserWindowResized(BrowserWindowResizeEvent event) {
-				getEnvironment().setOrientation();
-				UI.getCurrent().requestRepaintAll();
-				//Page.getCurrent().reload();
-			}
-		});
-		
 		this.wound = wound;
 		WoundDescription latest = woundDescriptionProvider.getNewestForWound(wound);
 		
@@ -79,29 +71,39 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		if (patient != null){
 			setCaption(patient.getFirstName() + " " + patient.getLastName());
 		}
-		setRightComponent(new UserBar(this));
-
 
 		final FormLayout mainLayout = new FormLayout();
+		mainLayout.setWidth("100%");
+		mainLayout.addComponent(new UserBar(this));
 		mainLayout.setSizeUndefined();
 
-		HorizontalLayout greetingdate = new HorizontalLayout();
-
+		CssLayout greetingdate = new CssLayout();
+		greetingdate.addStyleName("greetingdate");
+		greetingdate.setWidth("100%");
+		
+		new Responsive(greetingdate);
+		
 		Label erstellerLabel = new Label();
 		erstellerLabel.setValue(MessageResources.getString("author")+": " + user.getFirstName() + " "
 				+ user.getLastName());
+		erstellerLabel.addStyleName("erstellerLabel");
 		greetingdate.addComponent(erstellerLabel);
-		greetingdate.setWidth("20em");
+		
+		new Responsive(greetingdate);
 
 		// DateField - when is the wound recorded/as seen in NewWoundView
 		final DatePicker recorded = new DatePicker(MessageResources.getString("createDate")+":");
 		recorded.setValue(new Date());
 		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
-		recorded.setWidth("20em");
+		recorded.addStyleName("recorded");
+		//recorded.setWidth("20em");
+		
+		new Responsive(recorded);
+
 		greetingdate.addComponent(recorded);
 
-		greetingdate.setSpacing(true);
+		//greetingdate.setSpacing(true);
 
 		mainLayout.addComponent(greetingdate);
 		
@@ -109,81 +111,36 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		final TextField bagLocation = new TextField();
 		final TextField bagDirection = new TextField();
 		
-		// case: horizontal layout
-		if(getEnvironment().isHorizontalLayout()){
-			
-			// TaschenBeschreibungs-Checkboxes & Textfields
-			HorizontalLayout taschenErfassen = new HorizontalLayout();
+		CssLayout taschenErfassen = new CssLayout();
 
-			taschen.setCaption(MessageResources.getString("woundBags")+":");
-			taschen.setImmediate(false);
-			taschen.setWidth("20em");
-			taschen.setValue(latest.isBaggy());
+		taschen.setCaption(MessageResources.getString("woundBags")+":");
+		taschen.setImmediate(false);
+		taschen.addStyleName("taschen");
+		taschen.setValue(latest.isBaggy());
 
+		// taschen.setWidth("-1px");
+		// taschen.setHeight("-1px");
 
-			// taschen.setWidth("-1px");
-			// taschen.setHeight("-1px");
-
-			bagLocation.setCaption(MessageResources.getString("baglocation")+":");
-			bagLocation.setImmediate(false);
-			bagLocation.setWidth("20em");
-			bagLocation.setMaxLength(200);
-			if (latest.getBagLocation() != null){
-				bagLocation.setValue(latest.getBagLocation());
-			}
-
-			bagDirection.setCaption(MessageResources.getString("bagdirection")+":");
-			bagDirection.setImmediate(false);
-			bagDirection.setWidth("20em");
-			bagDirection.setMaxLength(200);
-			if (latest.getBagDirection() != null){
-				bagDirection.setValue(latest.getBagDirection());
-			}
-
-
-			taschenErfassen.addComponents(taschen, bagLocation,
-					bagDirection);
-			taschenErfassen.setSpacing(true);
-
-			mainLayout.addComponent(taschenErfassen);
-			
-		// case: vertical layout
-		}else{
-			
-			// TaschenBeschreibungs-Checkboxes & Textfields
-			VerticalLayout taschenErfassen = new VerticalLayout();
-
-			taschen.setCaption(MessageResources.getString("woundBags")+":");
-			taschen.setImmediate(false);
-			taschen.setWidth("20em");
-			taschen.setValue(latest.isBaggy());
-
-			// taschen.setWidth("-1px");
-			// taschen.setHeight("-1px");
-
-			bagLocation.setCaption(MessageResources.getString("baglocation")+":");
-			bagLocation.setImmediate(false);
-			bagLocation.setWidth("20em");
-			bagLocation.setMaxLength(200);
-			if (latest.getBagLocation() != null){
-				bagLocation.setValue(latest.getBagLocation());
-			}
-
-			bagDirection.setCaption(MessageResources.getString("bagdirection")+":");
-			bagDirection.setImmediate(false);
-			bagDirection.setWidth("20em");
-			bagDirection.setMaxLength(200);
-			if (latest.getBagDirection() != null){
-				bagDirection.setValue(latest.getBagDirection());
-			}
-
-			taschenErfassen.addComponents(taschen, bagLocation,
-					bagDirection);
-			taschenErfassen.setSpacing(true);
-
-			mainLayout.addComponent(taschenErfassen);
+		bagLocation.setCaption(MessageResources.getString("baglocation")+":");
+		bagLocation.setImmediate(false);
+		bagLocation.addStyleName("bagLocation");
+		bagLocation.setMaxLength(200);
+		if (latest.getBagLocation() != null){
+			bagLocation.setValue(latest.getBagLocation());
 		}
-		
+
+		bagDirection.setCaption(MessageResources.getString("bagdirection")+":");
+		bagDirection.setImmediate(false);
+		bagDirection.addStyleName("bagDirection");
+		bagDirection.setMaxLength(200);
+		if (latest.getBagDirection() != null){
+			bagDirection.setValue(latest.getBagDirection());
+		}
+
+		taschenErfassen.addComponents(taschen, bagLocation,	bagDirection);
+
+		mainLayout.addComponent(taschenErfassen);
+			
 		
 		// TextField - commentary
 		final TextArea comment = new TextArea();
@@ -204,59 +161,27 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		// NumberField - depth of wound
 		final NumberField depth = new NumberField(MessageResources.getString("depth")+":");
 		
-		// case: horizontal layout
-		if(getEnvironment().isHorizontalLayout()){
-			
-			HorizontalLayout wundGroessen = new HorizontalLayout();
-			wundGroessen.setSpacing(true);
-			size1.setValue("0");
-			size1.setInvalidAllowed(false);
-			size1.setWidth("20em");
-			wundGroessen.addComponent(size1);
-			size1.setValue(latest.getSize1()+"");
-			
-			size2.setValue("0");
-			size2.setInvalidAllowed(false);
-			size2.setWidth("20em");
-			wundGroessen.addComponent(size2);
-			size2.setValue(latest.getSize2()+"");
-
-			depth.setValue("0");
-			depth.setInvalidAllowed(false);
-			depth.setWidth("20em");
-			wundGroessen.addComponent(depth);
-			depth.setValue(latest.getDepth()+"");
-
-			mainLayout.addComponent(wundGroessen);
-			
-		// case: vertical layout
-		}else{
-			
-			VerticalLayout wundGroessen = new VerticalLayout();
-			wundGroessen.setSpacing(true);
-
-			size1.setValue("0");
-			size1.setInvalidAllowed(false);
-			size1.setWidth("20em");
-			wundGroessen.addComponent(size1);
-			size1.setValue(latest.getSize1()+"");
-			
-			size2.setValue("0");
-			size2.setInvalidAllowed(false);
-			size2.setWidth("20em");
-			wundGroessen.addComponent(size2);
-			size2.setValue(latest.getSize2()+"");
-
-			depth.setValue("0");
-			depth.setInvalidAllowed(false);
-			depth.setWidth("20em");
-			wundGroessen.addComponent(depth);
-			depth.setValue(latest.getDepth()+"");
-
-			mainLayout.addComponent(wundGroessen);
-			
-		}
+		CssLayout wundGroessen = new CssLayout();
 		
+		size1.setValue("0");
+		size1.setInvalidAllowed(false);
+		size1.addStyleName("size1");
+		wundGroessen.addComponent(size1);
+		size1.setValue(latest.getSize1()+"");
+			
+		size2.setValue("0");
+		size2.setInvalidAllowed(false);
+		size2.addStyleName("size2");
+		wundGroessen.addComponent(size2);
+		size2.setValue(latest.getSize2()+"");
+
+		depth.setValue("0");
+		depth.setInvalidAllowed(false);
+		depth.addStyleName("depth");
+		wundGroessen.addComponent(depth);
+		depth.setValue(latest.getDepth()+"");
+
+		mainLayout.addComponent(wundGroessen);
 		
 		/*
 		 * Woundtype & Level comboboxes
@@ -289,28 +214,17 @@ public class CreateWoundDescriptionView extends SessionedNavigationView implemen
 		if (latest.getWoundLevel() != null){
 			level.setValue(latest.getWoundLevel().getId());
 		}
-		
-		// case: horizontal layout
-		if(getEnvironment().isHorizontalLayout()){
-			
-			HorizontalLayout woundlevelandtype = new HorizontalLayout();
-			woundlevelandtype.setSpacing(true);
-			woundlevelandtype.addComponent(type);
 
-			woundlevelandtype.addComponent(level);
-			mainLayout.addComponent(woundlevelandtype);
 			
-		// case: vertical layout
-		}else{
-			
-			VerticalLayout woundlevelandtype = new VerticalLayout();
-			woundlevelandtype.setSpacing(true);
-			woundlevelandtype.addComponent(type);
-			 
-			woundlevelandtype.addComponent(level);
-			mainLayout.addComponent(woundlevelandtype);
-			
-		}
+		CssLayout woundlevelandtype = new CssLayout();
+		
+		type.addStyleName("type");
+		woundlevelandtype.addComponent(type);
+		
+		level.addStyleName("level");
+		woundlevelandtype.addComponent(level);
+		mainLayout.addComponent(woundlevelandtype);
+
 
 		final WoundDescription woundDescription = new WoundDescription();
 		woundDescription.setEmployee(user);

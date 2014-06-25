@@ -46,12 +46,3 @@ public class Environment {
 		return isHorizontalLayout;
 	}
 }
-/**
-// case: horizontal layout
-if(getEnvironment().isHorizontalLayout()){
-	
-// case: vertical layout
-}else{
-	
-}
-*/

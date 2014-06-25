@@ -11,6 +11,8 @@ import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvi
 
 import converter.BooleanToStringConverter;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "KENWBS07")
@@ -25,7 +27,7 @@ public class CoreDataWoundDescription implements BusinessObject {
 	
 	@Column(name = "TYP", length=3)
 	private String type;//3
-	
+
 	@Column(name = "BEZEICH", nullable = false, length=50)
 	private String characterisation;//50
 	
@@ -33,6 +35,7 @@ public class CoreDataWoundDescription implements BusinessObject {
 	private int coreDataWoundDescriptionId;
 	
 	@Column(name = "MITFREITEXT", length=1)
+
 	private String isFreeText;
 	
 	@Column(name = "POSITION")

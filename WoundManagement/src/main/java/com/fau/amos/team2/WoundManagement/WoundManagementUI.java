@@ -12,6 +12,7 @@ import org.eclipse.persistence.sessions.server.ServerSession;*/
 
 import java.util.Locale;
 
+import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientSelectionView;
@@ -20,7 +21,9 @@ import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.UI;
 
@@ -30,11 +33,15 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Widgetset("com.fau.amos.team2.WoundManagement.widgetset.WoundManagementWidgetset")
-@Theme("touchkit")
+//@Theme("touchkit")
+@Theme("wm-responsive")
 @PreserveOnRefresh
 public class WoundManagementUI extends UI {
 	
 	private OfflineModeExtension offlineModeSettings;
+
+	private BeanItemContainer<WoundDescription> woundDescriptionContainer;
+
 	private WrappedSession session;
 	
 	public WrappedSession getMySession() {
@@ -57,7 +64,8 @@ public class WoundManagementUI extends UI {
 			System.out.println("Resumed existing environment for session " + session.getId());
 		}
 	}
-
+	
+	
 	@Override
 	protected void init(VaadinRequest request) {		
 
@@ -68,6 +76,8 @@ public class WoundManagementUI extends UI {
 		// legacy...
 
 		// TODO: Check for second parameter "loadDescriptions"
+		
+		woundDescriptionContainer = new BeanItemContainer<WoundDescription>(WoundDescription.class);
 		
 		enableOfflineMode();
 		setLocale();

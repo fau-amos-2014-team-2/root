@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import converter.BooleanToStringConverter;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "MITAPE07")
@@ -68,6 +70,7 @@ public class Employee implements BusinessObject {
 	public Employee() {
 		keyword = "key";
 		this.sensoID =1;
+
 		setAccumulativeAckType(AccumulativeAckType.NOT_ALLOWED);
 		setCollectiveAccMedicationAllowed(false);
 	}

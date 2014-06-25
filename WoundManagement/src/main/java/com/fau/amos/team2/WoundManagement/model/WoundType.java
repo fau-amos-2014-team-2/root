@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import converter.BooleanToStringConverter;
 
+import converter.BooleanToStringConverter;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "KENWUN07")
@@ -28,6 +30,7 @@ public class WoundType implements BusinessObject {
 	
 	@Column(name = "BEZEICH", nullable = false, length=30)
 	private String classification;//30
+
 	
 	@Column(name = "TYP", nullable = false, length=1)
 	private String type;

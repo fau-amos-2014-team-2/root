@@ -70,6 +70,7 @@ public class Patient implements BusinessObject {
 	private String accomodation;
 
 	// Standard Constructor is setting the sensoID to default value
+
 	public Patient() {
 		this.sensoID = 1;
 	}

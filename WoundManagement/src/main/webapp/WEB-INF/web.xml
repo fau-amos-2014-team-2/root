@@ -16,6 +16,13 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 			<param-name>UIProvider</param-name>
 			<param-value>com.fau.amos.team2.WoundManagement.WoundManagementUIProvider</param-value>
 		</init-param>
+
+		<init-param>
+		    <description>WoundManagementWidgetset</description>
+			<param-name>widgetset</param-name>
+			<param-value>com.fau.amos.team2.WoundManagement.widgetset.WoundManagementWidgetset</param-value>
+		</init-param>
+		
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WoundManagement</servlet-name>
