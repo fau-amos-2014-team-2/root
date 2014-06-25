@@ -1,10 +1,10 @@
 	.v-ui {
-		background: blue;
+		background: #C0C0C0;
 	}
 	
 	.v-label {
-		background: black;
-		color: white;
+		background: #FFF8DC;
+		color: black;
 		font-size: 16px;
 		padding: 5px;
 	}
