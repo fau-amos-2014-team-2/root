@@ -34,12 +34,6 @@ public class CreateWoundDescriptionViewConnector extends
 	}
 	
 	@Override
-	public void onStateChanged(StateChangeEvent stateChangeEvent) {
-		getWidget().woundDescriptionUpdated(getState().getWoundDescription(), true, false);
-		super.onStateChanged(stateChangeEvent);
-	}
-	
-	@Override
 	public void persistWoundDescription(WoundDescription woundDescription) {
 		rpc.persistWoundDescription(Arrays.asList(woundDescription));
 	}
