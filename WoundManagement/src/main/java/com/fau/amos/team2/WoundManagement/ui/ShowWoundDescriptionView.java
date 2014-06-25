@@ -40,20 +40,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 	private final NavigationButton showwoundphoto;
 	
 	public ShowWoundDescriptionView(WoundDescription woundDescription) {
-		
-		// ResizeListener
-		UI.getCurrent().setImmediate(true);
-		UI.getCurrent().setResizeLazy(true);
-		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void browserWindowResized(BrowserWindowResizeEvent event) {
-				getEnvironment().setOrientation();
-				UI.getCurrent().requestRepaint();
-				//Page.getCurrent().reload();
-			}
-		});
-		
+
 		setRightComponent(new UserBar(this));
 		this.woundDescription = woundDescription;
 
@@ -92,7 +79,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 		
 		mainLayout.addComponent(greetingandDate);
 
-		HorizontalLayout groesen =new HorizontalLayout();
+		HorizontalLayout groesen = new HorizontalLayout();
 		if (this.woundDescription.getSize2() ==0){
 			//getSize2 equal to zero means that size 1 has to be interpreted as diameter/durchmesser & size2 is not relevant
 			Label diameter=new Label();

@@ -46,5 +46,6 @@ public class StartMenuView extends SessionedNavigationView {
 		/* new Responsive(content); */
 		
 		setContent(content);
+
 	}
 }

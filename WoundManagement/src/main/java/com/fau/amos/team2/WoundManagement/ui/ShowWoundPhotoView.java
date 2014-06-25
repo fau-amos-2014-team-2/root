@@ -23,6 +23,7 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -38,59 +39,65 @@ public class ShowWoundPhotoView extends NavigationView {
 
 	@SuppressWarnings("serial")
 	public ShowWoundPhotoView(final WoundDescription woundDescription) {
+		if (woundDescription.getImage() != null) {
 
-		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		setCaption(MessageResources.getString("photo") + " " + dateFormat.format(woundDescription.getDate()));
+			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			setCaption(MessageResources.getString("photo") + " "
+					+ dateFormat.format(woundDescription.getDate()));
 
-		System.out.println("Photo: " + woundDescription.getImage().hashCode());
-		// using stream-resource class to avoid creation/deletion of unnecessary
-		// files to show the image, inspired by example of vaadin-book:
-		// https://vaadin.com/book/vaadin7/-/page/application.resources.html
-		final class MyImageSource implements StreamSource {
-			ByteArrayInputStream imagebuffer = null;
+			System.out.println("Photo: "
+					+ woundDescription.getImage().hashCode());
+			// using stream-resource class to avoid creation/deletion of
+			// unnecessary
+			// files to show the image, inspired by example of vaadin-book:
+			// https://vaadin.com/book/vaadin7/-/page/application.resources.html
+			final class MyImageSource implements StreamSource {
+				ByteArrayInputStream imagebuffer = null;
 
-			/*
-			 * We need to implement this method that returns the resource as a
-			 * stream.
-			 */
-			public InputStream getStream() {
+				/*
+				 * We need to implement this method that returns the resource as
+				 * a stream.
+				 */
+				public InputStream getStream() {
 
-				try {
+					try {
 
-					imagebuffer = new ByteArrayInputStream(
-							woundDescription.getImage());
+						imagebuffer = new ByteArrayInputStream(
+								woundDescription.getImage());
 
-					return imagebuffer;
-				} catch (Exception e) {
-					Notification
-							.show("Something ugly went wrong, plz tell an SD about this - Error in ShowWoundPhotoView/getStream(catced Exception");
-					return null;
+						return imagebuffer;
+					} catch (Exception e) {
+						Notification
+								.show("Something ugly went wrong, plz tell an SD about this - Error in ShowWoundPhotoView/getStream(catced Exception");
+						return null;
+					}
 				}
 			}
+
+			final Embedded image = new Embedded();
+			image.setVisible(false);
+			image.setMimeType("image/*");
+
+			// Fixed: by using streamresources, the image is now shown
+			// without creating a file
+			StreamSource imagesource = new MyImageSource();
+			StreamResource resource = new StreamResource(imagesource,
+					"bufferedimage.png");
+			
+			Image myImage = new Image(null, resource);
+
+			Panel panel = new Panel();
+			Layout panelContent = new VerticalLayout();
+
+			panelContent.addComponent(myImage);
+			/*panelContent.addComponent(image);
+			image.setSource(resource);
+			image.setVisible(true);
+			image.setSizeFull();*/
+			panel.setContent(panelContent);
+
+			setContent(panel);
 		}
-
-		final Embedded image = new Embedded();
-		image.setVisible(false);
-		image.setMimeType("image/*");
-
-		// Fixed: by using streamresources, the image is now shown
-		// without creating a file
-		StreamSource imagesource = new MyImageSource();
-		StreamResource resource = new StreamResource(imagesource,
-				"bufferedimage.png");
-
-
-		Panel panel = new Panel();
-		Layout panelContent = new VerticalLayout();
-
-		panelContent.addComponent(image);
-		image.setSource(resource);
-		image.setVisible(true);
-		image.setSizeFull();
-
-		panel.setContent(panelContent);
-
-		setContent(panel);
 	}
 
 }
