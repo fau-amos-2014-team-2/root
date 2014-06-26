@@ -24,12 +24,23 @@ public class ConnectionProvider<T extends BusinessObject> {
 	protected JPAContainer<T> container;
 	protected CachingMutableLocalEntityProvider<T> entityProvider;
 	
+	protected static String user = null;
+	protected static String password = null;
+	
 	public ConnectionProvider(Class<T> c) 
 	{
 		type = c;
 		
 		HashMap<String, String> properties = new HashMap<String,String>();
-		properties.put("javax.persistence.jdbc.password", getPassword("config.pwd"));
+		
+		while(user == null)
+			user = javax.swing.JOptionPane.showInputDialog("Database user: ");
+		properties.put("javax.persistence.jdbc.user", user);
+		
+		while(password == null)
+			password = javax.swing.JOptionPane.showInputDialog("Database password: ");
+		
+		properties.put("javax.persistence.jdbc.password", password);
 		
 		entityManagerFactory = 
 				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT, 

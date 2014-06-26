@@ -9,7 +9,6 @@ import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 public class StartMenuView extends SessionedNavigationView {

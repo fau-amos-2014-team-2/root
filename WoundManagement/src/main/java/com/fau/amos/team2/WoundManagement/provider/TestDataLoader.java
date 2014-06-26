@@ -60,14 +60,14 @@ public class TestDataLoader {
 			case 0:
 				testUser.setFirstName("Adam");
 				testUser.setLastName("Arbeit");
-				testUser.setAbbreviation("testuser1");
+				testUser.setAbbreviation("user1");
 				testUser.setPdaCode("1111");
 				break;
 
 			case 1:
 				testUser.setFirstName("Bernd");
 				testUser.setLastName("Bond");
-				testUser.setAbbreviation("testuser2");
+				testUser.setAbbreviation("user2");
 				testUser.setPdaCode("2222");
 				testUser.setWorkingWard(ward);
 				break;
@@ -75,7 +75,7 @@ public class TestDataLoader {
 			case 2:
 				testUser.setFirstName("Christina");
 				testUser.setLastName("Charles");
-				testUser.setAbbreviation("testuser3");
+				testUser.setAbbreviation("user3");
 				testUser.setPdaCode("3333");
 				break;
 			}
