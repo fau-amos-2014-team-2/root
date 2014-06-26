@@ -7,11 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fau.amos.team2.WoundManagement.converter.BooleanToStringConverter;
 import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
-
-import converter.BooleanToStringConverter;
-
-import converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity

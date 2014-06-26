@@ -6,7 +6,8 @@ import com.fau.amos.team2.WoundManagement.model.Sex;
 public enum WoundPosition {
 
 	HINTERKOPF(BodyLocation.HINTERKOPF, 121, 44),
-//	SCHAEDELANSATZ(2),
+	SCHAEDELANSATZ(BodyLocation.SCHAEDELANSATZ, 478, 25),
+	SCHAEDELANSATZ_FEMALE(BodyLocation.SCHAEDELANSATZ, 481, 25),
 	NACKEN(BodyLocation.NACKEN, 121, 79),
 	SCHULTERBLATT_OBEN_LI(BodyLocation.SCHULTERBLATT_OBEN_LI, 90, 106),
 	SCHULTERBLATT_UNTEN_LI(BodyLocation.SCHULTERBLATT_UNTEN_LI, 95, 140),
@@ -55,7 +56,8 @@ public enum WoundPosition {
 	OBERARM_LI(BodyLocation.OBERARM_LI, 535, 163),
 	UNTERARM_LI(BodyLocation.UNTERARM_LI, 547, 214),
 
-	GESICHT(BodyLocation.GESICHT, 478, 53),
+	GESICHT(BodyLocation.GESICHT, 478, 55),
+	GESICHT_FEMALE(BodyLocation.GESICHT, 481, 55),
 	KNIE_RE(BodyLocation.KNIE_RE, 454, 373),
 	KNIE_RE_FEMALE(BodyLocation.KNIE_RE, 459, 373),
 	KNIE_LI(BodyLocation.KNIE_LI, 504, 373),
@@ -70,7 +72,7 @@ public enum WoundPosition {
 	HAND_LI(BodyLocation.HAND_LI, 563, 266),
 	HAND_LI_FEMALE(BodyLocation.HAND_LI, 557, 270),
 	SCHIENBEIN_RE(BodyLocation.SCHIENBEIN_RE, 452, 421),
-	SCHIENBEIN_RE_FEMALE(BodyLocation.SCHIENBEIN_RE, 457, 421),
+	SCHIENBEIN_RE_FEMALE(BodyLocation.SCHIENBEIN_RE, 460, 421),
 	SCHIENBEIN_LI(BodyLocation.SCHIENBEIN_LI, 503, 421),
 	OBERSCHENKEL_RE(BodyLocation.OBERSCHENKEL_RE, 452, 305),
 	OBERSCHENKEL_LI(BodyLocation.OBERSCHENKEL_LI, 505, 305),
@@ -122,7 +124,7 @@ public enum WoundPosition {
 	
 	private static WoundPosition[] getFemaleWoundPositions() { 
 		int i = 0;
-		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 9];
+		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 11];
 		for (WoundPosition p : WoundPosition.values()) {
 			// Not add Male enums
 				if(p.compareTo(OBERARM_RE) == 0 ||
@@ -133,7 +135,9 @@ public enum WoundPosition {
 						p.compareTo(HAND_RE) == 0 || 
 						p.compareTo(HAND_LI) == 0 || 
 						p.compareTo(SCHULTER_RE) == 0 ||
-						p.compareTo(WADE_LI) == 0) {
+						p.compareTo(WADE_LI) == 0 ||
+						p.compareTo(GESICHT) == 0 ||
+						p.compareTo(SCHAEDELANSATZ) == 0) {
 					continue;
 				}
 				woundPositions[i++] = p;
@@ -143,7 +147,7 @@ public enum WoundPosition {
 
 	private static WoundPosition[] getMaleWoundPositions() { 
 		int i = 0;
-		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 9];
+		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 11];
 		for (WoundPosition p : WoundPosition.values()) {
 			// Not add Female enums
 				if(p.compareTo(OBERARM_RE_FEMALE) == 0 ||
@@ -154,7 +158,9 @@ public enum WoundPosition {
 						p.compareTo(HAND_RE_FEMALE) == 0 || 
 						p.compareTo(HAND_LI_FEMALE) == 0 || 
 						p.compareTo(SCHULTER_RE_FEMALE) == 0 ||
-						p.compareTo(WADE_LI_FEMALE) == 0) {
+						p.compareTo(WADE_LI_FEMALE) == 0 ||
+						p.compareTo(GESICHT_FEMALE) == 0 ||
+						p.compareTo(SCHAEDELANSATZ_FEMALE) == 0) {
 					continue;
 				}
 				woundPositions[i++] = p;

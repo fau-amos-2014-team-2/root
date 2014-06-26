@@ -9,9 +9,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import converter.BooleanToStringConverter;
-
-import converter.BooleanToStringConverter;
+import com.fau.amos.team2.WoundManagement.converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity

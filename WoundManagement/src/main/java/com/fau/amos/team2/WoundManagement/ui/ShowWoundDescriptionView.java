@@ -56,10 +56,6 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		mainLayout.setSizeFull();
-		
-		final NavigationButton uploadnewphoto = new NavigationButton("Foto hinzufuegen");
-		uploadnewphoto.setTargetView(new UploadPhotoView(this.woundDescription));
-		mainLayout.addComponent(uploadnewphoto);
 
 		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
 		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));

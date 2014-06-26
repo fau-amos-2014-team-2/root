@@ -85,6 +85,7 @@ public class ShowWoundPhotoView extends NavigationView {
 					"bufferedimage.png");
 			
 			Image myImage = new Image(null, resource);
+			myImage.setSizeFull();
 
 			Panel panel = new Panel();
 			Layout panelContent = new VerticalLayout();

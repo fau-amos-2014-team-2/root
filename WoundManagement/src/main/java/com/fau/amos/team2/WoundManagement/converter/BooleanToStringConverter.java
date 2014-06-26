@@ -1,4 +1,4 @@
-package converter;
+package com.fau.amos.team2.WoundManagement.converter;
 
 public class BooleanToStringConverter {
 
