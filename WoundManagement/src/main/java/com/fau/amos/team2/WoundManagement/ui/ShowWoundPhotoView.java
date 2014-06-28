@@ -74,9 +74,11 @@ public class ShowWoundPhotoView extends NavigationView {
 				}
 			}
 
+			/* not needed anymore, using Image-myImage instead
 			final Embedded image = new Embedded();
 			image.setVisible(false);
 			image.setMimeType("image/*");
+			 */
 
 			// Fixed: by using streamresources, the image is now shown
 			// without creating a file
