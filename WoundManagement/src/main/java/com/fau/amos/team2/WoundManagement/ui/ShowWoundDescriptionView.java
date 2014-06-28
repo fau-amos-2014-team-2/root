@@ -158,7 +158,8 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 		
 		Label beschreibung = new Label();
 		String description = (this.woundDescription.getDescription() == null)?(MessageResources.getString("noInformation")):(this.woundDescription.getDescription());
-		beschreibung.setCaption(description);
+	//	beschreibung.setCaption(description);
+		beschreibung.setValue(description);
 
 		mainLayout.addComponents(berichtBeschreibung, beschreibung);
 		
