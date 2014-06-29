@@ -8,7 +8,8 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @Title("Responsive Add-on Demo")
 @SuppressWarnings("serial")
 public class TestView extends SessionedNavigationView{

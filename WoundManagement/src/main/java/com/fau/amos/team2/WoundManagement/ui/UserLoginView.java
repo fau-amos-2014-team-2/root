@@ -30,7 +30,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @SuppressWarnings("serial")
 public class UserLoginView extends SessionedNavigationView {
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -58,6 +59,7 @@ public class UserLoginView extends SessionedNavigationView {
 	public UserLoginView() {
 		
 		HorizontalSplitPanel split = new HorizontalSplitPanel();
+		split.addStyleName("loginSplit");
 		setContent(split);
 		
 		split.setSplitPosition(50, Unit.PERCENTAGE);
@@ -101,12 +103,16 @@ public class UserLoginView extends SessionedNavigationView {
 		passwordInput.setBackListener(backListener);
 		passwordInput.setSizeFull();
 		passwordInput.setWidth("100%");
+		passwordInput.addStyleName("nmrcField");
+		
 		
 		new Responsive(passwordInput);
 		
 		right.addComponent(passwordInput);
 		
 		Panel userList = new Panel();
+		userList.setSizeFull();
+		userList.setHeight("100%");
 		left.addComponent(userList);
 
 		List<Employee> employees = employeeProvider.getAllItems();

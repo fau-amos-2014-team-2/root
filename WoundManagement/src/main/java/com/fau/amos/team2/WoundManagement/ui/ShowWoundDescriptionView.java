@@ -24,7 +24,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Notification;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
 public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
@@ -40,20 +41,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 	private final NavigationButton showwoundphoto;
 	
 	public ShowWoundDescriptionView(WoundDescription woundDescription) {
-		
-		// ResizeListener
-		UI.getCurrent().setImmediate(true);
-		UI.getCurrent().setResizeLazy(true);
-		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void browserWindowResized(BrowserWindowResizeEvent event) {
-				getEnvironment().setOrientation();
-				UI.getCurrent().requestRepaint();
-				//Page.getCurrent().reload();
-			}
-		});
-		
+
 		setRightComponent(new UserBar(this));
 		this.woundDescription = woundDescription;
 
@@ -69,10 +57,6 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		mainLayout.setSizeFull();
-		
-		final NavigationButton uploadnewphoto = new NavigationButton("Foto hinzufuegen");
-		uploadnewphoto.setTargetView(new UploadPhotoView(this.woundDescription));
-		mainLayout.addComponent(uploadnewphoto);
 
 		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
 		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));
@@ -92,7 +76,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 		
 		mainLayout.addComponent(greetingandDate);
 
-		HorizontalLayout groesen =new HorizontalLayout();
+		HorizontalLayout groesen = new HorizontalLayout();
 		if (this.woundDescription.getSize2() ==0){
 			//getSize2 equal to zero means that size 1 has to be interpreted as diameter/durchmesser & size2 is not relevant
 			Label diameter=new Label();
@@ -175,7 +159,8 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 		
 		Label beschreibung = new Label();
 		String description = (this.woundDescription.getDescription() == null)?(MessageResources.getString("noInformation")):(this.woundDescription.getDescription());
-		beschreibung.setCaption(description);
+	//	beschreibung.setCaption(description);
+		beschreibung.setValue(description);
 
 		mainLayout.addComponents(berichtBeschreibung, beschreibung);
 		

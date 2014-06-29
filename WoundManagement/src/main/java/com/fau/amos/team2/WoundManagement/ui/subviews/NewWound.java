@@ -18,6 +18,7 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
+import com.vaadin.annotations.Theme;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -30,6 +31,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
+@Theme("touchkit")
 @SuppressWarnings("serial")
 public class NewWound extends FormLayout {
 
@@ -113,21 +115,21 @@ public class NewWound extends FormLayout {
 		
 		//NumberField - height of wound
 		final NumberField size1 = new NumberField(MessageResources.getString("height") + " (mm):"); //$NON-NLS-1$
-		size1.setValue("0"); //$NON-NLS-1$
+		//size1.setValue("0"); //$NON-NLS-1$
 		size1.setInvalidAllowed(false);
 		size1.setWidth(width);
 		addComponent(size1);
 		
 		//NumberField - width of wound
 		final NumberField size2 = new NumberField(MessageResources.getString("width") + " (mm):"); //$NON-NLS-1$
-		size2.setValue("0"); //$NON-NLS-1$
+		//size2.setValue("0"); //$NON-NLS-1$
 		size2.setInvalidAllowed(false);
 		size2.setWidth(width);
 		addComponent(size2);
 		
 		//NumberField - depth of wound
 		final NumberField depth = new NumberField(MessageResources.getString("depth") + " (mm):"); //$NON-NLS-1$
-		depth.setValue("0"); //$NON-NLS-1$
+		//depth.setValue("0"); //$NON-NLS-1$
 		depth.setInvalidAllowed(false);
 		depth.setWidth(width);
 		addComponent(depth);

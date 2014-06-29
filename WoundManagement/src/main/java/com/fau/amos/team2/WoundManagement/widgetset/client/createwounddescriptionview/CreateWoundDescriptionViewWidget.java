@@ -1,9 +1,12 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview;
 
 import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -16,13 +19,16 @@ import com.vaadin.addon.touchkit.gwt.client.ui.VNavigationBar;
 import com.vaadin.addon.touchkit.gwt.client.ui.VNavigationView;
 import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.ui.VCssLayout;
+import com.vaadin.client.ui.VImage;
+import com.vaadin.client.ui.VNotification;
 import com.vaadin.client.ui.VOverlay;
+import com.vaadin.client.ui.VVerticalLayout;
+import com.vaadin.shared.Position;
 
 public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		OfflineMode, CreateWoundDescriptionViewModuleListener, RepeatingCommand {
 	
 	private CreateWoundDescriptionViewWidgetListener listener;
-	private InformationLayout informationLayout;
 	private VCssLayout offlineOnlineIndicator;
 	private Label onlineStatusLabel;
 	private Anchor reconnectLabel;
@@ -45,9 +51,22 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
         getElement().getStyle().setHeight(100, Unit.PCT);
         getElement().getFirstChildElement().getStyle().setHeight(100, Unit.PCT);
 		
-		woundDescriptionUpdated(new WoundDescription(), false, true);
+		// woundDescriptionUpdated(new WoundDescription(), false, true);
+		
+		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			
+			@Override
+			public void onUncaughtException(Throwable e) {
+				consoleLog(e.getMessage());
+			}
+		});
+		
 		Scheduler.get().scheduleFixedPeriod(this, 1000);
 	}
+	
+	native void consoleLog(String message) /*-{
+	    console.log( "me:" + message );
+	}-*/;
 	
 	private Widget buildContentView() {
 		VNavigationView contentView = new VNavigationView();
@@ -59,7 +78,8 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		
 		contentView.setNavigationBar(navigationBar);
 		
-		FlowPanel panel = new FlowPanel();
+		VVerticalLayout panel = new VVerticalLayout();
+		panel.setWidth("100%");
 		panel.setStyleName("v-csslayout-margin-left v-csslayout-margin-right");
 		
 		offlineOnlineIndicator = new VCssLayout();
@@ -68,6 +88,14 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		VCssLayout indicatorWrapper = new VCssLayout();
 		indicatorWrapper.setWidth("100%");
 		
+		Resources resources = GWT.create(Resources.class);
+		
+		VImage image = new VImage();
+		image.setAltText("Conection offline");
+		image.setResource(resources.offline());
+		
+		panel.add(image);
+		
 		onlineStatusLabel = new Label("Connection offline");
         indicatorWrapper.add(onlineStatusLabel);
         reconnectLabel = new Anchor("Reconnect", Window.Location.getHref());
@@ -75,26 +103,9 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
         indicatorWrapper.add(reconnectLabel);
         offlineOnlineIndicator.add(indicatorWrapper);
         panel.add(offlineOnlineIndicator);
-        // informationLayout = new InformationLayout(this);
-        // panel.add(buildSectionWrapper(informationLayout, "Information", "informationlayout"));
-        // photoLayout = new PhotoLayout(this);
-        // panel.add(buildSectionWrapper(photoLayout, "Photo", "photolayout"));
-        // panel.add(buildNotesLayout());
+        
         contentView.setContent(panel);
         return contentView;
-	}
-	
-	private Widget buildSectionWrapper(final Widget content, final String captionString, final String styleName) {
-		VCssLayout layout = new VCssLayout();
-		layout.addStyleName(styleName);
-		
-		Label caption = new Label(captionString);
-		caption.addStyleName("sectioncaption");
-		layout.add(caption);
-		
-		layout.add(content);
-		
-		return layout;
 	}
 
 	@Override
@@ -103,6 +114,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 			// offline -> online
 			offlineOnlineIndicator.addStyleName("connection");
 			reconnectLabel.setVisible(true);
+			Window.Location.reload();
 			onlineStatusLabel.setText("Connection available");
 		}
 		else if (!isNetworkOnline()) {
@@ -110,6 +122,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 			listener = null;
 			refreshOnSave = true;
 		}
+		
 		return true;
 	}
 	
@@ -119,28 +132,10 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 	}-*/;
 
 	@Override
-	public void fieldsChanged() {
-		if (validateFields) {
-			validateFields();
-		}
-		
+	public void fieldsChanged() {	
 		if (isNetworkOnline() && listener != null) {
 			listener.updateState(getWoundDescription());
 		}
-	}
-	
-	private boolean validateFields() {
-		resetValidations();
-		
-		boolean valid = true;
-		if (!informationLayout.validateFields()) {
-			valid = false;
-		}
-		return valid;
-	}
-	
-	private void resetValidations() {
-		informationLayout.resetValidations();
 	}
 	
 	private WoundDescription getWoundDescription() {
@@ -154,6 +149,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 
 	@Override
 	public boolean deactivate() {
+		VNotification.createNotification(0, this).show("init", Position.MIDDLE_CENTER, "deActive");
 		return false;
 	}
 
@@ -166,23 +162,6 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		this.listener = listener;
 		setWidget(contentView);
 		offlineOnlineIndicator.setVisible(false);
-	}
-	
-	public final void woundDescriptionUpdated(final WoundDescription woundDescription, final boolean skipStateChange, final boolean initialize) {
-		final CreateWoundDescriptionViewWidgetListener listener = this.listener;
-		this.listener = null;
-		
-		informationLayout.woundDescriptionUpdated(woundDescription);
-		
-		// TODO: Indicator and stuff…		
-		
-		this.listener = listener;
-		
-		if (!skipStateChange) {
-			fieldsChanged();
-		}
-		
-		// TODO: Set save button enabled true (?)
 	}
 
 	public interface CreateWoundDescriptionViewWidgetListener {

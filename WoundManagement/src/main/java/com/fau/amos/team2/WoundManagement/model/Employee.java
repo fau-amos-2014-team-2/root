@@ -8,11 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-import converter.BooleanToStringConverter;
+import com.fau.amos.team2.WoundManagement.converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "MITAPE07")
 @NamedQueries({
 	@NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e"),
 	@NamedQuery(name="Employee.deleteAll", query="DELETE FROM Employee"),
@@ -23,30 +25,30 @@ import converter.BooleanToStringConverter;
 })
 public class Employee implements BusinessObject {
 	@Id
-	@Column(name = "NR")
+	@Column(name = "NR", nullable=false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column(name = "KENMDT07_NR")
+	@Column(name = "KENMDT07_NR", nullable=false)
 	private int sensoID;
 	
-	@Column(name = "SUCHBEZ", nullable=false)
-	private String keyword;
+	@Column(name = "SUCHBEZ", nullable=false, length=30)
+	private String keyword;//30
 	
-	@Column(name = "NAME")
-	private String lastName;
+	@Column(name = "NAME", length=30)
+	private String lastName;//30
 	
-	@Column(name = "VORNAME")
-	private String firstName;
+	@Column(name = "VORNAME", length=30)
+	private String firstName;//30
 	
-	@Column(name = "KUERZL")
-	private String abbreviation;
+	@Column(name = "KUERZL", length=5)
+	private String abbreviation;//5
 	
 	@Column(name = "QUALNR")
 	private int qualificationNumber;
 	
-	@Column(name = "PDACODE")
-	private String pdaCode;
+	@Column(name = "PDACODE", length=12)
+	private String pdaCode;//12
 	
 	@Column(name = "GLKONTR", nullable=false, length=1)
 	private String accumulativeAck;
@@ -54,8 +56,8 @@ public class Employee implements BusinessObject {
 	@Column(name = "SAMMQUIT_M", nullable=false, length=1)
 	private String collectiveAccMedication;
 	
-	@Column(name = "GESCHLECHT")
-	private String gender;
+	@Column(name = "GESCHLECHT", length=100)
+	private String gender;//100
 	
 	@JoinColumn(name = "DERZSTATION", referencedColumnName="NR")
 	private Ward currentWard;
@@ -65,19 +67,22 @@ public class Employee implements BusinessObject {
 	
 	public Employee() {
 		keyword = "key";
+		this.sensoID =1;
+
 		setAccumulativeAckType(AccumulativeAckType.NOT_ALLOWED);
 		setCollectiveAccMedicationAllowed(false);
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setID(long id) {
+	public void setID(int id) {
+
 		this.id = id;
 	}
 
-	public int getSensoKennung() {
+	public int getSensoID() {
 		return sensoID;
 	}
 

@@ -39,6 +39,7 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 	private WoundPosition selectedWoundPosition;
 	private Map<WoundPosition, Image> markedWounds = new HashMap<WoundPosition, Image>();
 
+	private Sex sex;
 	private Boolean existingWoundSelected = false;
 	private float scaleFactor = 1;
 	
@@ -48,11 +49,12 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 		Image backgroundImage;
 		
-		/* if (sex == Sex.FEMALE)
+		this.sex = (sex != null) ? sex : Sex.NEUTER;
+		if (sex == Sex.FEMALE)
 			backgroundImage = getImage(BODY_IMAGE_FEMALE);
 		else if (sex == Sex.MALE)
 			backgroundImage = getImage(BODY_IMAGE_MALE);
-		else */
+		else 
 			backgroundImage = getImage(BODY_IMAGE);
 
 		backgroundImage.addClickListener(this);
@@ -110,12 +112,14 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		int yPosition = event.getRelativeY();
 
 		// Uncomment the following line so show clicked position coordinates.
-		//Notification.show("X " + xPosition + " Y " + yPosition);
+		//com.vaadin.ui.Notification.show("X " + xPosition + " Y " + yPosition);
 
 		// Get the wound at this position
 		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(
 				(int) Math.round(xPosition/scaleFactor),
 				(int) Math.round(yPosition/scaleFactor));
+		
+		//com.vaadin.ui.Notification.show(woundPosition.getBodyLocation().toFullString());
 		
 		setSelectedWoundPosition(woundPosition);
 	}
@@ -133,7 +137,7 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 	private void refreshSelectedWound() {
 		if (selectedWoundPosition != null && existingWoundSelected) {
-			// Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
+			//com.vaadin.ui.Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
 
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
 			float correctedXPos = (float) scaleFactor*(selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2));
@@ -227,5 +231,9 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 
 		selectionIndicator.setVisible(true);
 		setPosition(selectionIndicator, newPosition);
+	}
+	
+	public Sex getSex() {
+		return this.sex;
 	}
 }

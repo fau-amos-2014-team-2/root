@@ -7,7 +7,9 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.annotations.Theme;
 
+@Theme("touchkit")
 public class NumericButtonField extends GridLayout {
 
 	private static final long serialVersionUID = 3620326775088580922L;
@@ -21,7 +23,7 @@ public class NumericButtonField extends GridLayout {
 		super(3, 4);
 		
 		setWidth("95%");
-		setHeight("80%");
+		setHeight("100%");
 		
 		addStyleName("nmrcField");
 		
@@ -46,6 +48,8 @@ public class NumericButtonField extends GridLayout {
 		Button zeroButton = new Button("0", this.numericButtonListener);
 		zeroButton.setData(0);
 		zeroButton.setWidth("95%");
+		zeroButton.setHeight("100%");
+		zeroButton.addStyleName("nmrcButton");
 		addComponent(zeroButton, 1, 3);
 		setComponentAlignment(zeroButton, Alignment.MIDDLE_CENTER);
 
@@ -57,6 +61,8 @@ public class NumericButtonField extends GridLayout {
 				Button numericButton = new Button("" + numericValue, numericButtonListener);
 				numericButton.setData(numericValue);
 				numericButton.setWidth("95%");
+				numericButton.setWidth("100%");
+				numericButton.addStyleName("nmrcButton");
 
 				addComponent(numericButton, j, i);
 				setComponentAlignment(numericButton, Alignment.MIDDLE_CENTER);
@@ -75,6 +81,8 @@ public class NumericButtonField extends GridLayout {
 	private void addClearButton() {
 		Button clearButton = new Button(MessageResources.getString("numericFieldClearBtn"), clearButtonListener);
 		clearButton.setWidth("95%");
+		clearButton.setHeight("100%");
+		clearButton.addStyleName("nmrcButton");
 		addComponent(clearButton, 0, 3);
 		setComponentAlignment(clearButton, Alignment.MIDDLE_CENTER);
 	}
@@ -96,7 +104,9 @@ public class NumericButtonField extends GridLayout {
 	private void addEnterButton() {
 		
 		enterButton = new Button(MessageResources.getString("numericFieldEnterBtn"));
-		enterButton.setWidth("95%");
+		enterButton.setWidth("95%");		
+		enterButton.setHeight("100%");
+		enterButton.addStyleName("nmrcButton");
 		addComponent(enterButton, 2, 3);
 		setComponentAlignment(enterButton, Alignment.MIDDLE_CENTER);
 	}

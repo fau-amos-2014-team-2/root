@@ -9,7 +9,8 @@ import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 //import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.annotations.Theme;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 public class StartMenuView extends SessionedNavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
@@ -25,7 +26,7 @@ public class StartMenuView extends SessionedNavigationView {
 	
 	@SuppressWarnings("serial")
 	public StartMenuView() {
-		
+
 		setCaption(MessageResources.getString("mainMenu")); //$NON-NLS-1$
 
 		final VerticalComponentGroup content = new VerticalComponentGroup();

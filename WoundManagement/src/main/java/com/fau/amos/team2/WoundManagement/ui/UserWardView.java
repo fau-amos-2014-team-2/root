@@ -21,7 +21,8 @@ import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
 public class UserWardView extends SessionedPopover {

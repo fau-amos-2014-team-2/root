@@ -1,287 +1,147 @@
-	.v-ui {
-		background: blue;
-	}
-	
-	.v-label {
-		background: black;
-		color: white;
-		font-size: 16px;
-		padding: 5px;
-	}
+.grid {
+overflow: visible;
+}
 
-	// Fix so that the item outlines are shown
-	.grid {
-		overflow: visible;
-	}
+// Style the items in the grid
+.grid > .v-label {
+outline: 1px dotted rgba(0,0,0,.3);
+text-align: center;
+padding: 2em 0;
+font-size: 16px;
+font-weight: bold;
+}
 
-	// Style the items in the grid
-	.grid > .v-label {
-	  outline: 1px dotted rgba(0,0,0,.3);
-	  text-align: center;
-	  padding: 2em 0;
-	  font-size: 16px;
-	  font-weight: bold;
-	}
+// We want the items in the grid to stay between 100px and 200px, if possible
+.grid[width-range~="0-200px"] .v-label {width: 100%;}
+.grid[width-range~="201px-400px"] > .v-label {width: 50%;}
+.grid[width-range~="401px-600px"] > .v-label {width: 33.3333%;}
+.grid[width-range~="601px-800px"] > .v-label {width: 25%;}  
+.grid[width-range~="801px-1000px"] > .v-label {width: 20%;}
+.grid[width-range~="1001px-"] > .v-label {width: 16.6667%;}
 
-	// We want the items in the grid to stay between 100px and 200px, if possible
-	.grid[width-range~="0-200px"] .v-label {width: 100%;}
-	.grid[width-range~="201px-400px"] > .v-label {width: 50%;}
- 	.grid[width-range~="401px-600px"] > .v-label {width: 33.3333%;}
-  	.grid[width-range~="601px-800px"] > .v-label {width: 25%;}  
-  	.grid[width-range~="801px-1000px"] > .v-label {width: 20%;}
-  	.grid[width-range~="1001px-"] > .v-label {width: 16.6667%;}
-  	
-	.nmrcField {overflow: visible;}
+.v-csslayout {}
+.v-csslayout-margin {}
 
-	.nmrcField > .v-label {
-	  outline: 2px dotted rgba(0,0,0,.3);
-	  text-align: center;
-	  padding: 2em 0;
-	  font-size: 16px;
-	  font-weight: bold;
-	  margin-bottom: 1em;
-	}
+.v-csslayout-container {
+outline: 1px dotted rgba(0,0,0,.3);
+padding: 2em 0;
+}
 
-	// We want the items in the numericButtonField to stay between 100px and 200px, if possible
-	.nmrcField[width-range~="0-200px"] .v-label {width: 100%;}
-	.nmrcField[width-range~="201px-400px"] > .v-label {width: 50%;}
- 	.nmrcField[width-range~="401px-600px"] > .v-label {width: 33.3333%;}
-  	.nmrcField[width-range~="601px-800px"] > .v-label {width: 25%;}  
-  	.nmrcField[width-range~="801px-1000px"] > .v-label {width: 20%;}
-  	.grnmrcFieldid[width-range~="1001px-"] > .v-label {width: 16.6667%;}
-  
-	.description {
-	    // These will auto-adjust according to the font-size
-		padding: 1em;
-		line-height: 1.5;
-		&[width-range="0-100px"] {font-size: 10px;}
-		&[width-range="101px-200px"] {font-size: 12px;}
-		&[width-range="200px-350px"] {font-size: 14px;}
-		&[width-range="351px-500px"] {font-size: 18px;}
-		&[width-range="501px-700px"] {font-size: 24px;}
-		&[width-range="701px-"] {font-size: 30px;}    
-	}
-	
-	.fieldsandbutton {
-		border: solid 3px #000000;
-		padding: 1em;
-		width: 50%;
-		float: left;
-	}
-	
-	.ListBox {
-		background: #000000;
-		border: solid 3px #00ff00;
-  		list-style: none;
-  		margin: 2;
-  		padding: 0 0 8px 0;
-  		overflow: auto;
-  		width: 158px;
-	}
+.checkboxHoriz {
+position: absolute;
+height: 10%;
+width: 45%;
+left: 30px;
+top: 20px;
+}
 
-	.ListContent {
-  		background: #048;
-  		color: white;
-  		display: inline; /* IE doubled float-margin bug */
-  		float: left;
-  		font: bold 32px Arial, sans-serif;
-  		margin: 8px 0 0 8px;
-  		padding: 0;
-  		text-align: center;
-  		width: 42px;
-	}
-	
-	.textVisible {
-  		background: black;
-  		font-color: white;
-  		font-family: "Helvetica Neue", Arial, sans-serif;
-  		font-weight: 300;
-  		font-size: 24px;
-	}
-	
-	.textInvisible {
-  		background: white;
-  		font-color: white;
-  		font-family: "Helvetica Neue", Arial, sans-serif;
-  		font-weight: 300;
-  		font-size: 24px;
-	}
+.v-csslayout-container-checkboxHoriz {
+position: absolute;
+height: 10%;
+width: 45%;
+left: 30px;
+top: 20px;
+}
 
-	.panel {
-		height: 100%;
-	}
-	
-	.panel[width-range~="0-800px"] .v-label {width: 100%;} 
-	.panel[width-range~="801px-"] > .v-label {width: 75%;}
-	.panel[height-range~="0-100px"]  > .v-label {width: 33.3333%;}
-	
-	.chsOptnGrp {
-		padding: 2em 0;
-	}
-	.chsOptnGrp > .v-label {
-		outline: 2px dotted rgba(0,0,0,.3);
-		text-align: center;
-		padding: 2em 0;
-		font-size: 16px;
-		font-weight: bold;
-		margin-bottom: 1em;
-	}
-	
-	.chsOptnGrp[width-range~="0-800px"] .v-label {width: 100%;}
-	.chsOptnGrp[width-range~="801px-1000px"] > .v-label {width: 75%;}
- 	.chsOptnGrp[width-range~="10001px-"]  > .v-label {width: 33.3333%;}
+.v-checkbox-label-checkboxHoriz {
+position: absolute;
+height: 10%;
+width: 45%;
+left: 30px;
+top: 20px;
+}
 
-	.table {
-		padding: 1em;
-		line-height: 1.5;
-		&[width-range~="0-800px"] {font-size: 12px;}
-		&[width-range~="801px-1000px"] {font-size: 18px;}
- 		&[width-range~="10001px-"] {font-size: 30px;}    
-	}
-	
-	.table > .v-label {
-		outline: 2px dotted rgba(0,0,0,.3);
-		text-align: center;
-		padding: 2em 0;
-		font-size: 16px;
-		font-weight: bold;
-		margin-bottom: 1em;
-	}
-	
-	.table[width-range~="0-800px"] .v-label {width: 100%;}
-	.table[width-range~="801px-1000px"] > .v-label {width: 75%;}
- 	.table[width-range~="10001px-"]  > .v-label {width: 33.3333%;}
- 	
- 	.userBarUserAndWardPanel {}
- 	
- 	.usernameLabel {
- 		font-color: white;
- 		font-weight: bold;
- 		background: #191970;
- 	}
- 	
- 	.wardLabel {
- 		font-color: white;
- 		font-weight: bold;
- 		font-style: italic;
- 		background: #008080;
- 	}
- 	
- 	.userBar {
- 		background: #6495ED !important;
- 		padding: 1em;
-		line-height: 1;
-		border: 3px solid #1E90FF;
- 	}
- 	
- 	.userBar > .v-label {
-		outline: 1px dotted rgba(0,0,0,.3);
-		text-align: center;
-		padding: 2em 0;
-		font-size: 15px;
-		font-weight: bold; 
- 	}
- 	.userBar[width-range~="0-800px"] .v-label {width: 100%;}
-	.userBar[width-range~="801px-1000px"] > .v-label {width: 75%;}
- 	.userBar[width-range~="10001px-"]  > .v-label {width: 33.3333%;}
- 	
- 	.userBarChangeWardButton > .v-label {
-		outline: 1px dotted rgba(0,0,0,.3);
-		text-align: center;
-		padding: 2em 0;
-		font-size: 15px;
-		font-weight: bold; 
- 	}
- 	.userBarChangeWardButton[width-range~="0-800px"] .v-label {width: 100%;}
-	.userBarChangeWardButton[width-range~="801px-1000px"] > .v-label {width: 75%;}
- 	.userBarChangeWardButton[width-range~="10001px-"]   > .v-label {width: 33.3333%;}
- 	
- 	.userBarChangePwdButton > .v-label {
-		outline: 1px dotted rgba(0,0,0,.3);
-		text-align: center;
-		padding: 2em 0;
-		font-size: 15px;
-		font-weight: bold; 
- 	}
- 	.userBarChangePwdButton[width-range~="0-800px"] .v-label {width: 100%;}
-	.userBarChangePwdButton[width-range~="801px-1000px"] > .v-label {width: 75%;}
- 	.userBarChangePwdButton[width-range~="10001px-"]  > .v-label {width: 33.3333%;}
- 	
- 	 .userBarLogoutButton > .v-label {
-		outline: 1px dotted rgba(0,0,0,.3);
-		text-align: center;
-		padding: 2em 0;
-		font-size: 30px;
-		font-weight: bold; 
-	}
- 	.userBarLogoutButton[width-range~="0-800px"] .v-label {width: 100%;}
-	.userBarLogoutButton[width-range~="801px-1000px"] > .v-label {width: 75%;}
- 	.userBarLogoutButton[width-range~="10001px-"] > .v-label {width: 33.3333%;} 
- 	
- 	.spacingLabel {
- 		padding: 1em;
- 		width: 250px;
- 		height: 1px;
- 	}
- 	
- 	@media screen and (orientation: portrait) {
- 		.patViewRightContent {
- 			padding: 1em;
- 			float: bottom; 
- 			position: absolute;
- 			bottom: 0px;
- 		}
- 	}
- 	
- 	@media screen and (orientation: landscape) {
- 		.patViewRightContent {
- 			padding: 1em;
- 			float: right; 
- 			position: absolute;
- 			right: 0px;
- 		}
- 	}
+.wndMngHoriz {
+position: absolute;
+height: 90%;
+width: 45%;
+left: 10px;
+bottom: 10px;
+}
 
- 	.greetingdate {width: 20em; padding: 5px; }
- 	.greetingdate.[width-range~="0px-800px"] {float: top;}
- 	.greetingdate.[width-range~="801px-"] {float: left;}
- 	
- 	.erstellerLabel {width: 20em; padding: 5px; }
- 	.erstellerLabel.[width-range~="0px-800px"] {float: top;}
- 	.erstellerLabel.[width-range~="801px-"] {float: left;}
- 	
- 	.recorded {width: 20em; padding: 5px; }
- 	.recorded.[width-range~="0px-800px"] {float: top;}
- 	.recorded.[width-range~="801px-"] {float: left;}
+.v-csslayout-container-wndMngHoriz {
+position: absolute;
+height: 90%;
+width: 45%;
+left: 10px;
+bottom: 10px;
+}
 
- 	.taschen {width: 20em; padding: 5px; }
- 	.taschen.[width-range~="0px-800px"] {float: top;}
- 	.taschen.[width-range~="801px-"] {float: left;}
- 	
- 	.bagLocation {width: 20em; padding: 5px; }
- 	.bagLocation.[width-range~="0px-800px"] {float: top;}
- 	.bagLocation.[width-range~="801px-"] {float: left;}
- 	
- 	.bagDirection {width: 20em; padding: 5px; }
- 	.bagDirection.[width-range~="0px-800px"] {float: top;}
- 	.bagDirection.[width-range~="801px-"] {float: left;}
- 	
- 	.size1 {width: 20em; padding: 5px; }
- 	.size1.[width-range~="0px-800px"] {float: top;}
- 	.size1.[width-range~="801px-"] {float: left;}
- 	
- 	.size2 {width: 20em; padding: 5px; }
- 	.size2.[width-range~="0px-800px"] {float: top;}
- 	.size2.[width-range~="801px-"] {float: left;}
- 	
- 	.depth {width: 20em; padding: 5px; }
- 	.depth.[width-range~="0px-800px"] {float: top;}
- 	.depth.[width-range~="801px-"] {float: left;}
- 	
- 	.type {width: 20em; padding: 5px; }
- 	.type.[width-range~="0px-800px"] {float: top;}
- 	.type.[width-range~="801px-"] {float: left;}
- 	
- 	.level {width: 20em; padding: 5px; }
- 	.level.[width-range~="0px-800px"] {float: top;}
- 	.level.[width-range~="801px-"] {float: left;}
+.wndContHoriz {
+position: absolute;
+height: 100%;
+width: 45%;
+right: 30px;
+top: 20px;
+bottom: 20px;
+}
+
+.v-csslayout-container-wndContHoriz {
+position: absolute;
+height: 100%;
+width: 45%;
+right: 30px;
+top: 20px;
+bottom: 20px;
+}
+
+.v-layout .v-formlayout .v-widget .v-formlayout-wndContHoriz {
+position: absolute;
+height: 100%;
+width: 45%;
+right: 30px;
+top: 20px;
+bottom: 20px;
+}
+
+.checkboxVert {
+position: absolute;
+height: 5%;
+width: 90%;
+left: 10px;
+right: 10px;
+top: 10px;
+}
+
+.v-csslayout-container-checkboxVert {
+position: absolute;
+height: 5%;
+width: 90%;
+left: 10px;
+right: 10px;
+top: 10px;
+}
+
+.wndMngVert {
+position: static;
+height: 25%;
+width: 90%;
+left: 10px;
+right: 10px;
+}
+
+.v-csslayout-container-wndMngVert {
+position: static;
+height: 25%;
+width: 90%;
+left: 10px;
+right: 10px;
+}
+
+.wndContVert {
+position: absolute;
+height: 70%;
+width: 90%;
+left: 10px;
+right: 10px;
+bottom: 10px;
+}
+
+.v-csslayout-container-wndContVert {
+position: absolute;
+height: 70%;
+width: 90%;
+left: 10px;
+right: 10px;
+bottom: 10px;
+}

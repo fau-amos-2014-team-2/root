@@ -11,6 +11,7 @@ import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
 import com.fau.amos.team2.WoundManagement.ui.WoundDescriptionListView;
+import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -20,6 +21,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+@Theme("touchkit")
 public class ExistingWound extends VerticalLayout {
 	private static final long serialVersionUID = 4222621457384471453L;
 	

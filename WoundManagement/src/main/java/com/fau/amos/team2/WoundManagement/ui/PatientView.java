@@ -20,13 +20,17 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout.AlignmentHandler;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.GridLayout;
 
 @PreserveOnRefresh
+//@Theme("touchkit")
 @Theme("wm-responsive")
 public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener, WardChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
@@ -36,8 +40,8 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	
 	private boolean showCurrentWoundsOnly;
 	
-	VerticalLayout rightContent = new VerticalLayout();
-	VerticalLayout rightContent2;
+	VerticalLayout woundContent = new VerticalLayout();
+	//VerticalLayout rightContent2;
 	
 	public PatientView(Patient patient) {
 		this(patient, true);
@@ -49,76 +53,89 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		this.currentPatient = patient;
 		this.showCurrentWoundsOnly = showCurrentWoundsOnly;
 		
-		UserBar userBar = new UserBar(this);
+		setRightComponent(new UserBar(this));
+		
+		/*UserBar userBar = new UserBar(this);
 		userBar.addStyleName("userBar");
-		userBar.setWidth("100%");		
+		userBar.setWidth("100%");*/		
+		
+		final CssLayout contentLayout = new CssLayout();
+		//contentLayout.addStyleName("grid");
+		contentLayout.setSizeFull();
 		
 		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 
-		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
-		showOnlyCurrentWoundsSwitch.setValue(getBoolShowCurrentWoundsOnly());
+		final CheckBox showOnlyCurrentWoundsSwitch = new CheckBox(MessageResources.getString("showHealedWounds"));
+		showOnlyCurrentWoundsSwitch.setValue(!getBoolShowCurrentWoundsOnly());
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				setBoolShowCurrentWoundsOnly(showOnlyCurrentWoundsSwitch.getValue());
+				setBoolShowCurrentWoundsOnly(!showOnlyCurrentWoundsSwitch.getValue());
 				getNavigationManager().navigateTo(
 					new PatientView(currentPatient, getBoolShowCurrentWoundsOnly()));
 			}
-			
+
 		});
+		showOnlyCurrentWoundsSwitch.setHeight("10%");
 		showOnlyCurrentWoundsSwitch.setImmediate(true);
 		
 		createWoundManager();
 		
-		Label spacing = new Label("");
-		spacing.addStyleName("spacingLabel");
+		//Label spacing = new Label("");
+		//spacing.addStyleName("spacingLabel");
+		//final VerticalLayout switchAndPic = new VerticalLayout();
+		// addComponents(...spacing...)
+		//switchAndPic.addComponents(showOnlyCurrentWoundsSwitch,woundManager.getWoundSelector());
+		//contentLayout.addComponent(switchAndPic);
 		
-		final GridLayout content = new GridLayout(3, 4);
-		content.addStyleName("grid");
-		content.addComponent(userBar, 0, 0, 2, 0);
+		contentLayout.addComponent(showOnlyCurrentWoundsSwitch);
+		contentLayout.addComponent(woundManager.getWoundSelector());
+		contentLayout.addComponent(woundContent);
 		
-		final VerticalLayout switchSpacePic = new VerticalLayout();
-		switchSpacePic.addComponents(showOnlyCurrentWoundsSwitch, 
-					spacing, woundManager.getWoundSelector());
-		content.addComponent(switchSpacePic, 0, 1, 0, 3);
-		
-		int wdth = UI.getCurrent().getPage().getBrowserWindowWidth();  
-		int hght = UI.getCurrent().getPage().getBrowserWindowHeight();
-		
-		if (wdth > hght) {
-			content.addComponent(rightContent, 2, 2);
-		}else{
-			switchSpacePic.addComponent(rightContent);
-		}
+		setAlignment(showOnlyCurrentWoundsSwitch, woundManager, woundContent);
+
 		
 		Page.getCurrent().addBrowserWindowResizeListener(new Page.BrowserWindowResizeListener() {
 
 			@Override
 			public void browserWindowResized(BrowserWindowResizeEvent event) {
-				int width = UI.getCurrent().getPage().getBrowserWindowWidth();  
-				int height = UI.getCurrent().getPage().getBrowserWindowHeight();
-				if (width > height) {
-					switchSpacePic.removeComponent(rightContent);
-					content.addComponent(rightContent, 2, 2);
-					rightContent.addStyleName("patViewRightContent");
-					new Responsive(rightContent);
-				}else{
-					content.removeComponent(rightContent);
-					switchSpacePic.addComponent(rightContent);
-					rightContent.addStyleName("patViewRightContent");
-					new Responsive(rightContent);
-				}
-				
+
+				setAlignment(showOnlyCurrentWoundsSwitch, woundManager, woundContent);
 			}
 		});
-
-		new Responsive(switchSpacePic);
-		new Responsive(content);
 		
-		setContent(content);
+		new Responsive(contentLayout);
+		setContent(contentLayout);
 	}
 
-	
+	private void setAlignment(CheckBox showOnlyCurrentWoundsSwitch, WoundManager woundManager, VerticalLayout woundContent) {
+		
+		if(UI.getCurrent().getPage().getBrowserWindowWidth() 
+				> UI.getCurrent().getPage().getBrowserWindowHeight()){
+			
+			showOnlyCurrentWoundsSwitch.addStyleName("checkboxHoriz");
+			new Responsive(showOnlyCurrentWoundsSwitch);
+			
+			woundManager.getWoundSelector().addStyleName("wndMngHoriz");
+			new Responsive(woundManager.getWoundSelector());
+			
+			woundContent.addStyleName("wndContHoriz");
+			new Responsive(woundContent);
+			
+		}else{
+			
+			showOnlyCurrentWoundsSwitch.addStyleName("checkboxVert");
+			new Responsive(showOnlyCurrentWoundsSwitch);
+			
+			woundManager.getWoundSelector().addStyleName("wndMngVert");
+			new Responsive(woundManager.getWoundSelector());
+			
+			woundContent.addStyleName("wndContVert");
+			new Responsive(woundContent);
+			
+		}
+	}
+
 	private void createWoundManager() {
 		float heightFactor = (getEnvironment().getWindowHeight()-104)/513;
 		float widthFactor = getEnvironment().getWindowWidth()/600;
@@ -137,13 +154,13 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	@Override
 	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
 		Wound selectedWound = event.getWound();
-		rightContent.removeAllComponents();	
+		woundContent.removeAllComponents();	
 				
 		if (selectedWound != null) {
-			rightContent.addComponent(new ExistingWound(this, selectedWound));
+			woundContent.addComponent(new ExistingWound(this, selectedWound));
 		}
 		else if (event.getWoundPosition() != null) {
-			rightContent.addComponent(new NewWound(this, currentPatient, event.getWoundPosition().getBodyLocation()));
+			woundContent.addComponent(new NewWound(this, currentPatient, event.getWoundPosition().getBodyLocation()));
 		}
 	}
 	

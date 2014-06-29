@@ -20,7 +20,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @PreserveOnRefresh
 public class UserBar extends HorizontalLayout implements WardChangeListener{
 
@@ -30,6 +31,7 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 
 	@SuppressWarnings("serial")
 	public UserBar(final NavigationView currentView) {
+		
 		Employee currentEmployee = ((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentEmployee();
 
 		if (currentEmployee != null) {						
@@ -37,15 +39,42 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 
 			Label usernameLabel = new Label(currentEmployee.getFirstName()
 						+ " " + currentEmployee.getLastName());
-			usernameLabel.addStyleName("usernameLabel");
+			//usernameLabel.addStyleName("usernameLabel");
+			usernameLabel.setWidth("200");
 			userAndWardPanel.addComponent(usernameLabel);
 			
 			wardLabel = new Label(currentEmployee.getCurrentWard().getCharacterisation());
-			wardLabel.addStyleName("wardLabel");
+			//wardLabel.addStyleName("wardLabel");
+			wardLabel.setWidth("200");
 			userAndWardPanel.addComponent(wardLabel);
-			userAndWardPanel.addStyleName("userBarUserAndWardPanel");
+			//userAndWardPanel.addStyleName("userBarUserAndWardPanel");
 			new Responsive(userAndWardPanel);
 			addComponent(userAndWardPanel);
+
+			final Button changePwdButton = new Button(MessageResources.getString("PIN"));
+			changePwdButton.addClickListener(new ClickListener() {
+				
+				@Override
+				public void buttonClick(ClickEvent event) {
+					new UserPasswordView().showRelativeTo(changePwdButton);
+				}
+			});
+			//changePwdButton.addStyleName("userBarChangePwdButton");
+			new Responsive(changePwdButton);
+			addComponent(changePwdButton);
+					
+			final Button logoutButton = new Button(MessageResources.getString("logout"));
+			logoutButton.addClickListener(new ClickListener() {
+				
+				@Override
+				public void buttonClick(ClickEvent event) {
+					((WoundManagementUI)UI.getCurrent()).getEnvironment().logout();
+					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
+				}
+			});
+			//logoutButton.addStyleName("userBarLogoutButton");
+			new Responsive(logoutButton);
+			//addComponent(logoutButton);
 			
 			final Button changeWardButton = new Button(MessageResources.getString("changeWard"));
 			changeWardButton.addClickListener(new ClickListener() {
@@ -58,36 +87,23 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 					userWardView.showRelativeTo(changeWardButton);
 				}
 			});
-			changeWardButton.addStyleName("userBarChangeWardButton");
+			//changeWardButton.addStyleName("userBarChangeWardButton");
 			new Responsive(changeWardButton);
-			addComponent(changeWardButton);
-
-			final Button changePwdButton = new Button(MessageResources.getString("changePIN"));
-			changePwdButton.addClickListener(new ClickListener() {
+			
+			final Button settings = new Button(MessageResources.getString("settings"));
+			settings.addClickListener(new ClickListener() {
 				
 				@Override
 				public void buttonClick(ClickEvent event) {
-					new UserPasswordView().showRelativeTo(changePwdButton);
+					new Settings(logoutButton, changeWardButton).showRelativeTo(settings);
 				}
 			});
-			changePwdButton.addStyleName("userBarChangePwdButton");
-			new Responsive(changePwdButton);
-			addComponent(changePwdButton);
+			//changePwdButton.addStyleName("userBarChangePwdButton");
+			new Responsive(settings);
 			
-			final Button logoutButton = new Button(MessageResources.getString("logout"));
-			logoutButton.addClickListener(new ClickListener() {
-				
-				@Override
-				public void buttonClick(ClickEvent event) {
-					((WoundManagementUI)UI.getCurrent()).getEnvironment().logout();
-					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
-				}
-			});
-			logoutButton.addStyleName("userBarLogoutButton");
-			new Responsive(logoutButton);
-			addComponent(logoutButton);
+			addComponent(settings);
 			
-			this.setWidth("100%");;
+			this.setWidth("100%");
 
 		}
 	}

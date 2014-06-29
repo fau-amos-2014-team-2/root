@@ -29,8 +29,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Table.Align;
+import com.vaadin.ui.UI;
 
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
 public class PatientSelectionView extends SessionedNavigationView implements WardChangeListener{
@@ -50,13 +52,12 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 
 	public PatientSelectionView() 
 	{
-
 		setCaption(MessageResources.getString("patientSelection"));
 		Ward currentWard = getEnvironment().getCurrentEmployee().getCurrentWard();
 		
 		VerticalComponentGroup verticalGroup = new VerticalComponentGroup();
 		
-		verticalGroup.addComponent(new UserBar(this));
+		setRightComponent(new UserBar(this));
 		
 		new Responsive(verticalGroup);
 		

@@ -33,13 +33,15 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Widgetset("com.fau.amos.team2.WoundManagement.widgetset.WoundManagementWidgetset")
-//@Theme("touchkit")
-@Theme("wm-responsive")
+@Theme("touchkit")
+//@Theme("wm-responsive")
 @PreserveOnRefresh
 public class WoundManagementUI extends UI {
 	
 	private OfflineModeExtension offlineModeSettings;
+
 	private BeanItemContainer<WoundDescription> woundDescriptionContainer;
+
 	private WrappedSession session;
 	
 	public WrappedSession getMySession() {
@@ -74,6 +76,7 @@ public class WoundManagementUI extends UI {
 		// legacy...
 
 		// TODO: Check for second parameter "loadDescriptions"
+		
 		woundDescriptionContainer = new BeanItemContainer<WoundDescription>(WoundDescription.class);
 		
 		enableOfflineMode();

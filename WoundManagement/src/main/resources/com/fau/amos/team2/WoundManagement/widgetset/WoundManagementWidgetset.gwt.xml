@@ -22,6 +22,10 @@
 	
 	<inherits name="com.vaadin.addon.charts.Widgetset" />
 	
+<<<<<<< HEAD
+	<inherits name="com.vaadin.addon.responsive.ResponsiveWidgetSet" />
+=======
+>>>>>>> tilt-layout
 	
 	<inherits name="fi.jasoft.qrcode.QrcodeWidgetset" />
 	
