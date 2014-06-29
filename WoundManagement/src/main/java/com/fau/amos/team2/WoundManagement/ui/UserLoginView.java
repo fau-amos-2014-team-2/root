@@ -191,7 +191,7 @@ public class UserLoginView extends SessionedNavigationView {
 			System.out.println("CurrentUI is null");
 		}
 		else if (((WoundManagementUI)UI.getCurrent()).getMySession() == null)
-			System.out.println("myysession is null");
+			System.out.println("My session is null");
 		else if (getEnvironment() == null)
 			System.out.println("Environment is null, session id is " + ((WoundManagementUI)UI.getCurrent()).getMySession().getId());
 		else {

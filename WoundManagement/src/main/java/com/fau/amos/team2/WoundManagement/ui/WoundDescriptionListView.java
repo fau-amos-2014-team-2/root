@@ -35,14 +35,16 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 
 	private static final long serialVersionUID = 2998701886426658070L;
 
+	private Wound wound;
 	private Table table;
 	private List<WoundDescription> descriptions;
 	private WoundDescriptionProvider woundDescriptionProvider = WoundDescriptionProvider
 			.getInstance();
 
 	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
-	public WoundDescriptionListView(Wound wound) {
+	public WoundDescriptionListView() {
 
+		this.wound = getEnvironment().getCurrentWound();
 		Page.getCurrent().addBrowserWindowResizeListener(
 				new BrowserWindowResizeListener() {
 					@Override
@@ -211,15 +213,26 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 		mainLayout.addComponent(tablePanel);
 
 		setContent(mainLayout);
+		
+		Button backButton = new Button("< " + MessageResources.getString("patientView"));
+		backButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("patient");
+			}
+			
+		});
+		setLeftComponent(backButton);
 	}
 
-	@Override
-	public void onBecomingVisible() {
-		super.onBecomingVisible();
-//		PatientView patientView = new PatientView(patient, true);
-//		patientView.prepareSelectedWound(wound);
-//		getNavigationManager().setPreviousComponent(patientView);
-	}
+//	@Override
+//	public void onBecomingVisible() {
+//		super.onBecomingVisible();
+////		PatientView patientView = new PatientView(patient, true);
+////		patientView.prepareSelectedWound(wound);
+////		getNavigationManager().setPreviousComponent(patientView);
+//	}
 
 //	@Override
 //	public void wardChanged(WardChangeEvent event) {

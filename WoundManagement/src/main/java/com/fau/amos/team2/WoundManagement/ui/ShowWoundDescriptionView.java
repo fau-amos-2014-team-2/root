@@ -35,10 +35,10 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 //	private final NavigationButton showwoundphoto;
 	private final Button showWoundPhoto;
 	
-	public ShowWoundDescriptionView(WoundDescription woundDescription) {
+	public ShowWoundDescriptionView() {
 
 		setRightComponent(new UserBar(this));
-		this.woundDescription = woundDescription;
+		this.woundDescription = getEnvironment().getCurrentWoundDescription();
 
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		setCaption(MessageResources.getString("showWoundDescView"));
@@ -168,9 +168,21 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 
 		mainLayout.addComponents(berichtBeschreibung, beschreibung);
 		
-		
+		onBecomingVisible();
 		
 		setContent(mainLayout);
+		
+		Button backButton = new Button("< " + MessageResources.getString("woundDescriptionsHeader"));
+		backButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("woundDescriptions");
+			}
+			
+		});
+		
+		setLeftComponent(backButton);
 
 	}
 
@@ -183,7 +195,6 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 	//if there is no image yet, disable the navigation button, so that the user can not go to the 
 	//in this case useless- show image view
 public void onBecomingVisible() {
-		
 		if (woundDescription.getImage() == null) {			
 			showWoundPhoto.setVisible(false);
 		} else {

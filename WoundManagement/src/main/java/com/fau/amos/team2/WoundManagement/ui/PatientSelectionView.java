@@ -12,7 +12,6 @@ import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -47,7 +46,6 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 
 	public PatientSelectionView() 
 	{
-		System.out.println("New PatientSelectionView");
 		getEnvironment().setCurrentWound(null);
 		
 		setCaption(MessageResources.getString("patientSelection"));

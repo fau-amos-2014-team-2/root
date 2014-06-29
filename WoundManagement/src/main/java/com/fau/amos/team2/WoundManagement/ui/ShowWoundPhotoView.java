@@ -7,11 +7,14 @@ import java.text.SimpleDateFormat;
 
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
@@ -20,19 +23,20 @@ import com.vaadin.ui.VerticalLayout;
 
 @Theme("wm-responsive")
 @PreserveOnRefresh
-public class ShowWoundPhotoView extends NavigationView {
+public class ShowWoundPhotoView extends SessionedNavigationView {
 	private static final long serialVersionUID = -530803657027928140L;
+	
+	private WoundDescription woundDescription;
 
 	@SuppressWarnings("serial")
-	public ShowWoundPhotoView(final WoundDescription woundDescription) {
+	public ShowWoundPhotoView() {
+		this.woundDescription = getEnvironment().getCurrentWoundDescription();
 		if (woundDescription.getImage() != null) {
 
 			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 			setCaption(MessageResources.getString("photo") + " "
 					+ dateFormat.format(woundDescription.getDate()));
 
-			System.out.println("Photo: "
-					+ woundDescription.getImage().hashCode());
 			// using stream-resource class to avoid creation/deletion of
 			// unnecessary
 			// files to show the image, inspired by example of vaadin-book:
@@ -86,6 +90,17 @@ public class ShowWoundPhotoView extends NavigationView {
 			panel.setContent(panelContent);
 
 			setContent(panel);
+			
+			Button backButton = new Button("< " + MessageResources.getString("showWoundDescView"));
+			backButton.addClickListener(new ClickListener(){
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					Page.getCurrent().setUriFragment("showWoundDescription");
+				}
+				
+			});
+			setLeftComponent(backButton);
 		}
 	}
 

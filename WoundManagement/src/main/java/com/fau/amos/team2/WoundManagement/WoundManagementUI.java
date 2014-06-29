@@ -7,6 +7,7 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.CreateWoundDescriptionView;
 import com.fau.amos.team2.WoundManagement.ui.PatientSelectionView;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.fau.amos.team2.WoundManagement.ui.ShowWoundDescriptionView;
 import com.fau.amos.team2.WoundManagement.ui.ShowWoundPhotoView;
 import com.fau.amos.team2.WoundManagement.ui.StartMenuView;
@@ -36,6 +37,8 @@ public class WoundManagementUI extends UI {
 	private OfflineModeExtension offlineModeSettings;
 
 	private WrappedSession session;
+	
+	private SessionedNavigationView currentView;
 	
 	public WrappedSession getMySession() {
 		return session;
@@ -148,7 +151,7 @@ public class WoundManagementUI extends UI {
 			case "patient":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentPatient() != null){
-						setContent(new PatientView(getEnvironment().getCurrentPatient(), getEnvironment().getShowCurrentWoundsOnly()));
+						setContent(new PatientView());
 					}
 				} else {
 					Page.getCurrent().setUriFragment("login");
@@ -157,7 +160,7 @@ public class WoundManagementUI extends UI {
 			case "patient-false":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentPatient() != null){
-						setContent(new PatientView(getEnvironment().getCurrentPatient(), getEnvironment().getShowCurrentWoundsOnly()));
+						setContent(new PatientView());
 					}
 				} else {
 					Page.getCurrent().setUriFragment("login");
@@ -166,7 +169,7 @@ public class WoundManagementUI extends UI {
 			case "woundDescriptions":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWound() != null){
-						setContent(new WoundDescriptionListView(getEnvironment().getCurrentWound()));
+						setContent(new WoundDescriptionListView());
 					}
 				} else {
 					Page.getCurrent().setUriFragment("login");
@@ -175,7 +178,7 @@ public class WoundManagementUI extends UI {
 			case "createWoundDescription":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWound() != null){
-						setContent(new CreateWoundDescriptionView(getEnvironment().getCurrentWound()));
+						setContent(new CreateWoundDescriptionView());
 					}
 				} else {
 					Page.getCurrent().setUriFragment("login");
@@ -184,7 +187,7 @@ public class WoundManagementUI extends UI {
 			case "showWoundDescription":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWoundDescription() != null){
-						setContent(new ShowWoundDescriptionView(getEnvironment().getCurrentWoundDescription()));
+						setContent(new ShowWoundDescriptionView());
 					}
 				} else {
 					Page.getCurrent().setUriFragment("login");
@@ -193,7 +196,9 @@ public class WoundManagementUI extends UI {
 			case "showPhoto":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWoundDescription() != null){
-						setContent(new ShowWoundPhotoView(getEnvironment().getCurrentWoundDescription()));
+						setContent(new ShowWoundPhotoView());
+					} else {
+
 					}
 				} else {
 					Page.getCurrent().setUriFragment("login");

@@ -16,6 +16,9 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -40,12 +43,12 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 //	}
 	
 	@SuppressWarnings("serial")
-	public PatientView(Patient patient, boolean showCurrentWoundsOnly) {
+	public PatientView() {
 		
 		getEnvironment().setCurrentWoundDescription(null);
 		
-		this.currentPatient = patient;
-		this.showCurrentWoundsOnly = showCurrentWoundsOnly;
+		this.currentPatient = getEnvironment().getCurrentPatient();
+		this.showCurrentWoundsOnly = getEnvironment().getShowCurrentWoundsOnly();
 		
 		UserBar userBar = new UserBar(this);
 		userBar.addStyleName("userBar");
@@ -127,6 +130,18 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		this.prepareSelectedWound(getEnvironment().getCurrentWound());
 		
 		setContent(content);
+		
+		Button backButton = new Button("< " + MessageResources.getString("patientSelection"));
+		backButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("patientSelection");
+			}
+			
+		});
+		
+		setLeftComponent(backButton);
 	}
 
 	
@@ -158,14 +173,13 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		}
 	}
 	
-	@Override
-	public void onBecomingVisible(){
-		super.onBecomingVisible();
-//		this.setNavigationManagerPreviousComponent();
-		System.out.println("PatientView becoming visible");
-		this.prepareSelectedWound(getEnvironment().getCurrentWound());
-		Page.getCurrent().setUriFragment("patient");
-	}
+//	@Override
+//	public void onBecomingVisible(){
+//		super.onBecomingVisible();
+////		this.setNavigationManagerPreviousComponent();
+//		this.prepareSelectedWound(getEnvironment().getCurrentWound());
+//		Page.getCurrent().setUriFragment("patient");
+//	}
 
 
 //	@Override
