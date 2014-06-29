@@ -12,13 +12,13 @@ import com.fau.amos.team2.WoundManagement.ui.subviews.ExistingWound;
 import com.fau.amos.team2.WoundManagement.ui.subviews.NewWound;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -53,12 +53,14 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		
 		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 
-		final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
-		showOnlyCurrentWoundsSwitch.setValue(getBoolShowCurrentWoundsOnly());
+		final CheckBox showOnlyCurrentWoundsSwitch = new CheckBox(MessageResources.getString("showHealedWounds"));
+		
+		//final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
+		showOnlyCurrentWoundsSwitch.setValue(!getBoolShowCurrentWoundsOnly());
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				setBoolShowCurrentWoundsOnly(showOnlyCurrentWoundsSwitch.getValue());
+				setBoolShowCurrentWoundsOnly(!showOnlyCurrentWoundsSwitch.getValue());
 				getNavigationManager().navigateTo(
 					new PatientView(currentPatient, getBoolShowCurrentWoundsOnly()));
 			}
