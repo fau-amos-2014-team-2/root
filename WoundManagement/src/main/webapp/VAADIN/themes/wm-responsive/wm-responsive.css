@@ -1,0 +1,147 @@
+.grid {
+overflow: visible;
+}
+
+// Style the items in the grid
+.grid > .v-label {
+outline: 1px dotted rgba(0,0,0,.3);
+text-align: center;
+padding: 2em 0;
+font-size: 16px;
+font-weight: bold;
+}
+
+// We want the items in the grid to stay between 100px and 200px, if possible
+.grid[width-range~="0-200px"] .v-label {width: 100%;}
+.grid[width-range~="201px-400px"] > .v-label {width: 50%;}
+.grid[width-range~="401px-600px"] > .v-label {width: 33.3333%;}
+.grid[width-range~="601px-800px"] > .v-label {width: 25%;}  
+.grid[width-range~="801px-1000px"] > .v-label {width: 20%;}
+.grid[width-range~="1001px-"] > .v-label {width: 16.6667%;}
+
+.v-csslayout {}
+.v-csslayout-margin {}
+
+.v-csslayout-container {
+outline: 1px dotted rgba(0,0,0,.3);
+padding: 2em 0;
+}
+
+.checkboxHoriz {
+position: absolute;
+height: 10%;
+width: 45%;
+left: 30px;
+top: 20px;
+}
+
+.v-csslayout-container-checkboxHoriz {
+position: absolute;
+height: 10%;
+width: 45%;
+left: 30px;
+top: 20px;
+}
+
+.v-checkbox-label-checkboxHoriz {
+position: absolute;
+height: 10%;
+width: 45%;
+left: 30px;
+top: 20px;
+}
+
+.wndMngHoriz {
+position: absolute;
+height: 90%;
+width: 45%;
+left: 10px;
+bottom: 10px;
+}
+
+.v-csslayout-container-wndMngHoriz {
+position: absolute;
+height: 90%;
+width: 45%;
+left: 10px;
+bottom: 10px;
+}
+
+.wndContHoriz {
+position: absolute;
+height: 100%;
+width: 45%;
+right: 30px;
+top: 20px;
+bottom: 20px;
+}
+
+.v-csslayout-container-wndContHoriz {
+position: absolute;
+height: 100%;
+width: 45%;
+right: 30px;
+top: 20px;
+bottom: 20px;
+}
+
+.v-layout .v-formlayout .v-widget .v-formlayout-wndContHoriz {
+position: absolute;
+height: 100%;
+width: 45%;
+right: 30px;
+top: 20px;
+bottom: 20px;
+}
+
+.checkboxVert {
+position: absolute;
+height: 5%;
+width: 90%;
+left: 10px;
+right: 10px;
+top: 10px;
+}
+
+.v-csslayout-container-checkboxVert {
+position: absolute;
+height: 5%;
+width: 90%;
+left: 10px;
+right: 10px;
+top: 10px;
+}
+
+.wndMngVert {
+position: static;
+height: 25%;
+width: 90%;
+left: 10px;
+right: 10px;
+}
+
+.v-csslayout-container-wndMngVert {
+position: static;
+height: 25%;
+width: 90%;
+left: 10px;
+right: 10px;
+}
+
+.wndContVert {
+position: absolute;
+height: 70%;
+width: 90%;
+left: 10px;
+right: 10px;
+bottom: 10px;
+}
+
+.v-csslayout-container-wndContVert {
+position: absolute;
+height: 70%;
+width: 90%;
+left: 10px;
+right: 10px;
+bottom: 10px;
+}
