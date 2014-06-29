@@ -24,8 +24,7 @@ public class ConnectionProvider<T extends BusinessObject> {
 	protected JPAContainer<T> container;
 	protected CachingMutableLocalEntityProvider<T> entityProvider;
 	
-	protected static String user = null;
-	protected static String password = null;
+	protected static boolean loggedInOnce = false;
 	
 	public ConnectionProvider(Class<T> c) 
 	{
@@ -33,14 +32,22 @@ public class ConnectionProvider<T extends BusinessObject> {
 		
 		HashMap<String, String> properties = new HashMap<String,String>();
 		
-		while(user == null)
-			user = javax.swing.JOptionPane.showInputDialog("Database user: ");
-		properties.put("javax.persistence.jdbc.user", user);
-		
-		while(password == null)
-			password = javax.swing.JOptionPane.showInputDialog("Database password: ");
-		
-		properties.put("javax.persistence.jdbc.password", password);
+		// Connect to Database via Data from Environment
+		// Is no DatabaseConnecitonInfo exists default to Local
+		// Just change data once
+		ConnectionType connectionType = Environment.getConnectionType();
+		if(connectionType == null) {
+			connectionType = ConnectionType.LOCAL;
+			Environment.setConnectionType(connectionType);
+		} else if(!loggedInOnce){
+			properties.put("javax.persistence.jdbc.user",
+					connectionType.getUser());
+			properties.put("javax.persistence.jdbc.password",
+					connectionType.getPassword());
+			properties.put("javax.persistence.jdbc.url",
+					connectionType.getUrl());
+			loggedInOnce = false;
+		}
 		
 		entityManagerFactory = 
 				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT, 
@@ -60,8 +67,9 @@ public class ConnectionProvider<T extends BusinessObject> {
 		return container;
 	}
 	
-	private String getPassword(String configFile) { 
-		
+	@SuppressWarnings("unused")
+	private String getPassword() throws Exception { 
+		String configFile = "config.pwd";
 		BufferedReader b;
 		try {
 			b = new BufferedReader(new FileReader(configFile));
@@ -70,7 +78,10 @@ public class ConnectionProvider<T extends BusinessObject> {
 			return str;
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new Exception("You need to make sure the file "
+					+ "'config.pwd' exists in folder 'WoundManagement"
+					+ "' and the password for DB-user "
+					+ "is written in it!");
 		}
-		return "";
 	}
 }

@@ -7,7 +7,8 @@ public class Environment {
 	
 	private Employee currentEmployee;
 	private static EmployeeProvider provider = EmployeeProvider.getInstance();
-
+	private static ConnectionType connectionType = ConnectionType.LOCAL;
+	
 	boolean isHorizontalLayout;
 	
 	public Employee getCurrentEmployee() {
@@ -44,5 +45,12 @@ public class Environment {
 
 	public boolean isHorizontalLayout() {
 		return isHorizontalLayout;
+	}
+	
+	public static ConnectionType getConnectionType() {
+		return connectionType;
+	}
+	public static void setConnectionType(ConnectionType type) {
+		connectionType = type;
 	}
 }
