@@ -21,6 +21,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.Page;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
@@ -46,6 +47,9 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 
 	public PatientSelectionView() 
 	{
+		System.out.println("New PatientSelectionView");
+		getEnvironment().setCurrentWound(null);
+		
 		setCaption(MessageResources.getString("patientSelection"));
 		Ward currentWard = getEnvironment().getCurrentEmployee().getCurrentWard();
 		
@@ -137,8 +141,11 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		    	Object value = table.getValue();
 		    	if (value != null){
 		    		Patient patient = patientProvider.getByID(value);
-		    		NavigationView next = new PatientView(patient);
-		    		getNavigationManager().navigateTo(next);
+		    		getEnvironment().setCurrentPatient(patient);
+		    		getEnvironment().setShowCurrentWoundsOnly(true);
+		    		Page.getCurrent().setUriFragment("patient", true);
+		    		//NavigationView next = new PatientView(patient);
+		    		//getNavigationManager().navigateTo(next);
 		    	}
 		    }
 
@@ -207,6 +214,12 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			propertiesForTable[patientsForTable.indexOf(p)][4].setValue(p.getCurrentWounds().size());
 			container.addItem(p.getId());
 		}
+	}
+	
+	@Override
+	public void onBecomingVisible(){
+		super.onBecomingVisible();
+		Page.getCurrent().setUriFragment("patientSelection");
 	}
 
 }

@@ -18,14 +18,13 @@ import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -46,10 +45,8 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
-public class CreateWoundDescriptionView extends SessionedNavigationView
-		implements WardChangeListener {
+public class CreateWoundDescriptionView extends SessionedNavigationView {
 
-	private Wound wound;
 	private WoundDescriptionProvider woundDescriptionProvider = WoundDescriptionProvider
 			.getInstance();
 	private WoundLevelProvider woundLevelProvider = WoundLevelProvider
@@ -60,7 +57,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 
 	public CreateWoundDescriptionView(final Wound wound) {
 
-		this.wound = wound;
 		WoundDescription latest = woundDescriptionProvider
 				.getNewestForWound(wound);
 
@@ -391,9 +387,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 				 * the old view, which means the old list - new description
 				 * would not be listed (even if created properly)
 				 */
-				getNavigationManager().navigateTo(
-						new WoundDescriptionListView(wound));
-
+//				getNavigationManager().navigateTo(new WoundDescriptionListView(wound));
+				Page.getCurrent().setUriFragment("woundDescriptions");
 			}
 
 		});
@@ -466,10 +461,10 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 
 	}
 
-	@Override
-	public void wardChanged(WardChangeEvent event) {
-		WoundDescriptionListView newView = new WoundDescriptionListView(wound);
-		getNavigationManager().setPreviousComponent(newView);
-
-	}
+//	@Override
+//	public void wardChanged(WardChangeEvent event) {
+//		WoundDescriptionListView newView = new WoundDescriptionListView(wound);
+//		getNavigationManager().setPreviousComponent(newView);
+//
+//	}
 }

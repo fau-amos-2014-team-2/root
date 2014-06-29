@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement.ui.subviews;
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserLoginView;
 import com.fau.amos.team2.WoundManagement.ui.UserPasswordView;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView;
 import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
@@ -12,6 +11,7 @@ import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -80,7 +80,8 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 				@Override
 				public void buttonClick(ClickEvent event) {
 					((WoundManagementUI)UI.getCurrent()).getEnvironment().logout();
-					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
+//					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
+					Page.getCurrent().setUriFragment("login");
 				}
 			});
 			logoutButton.addStyleName("userBarLogoutButton");

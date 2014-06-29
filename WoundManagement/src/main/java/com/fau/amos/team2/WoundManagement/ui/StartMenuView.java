@@ -8,21 +8,15 @@ import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListen
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 //import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 
 @Theme("wm-responsive")
 public class StartMenuView extends SessionedNavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
-	/**
-	 * Creates an instance of StartMenuView
-	 * 
-	 * Navigates to one of the following Views
-	 * 
-	 * @see com.fau.amos.team2.WoundManagement.ui.UserLoginView
-	 * @see com.fau.amos.team2.WoundManagement.ui.PatientSelectionView
-	 * @see com.fau.amos.team2.WoundManagement.ui.PatientView
-	 */
-	
 	@SuppressWarnings("serial")
 	public StartMenuView() {
 
@@ -30,14 +24,25 @@ public class StartMenuView extends SessionedNavigationView {
 
 		final VerticalComponentGroup content = new VerticalComponentGroup();
 
-		NavigationButton loginScreenButton = new NavigationButton(MessageResources.getString("login")); //$NON-NLS-1$
-		loginScreenButton.setTargetView(new UserLoginView());
+		//NavigationButton loginScreenButton = new NavigationButton(MessageResources.getString("login")); //$NON-NLS-1$
+		//loginScreenButton.setTargetView(new UserLoginView());
+		Button loginScreenButton = new Button(MessageResources.getString("login"));
+		loginScreenButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("login");
+			}
+			
+		});
 		content.addComponent(loginScreenButton);
 		
-		NavigationButton initializeDataButton = new NavigationButton("For Software Developers only: initialize data");
-		initializeDataButton.addClickListener(new NavigationButtonClickListener() {
-			public void buttonClick(NavigationButtonClickEvent event) {
-				TestDataLoader.resetData();
+		//NavigationButton initializeDataButton = new NavigationButton("For Software Developers only: initialize data");
+		Button initializeDataButton = new Button("For Software Developers only: initialize data");
+		initializeDataButton.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				TestDataLoader.resetData();				
 			}
 		});
 		content.addComponent(initializeDataButton);

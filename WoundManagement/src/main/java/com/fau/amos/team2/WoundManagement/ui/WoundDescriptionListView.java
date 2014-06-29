@@ -6,17 +6,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -28,17 +23,18 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 @Theme("wm-responsive")
 @PreserveOnRefresh 
-public class WoundDescriptionListView extends SessionedNavigationView implements WardChangeListener {
+public class WoundDescriptionListView extends SessionedNavigationView {
 
 	private static final long serialVersionUID = 2998701886426658070L;
 
-	private Wound wound;
-	private Patient patient;
 	private Table table;
 	private List<WoundDescription> descriptions;
 	private WoundDescriptionProvider woundDescriptionProvider = WoundDescriptionProvider
@@ -56,9 +52,6 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 					}
 				});
 
-		this.wound = wound;
-		this.patient = this.wound.getPatient();
-
 		setCaption(MessageResources.getString("woundDescriptionsHeader"));
 
 		// if (patient != null){
@@ -71,11 +64,17 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 		
 		mainLayout.addComponent(new UserBar(this));
 
-		NavigationButton createWoundDescriptionButton = new NavigationButton(
+//		NavigationButton createWoundDescriptionButton = new NavigationButton(MessageResources.getString("createDesc"));
+//		createWoundDescriptionButton.setTargetView(new CreateWoundDescriptionView(wound));
+		Button createWoundDescriptionButton = new Button(MessageResources.getString("createDesc"));
+		createWoundDescriptionButton.addClickListener(new ClickListener(){
 
-		MessageResources.getString("createDesc"));
-		
-		createWoundDescriptionButton.setTargetView(new CreateWoundDescriptionView(wound));
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("createWoundDescription");
+			}
+			
+		});
 		
 		mainLayout.addComponent(createWoundDescriptionButton);
 		
@@ -199,9 +198,10 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 				if (value != null) {
 					WoundDescription woundDescription = woundDescriptionProvider
 							.getByID(value);
-					NavigationView next = new ShowWoundDescriptionView(
-							woundDescription);
-					getNavigationManager().navigateTo(next);
+//					NavigationView next = new ShowWoundDescriptionView(woundDescription);
+//					getNavigationManager().navigateTo(next);
+					getEnvironment().setCurrentWoundDescription(woundDescription);
+					Page.getCurrent().setUriFragment("showWoundDescription");
 				}
 			}
 
@@ -216,16 +216,16 @@ public class WoundDescriptionListView extends SessionedNavigationView implements
 	@Override
 	public void onBecomingVisible() {
 		super.onBecomingVisible();
-		PatientView patientView = new PatientView(patient);
-		patientView.prepareSelectedWound(wound);
-		getNavigationManager().setPreviousComponent(patientView);
+//		PatientView patientView = new PatientView(patient, true);
+//		patientView.prepareSelectedWound(wound);
+//		getNavigationManager().setPreviousComponent(patientView);
 	}
 
-	@Override
-	public void wardChanged(WardChangeEvent event) {
-		PatientView patientView = new PatientView(patient);
-		patientView.prepareSelectedWound(wound);
-		getNavigationManager().setPreviousComponent(patientView);
-	}
+//	@Override
+//	public void wardChanged(WardChangeEvent event) {
+//		PatientView patientView = new PatientView(patient, true);
+//		patientView.prepareSelectedWound(wound);
+//		getNavigationManager().setPreviousComponent(patientView);
+//	}
 
 }
