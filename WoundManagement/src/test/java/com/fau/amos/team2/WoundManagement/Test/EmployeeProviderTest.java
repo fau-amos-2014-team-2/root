@@ -1,26 +1,57 @@
 package com.fau.amos.team2.WoundManagement.Test;
-/*
-import model.Employee;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fau.amos.team2.WoundManagement.EmployeeProvider;
-*/
-public class EmployeeProviderTest {
-/*
+import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
+
+public class EmployeeProviderTest extends ProviderUnitTest {
+
 	private EmployeeProvider sut;
 	
+	private static Employee[] employees;
+	private static String[] abb;
+	private static String[] pwd;
+	
+	@BeforeClass
+	protected static void ClassInit() { 
+		abb = new String[] {
+				"user1",
+				"user2",
+				"user3"
+		};
+		pwd = new String[] {
+				"pwd1",
+				"pwd2",
+				"pwd3"
+		};
+		
+		employees = new Employee[] {
+			new Employee(),
+			new Employee(),
+			new Employee()
+		};
+		
+		for(int i = 0; i < employees.length; ++i) {
+			employees[i].setAbbreviation(abb[i]);
+			employees[i].setPdaCode(pwd[i]);			
+		}
+	}
+	
 	@Before
-	public void TestInit() {
+	private void TestInit() {
 		sut = EmployeeProvider.getInstance();
+		sut.add(employees[0]);
+		sut.add(employees[1]);
 	}
 	
 	@After
-	public void TestCleanup() {
-		sut = null;
+	private void TestCleanup() {
+		sut.deleteAll();
 	}
 	
 	@Test
@@ -34,71 +65,101 @@ public class EmployeeProviderTest {
 	}
 
 	@Test
-	public final void testAdd() {
+	public final void testAddSize() {
 		// Arrange
-		Employee e = new Employee();
+		Employee e = employees[0];
 		// Act
-		Object actual = sut.add(e);
+		sut.add(e);
+		int actual = sut.getAllItems().size();
 		// Assert
-		Assert.assertNotNull("add returned null", actual);
-	}
-
-	@Test
-	public final void testGetAllEmptyReturnsZero() {
-		// Arrange
-		int expected = 0;
-		// Act
-		int actual = sut.getAll().size();
-		// Assert
-		Assert.assertEquals("Empty container expected",expected, actual);
+		Assert.assertEquals(1, actual);
 	}
 	
+
 	@Test
-	public final void testGetAllOneAddReturnsOne() {
+	public final void testAddSizeEmpty() {
 		// Arrange
-		Employee e = new Employee();
-		sut.add(e);
-		int expected = 1;
+		
 		// Act
-		int actual = sut.getAll().size();
+		int actual = sut.getAllItems().size();
 		// Assert
-		Assert.assertEquals("One element in container expected",expected, actual);
+		Assert.assertEquals(0, actual);
 	}
 
 	@Test
-	public final void testGetByID() {
+	public final void testGetAllItems() {
 		// Arrange
-		Employee expected = new Employee();
-		Object id = sut.add(expected);
-		// Act
-		Employee actual = sut.getByID(id);
-		// Assert
-		Assert.assertNotNull("getByID return null",actual);
-		Assert.assertEquals("Wrong id employee",expected, actual);
-	}
-
-	@Test
-	public final void testGetByFirstName() {
-		// Arrange
-		Employee expected = new Employee();
+		Employee expected = employees[0];
 		sut.add(expected);
 		// Act
-		Employee actual = sut.getByFirstName(expected.getFirstName());
+		Employee actual = sut.getAllItems().get(0);
 		// Assert
 		Assert.assertNotNull("getByID return null",actual);
 		Assert.assertEquals("Wrong id employee",expected, actual);
 	}
 	
 	@Test
-	public final void testGetByFirstNameNameDoesntExistReturnsNull() {
+	public final void testGetEmployeeByUsernameAndPassword()
+	{
 		// Arrange
-		Employee e = new Employee();
-		e.setFirstName("firstname");
-		sut.add(e);
+		Employee expected = employees[0];
+				
 		// Act
-		Employee actual = sut.getByFirstName("Not existent");
+		Employee actual = sut.getEmployeeByUsernameAndPassword(abb[0], pwd[0]);
+	
 		// Assert
-		Assert.assertNull("Null expected",actual);
+		Assert.assertEquals(expected, actual);
 	}
-*/
+	
+	@Test
+	public final void testGetEmployeeByUsernameAndPasswordReturnsNullOnMissingEmployee()
+	{
+		// Arrange
+		Employee expected = null;
+				
+		// Act
+		Employee actual = sut.getEmployeeByUsernameAndPassword(abb[2], pwd[2]);
+	
+		// Assert
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public final void testGetEmployeeByUsername()
+	{
+		// Arrange
+		Employee expected = employees[0];
+				
+		// Act
+		Employee actual = sut.getEmployeeByUsername(abb[0]);
+	
+		// Assert
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public final void testGetEmployeeByUsernameReturnsNullOnMissingEmployee()
+	{
+		// Arrange
+		Employee expected = null;
+				
+		// Act
+		Employee actual = sut.getEmployeeByUsername(abb[2]);
+	
+		// Assert
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public final void testDeleteAll()
+	{
+		// Arrange
+		Assert.assertNotSame(0, sut.getAllItems().size());		
+		
+		// Act
+		sut.deleteAll();
+	
+		// Assert
+		Assert.assertEquals(0, sut.getAllItems().size());
+	}
 }
