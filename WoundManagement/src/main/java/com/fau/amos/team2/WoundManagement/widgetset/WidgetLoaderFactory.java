@@ -56,8 +56,6 @@ import com.vaadin.client.ui.ui.UIConnector;
 import com.vaadin.client.ui.upload.UploadConnector;
 import com.vaadin.client.ui.window.WindowConnector;
 import com.vaadin.shared.ui.Connect.LoadStyle;
-import com.vaadin.shared.ui.datefield.DateFieldConstants;
-import com.vaadin.ui.DateField;
 
 public class WidgetLoaderFactory extends TouchKitBundleLoaderFactory {
 	

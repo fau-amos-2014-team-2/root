@@ -1,3 +1,4 @@
+
 package com.fau.amos.team2.WoundManagement.ui;
 
 import java.io.ByteArrayOutputStream;
@@ -25,26 +26,21 @@ import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.Page;
-import com.vaadin.server.Page.BrowserWindowResizeEvent;
-import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Upload.Receiver;
-import com.vaadin.ui.Upload.SucceededEvent;
-import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload;
+import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("wm-responsive")
@@ -284,27 +280,19 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 					// 'E''e' - level allowed
 					if (woundType.getLevelState() == WoundLevelState.REQUIRED) {
 						if (level.getValue() == null) {
-							Notification.show(MessageResources
-									.getString("woundType")
-									+ woundType.getClassification()
-									+ MessageResources
-											.getString("woundLevelRequired"));
+							Notification.show(MessageResources.getString("woundLevelRequired") + ".");
 							return;
 						}
 					} else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN) {
 						if (level.getValue() != null) {
-							Notification.show(MessageResources
-									.getString("woundType")
-									+ woundType.getClassification()
-									+ MessageResources
-											.getString("woundLevelForbidden"));
+							Notification.show(MessageResources.getString("woundLevelForbidden") + ".");
 							return;
 						}
 					}
 
 				} else {
 					Notification.show(MessageResources
-							.getString("woundtypeSelectException") + "!");
+							.getString("woundtypeSelectException") + ".");
 					return;
 				}
 
@@ -395,7 +383,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 					return;
 				}
 
-				// TODO: look out for problems with new views.
 				wound.getWoundDescriptions().add(woundDescription);
 				WoundDescriptionProvider.getInstance().add(woundDescription);
 
@@ -446,8 +433,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 
 				upload.setCaption(MessageResources
 						.getString("uploadsuccessful") + " - " + filename);
-				System.out.println("Event filename: " + event.getFilename());
-				System.out.println("bFile: " + bFile.hashCode());
 				// After successful upload, the disable the button
 				upload.setEnabled(false);
 

@@ -8,28 +8,14 @@ import java.text.SimpleDateFormat;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.server.StreamResource;
-import com.vaadin.server.StreamResource.StreamSource;
-import com.fau.amos.team2.WoundManagement.model.Wound;
-import com.fau.amos.team2.WoundManagement.model.WoundDescription;
-import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
-import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("wm-responsive")

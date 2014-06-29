@@ -171,6 +171,7 @@ public class ExistingWound extends VerticalLayout {
 			        
 			        subContent.setMargin(true);
 			        
+			        subContent.setSpacing(true);
 			        doubleCheckSubWindow.setContent(subContent);
 			        doubleCheckSubWindow.center();
 			        

@@ -7,7 +7,6 @@ import com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptio
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.communication.RpcProxy;
-import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
 
 public class CreateWoundDescriptionViewConnector extends

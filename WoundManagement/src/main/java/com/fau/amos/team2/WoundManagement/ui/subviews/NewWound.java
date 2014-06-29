@@ -170,22 +170,22 @@ public class NewWound extends FormLayout {
 						wound.setWoundType(woundType);
 						
 						if (woundType.getLevelState() == WoundLevelState.REQUIRED && level.getValue() == null) {
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundLevelRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}
 						else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN && level.getValue() != null) {
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundLevelForbidden") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}
 						
 						//check if BodyLocation is set according to chosen WoundType
 						if (woundType.isBodyLocationRequired() && locationText.getValue().equals("")) { //$NON-NLS-1$
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("bodyLocationRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}
 						// check if Size is set according to chosen WoundType
 						if (woundType.isSizeIsRequired() && size1.getValue().equals("") && size2.getValue().equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("sizeRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}						
 					}
