@@ -112,7 +112,10 @@ public class Patient implements BusinessObject {
 	}
 
 	public Sex getSex() {
-		return Sex.valueOf(getGender().charAt(0));
+		if (getGender() != null && getGender().length() > 0)
+			return Sex.valueOf(getGender().charAt(0));
+		
+		return Sex.NEUTER;
 	}
 
 	public void setGender(String gender) {
