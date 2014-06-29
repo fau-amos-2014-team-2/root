@@ -71,6 +71,7 @@ public class NewWound extends FormLayout {
 		location.setValue(bodyLocation); //select chosen location
 		location.setNullSelectionAllowed(false);
 		location.setWidth(width);
+		location.setEnabled(false);
 		addComponent(location);
 		
 		//TextField - body location (in words)
