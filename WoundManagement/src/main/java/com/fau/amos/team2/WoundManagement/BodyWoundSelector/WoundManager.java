@@ -21,29 +21,49 @@ public class WoundManager {
 	private Sex sex;
 	
 	public WoundManager(Patient patient, boolean showCurrentWoundsOnly, float scaleFactor) {
-		woundSelector = new WoundSelector(this, patient.getSex(), scaleFactor);
 		wounds = new HashMap<WoundPosition, Wound>();
-		if(showCurrentWoundsOnly) {
-			for (Wound wound : patient.getCurrentWounds())
-				addWound(wound);
-		} else{
-			for (Wound wound : patient.getWounds())
-				addWound(wound);
-		}
 		this.sex = (patient.getSex() != null) 
 				? patient.getSex() : Sex.NEUTER;
+		woundSelector = new WoundSelector(this, this.sex, scaleFactor);
+		if(showCurrentWoundsOnly) {
+			for (Wound wound : patient.getCurrentWounds())
+				addInitialWound(wound);
+		} else{
+			for (Wound wound : patient.getWounds())
+				addInitialWound(wound);
+		}
+		addWoundsInSelector();
 	}
 
 	public WoundSelector getWoundSelector() {
 		return woundSelector;
 	}
+	
+	public void addInitialWound(Wound wound){
+		WoundPosition pos = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(wound.getBodyLocationCode()),
+				this.sex);
+		
+		//ignore healed wound if there's a current one at the same position
+		if (wounds.containsKey(pos)){
+			if (wound.getCureEmployee() == null){
+				wounds.remove(pos);
+				wounds.put(pos, wound);
+			}
+		}
+		wounds.put(pos, wound);
+	}
 
 	public void addWound(Wound wound) {
+		addInitialWound(wound);
 		WoundPosition pos = WoundPosition.getPositionForBodyLocation(BodyLocation.valueOf(wound.getBodyLocationCode()),
-				woundSelector.getSex());
-		
-		wounds.put(pos, wound);
+				this.sex);
 		woundSelector.addWoundAtPosition(pos);
+	}
+	
+	public void addWoundsInSelector(){
+		for (WoundPosition pos : wounds.keySet()){
+			woundSelector.addWoundAtPosition(pos);
+		}
 	}
 
 	public Boolean hasWoundAtPosition(WoundPosition woundPosition) {
