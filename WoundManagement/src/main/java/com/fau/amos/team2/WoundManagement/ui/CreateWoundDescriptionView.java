@@ -95,14 +95,11 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
 		recorded.addStyleName("recorded");
-		// recorded.setWidth("20em");
-
+		recorded.setImmediate(true);
+		
 		new Responsive(recorded);
 
 		greetingdate.addComponent(recorded);
-
-		// greetingdate.setSpacing(true);
-
 		mainLayout.addComponent(greetingdate);
 
 		final CheckBox taschen = new CheckBox();
@@ -112,15 +109,12 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		CssLayout taschenErfassen = new CssLayout();
 
 		taschen.setCaption(MessageResources.getString("woundBags") + ":");
-		taschen.setImmediate(false);
+		taschen.setImmediate(true);
 		taschen.addStyleName("taschen");
 		taschen.setValue(latest.isBaggy());
 
-		// taschen.setWidth("-1px");
-		// taschen.setHeight("-1px");
-
 		bagLocation.setCaption(MessageResources.getString("baglocation") + ":");
-		bagLocation.setImmediate(false);
+		bagLocation.setImmediate(true);
 		bagLocation.addStyleName("bagLocation");
 		bagLocation.setMaxLength(200);
 		if (latest.getBagLocation() != null) {
@@ -129,7 +123,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		bagDirection.setCaption(MessageResources.getString("bagdirection")
 				+ ":");
-		bagDirection.setImmediate(false);
+		bagDirection.setImmediate(true);
 		bagDirection.addStyleName("bagDirection");
 		bagDirection.setMaxLength(200);
 		if (latest.getBagDirection() != null) {
@@ -149,6 +143,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		if (latest.getDescription() != null) {
 			comment.setValue(latest.getDescription());
 		}
+		comment.setImmediate(true);
 
 		mainLayout.addComponent(comment);
 
@@ -167,6 +162,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		// size1.setValue("0");
 		size1.setInvalidAllowed(false);
 		size1.addStyleName("size1");
+		size1.setImmediate(true);
+		
 		wundGroessen.addComponent(size1);
 		if (latest.getSize1() != 0) {
 			size1.setValue(latest.getSize1() + "");
@@ -175,6 +172,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		// size2.setValue("0");
 		size2.setInvalidAllowed(false);
 		size2.addStyleName("size2");
+		size2.setImmediate(true);
+		
 		wundGroessen.addComponent(size2);
 		if (latest.getSize2() != 0) {
 			size2.setValue(latest.getSize2() + "");
@@ -183,6 +182,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		// depth.setValue("0");
 		depth.setInvalidAllowed(false);
 		depth.addStyleName("depth");
+		depth.setImmediate(true);
+		
 		wundGroessen.addComponent(depth);
 		if (latest.getDepth() != 0) {
 			depth.setValue(latest.getDepth() + "");
@@ -205,6 +206,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		}
 		type.setWidth("20em");
 		type.setNewItemsAllowed(false);
+		type.setImmediate(true);
 		// type.setTextInputAllowed(false);
 		if (latest.getWoundType() != null) {
 			type.setValue(latest.getWoundType().getId());
@@ -221,6 +223,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 			level.setItemCaption(o, tmp.getCharacterisation());
 		}
 		level.setNewItemsAllowed(false);
+		level.setImmediate(true);
 		level.setWidth("20em");
 		if (latest.getWoundLevel() != null) {
 			level.setValue(latest.getWoundLevel().getId());
