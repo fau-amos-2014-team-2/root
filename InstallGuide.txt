@@ -5,13 +5,14 @@ Install Guide Woundmanagment
 Step 1: Get the Woundmanagment directory
 
 Unpack the ROOT.war. Then you'll be able to unpack the T2.zip within, which can 
-be found at /ROOT/WEB-INF/classes/. The T2.zip should contain the latest stable  
+be found at /ROOT/WEB-INF/classes/. The T2.zip should contain the latest stable 
 Woundmanagment-App-version within the Woundmanagment directory. 
 You may also browse the source code, which you can found at the following 
 directory (and it's sub-directories):
 T2/WoundManagement/src/main/java/com/fau/amos/team2/WoundManagement/
 
-Alternatively you may get the Woundmanagment directory from github (master-branch):
+Alternatively you may get the Woundmanagment directory from github 
+(master-branch):
 https://github.com/fau-amos-2014-team-2/root
 
 
@@ -24,7 +25,8 @@ http://maven.apache.org/
 
 Step 3: Get a Postgresql Server running
 
-Install Postgresql (& it's dependencies) for your OS. Further information can be 
+Install Postgresql (& it's dependencies) for your OS. Further information can 
+be 
 found here:
 http://www.postgresql.org/
 To get a local test server running, you may want to look at specific guides for 
@@ -41,8 +43,8 @@ Woundmanagment main directory. Open the config.pwd file with a standard
 texteditor. Enter the password you use at your local database (or the password 
 for the online database*), for example “postgres”, save & close the editor.
 
-[*]unfortunately, this password is secret and can not be published on github. To 
-get it, please contact us.
+[*]unfortunately, this password is secret and can not be published on github. 
+To get it, please contact us.
 
 
 Step 5: Check Constants.java
@@ -54,8 +56,8 @@ to
 if you want to use the online-database. 
 Default (& suggested) is using a local testdatabase first, in this case set the 
 value to “testdb”.
-Important: the password previously stored in the config.pwd file has to match to 
-the database login. 
+Important: the password previously stored in the config.pwd file has to match 
+to the database login. 
 
 
 Step 6: start Postgresql client
@@ -64,8 +66,9 @@ If using a local postgresql server, you may need to start the client first.
 (on archlinux this is done with root$systemctl start postgresql)
 
 If you have tested previous versions of the app, you may need to clean up 
-your local database. You can do this by connecting to your local database (using 
-a shell/commandline) and psql commands like “DELETE FROM wound;” etc. 
+your local database. You can do this by connecting to your local database 
+(using 
+a shell/commandline) and psql commands like "DROP TABLE $table CASCADE;" etc. 
 For further information you can look at:
 http://www.postgresql.org/docs/8.4/static/app-psql.html
 and corresponding help files.
@@ -81,6 +84,22 @@ If this step finished successfully, the output prompt should include “BUILD
 SUCCESS”.
 Then you actualy start the app using the command “mvn jetty:run”. Keep the 
 commandline/shell/terminal opened and untouched while using the app.
+
+Update[1.7.14]: In the recent version of the app, you can use more interesting 
+demodata provided by develop-group. To do so, first clean up your local 
+database (Step 6), then start the app once: 
+- connect to localhost:8080 (like in Step 8) (this will get the database-tables 
+re-initialized)
+- stop the server (without using/clicking anything in it)
+- then import the provided demo-dataset by using:
+psql --host=localhost --username=postgres postgres --file=wm.sql
+You can find the wm.sql file in the github-repo within the /var directory. Copy 
+this file to your local machine & run the command within the containing 
+directory.
+If the import was successful, there will be a notification like Import Finished.
+Now you can follow Step 8 & enjoy the App, demodata should now be 
+present&usable. Most Demo-Test-Users have not set any password, so you can 
+login by just selecting one & click enter. 
 
 
 Step 8: Using the application
