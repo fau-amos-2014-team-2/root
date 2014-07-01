@@ -16,6 +16,10 @@ import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientSelectionView;
 import com.fau.amos.team2.WoundManagement.ui.StartMenuView;
+/*import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;*/
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -30,10 +34,9 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Widgetset("com.fau.amos.team2.WoundManagement.widgetset.WoundManagementWidgetset")
-//@Theme("touchkit")
-@Theme("wm-responsive")
+@Theme("touchkit")
 @PreserveOnRefresh
-public class WoundManagementUI extends UI {
+public class WoundManagementUI extends UI /*implements EntryPoint*/ {
 	
 	private OfflineModeExtension offlineModeSettings;
 
@@ -110,4 +113,17 @@ public class WoundManagementUI extends UI {
 		offlineModeSettings.setPersistentSessionCookie(true);
 		offlineModeSettings.setOfflineModeEnabled(true);
 	}
+
+	
+	/*public void onModuleLoad() {
+		MyThemeBundle.INSTANCE.css().ensureInjected();
+		
+	}
+	
+    public interface MyThemeBundle extends ClientBundle {
+        public static final MyThemeBundle INSTANCE = GWT.create(MyThemeBundle.class);
+
+        @Source({ "myGWT.css" })
+        public CssResource css();
+    }*/
 }

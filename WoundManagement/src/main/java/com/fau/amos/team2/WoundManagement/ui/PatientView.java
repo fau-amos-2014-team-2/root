@@ -13,7 +13,6 @@ import com.fau.amos.team2.WoundManagement.ui.subviews.NewWound;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
@@ -25,7 +24,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @PreserveOnRefresh
-@Theme("wm-responsive")
 public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener, WardChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
@@ -43,19 +41,16 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	
 	@SuppressWarnings("serial")
 	public PatientView(Patient patient, boolean showCurrentWoundsOnly) {
+		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
+		setSizeFull();
 		
 		this.currentPatient = patient;
 		this.showCurrentWoundsOnly = showCurrentWoundsOnly;
 		
-		UserBar userBar = new UserBar(this);
-		userBar.addStyleName("userBar");
-		userBar.setWidth("100%");		
-		
-		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
+		setRightComponent(new UserBar(this));
 
 		final CheckBox showOnlyCurrentWoundsSwitch = new CheckBox(MessageResources.getString("showHealedWounds"));
 		
-		//final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
 		showOnlyCurrentWoundsSwitch.setValue(!getBoolShowCurrentWoundsOnly());
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
 			@Override
@@ -75,7 +70,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		
 		final GridLayout content = new GridLayout(3, 4);
 		content.addStyleName("grid");
-		content.addComponent(userBar, 0, 0, 2, 0);
+		//content.addComponent(userBar, 0, 0, 2, 0);
 		
 		final VerticalLayout switchSpacePic = new VerticalLayout();
 		switchSpacePic.addComponents(showOnlyCurrentWoundsSwitch, 

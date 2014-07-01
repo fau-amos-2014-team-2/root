@@ -1,15 +1,11 @@
 package com.fau.amos.team2.WoundManagement.ui;
 
 import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.Title;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 
-@Theme("wm-responsive")
-@Title("Responsive Add-on Demo")
 @SuppressWarnings("serial")
 public class TestView extends SessionedNavigationView{
 

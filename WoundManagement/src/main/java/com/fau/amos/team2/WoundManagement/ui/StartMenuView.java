@@ -7,9 +7,7 @@ import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 //import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.annotations.Theme;
 
-@Theme("wm-responsive")
 public class StartMenuView extends SessionedNavigationView {
 	private static final long serialVersionUID = -5310803657027928140L;
 
@@ -41,10 +39,7 @@ public class StartMenuView extends SessionedNavigationView {
 			}
 		});
 		content.addComponent(initializeDataButton);
-		
-		// ...not necessary atm: 
-		/* new Responsive(content); */
-		
+
 		setContent(content);
 
 	}

@@ -39,7 +39,6 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("unused")
 public class UploadPhotoView extends NavigationView implements Upload.Receiver {

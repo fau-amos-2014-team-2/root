@@ -13,12 +13,10 @@ import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
-@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
 public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {

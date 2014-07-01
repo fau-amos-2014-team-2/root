@@ -60,6 +60,7 @@ public class ConnectionProvider<T extends BusinessObject> {
 		return container;
 	}
 	
+	@SuppressWarnings("unused")
 	private String getPassword(String configFile) { 
 		
 		BufferedReader b;

@@ -9,7 +9,6 @@ import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Image;
@@ -18,7 +17,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("wm-responsive")
 @PreserveOnRefresh
 public class ShowWoundPhotoView extends NavigationView {
 	private static final long serialVersionUID = -530803657027928140L;

@@ -19,7 +19,6 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -31,7 +30,6 @@ import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-@Theme("wm-responsive")
 @PreserveOnRefresh 
 public class WoundDescriptionListView extends SessionedNavigationView implements WardChangeListener {
 

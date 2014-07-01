@@ -25,7 +25,6 @@ import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -43,7 +42,6 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
 public class CreateWoundDescriptionView extends SessionedNavigationView

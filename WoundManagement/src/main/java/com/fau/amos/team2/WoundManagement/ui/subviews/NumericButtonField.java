@@ -19,11 +19,10 @@ public class NumericButtonField extends GridLayout {
 	public NumericButtonField(AbstractTextField field) {
 		
 		super(3, 4);
+		setSpacing(true);
 		
 		setWidth("95%");
-		setHeight("80%");
-		
-		addStyleName("nmrcField");
+		setHeight("100%");
 		
 		new Responsive(this);
 
@@ -43,11 +42,14 @@ public class NumericButtonField extends GridLayout {
 	}
 	
 	private void addNumericButtons() {
+		
 		Button zeroButton = new Button("0", this.numericButtonListener);
+		addComponent(zeroButton, 1, 3);
+		setComponentAlignment(zeroButton, Alignment.MIDDLE_CENTER); 
+		
 		zeroButton.setData(0);
 		zeroButton.setWidth("95%");
-		addComponent(zeroButton, 1, 3);
-		setComponentAlignment(zeroButton, Alignment.MIDDLE_CENTER);
+		zeroButton.setHeight("100%");
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -55,11 +57,13 @@ public class NumericButtonField extends GridLayout {
 				int numericValue = 3 * i + j + 1;
 
 				Button numericButton = new Button("" + numericValue, numericButtonListener);
-				numericButton.setData(numericValue);
-				numericButton.setWidth("95%");
-
 				addComponent(numericButton, j, i);
 				setComponentAlignment(numericButton, Alignment.MIDDLE_CENTER);
+				
+				numericButton.setData(numericValue);
+				numericButton.setWidth("95%");
+				numericButton.setWidth("100%");
+
 			}
 		}
 	}
@@ -74,9 +78,12 @@ public class NumericButtonField extends GridLayout {
 
 	private void addClearButton() {
 		Button clearButton = new Button(MessageResources.getString("numericFieldClearBtn"), clearButtonListener);
-		clearButton.setWidth("95%");
 		addComponent(clearButton, 0, 3);
 		setComponentAlignment(clearButton, Alignment.MIDDLE_CENTER);
+		
+		clearButton.setWidth("95%");
+		clearButton.setHeight("100%");
+
 	}
 
 	private Button.ClickListener clearButtonListener = new Button.ClickListener() {
@@ -96,8 +103,11 @@ public class NumericButtonField extends GridLayout {
 	private void addEnterButton() {
 		
 		enterButton = new Button(MessageResources.getString("numericFieldEnterBtn"));
-		enterButton.setWidth("95%");
 		addComponent(enterButton, 2, 3);
 		setComponentAlignment(enterButton, Alignment.MIDDLE_CENTER);
+		
+		enterButton.setWidth("95%");		
+		enterButton.setHeight("100%");
+
 	}
 }

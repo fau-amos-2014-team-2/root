@@ -13,6 +13,10 @@ public class CreateWoundDescriptionViewConnector extends
 		AbstractComponentConnector implements
 		CreateWoundDescriptionViewWidgetListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5033408264930444997L;
 	private final CreateWoundDescriptionViewServerRpc rpc = RpcProxy.create(CreateWoundDescriptionViewServerRpc.class, this);
 
 	@Override

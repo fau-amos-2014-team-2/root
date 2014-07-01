@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class WoundLevel implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2509141291509859610L;
 	private long id;
 	private String classification;
 	

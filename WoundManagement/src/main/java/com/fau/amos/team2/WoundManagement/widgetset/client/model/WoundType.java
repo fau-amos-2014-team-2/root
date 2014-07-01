@@ -2,6 +2,7 @@ package com.fau.amos.team2.WoundManagement.widgetset.client.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class WoundType implements Serializable {
 	
 	private long id;

@@ -15,18 +15,17 @@ import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.Align;
 
-@Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
 public class PatientSelectionView extends SessionedNavigationView implements WardChangeListener{
@@ -38,46 +37,55 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 	private List<Patient> patientsForTable;
 	private Table table;
 	private Container container;
+	@SuppressWarnings("rawtypes")
 	private Property[][] propertiesOfWard;
+	@SuppressWarnings("rawtypes")
 	private Property[][] allProperties;
+	@SuppressWarnings("rawtypes")
 	private Property[][] propertiesForTable;
 	
-	private OptionGroup optionGroup;
+	final OptionGroup optionGroup;
 
 	public PatientSelectionView() 
 	{
 		setCaption(MessageResources.getString("patientSelection"));
 		Ward currentWard = getEnvironment().getCurrentEmployee().getCurrentWard();
 		
+		setRightComponent(new UserBar(this));
+		
 		VerticalComponentGroup verticalGroup = new VerticalComponentGroup();
-		
-		verticalGroup.addComponent(new UserBar(this));
-		
 		new Responsive(verticalGroup);
 		
-		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$) 
-		optionGroup.addStyleName("chsOptnGrp");
+		HorizontalLayout horizLayout = new HorizontalLayout();
+		
+		verticalGroup.addComponent(horizLayout);
+		
+		horizLayout.setWidth("100%");
+		horizLayout.setSpacing(true);
+		new Responsive(horizLayout);
+		
+		Label plzChoose = new Label(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$) 
+		horizLayout.addComponent(plzChoose);
+		
+		optionGroup = new OptionGroup();
+		horizLayout.addComponent(optionGroup);
+		optionGroup.setStyleName("horizontal");
+		
 		optionGroup.addItem("patientsOfWard");
 		optionGroup.setItemCaption("patientsOfWard", MessageResources.getString("patientsOfWard"));
+		
 		optionGroup.addItem("allPatients");
 		optionGroup.setItemCaption("allPatients", MessageResources.getString("allPatients"));
+		
 		optionGroup.setImmediate(true);
 		optionGroup.setValue("patientsOfWard");
 		optionGroup.setMultiSelect(false);
 		optionGroup.setNullSelectionAllowed(false);
 		
-		Panel tablePanel = new Panel();
-		tablePanel.setWidth("100%");
-		tablePanel.setSizeUndefined();
-		tablePanel.setImmediate(true);
-		tablePanel.addStyleName("panel");
-
-		new Responsive(tablePanel);
-		
 		table = new Table() {
 		    @Override
 		    protected String formatPropertyValue(Object rowId,
-		            Object colId, Property property) {
+		            Object colId, @SuppressWarnings("rawtypes") Property property) {
 		        if (property.getType() == Date.class) {
 		            SimpleDateFormat df =
 		                new SimpleDateFormat("dd.MM.yyyy");
@@ -90,9 +98,13 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		    }
 		};
 		
+		verticalGroup.addComponent(table);
+		table.setPageLength(0);
+		table.setSizeUndefined();
 		table.setSelectable(true);
 		table.setImmediate(true);
-		table.setWidth("100%");
+		
+		new Responsive(table);
 		
 		allPatients = patientProvider.getAllItems();
 		allProperties = new Property[allPatients.size()][5];
@@ -103,34 +115,18 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		propertiesForTable = propertiesOfWard;
 		
 		table.addContainerProperty("name", String.class , null, MessageResources.getString("name"), null , null);
+		table.setColumnWidth("name", (int) table.getColumnExpandRatio("name"));
 		table.addContainerProperty("birthdate", Date.class, null, MessageResources.getString("birthdate"), null, null);
+		table.setColumnWidth("birthdate", (int) table.getColumnExpandRatio("name"));
 		table.addContainerProperty("ward", String.class, null, MessageResources.getString("ward"), null, null);
+		table.setColumnWidth("ward", (int) table.getColumnExpandRatio("name"));
 		table.addContainerProperty("room", String.class, null, MessageResources.getString("room"), null, null);
-		//table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
+		table.setColumnWidth("room", (int) table.getColumnExpandRatio("name"));
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("wounds"), null, Align.RIGHT);
-		
-		table.addStyleName("table");
-		
-		new Responsive(table);
-		
-		/*table.setColumnWidth("name", 250);
-		table.setColumnWidth("birthdate", 170);
-		table.setColumnWidth("room", 100);
-		table.setColumnWidth("ward", 100);
-		table.setColumnWidth("currentWounds", 60);*/
-						
-		/*float width = getEnvironment().getWindowWidth();
-		int widthName = (int) (width * 0.35); 
-		int widthBday = (int) (width * 0.15); 
-		int widthOther = (int) (width * 0.1); 
-		int widthWoundN = (int) (width * 0.08); */
-			
+		table.setColumnWidth("currentWounds", (int) table.getColumnExpandRatio("name"));
+
 		container = table.getContainerDataSource();
-		
 		fillTable(); 
-		
-		tablePanel.setContent(table);
-		tablePanel.getContent().setSizeUndefined();
 		
 		table.addValueChangeListener(new Property.ValueChangeListener() {
 		    public void valueChange(ValueChangeEvent event) {
@@ -157,19 +153,16 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 				}
 				
 				container.removeAllItems();
-				
 				fillTable();
 			}
 			
 		});
-		
-		verticalGroup.addComponent(optionGroup);
-		verticalGroup.addComponent(tablePanel);
-		
 		setContent(verticalGroup);
 		
 	}
 
+	
+	
 	@Override
 	public void wardChanged(WardChangeEvent event) {
 		if (event.getWard() != null){
