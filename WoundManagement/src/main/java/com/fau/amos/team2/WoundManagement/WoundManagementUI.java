@@ -10,7 +10,6 @@ import com.fau.amos.team2.WoundManagement.ui.PatientView;
 import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.fau.amos.team2.WoundManagement.ui.ShowWoundDescriptionView;
 import com.fau.amos.team2.WoundManagement.ui.ShowWoundPhotoView;
-import com.fau.amos.team2.WoundManagement.ui.StartMenuView;
 import com.fau.amos.team2.WoundManagement.ui.UserLoginView;
 import com.fau.amos.team2.WoundManagement.ui.WoundDescriptionListView;
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -128,9 +127,11 @@ public class WoundManagementUI extends UI {
 //				}
 //				
 //				setContent(manager);
-				setContent(new StartMenuView());
 				if (getEnvironment().getCurrentEmployee() != null){
 					setContent(new PatientSelectionView());
+				}
+				else {
+					setContent(new UserLoginView());
 				}
 				getPage().setTitle("Wound Management Session " + session.getId());
 				break;
