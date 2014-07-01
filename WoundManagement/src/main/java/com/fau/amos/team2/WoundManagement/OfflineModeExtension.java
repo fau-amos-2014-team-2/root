@@ -13,7 +13,6 @@ public class OfflineModeExtension extends OfflineMode {
 		@Override
 		public void persistWoundDescriptions(List<WoundDescription> woundDescriptions) {
 			// TODO Call other method like DataUtil.persistWoundDescription(woundDescriptions)
-			System.out.println("persistWoundDescriptions");
 		}
 	};
 	

@@ -1,8 +1,9 @@
-package com.fau.amos.team2.WoundManagement.ui;
+package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.provider.EmployeeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.SessionedPopover;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Button;

@@ -18,14 +18,13 @@ import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -46,8 +45,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
-public class CreateWoundDescriptionView extends SessionedNavigationView
-		implements WardChangeListener {
+public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 	private Wound wound;
 	private WoundDescriptionProvider woundDescriptionProvider = WoundDescriptionProvider
@@ -58,9 +56,9 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 			.getInstance();
 	private Upload upload;
 
-	public CreateWoundDescriptionView(final Wound wound) {
+	public CreateWoundDescriptionView() {
 
-		this.wound = wound;
+		this.wound = getEnvironment().getCurrentWound();
 		WoundDescription latest = woundDescriptionProvider
 				.getNewestForWound(wound);
 
@@ -317,49 +315,44 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 				// setSizes - if only one size is entered it is stored to size1
 				// as diameter
 				// - size must be between 0 and 9999
-				try {
-					if (size2.getValue().equals("")) {
+				try{
+					if (size1.getValue().equals("") || size1.getValue().equals("0")){ //$NON-NLS-1$
 						woundDescription.setSize2(0);
-						if (size1.getValue().equals("")) {
+						if (size2.getValue().equals("") || size2.getValue().equals("0")){ //$NON-NLS-1$
 							woundDescription.setSize1(0);
 						} else {
 							int size2Int = Integer.parseInt(size2.getValue());
-							if (size2Int < 9999 && size2Int >= 0) {
+							if (size2Int < 9999 && size2Int >= 0){
 								woundDescription.setSize1(size2Int);
 							} else {
-								Notification.show(MessageResources
-										.getString("sizeFormatException"));
+								Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
 								return;
 							}
 						}
-
+						
 					} else {
 						int size1Int = Integer.parseInt(size1.getValue());
-						if (size1Int < 9999 && size1Int >= 0) {
+						if (size1Int < 9999 && size1Int >= 0){
 							woundDescription.setSize1(size1Int);
-							if (size2.getValue().equals("")) {
+							if (size2.getValue().equals("")){ //$NON-NLS-1$
 								woundDescription.setSize2(0);
 							} else {
-								int size2Int = Integer.parseInt(size2
-										.getValue());
-								if (size2Int < 9999 && size2Int >= 0) {
+								int size2Int = Integer.parseInt(size2.getValue());
+								if (size2Int < 9999 && size2Int >= 0){
 									woundDescription.setSize2(size2Int);
 								} else {
-									Notification.show(MessageResources
-											.getString("sizeFormatException"));
+									Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
 									return;
 								}
-							}
+							} 
 						} else {
-							Notification.show(MessageResources
-									.getString("sizeFormatException"));
+							Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
 							return;
 						}
 					}
-				} catch (NumberFormatException e) {
-					// should never get here actually
-					Notification
-							.show("Die Größe ist im falschen Format angegeben.");
+				} catch(NumberFormatException e){
+					//should never get here actually
+					Notification.show("Die Größe ist im falschen Format angegeben."); //$NON-NLS-1$
 					e.printStackTrace();
 					return;
 				}
@@ -394,9 +387,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 				 * the old view, which means the old list - new description
 				 * would not be listed (even if created properly)
 				 */
-				getNavigationManager().navigateTo(
-						new WoundDescriptionListView(wound));
-
+//				getNavigationManager().navigateTo(new WoundDescriptionListView(wound));
+				Page.getCurrent().setUriFragment("woundDescriptions");
 			}
 
 		});
@@ -466,13 +458,24 @@ public class CreateWoundDescriptionView extends SessionedNavigationView
 		mainLayout.addComponent(createNewDescription);
 
 		setContent(mainLayout);
+		
+		Button backButton = new Button("< " + MessageResources.getString("woundDescriptionsHeader"));
+		backButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("woundDescriptions");
+			}
+			
+		});
+		setLeftComponent(backButton);
 
 	}
 
-	@Override
-	public void wardChanged(WardChangeEvent event) {
-		WoundDescriptionListView newView = new WoundDescriptionListView(wound);
-		getNavigationManager().setPreviousComponent(newView);
-
-	}
+//	@Override
+//	public void wardChanged(WardChangeEvent event) {
+//		WoundDescriptionListView newView = new WoundDescriptionListView(wound);
+//		getNavigationManager().setPreviousComponent(newView);
+//
+//	}
 }

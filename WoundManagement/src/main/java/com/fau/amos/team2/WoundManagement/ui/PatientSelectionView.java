@@ -8,11 +8,10 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
+import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeListener;
 import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -21,6 +20,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.Page;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
@@ -46,6 +46,8 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 
 	public PatientSelectionView() 
 	{
+		getEnvironment().setCurrentWound(null);
+		
 		setCaption(MessageResources.getString("patientSelection"));
 		Ward currentWard = getEnvironment().getCurrentEmployee().getCurrentWard();
 		
@@ -137,8 +139,11 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		    	Object value = table.getValue();
 		    	if (value != null){
 		    		Patient patient = patientProvider.getByID(value);
-		    		NavigationView next = new PatientView(patient);
-		    		getNavigationManager().navigateTo(next);
+		    		getEnvironment().setCurrentPatient(patient);
+		    		getEnvironment().setShowCurrentWoundsOnly(true);
+		    		Page.getCurrent().setUriFragment("patient", true);
+		    		//NavigationView next = new PatientView(patient);
+		    		//getNavigationManager().navigateTo(next);
 		    	}
 		    }
 
@@ -207,6 +212,12 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			propertiesForTable[patientsForTable.indexOf(p)][4].setValue(p.getCurrentWounds().size());
 			container.addItem(p.getId());
 		}
+	}
+	
+	@Override
+	public void onBecomingVisible(){
+		super.onBecomingVisible();
+		Page.getCurrent().setUriFragment("patientSelection");
 	}
 
 }

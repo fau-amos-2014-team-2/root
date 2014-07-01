@@ -176,8 +176,7 @@ public class UploadPhotoView extends NavigationView implements Upload.Receiver {
 
 		final NavigationButton showrecentlyuploadedphoto = new NavigationButton(
 				"Upload-Bild anzeigen");
-		showrecentlyuploadedphoto.setTargetView(new ShowWoundPhotoView(
-				woundDescription));
+		showrecentlyuploadedphoto.setTargetView(new ShowWoundPhotoView());
 		panelContent.addComponent(showrecentlyuploadedphoto);
 
 		panelContent.addComponents(upload, image);

@@ -7,13 +7,14 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -21,7 +22,7 @@ import com.vaadin.ui.Label;
 @Theme("wm-responsive")
 @PreserveOnRefresh
 @SuppressWarnings("serial")
-public class ShowWoundDescriptionView extends SessionedNavigationView implements WardChangeListener {
+public class ShowWoundDescriptionView extends SessionedNavigationView {
 
 
 	/*
@@ -31,12 +32,13 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 	 */
 	private WoundDescription woundDescription;
 	
-	private final NavigationButton showwoundphoto;
+//	private final NavigationButton showwoundphoto;
+	private final Button showWoundPhoto;
 	
-	public ShowWoundDescriptionView(WoundDescription woundDescription) {
+	public ShowWoundDescriptionView() {
 
 		setRightComponent(new UserBar(this));
-		this.woundDescription = woundDescription;
+		this.woundDescription = getEnvironment().getCurrentWoundDescription();
 
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		setCaption(MessageResources.getString("showWoundDescView"));
@@ -51,9 +53,18 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		mainLayout.setSizeFull();
 
-		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
-		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));
-		mainLayout.addComponent(showwoundphoto);
+//		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
+//		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));
+		showWoundPhoto = new Button(MessageResources.getString("showpicture"));
+		showWoundPhoto.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("showPhoto");
+			}
+			
+		});
+		mainLayout.addComponent(showWoundPhoto);
 		
 		HorizontalLayout greetingandDate =new HorizontalLayout();
 		
@@ -157,26 +168,37 @@ public class ShowWoundDescriptionView extends SessionedNavigationView implements
 
 		mainLayout.addComponents(berichtBeschreibung, beschreibung);
 		
-		
+		onBecomingVisible();
 		
 		setContent(mainLayout);
+		
+		Button backButton = new Button("< " + MessageResources.getString("woundDescriptionsHeader"));
+		backButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Page.getCurrent().setUriFragment("woundDescriptions");
+			}
+			
+		});
+		
+		setLeftComponent(backButton);
 
 	}
 
-	@Override
-	public void wardChanged(WardChangeEvent event) {
-		WoundDescriptionListView newView = new WoundDescriptionListView(this.woundDescription.getWound());
-		getNavigationManager().setPreviousComponent(newView);
-	}
+//	@Override
+//	public void wardChanged(WardChangeEvent event) {
+//		WoundDescriptionListView newView = new WoundDescriptionListView(this.woundDescription.getWound());
+//		getNavigationManager().setPreviousComponent(newView);
+//	}
 	
 	//if there is no image yet, disable the navigation button, so that the user can not go to the 
 	//in this case useless- show image view
 public void onBecomingVisible() {
-		
 		if (woundDescription.getImage() == null) {			
-			showwoundphoto.setVisible(false);
+			showWoundPhoto.setVisible(false);
 		} else {
-			showwoundphoto.setVisible(true);
+			showWoundPhoto.setVisible(true);
 		}
 	}
 }
