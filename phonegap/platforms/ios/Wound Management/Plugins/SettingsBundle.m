@@ -33,9 +33,24 @@
     NSString *host = [standardUserDefaults stringForKey:@"host_preference"];
     NSString *port = [standardUserDefaults stringForKey:@"port_preference"];
     NSString *protocol = [standardUserDefaults stringForKey:@"protocol_preference"];
+    NSString *path = [standardUserDefaults stringForKey:@"path_preference"];
+    
+    // Since the SettingsBundle returns nil if containing the default values, fill with the defaults values if nil
+    
+    if (port == nil)
+        port = @"8080";
+    
+    if (protocol == nil)
+        protocol = @"http";
+    
+    if (path == nil)
+        path = @"";
+    
+    if ([path length] > 0 && [path characterAtIndex:0] == '/')
+        path = [path substringFromIndex:1];
     
     if (host != nil && port != nil && protocol != nil) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[NSString stringWithFormat:@"%@://%@:%@", protocol, host, port]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[NSString stringWithFormat:@"%@://%@:%@/%@", protocol, host, port, path]];
     }
     else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
