@@ -48,6 +48,7 @@ import com.vaadin.client.ui.orderedlayout.HorizontalLayoutConnector;
 import com.vaadin.client.ui.orderedlayout.VerticalLayoutConnector;
 import com.vaadin.client.ui.panel.PanelConnector;
 import com.vaadin.client.ui.passwordfield.PasswordFieldConnector;
+import com.vaadin.client.ui.splitpanel.HorizontalSplitPanelConnector;
 import com.vaadin.client.ui.table.TableConnector;
 import com.vaadin.client.ui.textarea.TextAreaConnector;
 import com.vaadin.client.ui.textfield.TextFieldConnector;
@@ -55,8 +56,6 @@ import com.vaadin.client.ui.ui.UIConnector;
 import com.vaadin.client.ui.upload.UploadConnector;
 import com.vaadin.client.ui.window.WindowConnector;
 import com.vaadin.shared.ui.Connect.LoadStyle;
-import com.vaadin.shared.ui.datefield.DateFieldConstants;
-import com.vaadin.ui.DateField;
 
 public class WidgetLoaderFactory extends TouchKitBundleLoaderFactory {
 	
@@ -77,6 +76,7 @@ public class WidgetLoaderFactory extends TouchKitBundleLoaderFactory {
 		        GridLayoutConnector.class.getName(),
 		        HorizontalButtonGroupConnector.class.getName(),
 		        HorizontalLayoutConnector.class.getName(),
+				HorizontalSplitPanelConnector.class.getName(),
 		        ImageConnector.class.getName(),
 		        JavaScriptManagerConnector.class.getName(),
 		        LabelConnector.class.getName(),

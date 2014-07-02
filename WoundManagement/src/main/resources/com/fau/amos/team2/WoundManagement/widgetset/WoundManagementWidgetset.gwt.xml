@@ -16,11 +16,16 @@
 
 	<inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
 	
+	<inherits name="com.vaadin.addon.responsive.ResponsiveWidgetSet" />
+		
 	<!-- <inherits name="org.vaadin.addon.leaflet.Widgetset" />
 	
 	<inherits name="com.vaadin.addon.charts.Widgetset" />
 	
+<<<<<<< HEAD
 	<inherits name="com.vaadin.addon.responsive.ResponsiveWidgetSet" />
+=======
+>>>>>>> tilt-layout
 	
 	<inherits name="fi.jasoft.qrcode.QrcodeWidgetset" />
 	

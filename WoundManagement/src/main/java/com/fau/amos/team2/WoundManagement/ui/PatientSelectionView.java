@@ -8,26 +8,26 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
 import com.fau.amos.team2.WoundManagement.provider.PatientProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeEvent;
-import com.fau.amos.team2.WoundManagement.ui.UserWardView.WardChangeListener;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
-import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeEvent;
+import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeListener;
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
-import com.vaadin.server.Page.BrowserWindowResizeEvent;
-import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
-//added import Ward
 import com.vaadin.ui.Table.Align;
-import com.vaadin.ui.UI;
 
+@Theme("wm-responsive")
+@PreserveOnRefresh
 @SuppressWarnings("serial")
 public class PatientSelectionView extends SessionedNavigationView implements WardChangeListener{
 	
@@ -46,29 +46,19 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 
 	public PatientSelectionView() 
 	{
-		
-		// ResizeListener
-		UI.getCurrent().setImmediate(true);
-		UI.getCurrent().setResizeLazy(true);
-		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void browserWindowResized(BrowserWindowResizeEvent event) {
-				getEnvironment().setOrientation();
-				UI.getCurrent().requestRepaint();
-				//Page.getCurrent().reload();
-			}
-		});
+		getEnvironment().setCurrentWound(null);
 		
 		setCaption(MessageResources.getString("patientSelection"));
-		
 		Ward currentWard = getEnvironment().getCurrentEmployee().getCurrentWard();
-		
-		setRightComponent(new UserBar(this));
 		
 		VerticalComponentGroup verticalGroup = new VerticalComponentGroup();
 		
-		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$
+		verticalGroup.addComponent(new UserBar(this));
+		
+		new Responsive(verticalGroup);
+		
+		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$) 
+		optionGroup.addStyleName("chsOptnGrp");
 		optionGroup.addItem("patientsOfWard");
 		optionGroup.setItemCaption("patientsOfWard", MessageResources.getString("patientsOfWard"));
 		optionGroup.addItem("allPatients");
@@ -79,8 +69,12 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		optionGroup.setNullSelectionAllowed(false);
 		
 		Panel tablePanel = new Panel();
+		tablePanel.setWidth("100%");
 		tablePanel.setSizeUndefined();
 		tablePanel.setImmediate(true);
+		tablePanel.addStyleName("panel");
+
+		new Responsive(tablePanel);
 		
 		table = new Table() {
 		    @Override
@@ -100,6 +94,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		
 		table.setSelectable(true);
 		table.setImmediate(true);
+		table.setWidth("100%");
 		
 		allPatients = patientProvider.getAllItems();
 		allProperties = new Property[allPatients.size()][5];
@@ -116,31 +111,22 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		//table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("wounds"), null, Align.RIGHT);
 		
-		if(getEnvironment().isHorizontalLayout()){
-			
-			table.setColumnWidth("name", 250);
-			table.setColumnWidth("birthdate", 170);
-			table.setColumnWidth("room", 100);
-			table.setColumnWidth("ward", 100);
-			table.setColumnWidth("currentWounds", 60);
-			
-		}else{
-			
-			float width = getEnvironment().getWindowWidth();
-			
-			int widthName = (int) (width * 0.35); 
-			int widthBday = (int) (width * 0.15); 
-			int widthOther = (int) (width * 0.1); 
-			int widthWoundN = (int) (width * 0.08); 
-			
-			table.setColumnWidth("name", widthName);
-			table.setColumnWidth("birthdate", widthBday);
-			table.setColumnWidth("room", widthOther);
-			table.setColumnWidth("ward", widthOther);
-			table.setColumnWidth("currentWounds", widthWoundN);
-			
-		}
+		table.addStyleName("table");
 		
+		new Responsive(table);
+		
+		/*table.setColumnWidth("name", 250);
+		table.setColumnWidth("birthdate", 170);
+		table.setColumnWidth("room", 100);
+		table.setColumnWidth("ward", 100);
+		table.setColumnWidth("currentWounds", 60);*/
+						
+		/*float width = getEnvironment().getWindowWidth();
+		int widthName = (int) (width * 0.35); 
+		int widthBday = (int) (width * 0.15); 
+		int widthOther = (int) (width * 0.1); 
+		int widthWoundN = (int) (width * 0.08); */
+			
 		container = table.getContainerDataSource();
 		
 		fillTable(); 
@@ -153,8 +139,11 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		    	Object value = table.getValue();
 		    	if (value != null){
 		    		Patient patient = patientProvider.getByID(value);
-		    		NavigationView next = new PatientView(patient);
-		    		getNavigationManager().navigateTo(next);
+		    		getEnvironment().setCurrentPatient(patient);
+		    		getEnvironment().setShowCurrentWoundsOnly(true);
+		    		Page.getCurrent().setUriFragment("patient", true);
+		    		//NavigationView next = new PatientView(patient);
+		    		//getNavigationManager().navigateTo(next);
 		    	}
 		    }
 
@@ -178,15 +167,13 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			}
 			
 		});
-			
+		
 		verticalGroup.addComponent(optionGroup);
 		verticalGroup.addComponent(tablePanel);
-			
+		
 		setContent(verticalGroup);
 		
 	}
-
-
 
 	@Override
 	public void wardChanged(WardChangeEvent event) {
@@ -225,6 +212,12 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			propertiesForTable[patientsForTable.indexOf(p)][4].setValue(p.getCurrentWounds().size());
 			container.addItem(p.getId());
 		}
+	}
+	
+	@Override
+	public void onBecomingVisible(){
+		super.onBecomingVisible();
+		Page.getCurrent().setUriFragment("patientSelection");
 	}
 
 }

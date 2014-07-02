@@ -10,7 +10,7 @@ import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
-import com.fau.amos.team2.WoundManagement.ui.WoundDescriptionListView;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -151,8 +151,8 @@ public class ExistingWound extends VerticalLayout {
 							
 							doubleCheckSubWindow.close();
 							
-							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
-							
+//							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
+							Page.getCurrent().setUriFragment("patient", true);
 			        	}
 			        });
 					
@@ -171,6 +171,7 @@ public class ExistingWound extends VerticalLayout {
 			        
 			        subContent.setMargin(true);
 			        
+			        subContent.setSpacing(true);
 			        doubleCheckSubWindow.setContent(subContent);
 			        doubleCheckSubWindow.center();
 			        
@@ -184,7 +185,9 @@ public class ExistingWound extends VerticalLayout {
 			addWoundDescription.addClickListener(new ClickListener(){
 				@Override
 				public void buttonClick(ClickEvent event) {
-					parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(ExistingWound.this.wound));
+//					parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(ExistingWound.this.wound));
+					parentView.getEnvironment().setCurrentWound(ExistingWound.this.wound);
+					Page.getCurrent().setUriFragment("woundDescriptions");
 				}
 			});
 		

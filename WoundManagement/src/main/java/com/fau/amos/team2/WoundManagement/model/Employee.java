@@ -10,7 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import converter.BooleanToStringConverter;
+import com.fau.amos.team2.WoundManagement.converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
@@ -68,6 +68,7 @@ public class Employee implements BusinessObject {
 	public Employee() {
 		keyword = "key";
 		this.sensoID =1;
+
 		setAccumulativeAckType(AccumulativeAckType.NOT_ALLOWED);
 		setCollectiveAccMedicationAllowed(false);
 	}

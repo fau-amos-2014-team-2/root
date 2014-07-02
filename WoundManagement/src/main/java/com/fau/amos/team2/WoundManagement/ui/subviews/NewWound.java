@@ -60,6 +60,8 @@ public class NewWound extends FormLayout {
 		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
 		recorded.setWidth(width);
+		recorded.setImmediate(true);
+		
 		addComponent(recorded);
 		
 		//ComboBox - body location code
@@ -71,12 +73,15 @@ public class NewWound extends FormLayout {
 		location.setValue(bodyLocation); //select chosen location
 		location.setNullSelectionAllowed(false);
 		location.setWidth(width);
+		location.setEnabled(false);
 		addComponent(location);
 		
 		//TextField - body location (in words)
 		final TextField locationText = new TextField(MessageResources.getString("bodyLocation") + ":"); //$NON-NLS-1$
 		locationText.setMaxLength(200);
 		locationText.setWidth(width);
+		locationText.setImmediate(true);
+		
 		addComponent(locationText);
 		
 		//ComboBox - wound type
@@ -88,6 +93,8 @@ public class NewWound extends FormLayout {
 			type.setItemCaption(tmp, tmp.getClassification());
 		}
 		type.setWidth(width);
+		type.setImmediate(true);
+		
 		addComponent(type);
 		
 		//ComboBox - wound level
@@ -99,6 +106,8 @@ public class NewWound extends FormLayout {
 			level.setItemCaption(tmp, tmp.getCharacterisation());
 		}
 		level.setWidth(width);
+		level.setImmediate(true);
+		
 		addComponent(level);
 		
 		//ComboBox - origination of wound
@@ -109,27 +118,35 @@ public class NewWound extends FormLayout {
 		}
 		origination.setNullSelectionAllowed(false);
 		origination.setWidth(width);
+		origination.setImmediate(true);
+		
 		addComponent(origination);
 		
 		//NumberField - height of wound
 		final NumberField size1 = new NumberField(MessageResources.getString("height") + " (mm):"); //$NON-NLS-1$
-		size1.setValue("0"); //$NON-NLS-1$
+		//size1.setValue("0"); //$NON-NLS-1$
 		size1.setInvalidAllowed(false);
 		size1.setWidth(width);
+		size1.setImmediate(true);
+		
 		addComponent(size1);
 		
 		//NumberField - width of wound
 		final NumberField size2 = new NumberField(MessageResources.getString("width") + " (mm):"); //$NON-NLS-1$
-		size2.setValue("0"); //$NON-NLS-1$
+		//size2.setValue("0"); //$NON-NLS-1$
 		size2.setInvalidAllowed(false);
 		size2.setWidth(width);
+		size2.setImmediate(true);
+		
 		addComponent(size2);
 		
 		//NumberField - depth of wound
 		final NumberField depth = new NumberField(MessageResources.getString("depth") + " (mm):"); //$NON-NLS-1$
-		depth.setValue("0"); //$NON-NLS-1$
+		//depth.setValue("0"); //$NON-NLS-1$
 		depth.setInvalidAllowed(false);
 		depth.setWidth(width);
+		depth.setImmediate(true);
+		
 		addComponent(depth);
 		
 		//TextField - commentary
@@ -137,6 +154,8 @@ public class NewWound extends FormLayout {
 		comment.setMaxLength(2000);
 		comment.setWidth(width);
 		comment.setHeight(halfWidth);
+		comment.setImmediate(true);
+				
 		addComponent(comment);
 		
 		HorizontalLayout buttons = new HorizontalLayout();
@@ -170,22 +189,22 @@ public class NewWound extends FormLayout {
 						wound.setWoundType(woundType);
 						
 						if (woundType.getLevelState() == WoundLevelState.REQUIRED && level.getValue() == null) {
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundLevelRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}
 						else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN && level.getValue() != null) {
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("woundLevelForbidden")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundLevelForbidden") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}
 						
 						//check if BodyLocation is set according to chosen WoundType
 						if (woundType.isBodyLocationRequired() && locationText.getValue().equals("")) { //$NON-NLS-1$
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("bodyLocationRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("bodyLocationRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}
 						// check if Size is set according to chosen WoundType
 						if (woundType.isSizeIsRequired() && size1.getValue().equals("") && size2.getValue().equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
-							Notification.show(MessageResources.getString("woundType") + ": " + ((WoundType)type.getValue()).getClassification() + " - " + MessageResources.getString("sizeRequired")); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("sizeRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
 							return;
 						}						
 					}

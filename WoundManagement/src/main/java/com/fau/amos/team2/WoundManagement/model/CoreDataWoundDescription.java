@@ -7,9 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fau.amos.team2.WoundManagement.converter.BooleanToStringConverter;
 import com.fau.amos.team2.WoundManagement.provider.CoreDataWoundDescriptionProvider;
-
-import converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
@@ -25,7 +24,7 @@ public class CoreDataWoundDescription implements BusinessObject {
 	
 	@Column(name = "TYP", length=3)
 	private String type;//3
-	
+
 	@Column(name = "BEZEICH", nullable = false, length=50)
 	private String characterisation;//50
 	
@@ -33,6 +32,7 @@ public class CoreDataWoundDescription implements BusinessObject {
 	private int coreDataWoundDescriptionId;
 	
 	@Column(name = "MITFREITEXT", length=1)
+
 	private String isFreeText;
 	
 	@Column(name = "POSITION")

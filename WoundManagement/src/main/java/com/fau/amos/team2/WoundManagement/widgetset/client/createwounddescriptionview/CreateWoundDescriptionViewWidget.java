@@ -6,11 +6,9 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -62,10 +60,39 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		});
 		
 		Scheduler.get().scheduleFixedPeriod(this, 1000);
+		
+		// TODO: Remove old timer bullsh*t and the broken Vaadin stuff
+		reconnect();
 	}
 	
 	native void consoleLog(String message) /*-{
 	    console.log( "me:" + message );
+	}-*/;
+	
+	static native void reconnect() /*-{
+		var callFunction = @com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview.CreateWoundDescriptionViewWidget::reconnect();
+	
+		$wnd.tryReconnect = function () {
+			var xhr = new XMLHttpRequest();
+	        xhr.onreadystatechange = function () {
+	            if (xhr.readyState == 4 && xhr.status != 0) {
+	                $wnd.location.reload();
+	            }
+	        };
+	    
+	        xhr.open("GET", $wnd.location, true);
+	        xhr.timeout = 5000;
+	        xhr.ontimeout = function() {
+	        	console.log("reconnect: ontimeout");
+	            $wnd.tryReconnect();
+	        }
+	        xhr.onerror = function() {
+	        	console.log("reconnect: onerror");
+	            $wnd.setTimeout(callFunction, 5000);
+	        }
+	        xhr.send();
+		}
+		$wnd.tryReconnect();
 	}-*/;
 	
 	private Widget buildContentView() {
@@ -110,7 +137,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 
 	@Override
 	public boolean execute() {
-		if (isActive() && isNetworkOnline()) {
+		/* if (isActive() && isNetworkOnline()) {
 			// offline -> online
 			offlineOnlineIndicator.addStyleName("connection");
 			reconnectLabel.setVisible(true);
@@ -121,7 +148,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 			// online -> offline
 			listener = null;
 			refreshOnSave = true;
-		}
+		} */
 		
 		return true;
 	}

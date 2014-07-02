@@ -1,25 +1,22 @@
 package com.fau.amos.team2.WoundManagement;
 
-/*
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
-import org.eclipse.persistence.config.SessionCustomizer;
-import org.eclipse.persistence.sessions.DatabaseLogin;
-import org.eclipse.persistence.sessions.JNDIConnector;
-import org.eclipse.persistence.sessions.Session;
-import org.eclipse.persistence.sessions.server.ServerSession;*/
-
 import java.util.Locale;
 
 import com.fau.amos.team2.WoundManagement.provider.Environment;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.CreateWoundDescriptionView;
 import com.fau.amos.team2.WoundManagement.ui.PatientSelectionView;
-import com.fau.amos.team2.WoundManagement.ui.StartMenuView;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.fau.amos.team2.WoundManagement.ui.PatientView;
+import com.fau.amos.team2.WoundManagement.ui.ShowWoundDescriptionView;
+import com.fau.amos.team2.WoundManagement.ui.ShowWoundPhotoView;
+import com.fau.amos.team2.WoundManagement.ui.UserLoginView;
+import com.fau.amos.team2.WoundManagement.ui.WoundDescriptionListView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.server.Page.UriFragmentChangedEvent;
+import com.vaadin.server.Page.UriFragmentChangedListener;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.UI;
@@ -30,13 +27,15 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Widgetset("com.fau.amos.team2.WoundManagement.widgetset.WoundManagementWidgetset")
-@Theme("touchkit")
+//@Theme("touchkit")
+@Theme("wm-responsive")
 @PreserveOnRefresh
 public class WoundManagementUI extends UI {
 	
 	private OfflineModeExtension offlineModeSettings;
+
 	private WrappedSession session;
-	
+		
 	public WrappedSession getMySession() {
 		return session;
 	}
@@ -57,7 +56,8 @@ public class WoundManagementUI extends UI {
 			System.out.println("Resumed existing environment for session " + session.getId());
 		}
 	}
-
+	
+	
 	@Override
 	protected void init(VaadinRequest request) {		
 
@@ -69,23 +69,21 @@ public class WoundManagementUI extends UI {
 
 		// TODO: Check for second parameter "loadDescriptions"
 		
-		enableOfflineMode();
-		setLocale();
-		setImmediate(true);
 
 		initializeEnvironment(request);
 		
-		NavigationManager manager = new NavigationManager();
-
-		if (getEnvironment().getCurrentEmployee() != null) {
-			manager.setCurrentComponent(new PatientSelectionView());
-		}
-		else {
-			manager.setCurrentComponent(new StartMenuView());
-		}
+		getPage().setUriFragment("start");
 		
-		setContent(manager);
-		getPage().setTitle("Wound Management Session " + session.getId());
+		getPage().addUriFragmentChangedListener(
+	               new UriFragmentChangedListener() {
+	           public void uriFragmentChanged(
+	                   UriFragmentChangedEvent source) {
+	               enter(source.getUriFragment());
+	            }
+	        });
+
+	        // Read the initial URI fragment
+	        enter(getPage().getUriFragment());
 	}
 
 	private void setLocale() {
@@ -106,5 +104,98 @@ public class WoundManagementUI extends UI {
 		offlineModeSettings.extend(this);
 		offlineModeSettings.setPersistentSessionCookie(true);
 		offlineModeSettings.setOfflineModeEnabled(true);
+	}
+	
+	public void enter(String uriFragment){
+		if (uriFragment != null){
+			switch (uriFragment){
+			case "start": 
+				enableOfflineMode();
+				setLocale();
+				setImmediate(true);
+				
+//				NavigationManager manager = new NavigationManager();
+//
+//				if (getEnvironment().getCurrentEmployee() != null) {
+//					manager.setCurrentComponent(new PatientSelectionView());
+//				}
+//				else {
+//					manager.setCurrentComponent(new StartMenuView());
+//				}
+//				
+//				setContent(manager);
+				if (getEnvironment().getCurrentEmployee() != null){
+					setContent(new PatientSelectionView());
+				}
+				else {
+					setContent(new UserLoginView());
+				}
+				getPage().setTitle("Wound Management Session " + session.getId());
+				break;
+			case "login":
+				if (getEnvironment().getCurrentEmployee() == null){
+					setContent(new UserLoginView());
+				} else {
+					Page.getCurrent().setUriFragment("patientSelection");
+				}
+				break;
+			case "patientSelection":
+				if (getEnvironment().getCurrentEmployee() != null){
+					setContent(new PatientSelectionView());
+				} else {
+					Page.getCurrent().setUriFragment("login");
+				}
+				break;
+			case "patient":
+				if (getEnvironment().getCurrentEmployee() != null){
+					if (getEnvironment().getCurrentPatient() != null){
+						setContent(new PatientView());
+					}
+				} else {
+					Page.getCurrent().setUriFragment("login");
+				}
+				break;
+			case "woundDescriptions":
+				if (getEnvironment().getCurrentEmployee() != null){
+					if (getEnvironment().getCurrentWound() != null){
+						setContent(new WoundDescriptionListView());
+					}
+				} else {
+					Page.getCurrent().setUriFragment("login");
+				}
+				break;
+			case "createWoundDescription":
+				if (getEnvironment().getCurrentEmployee() != null){
+					if (getEnvironment().getCurrentWound() != null){
+						setContent(new CreateWoundDescriptionView());
+					}
+				} else {
+					Page.getCurrent().setUriFragment("login");
+				}
+				break;
+			case "showWoundDescription":
+				if (getEnvironment().getCurrentEmployee() != null){
+					if (getEnvironment().getCurrentWoundDescription() != null){
+						setContent(new ShowWoundDescriptionView());
+					}
+				} else {
+					Page.getCurrent().setUriFragment("login");
+				}
+				break;
+			case "showPhoto":
+				if (getEnvironment().getCurrentEmployee() != null){
+					if (getEnvironment().getCurrentWoundDescription() != null){
+						setContent(new ShowWoundPhotoView());
+					} else {
+
+					}
+				} else {
+					Page.getCurrent().setUriFragment("login");
+				}
+				break;
+			}
+
+		}
+		
 	}
 }

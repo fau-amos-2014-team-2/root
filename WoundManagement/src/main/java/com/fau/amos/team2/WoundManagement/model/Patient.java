@@ -70,6 +70,7 @@ public class Patient implements BusinessObject {
 	private String accomodation;
 
 	// Standard Constructor is setting the sensoID to default value
+
 	public Patient() {
 		this.sensoID = 1;
 	}
@@ -111,7 +112,10 @@ public class Patient implements BusinessObject {
 	}
 
 	public Sex getSex() {
-		return Sex.valueOf(getGender().charAt(0));
+		if (getGender() != null && getGender().length() > 0)
+			return Sex.valueOf(getGender().charAt(0));
+		
+		return Sex.NEUTER;
 	}
 
 	public void setGender(String gender) {

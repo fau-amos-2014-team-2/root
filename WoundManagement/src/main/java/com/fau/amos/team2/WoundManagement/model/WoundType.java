@@ -9,7 +9,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import converter.BooleanToStringConverter;
+import com.fau.amos.team2.WoundManagement.converter.BooleanToStringConverter;
 
 @SuppressWarnings("serial")
 @Entity
@@ -28,6 +28,7 @@ public class WoundType implements BusinessObject {
 	
 	@Column(name = "BEZEICH", nullable = false, length=30)
 	private String classification;//30
+
 	
 	@Column(name = "TYP", nullable = false, length=1)
 	private String type;

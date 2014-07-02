@@ -74,11 +74,11 @@ public class Wound implements BusinessObject {
 	private int origination;
 
 	@ManyToOne
-	@JoinColumn(name = "KENDEK07_NR", referencedColumnName = "NR")
+	@JoinColumn(name = "KENWUN07_NR", referencedColumnName = "NR")
 	private WoundType woundType;
 
 	@ManyToOne
-	@JoinColumn(name = "KENWUN07_NR", referencedColumnName = "NR")
+	@JoinColumn(name = "KENDEK07_NR", referencedColumnName = "NR")
 	private WoundLevel woundLevel;
 
 	@Column(name = "DEKUBITUSNR")

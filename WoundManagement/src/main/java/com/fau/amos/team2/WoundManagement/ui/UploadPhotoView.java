@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
@@ -16,6 +17,8 @@ import com.fau.amos.team2.WoundManagement.provider.WoundProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.StreamResource;
@@ -36,6 +39,8 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
+@Theme("wm-responsive")
+@PreserveOnRefresh
 @SuppressWarnings("unused")
 public class UploadPhotoView extends NavigationView implements Upload.Receiver {
 	private static final long serialVersionUID = -530803657027928140L;
@@ -171,8 +176,7 @@ public class UploadPhotoView extends NavigationView implements Upload.Receiver {
 
 		final NavigationButton showrecentlyuploadedphoto = new NavigationButton(
 				"Upload-Bild anzeigen");
-		showrecentlyuploadedphoto.setTargetView(new ShowWoundPhotoView(
-				woundDescription));
+		showrecentlyuploadedphoto.setTargetView(new ShowWoundPhotoView());
 		panelContent.addComponent(showrecentlyuploadedphoto);
 
 		panelContent.addComponents(upload, image);
@@ -183,9 +187,7 @@ public class UploadPhotoView extends NavigationView implements Upload.Receiver {
 
 	@Override
 	public OutputStream receiveUpload(String filename, String mimeType) {
-		// TODO Auto-generated method stub
-		Notification
-				.show("!!!!this method is never called, it's implemented in class ImageUploader!!!");
+		Notification.show("!!!!this method is never called, it's implemented in class ImageUploader!!!");
 		return null;
 	}
 	
