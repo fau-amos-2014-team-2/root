@@ -7,7 +7,6 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.CreateWoundDescriptionView;
 import com.fau.amos.team2.WoundManagement.ui.PatientSelectionView;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
-import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.fau.amos.team2.WoundManagement.ui.ShowWoundDescriptionView;
 import com.fau.amos.team2.WoundManagement.ui.ShowWoundPhotoView;
 import com.fau.amos.team2.WoundManagement.ui.UserLoginView;
@@ -36,9 +35,7 @@ public class WoundManagementUI extends UI {
 	private OfflineModeExtension offlineModeSettings;
 
 	private WrappedSession session;
-	
-	private SessionedNavigationView currentView;
-	
+		
 	public WrappedSession getMySession() {
 		return session;
 	}
@@ -150,15 +147,6 @@ public class WoundManagementUI extends UI {
 				}
 				break;
 			case "patient":
-				if (getEnvironment().getCurrentEmployee() != null){
-					if (getEnvironment().getCurrentPatient() != null){
-						setContent(new PatientView());
-					}
-				} else {
-					Page.getCurrent().setUriFragment("login");
-				}
-				break;
-			case "patient-false":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentPatient() != null){
 						setContent(new PatientView());

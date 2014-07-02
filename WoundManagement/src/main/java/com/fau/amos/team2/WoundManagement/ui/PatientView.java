@@ -68,11 +68,6 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 //				getNavigationManager().navigateTo(
 //					new PatientView(currentPatient, getBoolShowCurrentWoundsOnly()));
 				getEnvironment().setShowCurrentWoundsOnly(scwo);
-//				if (Page.getCurrent().getUriFragment().equals("patient-false")){
-//					Page.getCurrent().setUriFragment("patient", true);
-//				} else {
-//					Page.getCurrent().setUriFragment("patient-false", true);
-//				}		
 				Page.getCurrent().setUriFragment("");
 				Page.getCurrent().setUriFragment("patient", true);
 			}

@@ -1,7 +1,7 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.model;
 
 import java.io.Serializable;
-
+//TODO: clean up offline WoundDescription stuff
 public class WoundDescription implements Serializable {
 	
 	private int sensoID;

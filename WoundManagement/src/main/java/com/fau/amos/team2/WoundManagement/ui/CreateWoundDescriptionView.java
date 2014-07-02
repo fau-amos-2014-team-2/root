@@ -258,11 +258,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 					woundDescription.setBagDirection(bagDirection.getValue());
 				}
 
-				/*
-				 * TODO: woundlevel is set here BUT later there is an
-				 * Notification saying that setting an woundlevel is not allowed
-				 * (in some cases)
-				 */
 				// setWoundLevel
 				if (level.getValue() != null) {
 					woundDescription.setWoundLevel(woundLevelProvider
@@ -434,7 +429,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 				try {
 					bos.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

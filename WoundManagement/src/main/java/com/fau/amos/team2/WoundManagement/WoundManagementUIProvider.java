@@ -14,7 +14,6 @@ public class WoundManagementUIProvider extends UIProvider {
         if (overrideMobileUA() || userAgent.contains("mobile")) {
             return WoundManagementUI.class;
         } else {
-        	//FIXME Wenns geht ist UIProvider sinnlos
             return WoundManagementUI.class;
         }
     }
