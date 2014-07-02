@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D9356EDC-51EA-45A4-BB50-362FC8C2D0D4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Wound Management</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9DC5CC91-A45C-4470-AE9E-4B0E08B136FF</key>
+		<string>https://github.com/fau-amos-2014-team-2/root.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>phonegap/platforms/ios/Wound Management.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9DC5CC91-A45C-4470-AE9E-4B0E08B136FF</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/fau-amos-2014-team-2/root.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9DC5CC91-A45C-4470-AE9E-4B0E08B136FF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9DC5CC91-A45C-4470-AE9E-4B0E08B136FF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>amos</string>
+		</dict>
+	</array>
+</dict>
+</plist>
