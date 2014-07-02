@@ -31,20 +31,8 @@ public class ConnectionProvider<T extends BusinessObject> {
 	{
 		type = c;
 		
-		HashMap<String, String> properties = new HashMap<String,String>();
-		
-		while(user == null)
-			user = javax.swing.JOptionPane.showInputDialog("Database user: ");
-		properties.put("javax.persistence.jdbc.user", user);
-		
-		while(password == null)
-			password = javax.swing.JOptionPane.showInputDialog("Database password: ");
-		
-		properties.put("javax.persistence.jdbc.password", password);
-		
 		entityManagerFactory = 
-				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT, 
-						properties);
+				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT);
 
 		entityManager = entityManagerFactory.createEntityManager();
 		
