@@ -12,7 +12,8 @@ import com.vaadin.client.ui.AbstractComponentConnector;
 public class CreateWoundDescriptionViewConnector extends
 		AbstractComponentConnector implements
 		CreateWoundDescriptionViewWidgetListener {
-	
+
+	private static final long serialVersionUID = 4281131505941021232L;
 	private final CreateWoundDescriptionViewServerRpc rpc = RpcProxy.create(CreateWoundDescriptionViewServerRpc.class, this);
 
 	@Override

@@ -4,6 +4,7 @@ import java.io.Serializable;
 //TODO: clean up offline WoundDescription stuff
 public class WoundDescription implements Serializable {
 	
+	private static final long serialVersionUID = 842094622187122567L;
 	private int sensoID;
 	private boolean isBaggy;
 	private String bagLocation;

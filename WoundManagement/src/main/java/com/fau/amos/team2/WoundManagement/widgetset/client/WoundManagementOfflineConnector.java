@@ -13,6 +13,7 @@ import com.vaadin.shared.ui.Connect;
 @Connect(OfflineModeExtension.class)
 public class WoundManagementOfflineConnector extends OfflineModeConnector {
 	
+	private static final long serialVersionUID = -8715249937842142606L;
 	private final PersistOfflineWoundDescriptionsServerRpc rpc = RpcProxy.create(PersistOfflineWoundDescriptionsServerRpc.class, this);
 	
 	@Override

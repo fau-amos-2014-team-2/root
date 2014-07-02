@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class WoundType implements Serializable {
 	
+	private static final long serialVersionUID = -2226712217130012442L;
 	private long id;
 	private String classification;
 	
