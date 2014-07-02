@@ -187,9 +187,7 @@ public class UploadPhotoView extends NavigationView implements Upload.Receiver {
 
 	@Override
 	public OutputStream receiveUpload(String filename, String mimeType) {
-		// TODO Auto-generated method stub
-		Notification
-				.show("!!!!this method is never called, it's implemented in class ImageUploader!!!");
+		Notification.show("!!!!this method is never called, it's implemented in class ImageUploader!!!");
 		return null;
 	}
 	
