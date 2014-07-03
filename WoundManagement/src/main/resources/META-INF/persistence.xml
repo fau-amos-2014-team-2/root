@@ -21,9 +21,9 @@
 		<properties>
         	<!-- Default database login using Oracle for EclipseLink's internal connection pool,
                  change this to access your own database. -->
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://faui2o2j.informatik.uni-erlangen.de:5432" />
-            <property name="javax.persistence.jdbc.user" value="ss14-proj2" />
+
+            <jta-data-source>java:/comp/env/jdbc/postgressql</jta-data-source>
+            <non-jta-data-source>java:/comp/env/jdbc/postgresql</non-jta-data-source>
 
             <!-- The database platform is auto-detected by default,
                  if you want to set a specific platform this can be set. -->
