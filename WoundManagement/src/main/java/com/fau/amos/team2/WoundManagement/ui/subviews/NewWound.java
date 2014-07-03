@@ -163,7 +163,6 @@ public class NewWound extends FormLayout {
 		
 		Button submit = new
 				Button(MessageResources.getString("addWound")); //$NON-NLS-1$
-		submit.setClickShortcut(KeyCode.ENTER);
 		submit.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {

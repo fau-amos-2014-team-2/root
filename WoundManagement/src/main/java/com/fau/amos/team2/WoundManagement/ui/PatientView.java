@@ -46,9 +46,19 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	public PatientView() {
 		
 		getEnvironment().setCurrentWoundDescription(null);
-		
 		this.currentPatient = getEnvironment().getCurrentPatient();
 		this.showCurrentWoundsOnly = getEnvironment().getShowCurrentWoundsOnly();
+		
+		Wound wound = getEnvironment().getCurrentWound();
+		if (wound != null){
+			if (wound.getCureEmployee() == null){
+				if (!showCurrentWoundsOnly){
+					this.prepareSelectedWound(wound);
+				}
+			} else {
+				this.prepareSelectedWound(wound);
+			}
+		}
 		
 		UserBar userBar = new UserBar(this);
 		userBar.addStyleName("userBar");
@@ -122,7 +132,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		new Responsive(switchSpacePic);
 		new Responsive(content);
 		
-		this.prepareSelectedWound(getEnvironment().getCurrentWound());
+//		this.prepareSelectedWound(getEnvironment().getCurrentWound());
 		
 		setContent(content);
 		
