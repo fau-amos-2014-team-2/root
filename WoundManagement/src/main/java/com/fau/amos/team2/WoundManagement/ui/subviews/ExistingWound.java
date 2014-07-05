@@ -184,7 +184,6 @@ public class ExistingWound extends VerticalLayout {
 			addWoundDescription.addClickListener(new ClickListener(){
 				@Override
 				public void buttonClick(ClickEvent event) {
-					parentView.getEnvironment().setCurrentWound(ExistingWound.this.wound);
 					parentView.getEnvironment().setCurrentUriFragment("woundDescriptions");
 					Page.getCurrent().setUriFragment(parentView.getEnvironment().getCurrentUriFragment());
 				}

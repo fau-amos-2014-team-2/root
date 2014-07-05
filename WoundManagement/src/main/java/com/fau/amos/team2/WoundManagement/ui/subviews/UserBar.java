@@ -1,7 +1,5 @@
 package com.fau.amos.team2.WoundManagement.ui.subviews;
 
-import java.util.Locale;
-
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
@@ -9,7 +7,6 @@ import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeListener;
 import com.vaadin.addon.responsive.Responsive;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;

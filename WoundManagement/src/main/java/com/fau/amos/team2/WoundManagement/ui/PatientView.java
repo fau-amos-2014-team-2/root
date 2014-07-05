@@ -61,7 +61,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 				setBoolShowCurrentWoundsOnly(scwo);
 				getEnvironment().setShowCurrentWoundsOnly(scwo);
 				Page.getCurrent().setUriFragment("");
-				getEnvironment().setCurrentUriFragment("patient");
+//				getEnvironment().setCurrentUriFragment("patient");
 				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 			
@@ -115,11 +115,9 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		new Responsive(switchSpacePic);
 		new Responsive(content);
 		
-		setContent(content);
-		
 		Wound wound = getEnvironment().getCurrentWound();
 		if (wound != null){
-			if (wound.getCureEmployee() == null){
+			if (wound.getCureEmployee() != null){
 				if (!showCurrentWoundsOnly){
 					this.prepareSelectedWound(wound);
 				}
@@ -140,6 +138,8 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		});
 		
 		setLeftComponent(backButton);
+		
+		setContent(content);
 	}
 
 	
@@ -162,7 +162,7 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	public void selectedWoundChanged(SelectedWoundChangeEvent event) {
 		Wound selectedWound = event.getWound();
 		rightContent.removeAllComponents();	
-				
+		getEnvironment().setCurrentWound(selectedWound);
 		if (selectedWound != null) {
 			rightContent.addComponent(new ExistingWound(this, selectedWound));
 		}

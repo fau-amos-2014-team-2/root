@@ -127,9 +127,9 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		
 		if (woundPosition != null) {
 			existingWoundSelected = woundManager.hasWoundAtPosition(selectedWoundPosition);
-			woundManager.setSelectedWoundPosition(selectedWoundPosition);
+//			woundManager.setSelectedWoundPosition(selectedWoundPosition);
 		}
-
+		woundManager.setSelectedWoundPosition(selectedWoundPosition);
 		refreshSelectedWound();
 	}
 
