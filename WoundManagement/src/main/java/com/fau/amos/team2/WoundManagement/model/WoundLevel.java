@@ -15,7 +15,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KENDEK07")
 @NamedQueries({
-	@NamedQuery(name="WoundLevel.deleteAll", query="DELETE FROM WoundLevel")
+	@NamedQuery(name="WoundLevel.deleteAll", query="DELETE FROM WoundLevel"),
+	@NamedQuery(name="WoundLevel.allForWoundType", query = "SELECT w FROM WoundLevel w WHERE w.woundType=:woundType")
 })
 public class WoundLevel implements BusinessObject {
 	@Id

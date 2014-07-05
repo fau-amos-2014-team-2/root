@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Patient;
@@ -24,6 +25,8 @@ import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -187,39 +190,69 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		}
 
 		mainLayout.addComponent(wundGroessen);
+		
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":");
 
 		// ComboBox - wound type
-		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll()
+		Collection<Object> typeIds = woundTypeProvider.getAll()
 				.getItemIds();
 		final NativeSelect type = new NativeSelect(
 				MessageResources.getString("woundType") + ":");
 		for (Object o : typeIds) {
-			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
+			WoundType tmp = woundTypeProvider.getByID(o);
 			type.addItem(o);
 			type.setItemCaption(o, tmp.getClassification());
 		}
 		type.setWidth("20em");
 		type.setNewItemsAllowed(false);
 		type.setImmediate(true);
-		if (latest.getWoundType() != null) {
-			type.setValue(latest.getWoundType().getId());
+		WoundType latestWoundType = latest.getWoundType();
+		WoundType woundWoundType = wound.getWoundType();
+		if (latestWoundType != null) {
+			type.setValue(latestWoundType.getId());
+		} else if (woundWoundType != null){
+			type.setValue(woundWoundType.getId());
 		}
+		type.addValueChangeListener(new ValueChangeListener(){
 
-		// ComboBox - wound level
-		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll()
-				.getItemIds();
-		final NativeSelect level = new NativeSelect(
-				MessageResources.getString("woundLevel") + ":");
-		for (Object o : levelIds) {
-			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
-			level.addItem(o);
-			level.setItemCaption(o, tmp.getCharacterisation());
-		}
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				WoundType woundType = woundTypeProvider.getByID(type.getValue());
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(woundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl.getId());
+					level.setItemCaption(wl.getId(), wl.getCharacterisation());
+				}
+			}
+			
+		});
+
 		level.setNewItemsAllowed(false);
 		level.setImmediate(true);
 		level.setWidth("20em");
-		if (latest.getWoundLevel() != null) {
-			level.setValue(latest.getWoundLevel().getId());
+		WoundLevel latestWoundLevel = latest.getWoundLevel();
+		WoundLevel woundWoundLevel = wound.getWoundLevel();
+		if (latestWoundLevel != null) {
+			if (latestWoundType != null){
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(latestWoundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl.getId());
+					level.setItemCaption(wl.getId(), wl.getCharacterisation());
+				}
+				level.setValue(latestWoundLevel.getId());
+			}
+		} else if (woundWoundLevel != null){
+			if (woundWoundType != null){
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(woundWoundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl.getId());
+					level.setItemCaption(wl.getId(), wl.getCharacterisation());
+				}
+				level.setValue(woundWoundLevel.getId());
+			}
 		}
 
 		CssLayout woundlevelandtype = new CssLayout();
@@ -355,7 +388,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 				}
 
 				wound.getWoundDescriptions().add(woundDescription);
-				WoundDescriptionProvider.getInstance().add(woundDescription);
+				woundDescriptionProvider.add(woundDescription);
 
 				getEnvironment().setCurrentUriFragment("woundDescriptions");
 				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());

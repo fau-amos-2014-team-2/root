@@ -2,6 +2,7 @@ package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.BodyLocation;
@@ -18,6 +19,8 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -83,8 +86,10 @@ public class NewWound extends FormLayout {
 		
 		addComponent(locationText);
 		
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":");
+		
 		//ComboBox - wound type
-		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
+		Collection<Object> typeIds = woundTypeProvider.getAll().getItemIds();
 		final NativeSelect type = new NativeSelect(MessageResources.getString("woundType") + ":");
 		for (Object o : typeIds){
 			WoundType tmp = woundTypeProvider.getByID(o);
@@ -93,17 +98,23 @@ public class NewWound extends FormLayout {
 		}
 		type.setWidth(width);
 		type.setImmediate(true);
+		type.addValueChangeListener(new ValueChangeListener(){
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				WoundType woundType = (WoundType) type.getValue();
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(woundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl);
+					level.setItemCaption(wl, wl.getCharacterisation());
+				}
+			}
+			
+		});
 		
 		addComponent(type);
-		
-		//ComboBox - wound level
-		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
-		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":");
-		for (Object o : levelIds){
-			WoundLevel tmp = woundLevelProvider.getByID(o);
-			level.addItem(tmp);
-			level.setItemCaption(tmp, tmp.getCharacterisation());
-		}
+	
 		level.setWidth(width);
 		level.setImmediate(true);
 		
