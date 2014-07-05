@@ -59,20 +59,12 @@ public class WoundManagementUI extends UI {
 	
 	
 	@Override
-	protected void init(VaadinRequest request) {		
-
-		//...
-		// Locale currentLocale = Locale.GERMAN;
-		// currentLocale = Locale.ENGLISH;
-		// MessageResources.setLocale(currentLocale);
-		// legacy...
-
-		// TODO: Check for second parameter "loadDescriptions"
-		
+	protected void init(VaadinRequest request) {	
 
 		initializeEnvironment(request);
 		
-		getPage().setUriFragment("start");
+		getEnvironment().setCurrentUriFragment("login");
+		getPage().setUriFragment(getEnvironment().getCurrentUriFragment());
 		
 		getPage().addUriFragmentChangedListener(
 	               new UriFragmentChangedListener() {
@@ -89,8 +81,9 @@ public class WoundManagementUI extends UI {
 	private void setLocale() {
 		//Locale currentLocale = ApplicationSettings.instance.get().getLanguage();
 		Locale currentLocale = Locale.GERMAN;
-		//currentLocale = Locale.ENGLISH;
-
+		//Locale currentLocale = Locale.ENGLISH;
+		//Locale currentLocale = Locale.CHINA;
+		getEnvironment().setCurrentLocale(currentLocale);
 		MessageResources.setLocale(currentLocale);
 	}
 	
@@ -109,77 +102,96 @@ public class WoundManagementUI extends UI {
 	public void enter(String uriFragment){
 		if (uriFragment != null){
 			switch (uriFragment){
-			case "start": 
+			case "login":
 				enableOfflineMode();
 				setLocale();
 				setImmediate(true);
-				
-//				NavigationManager manager = new NavigationManager();
-//
-//				if (getEnvironment().getCurrentEmployee() != null) {
-//					manager.setCurrentComponent(new PatientSelectionView());
-//				}
-//				else {
-//					manager.setCurrentComponent(new StartMenuView());
-//				}
-//				
-//				setContent(manager);
-				if (getEnvironment().getCurrentEmployee() != null){
-					setContent(new PatientSelectionView());
-				}
-				else {
-					setContent(new UserLoginView());
-				}
-				getPage().setTitle("Wound Management Session " + session.getId());
-				break;
-			case "login":
 				if (getEnvironment().getCurrentEmployee() == null){
 					setContent(new UserLoginView());
 				} else {
-					Page.getCurrent().setUriFragment("patientSelection");
+					getEnvironment().setCurrentUriFragment("patientSelection");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
+				getPage().setTitle("Wound Management Session " + session.getId());
 				break;
 			case "patientSelection":
 				if (getEnvironment().getCurrentEmployee() != null){
 					setContent(new PatientSelectionView());
 				} else {
-					Page.getCurrent().setUriFragment("login");
+					getEnvironment().setCurrentUriFragment("login");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				break;
 			case "patient":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentPatient() != null){
 						setContent(new PatientView());
+					} else  {
+						getEnvironment().setCurrentUriFragment("patient");
+						Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 					}
 				} else {
-					Page.getCurrent().setUriFragment("login");
+					getEnvironment().setCurrentUriFragment("login");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				break;
 			case "woundDescriptions":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWound() != null){
 						setContent(new WoundDescriptionListView());
+					} else {
+						if (getEnvironment().getCurrentPatient() != null){
+							getEnvironment().setCurrentUriFragment("patient");
+							Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+						} else {
+							getEnvironment().setCurrentUriFragment("patientSelection");
+							Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+						}
 					}
 				} else {
-					Page.getCurrent().setUriFragment("login");
+					getEnvironment().setCurrentUriFragment("login");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				break;
 			case "createWoundDescription":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWound() != null){
 						setContent(new CreateWoundDescriptionView());
+					} else {
+						if (getEnvironment().getCurrentPatient() != null){
+							getEnvironment().setCurrentUriFragment("patient");
+							Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+						} else {
+							getEnvironment().setCurrentUriFragment("patientSelection");
+							Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+						}
 					}
 				} else {
-					Page.getCurrent().setUriFragment("login");
+					getEnvironment().setCurrentUriFragment("login");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				break;
 			case "showWoundDescription":
 				if (getEnvironment().getCurrentEmployee() != null){
 					if (getEnvironment().getCurrentWoundDescription() != null){
 						setContent(new ShowWoundDescriptionView());
+					} else {
+						if (getEnvironment().getCurrentWound() != null){
+							getEnvironment().setCurrentUriFragment("woundDescriptions");
+							Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+						} else {
+							if (getEnvironment().getCurrentPatient() != null){
+								getEnvironment().setCurrentUriFragment("patient");
+								Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+							} else {
+								getEnvironment().setCurrentUriFragment("patientSelection");
+								Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+							}
+						}
 					}
 				} else {
-					Page.getCurrent().setUriFragment("login");
+					getEnvironment().setCurrentUriFragment("login");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				break;
 			case "showPhoto":
@@ -187,10 +199,22 @@ public class WoundManagementUI extends UI {
 					if (getEnvironment().getCurrentWoundDescription() != null){
 						setContent(new ShowWoundPhotoView());
 					} else {
-
+						if (getEnvironment().getCurrentWound() != null){
+							getEnvironment().setCurrentUriFragment("woundDescriptions");
+							Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+						} else {
+							if (getEnvironment().getCurrentPatient() != null){
+								getEnvironment().setCurrentUriFragment("patient");
+								Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+							} else {
+								getEnvironment().setCurrentUriFragment("patientSelection");
+								Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
+							}
+						}
 					}
 				} else {
-					Page.getCurrent().setUriFragment("login");
+					getEnvironment().setCurrentUriFragment("login");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				break;
 			}

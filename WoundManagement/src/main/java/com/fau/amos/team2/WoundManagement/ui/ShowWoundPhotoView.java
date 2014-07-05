@@ -37,17 +37,10 @@ public class ShowWoundPhotoView extends SessionedNavigationView {
 			setCaption(MessageResources.getString("photo") + " "
 					+ dateFormat.format(woundDescription.getDate()));
 
-			// using stream-resource class to avoid creation/deletion of
-			// unnecessary
-			// files to show the image, inspired by example of vaadin-book:
-			// https://vaadin.com/book/vaadin7/-/page/application.resources.html
+			// using stream-resource class to avoid creation/deletion of unnecessary files to show the image
 			final class MyImageSource implements StreamSource {
 				ByteArrayInputStream imagebuffer = null;
 
-				/*
-				 * We need to implement this method that returns the resource as
-				 * a stream.
-				 */
 				public InputStream getStream() {
 
 					try {
@@ -57,21 +50,12 @@ public class ShowWoundPhotoView extends SessionedNavigationView {
 
 						return imagebuffer;
 					} catch (Exception e) {
-						Notification
-								.show("Something ugly went wrong, plz tell an SD about this - Error in ShowWoundPhotoView/getStream(catced Exception");
 						return null;
 					}
 				}
 			}
 
-			/* not needed anymore, using Image-myImage instead
-			final Embedded image = new Embedded();
-			image.setVisible(false);
-			image.setMimeType("image/*");
-			 */
-
-			// Fixed: by using streamresources, the image is now shown
-			// without creating a file
+			// by using StreamResources, the image is now shown without creating a file
 			StreamSource imagesource = new MyImageSource();
 			StreamResource resource = new StreamResource(imagesource,
 					"bufferedimage.png");
@@ -83,10 +67,6 @@ public class ShowWoundPhotoView extends SessionedNavigationView {
 			Layout panelContent = new VerticalLayout();
 
 			panelContent.addComponent(myImage);
-			/*panelContent.addComponent(image);
-			image.setSource(resource);
-			image.setVisible(true);
-			image.setSizeFull();*/
 			panel.setContent(panelContent);
 
 			setContent(panel);
@@ -96,7 +76,8 @@ public class ShowWoundPhotoView extends SessionedNavigationView {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					Page.getCurrent().setUriFragment("showWoundDescription");
+					getEnvironment().setCurrentUriFragment("showWoundDescription");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 				
 			});

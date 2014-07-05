@@ -3,6 +3,7 @@ package com.fau.amos.team2.WoundManagement.ui;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
@@ -21,6 +22,11 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
@@ -57,7 +63,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		
 		new Responsive(verticalGroup);
 		
-		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":"); //$NON-NLS-1$) 
+		optionGroup = new OptionGroup(MessageResources.getString("pleaseChoose") + ":");
 		optionGroup.addStyleName("chsOptnGrp");
 		optionGroup.addItem("patientsOfWard");
 		optionGroup.setItemCaption("patientsOfWard", MessageResources.getString("patientsOfWard"));
@@ -108,7 +114,6 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		table.addContainerProperty("birthdate", Date.class, null, MessageResources.getString("birthdate"), null, null);
 		table.addContainerProperty("ward", String.class, null, MessageResources.getString("ward"), null, null);
 		table.addContainerProperty("room", String.class, null, MessageResources.getString("room"), null, null);
-		//table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("wounds"), null, Align.RIGHT);
 		
 		table.addStyleName("table");
@@ -141,9 +146,8 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		    		Patient patient = patientProvider.getByID(value);
 		    		getEnvironment().setCurrentPatient(patient);
 		    		getEnvironment().setShowCurrentWoundsOnly(true);
-		    		Page.getCurrent().setUriFragment("patient", true);
-		    		//NavigationView next = new PatientView(patient);
-		    		//getNavigationManager().navigateTo(next);
+		    		getEnvironment().setCurrentUriFragment("patient");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 		    	}
 		    }
 
@@ -167,7 +171,7 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			}
 			
 		});
-		
+	
 		verticalGroup.addComponent(optionGroup);
 		verticalGroup.addComponent(tablePanel);
 		
@@ -213,12 +217,5 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			container.addItem(p.getId());
 		}
 	}
-	
-	@Override
-	public void onBecomingVisible(){
-		super.onBecomingVisible();
-		Page.getCurrent().setUriFragment("patientSelection");
-	}
-
 }
 

@@ -24,15 +24,8 @@ import com.vaadin.ui.Label;
 @SuppressWarnings("serial")
 public class ShowWoundDescriptionView extends SessionedNavigationView {
 
-
-	/*
-	 * The View that shows a previously created Wounddescription. It show the
-	 * information listed to the previously selected description.
-	 * @Param: Wounddescription to be shown
-	 */
 	private WoundDescription woundDescription;
 	
-//	private final NavigationButton showwoundphoto;
 	private final Button showWoundPhoto;
 	
 	public ShowWoundDescriptionView() {
@@ -53,14 +46,13 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		mainLayout.setSizeFull();
 
-//		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
-//		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));
 		showWoundPhoto = new Button(MessageResources.getString("showpicture"));
 		showWoundPhoto.addClickListener(new ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Page.getCurrent().setUriFragment("showPhoto");
+				getEnvironment().setCurrentUriFragment("showPhoto");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 			
 		});
@@ -82,7 +74,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 
 		HorizontalLayout groesen = new HorizontalLayout();
 		if (this.woundDescription.getSize2() ==0){
-			//getSize2 equal to zero means that size 1 has to be interpreted as diameter/durchmesser & size2 is not relevant
+			//getSize2 equal to zero means that size 1 has to be interpreted as diameter
 			Label diameter=new Label();
 			diameter.setCaption(MessageResources.getString("diameter")+":");
 			diameter.setValue(""+this.woundDescription.getSize1());
@@ -94,7 +86,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 			
 			groesen.addComponents(diameter, depth);
 		} else {
-			//getsize2 not equal to zero means size 1 is not the diameter & both sizes are relevant
+			//getsize2 not equal to zero means both sizes are relevant
 			Label length = new Label();
 			length.setCaption(MessageResources.getString("height")+":");
 			length.setValue(""+this.woundDescription.getSize1());
@@ -134,10 +126,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 		taschenRicht.setValue(bagdirect);
 		
 		taschen.addComponents(besitzt, taschenLokal, taschenRicht);
-		taschen.setSpacing(true);
-	
-		//taschen.setWidth(mainLayout.getWidth(), mainLayout.getWidthUnits());
-		
+		taschen.setSpacing(true);		
 		
 		mainLayout.addComponent(taschen);
 				
@@ -163,12 +152,11 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 		
 		Label beschreibung = new Label();
 		String description = (this.woundDescription.getDescription() == null)?(MessageResources.getString("noInformation")):(this.woundDescription.getDescription());
-	//	beschreibung.setCaption(description);
 		beschreibung.setValue(description);
 
 		mainLayout.addComponents(berichtBeschreibung, beschreibung);
 		
-		onBecomingVisible();
+		showOrHidePhotoButton();
 		
 		setContent(mainLayout);
 		
@@ -177,7 +165,8 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Page.getCurrent().setUriFragment("woundDescriptions");
+				getEnvironment().setCurrentUriFragment("woundDescriptions");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 			
 		});
@@ -185,16 +174,9 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 		setLeftComponent(backButton);
 
 	}
-
-//	@Override
-//	public void wardChanged(WardChangeEvent event) {
-//		WoundDescriptionListView newView = new WoundDescriptionListView(this.woundDescription.getWound());
-//		getNavigationManager().setPreviousComponent(newView);
-//	}
 	
-	//if there is no image yet, disable the navigation button, so that the user can not go to the 
-	//in this case useless- show image view
-public void onBecomingVisible() {
+	//if there is no image yet, disable the button
+	public void showOrHidePhotoButton() {
 		if (woundDescription.getImage() == null) {			
 			showWoundPhoto.setVisible(false);
 		} else {

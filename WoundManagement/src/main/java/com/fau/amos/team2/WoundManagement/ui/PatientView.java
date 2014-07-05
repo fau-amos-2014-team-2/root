@@ -37,28 +37,13 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	
 	VerticalLayout rightContent = new VerticalLayout();
 	VerticalLayout rightContent2;
-	
-//	public PatientView(Patient patient) {
-//		this(patient, true);
-//	}
-	
+		
 	@SuppressWarnings("serial")
 	public PatientView() {
 		
 		getEnvironment().setCurrentWoundDescription(null);
 		this.currentPatient = getEnvironment().getCurrentPatient();
 		this.showCurrentWoundsOnly = getEnvironment().getShowCurrentWoundsOnly();
-		
-		Wound wound = getEnvironment().getCurrentWound();
-		if (wound != null){
-			if (wound.getCureEmployee() == null){
-				if (!showCurrentWoundsOnly){
-					this.prepareSelectedWound(wound);
-				}
-			} else {
-				this.prepareSelectedWound(wound);
-			}
-		}
 		
 		UserBar userBar = new UserBar(this);
 		userBar.addStyleName("userBar");
@@ -68,18 +53,16 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 
 		final CheckBox showOnlyCurrentWoundsSwitch = new CheckBox(MessageResources.getString("showHealedWounds"));
 		
-		//final Switch showOnlyCurrentWoundsSwitch = new Switch(MessageResources.getString("currentWoundsOnly"));
 		showOnlyCurrentWoundsSwitch.setValue(!getBoolShowCurrentWoundsOnly());
 		showOnlyCurrentWoundsSwitch.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				boolean scwo = !showOnlyCurrentWoundsSwitch.getValue();
 				setBoolShowCurrentWoundsOnly(scwo);
-//				getNavigationManager().navigateTo(
-//					new PatientView(currentPatient, getBoolShowCurrentWoundsOnly()));
 				getEnvironment().setShowCurrentWoundsOnly(scwo);
 				Page.getCurrent().setUriFragment("");
-				Page.getCurrent().setUriFragment("patient", true);
+				getEnvironment().setCurrentUriFragment("patient");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 			
 		});
@@ -132,16 +115,26 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		new Responsive(switchSpacePic);
 		new Responsive(content);
 		
-//		this.prepareSelectedWound(getEnvironment().getCurrentWound());
-		
 		setContent(content);
+		
+		Wound wound = getEnvironment().getCurrentWound();
+		if (wound != null){
+			if (wound.getCureEmployee() == null){
+				if (!showCurrentWoundsOnly){
+					this.prepareSelectedWound(wound);
+				}
+			} else {
+				this.prepareSelectedWound(wound);
+			}
+		}
 		
 		Button backButton = new Button("< " + MessageResources.getString("patientSelection"));
 		backButton.addClickListener(new ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Page.getCurrent().setUriFragment("patientSelection");
+				getEnvironment().setCurrentUriFragment("patientSelection");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 			
 		});
@@ -178,20 +171,6 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		}
 	}
 	
-//	@Override
-//	public void onBecomingVisible(){
-//		super.onBecomingVisible();
-////		this.setNavigationManagerPreviousComponent();
-//		this.prepareSelectedWound(getEnvironment().getCurrentWound());
-//		Page.getCurrent().setUriFragment("patient");
-//	}
-
-
-//	@Override
-//	public void wardChanged(WardChangeEvent event) {
-//		this.setNavigationManagerPreviousComponent();
-//	}
-	
 	public void setSelectedWound(Wound wound) {
 		if (wound != null && wound.getPatient().getId() == currentPatient.getId()) {
 			woundManager.addWound(wound);
@@ -200,7 +179,6 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		else {
 			woundManager.setSelectedWound(null);
 		}
-//		this.setNavigationManagerPreviousComponent();
 	}
 	
 	public void prepareSelectedWound(Wound wound) {
@@ -216,10 +194,6 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 	public Patient getPatient(){
 		return currentPatient;
 	}
-	
-//	public void setNavigationManagerPreviousComponent(){
-//		getNavigationManager().setPreviousComponent(new PatientSelectionView());
-//	}
 
 	public boolean getBoolShowCurrentWoundsOnly() {
 		return this.showCurrentWoundsOnly;

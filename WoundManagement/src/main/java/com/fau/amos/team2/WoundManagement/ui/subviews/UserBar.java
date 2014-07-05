@@ -1,8 +1,11 @@
 package com.fau.amos.team2.WoundManagement.ui.subviews;
 
+import java.util.Locale;
+
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeListener;
 import com.vaadin.addon.responsive.Responsive;
@@ -10,6 +13,7 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -27,7 +31,7 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 	private Label wardLabel;
 
 	@SuppressWarnings("serial")
-	public UserBar(final NavigationView currentView) {
+	public UserBar(final SessionedNavigationView currentView) {
 		Employee currentEmployee = ((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentEmployee();
 
 		if (currentEmployee != null) {						
@@ -78,13 +82,25 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 				@Override
 				public void buttonClick(ClickEvent event) {
 					((WoundManagementUI)UI.getCurrent()).getEnvironment().logout();
-//					currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
-					Page.getCurrent().setUriFragment("login");
+					Page.getCurrent().setUriFragment(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentUriFragment());
 				}
 			});
 			logoutButton.addStyleName("userBarLogoutButton");
 			new Responsive(logoutButton);
 			addComponent(logoutButton);
+			
+			final Button languageButton = new Button();
+			languageButton.setIcon(new ThemeResource("flag_" + currentView.getEnvironment().getCurrentLocale().getLanguage() + ".png"));
+			languageButton.addClickListener(new ClickListener(){
+				
+				@Override
+				public void buttonClick(ClickEvent event) {
+					new LanguageView().showRelativeTo(languageButton);
+				}
+				
+			});
+			
+			addComponent(languageButton);
 			
 			this.setWidth("100%");;
 

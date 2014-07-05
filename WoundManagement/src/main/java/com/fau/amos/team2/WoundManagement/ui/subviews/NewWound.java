@@ -18,7 +18,6 @@ import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.fau.amos.team2.WoundManagement.ui.PatientView;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
-import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -55,7 +54,7 @@ public class NewWound extends FormLayout {
 		setSizeUndefined();
 		
 		//DateField - when is the wound recorded
-		final DatePicker recorded = new DatePicker(MessageResources.getString("recordingDate") + ":"); //$NON-NLS-1$
+		final DatePicker recorded = new DatePicker(MessageResources.getString("recordingDate") + ":");
 		recorded.setValue(new Date());
 		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
@@ -65,7 +64,7 @@ public class NewWound extends FormLayout {
 		addComponent(recorded);
 		
 		//ComboBox - body location code
-		final NativeSelect location = new NativeSelect(MessageResources.getString("bodyLocationCode") + ":"); //$NON-NLS-1$
+		final NativeSelect location = new NativeSelect(MessageResources.getString("bodyLocationCode") + ":");
 		for (BodyLocation b : BodyLocation.values()){
 			location.addItem(b);
 			location.setItemCaption(b, b.toFullString());
@@ -77,7 +76,7 @@ public class NewWound extends FormLayout {
 		addComponent(location);
 		
 		//TextField - body location (in words)
-		final TextField locationText = new TextField(MessageResources.getString("bodyLocation") + ":"); //$NON-NLS-1$
+		final TextField locationText = new TextField(MessageResources.getString("bodyLocation") + ":");
 		locationText.setMaxLength(200);
 		locationText.setWidth(width);
 		locationText.setImmediate(true);
@@ -86,7 +85,7 @@ public class NewWound extends FormLayout {
 		
 		//ComboBox - wound type
 		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll().getItemIds();
-		final NativeSelect type = new NativeSelect(MessageResources.getString("woundType") + ":"); //$NON-NLS-1$
+		final NativeSelect type = new NativeSelect(MessageResources.getString("woundType") + ":");
 		for (Object o : typeIds){
 			WoundType tmp = woundTypeProvider.getByID(o);
 			type.addItem(tmp);
@@ -99,7 +98,7 @@ public class NewWound extends FormLayout {
 		
 		//ComboBox - wound level
 		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll().getItemIds();
-		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":"); //$NON-NLS-1$
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":");
 		for (Object o : levelIds){
 			WoundLevel tmp = woundLevelProvider.getByID(o);
 			level.addItem(tmp);
@@ -111,7 +110,7 @@ public class NewWound extends FormLayout {
 		addComponent(level);
 		
 		//ComboBox - origination of wound
-		final NativeSelect origination = new NativeSelect(MessageResources.getString("origination") + ":"); //$NON-NLS-1$
+		final NativeSelect origination = new NativeSelect(MessageResources.getString("origination") + ":");
 		for (Origination o : Origination.values()){
 			origination.addItem(o);
 			origination.setItemCaption(o, o.toFullString());
@@ -123,8 +122,7 @@ public class NewWound extends FormLayout {
 		addComponent(origination);
 		
 		//NumberField - height of wound
-		final NumberField size1 = new NumberField(MessageResources.getString("height") + " (mm):"); //$NON-NLS-1$
-		//size1.setValue("0"); //$NON-NLS-1$
+		final NumberField size1 = new NumberField(MessageResources.getString("height") + " (mm):");
 		size1.setInvalidAllowed(false);
 		size1.setWidth(width);
 		size1.setImmediate(true);
@@ -132,8 +130,7 @@ public class NewWound extends FormLayout {
 		addComponent(size1);
 		
 		//NumberField - width of wound
-		final NumberField size2 = new NumberField(MessageResources.getString("width") + " (mm):"); //$NON-NLS-1$
-		//size2.setValue("0"); //$NON-NLS-1$
+		final NumberField size2 = new NumberField(MessageResources.getString("width") + " (mm):");
 		size2.setInvalidAllowed(false);
 		size2.setWidth(width);
 		size2.setImmediate(true);
@@ -141,8 +138,7 @@ public class NewWound extends FormLayout {
 		addComponent(size2);
 		
 		//NumberField - depth of wound
-		final NumberField depth = new NumberField(MessageResources.getString("depth") + " (mm):"); //$NON-NLS-1$
-		//depth.setValue("0"); //$NON-NLS-1$
+		final NumberField depth = new NumberField(MessageResources.getString("depth") + " (mm):");
 		depth.setInvalidAllowed(false);
 		depth.setWidth(width);
 		depth.setImmediate(true);
@@ -150,7 +146,7 @@ public class NewWound extends FormLayout {
 		addComponent(depth);
 		
 		//TextField - commentary
-		final TextArea comment = new TextArea(MessageResources.getString("description") + ":"); //$NON-NLS-1$
+		final TextArea comment = new TextArea(MessageResources.getString("description") + ":");
 		comment.setMaxLength(2000);
 		comment.setWidth(width);
 		comment.setHeight(halfWidth);
@@ -162,7 +158,7 @@ public class NewWound extends FormLayout {
 		buttons.setSpacing(true);
 		
 		Button submit = new
-				Button(MessageResources.getString("addWound")); //$NON-NLS-1$
+				Button(MessageResources.getString("addWound"));
 		submit.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -188,22 +184,22 @@ public class NewWound extends FormLayout {
 						wound.setWoundType(woundType);
 						
 						if (woundType.getLevelState() == WoundLevelState.REQUIRED && level.getValue() == null) {
-							Notification.show(MessageResources.getString("woundLevelRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundLevelRequired") + ".");
 							return;
 						}
 						else if (woundType.getLevelState() == WoundLevelState.FORBIDDEN && level.getValue() != null) {
-							Notification.show(MessageResources.getString("woundLevelForbidden") + "."); //$NON-NLS-1$ //$NON-NLS-2$
+							Notification.show(MessageResources.getString("woundLevelForbidden") + ".");
 							return;
 						}
 						
 						//check if BodyLocation is set according to chosen WoundType
-						if (woundType.isBodyLocationRequired() && locationText.getValue().equals("")) { //$NON-NLS-1$
-							Notification.show(MessageResources.getString("bodyLocationRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
+						if (woundType.isBodyLocationRequired() && locationText.getValue().equals("")) {
+							Notification.show(MessageResources.getString("bodyLocationRequired") + ".");
 							return;
 						}
 						// check if Size is set according to chosen WoundType
-						if (woundType.isSizeIsRequired() && size1.getValue().equals("") && size2.getValue().equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
-							Notification.show(MessageResources.getString("sizeRequired") + "."); //$NON-NLS-1$ //$NON-NLS-2$
+						if (woundType.isSizeIsRequired() && size1.getValue().equals("") && size2.getValue().equals("")) {
+							Notification.show(MessageResources.getString("sizeRequired") + ".");
 							return;
 						}						
 					}
@@ -221,24 +217,23 @@ public class NewWound extends FormLayout {
 					try{
 						wound.setRecordingDate(new java.sql.Date(recorded.getValue().getTime()));
 					} catch (NullPointerException e){
-						Notification.show(MessageResources.getString("recordingDateFormatException")); //$NON-NLS-1$
-						e.printStackTrace();
+						Notification.show(MessageResources.getString("recordingDateFormatException"));
 						return;
 					}
 					
 					//setSizes - if only one size is entered it is stored to size1 as diameter
 					//         - size must be between 0 and 9999
 					try{
-						if (size1.getValue().equals("") || size1.getValue().equals("0")){ //$NON-NLS-1$
+						if (size1.getValue().equals("") || size1.getValue().equals("0")){
 							wound.setSize2(0);
-							if (size2.getValue().equals("") || size2.getValue().equals("0")){ //$NON-NLS-1$
+							if (size2.getValue().equals("") || size2.getValue().equals("0")){
 								wound.setSize1(0);
 							} else {
 								int size2Int = Integer.parseInt(size2.getValue());
 								if (size2Int < 9999 && size2Int >= 0){
 									wound.setSize1(size2Int);
 								} else {
-									Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
+									Notification.show(MessageResources.getString("sizeFormatException"));
 									return;
 								}
 							}
@@ -247,46 +242,42 @@ public class NewWound extends FormLayout {
 							int size1Int = Integer.parseInt(size1.getValue());
 							if (size1Int < 9999 && size1Int >= 0){
 								wound.setSize1(size1Int);
-								if (size2.getValue().equals("")){ //$NON-NLS-1$
+								if (size2.getValue().equals("")){
 									wound.setSize2(0);
 								} else {
 									int size2Int = Integer.parseInt(size2.getValue());
 									if (size2Int < 9999 && size2Int >= 0){
 										wound.setSize2(size2Int);
 									} else {
-										Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
+										Notification.show(MessageResources.getString("sizeFormatException"));
 										return;
 									}
 								} 
 							} else {
-								Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
+								Notification.show(MessageResources.getString("sizeFormatException"));
 								return;
 							}
 						}
 					} catch(NumberFormatException e){
-						//should never get here actually
-						Notification.show("Die Größe ist im falschen Format angegeben."); //$NON-NLS-1$
-						e.printStackTrace();
+						Notification.show(MessageResources.getString("sizeFormatException"));
 						return;
 					}
 					
 					//setDepth - depth must be between 0 and 99
 					try {
-						if (depth.getValue().equals("")){ //$NON-NLS-1$
+						if (depth.getValue().equals("")){
 							wound.setDepth(0);
 						} else {
 							int depthInt = Integer.parseInt(depth.getValue());
 							if (depthInt < 99 && depthInt >= 0){
 								wound.setDepth(depthInt);
 							} else {
-								Notification.show(MessageResources.getString("depthFormatException")); //$NON-NLS-1$
+								Notification.show(MessageResources.getString("depthFormatException"));
 								return;
 							}
 						}
 					} catch (NumberFormatException e){
-						//should never get here actually
-						Notification.show("Die Tiefe ist im falschen Format angegeben."); //$NON-NLS-1$
-						e.printStackTrace();
+						Notification.show(MessageResources.getString("depthFormatException"));
 						return;
 					}
 					
@@ -298,16 +289,13 @@ public class NewWound extends FormLayout {
 					
 					parentView.setSelectedWound(wound);
 				} catch (Exception e){
-					//should never get here actually
-					Notification.show("Daten nicht korrekt eingegeben!"); //$NON-NLS-1$
-					e.printStackTrace();
-					
+					Notification.show(MessageResources.getString("incorrectData"));
 				}
 				
 			}
 		});
 		
-		Button cancel = new Button(MessageResources.getString("cancel")); //$NON-NLS-1$
+		Button cancel = new Button(MessageResources.getString("cancel"));
 		cancel.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {

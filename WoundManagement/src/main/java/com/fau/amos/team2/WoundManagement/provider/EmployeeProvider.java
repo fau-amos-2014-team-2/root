@@ -81,7 +81,6 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 			return null;
 		}
 		catch (NonUniqueResultException ex) {
-			// WTF?
 			return null;
 		}
 	}
@@ -100,7 +99,6 @@ public class EmployeeProvider extends ObjectProvider<Employee> {
 			return null;
 		}
 		catch (NonUniqueResultException ex) {
-			// WTF?
 			return null;
 		}
 	}

@@ -27,7 +27,7 @@ public class WoundLevel implements BusinessObject {
 	private int sensoID;
 	
 	@Column(name = "BEZEICH", nullable = false, length=2000)
-	private String characterisation;//2000
+	private String characterisation;
 	
 	@Column(name = "GRAD", nullable = false)
 	private int level;
@@ -37,10 +37,10 @@ public class WoundLevel implements BusinessObject {
 	private WoundType woundType;
 	
 	@Column(name = "BESCHREIB", length=4000)
-	private String description;//4000
+	private String description;
 	
 	@Column(name = "KUERZL", nullable = false, length=5)
-	private String abbreviation;//5
+	private String abbreviation;
 	
 	@Column(name = "POS")
 	private int position;

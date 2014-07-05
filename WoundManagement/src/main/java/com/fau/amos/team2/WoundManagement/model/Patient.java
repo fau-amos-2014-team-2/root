@@ -33,25 +33,25 @@ public class Patient implements BusinessObject {
 	private int sensoID;
 
 	@Column(name = "NAME", length = 35)
-	private String lastName;// 35
+	private String lastName;
 
 	@Column(name = "VORNAME", length = 35)
-	private String firstName;// 35
+	private String firstName;
 
 	@Column(name = "GESCHLECHT", length = 100)
-	private String gender;// 100
+	private String gender;
 
 	@Column(name = "TITEL", length = 100)
-	private String title;// 100
+	private String title;
 
 	@Column(name = "ANREDE", length = 100)
-	private String salutation;// 100
+	private String salutation;
 
 	@Column(name = "GEBDATUM")
 	private Date birthday;
 
 	@Column(name = "ZIMMER", length = 8)
-	private String room;// 8
+	private String room;
 
 	@ManyToOne
 	@JoinColumn(name = "STATIONEN07_NR", referencedColumnName = "NR")
@@ -61,7 +61,7 @@ public class Patient implements BusinessObject {
 	private List<Wound> wounds;
 
 	@Column(name = "SUCHBEZ", length = 35)
-	private String keyword;// 35
+	private String keyword;
 
 	@Column(name = "EINZUG")
 	private Date entryDate;
@@ -69,8 +69,7 @@ public class Patient implements BusinessObject {
 	@Column(name = "UNTERBRINGUNG", length = 1)
 	private String accomodation;
 
-	// Standard Constructor is setting the sensoID to default value
-
+	// Standard constructor is setting the sensoID to default value
 	public Patient() {
 		this.sensoID = 1;
 	}
@@ -187,14 +186,12 @@ public class Patient implements BusinessObject {
 	}
 
 	public List<Wound> getWounds() {
-		// TODO: this is just a workaround! shall not call database every time a
-		// patients wounds are needed.
+		// TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
 		return WoundProvider.getInstance().getAllForPatient(this);
 	}
 
 	public List<Wound> getCurrentWounds() {
-		// TODO: this is just a workaround! shall not call database every time a
-		// patients wounds are needed.
+		// TODO: this is just a workaround! shall not call database every time a patients wounds are needed.
 		return WoundProvider.getInstance().getCurrentForPatient(this);
 	}
 }

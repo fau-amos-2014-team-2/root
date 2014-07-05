@@ -23,10 +23,10 @@ public class CoreDataWoundDescription implements BusinessObject {
 	private int sensoID;
 	
 	@Column(name = "TYP", length=3)
-	private String type;//3
+	private String type;
 
 	@Column(name = "BEZEICH", nullable = false, length=50)
-	private String characterisation;//50
+	private String characterisation;
 	
 	@Column(name = "KENWBS07_NR")
 	private int coreDataWoundDescriptionId;
