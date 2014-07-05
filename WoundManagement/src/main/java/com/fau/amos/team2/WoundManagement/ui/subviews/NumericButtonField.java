@@ -2,6 +2,7 @@ package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
 import com.vaadin.addon.responsive.Responsive;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -97,6 +98,7 @@ public class NumericButtonField extends GridLayout {
 		
 		enterButton = new Button(MessageResources.getString("numericFieldEnterBtn"));
 		enterButton.setWidth("95%");
+		enterButton.setClickShortcut(KeyCode.ENTER);
 		addComponent(enterButton, 2, 3);
 		setComponentAlignment(enterButton, Alignment.MIDDLE_CENTER);
 	}

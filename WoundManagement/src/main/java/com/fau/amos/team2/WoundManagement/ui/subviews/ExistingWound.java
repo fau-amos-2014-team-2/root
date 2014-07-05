@@ -147,11 +147,12 @@ public class ExistingWound extends VerticalLayout {
 			        		wound.setCureEmployee(parentView.getEnvironment().getCurrentEmployee());
 			        		
 							woundProvider.update(wound);
-							setEndDateLabel();
+//							setEndDateLabel();
 							
 							doubleCheckSubWindow.close();
 							
 //							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
+							Page.getCurrent().setUriFragment("");
 							Page.getCurrent().setUriFragment("patient", true);
 			        	}
 			        });
