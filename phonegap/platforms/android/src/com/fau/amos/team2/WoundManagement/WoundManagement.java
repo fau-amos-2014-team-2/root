@@ -19,7 +19,15 @@
 
 package com.fau.amos.team2.WoundManagement;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.Window;
+import android.widget.Toast;
+
 import org.apache.cordova.*;
 
 public class WoundManagement extends CordovaActivity 
@@ -27,11 +35,43 @@ public class WoundManagement extends CordovaActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+    	super.setBooleanProperty("showTitle", true);
         super.onCreate(savedInstanceState);
         super.init();
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html");
+    }
+    
+
+    
+    //NEW
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.mainmenu, menu);
+      return true;
+    }
+    
+    //NEW
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+      case R.id.action_settings:
+    	showUserSettings();
+        break;
+
+      default:
+        break;
+      }
+
+      return true;
+    }
+    
+    private void showUserSettings() {
+    	Intent intent = new Intent(this, AppSettings.class);
+        startActivity(intent);
     }
 }
 

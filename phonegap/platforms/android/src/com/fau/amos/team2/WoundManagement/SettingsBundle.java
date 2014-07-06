@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 
 public class SettingsBundle extends CordovaPlugin {
@@ -17,14 +18,25 @@ public class SettingsBundle extends CordovaPlugin {
 		{
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.cordova.getActivity().getApplicationContext());
 
-			String host = sp.getString("host", "atomserver.eu");
-			int port = sp.getInt( "port",8080);
+			String host = sp.getString("host", "localhost");
+
+			String portString = sp.getString("port","80");
+			int port = 80;
+			try
+			{
+				port = Integer.valueOf(portString);
+			}
+			catch(NumberFormatException e)
+			{
+				Toast.makeText(this.cordova.getActivity().getApplicationContext(), "Given port \""+ portString +"\" is not a number, using 80 instead", Toast.LENGTH_SHORT).show();
+			}
+			
 			String protocol = sp.getBoolean("ssl", false) ? "https" : "http";
 			String path = "/" + sp.getString("path", "");
-			
-			
-			//callbackContext.success("http://atomserver.eu:8080");
-			callbackContext.success(protocol + "://" + host + ":" + port + path);
+
+			String connectionString = protocol + "://" + host + ":" + port + path;
+	    	Toast.makeText(this.cordova.getActivity().getApplicationContext(),"Connecting to " + connectionString, Toast.LENGTH_LONG).show();
+			callbackContext.success(connectionString);
 			return true;
 		}
 		

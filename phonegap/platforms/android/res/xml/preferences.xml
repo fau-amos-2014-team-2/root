@@ -2,15 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <EditTextPreference android:title="Host"
                       android:key="host"
-                      android:summary="Host"></EditTextPreference>
+                      android:summary="The server's hostname"
+                      android:defaultValue="localhost"></EditTextPreference>
   <EditTextPreference android:title="Port"
                       android:key="port"
-                      android:summary="Port"></EditTextPreference>
+                      android:summary="The port where the app can be reached"
+                      android:defaultValue="80"></EditTextPreference>
   <CheckBoxPreference android:title="Use SSL"
                       android:defaultValue="false"
                       android:summary="Use HTTPS when checked, otherwise HTTP"
                       android:key="ssl" />
   <EditTextPreference android:title="Path"
                       android:key="path"
-                      android:summary="Path"></EditTextPreference>
+                      android:summary="Path on the server e.g. /data/app"
+                      android:defaultValue=""></EditTextPreference>
 </PreferenceScreen>
