@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Deutsch! -->
+<resources>
+    <string name="app_name">Wundmanagement</string>
+    <string name="settings_menu_name">Einstellungen</string>
+    
+    <string name="setting_host">Host</string>
+    <string name="setting_host_desc">Der Hostname des Servers</string>
+    
+    <string name="setting_port">Port</string>
+    <string name="setting_port_desc">Der Port, unter dem die Anwendung bereit steht</string>
+    
+    <string name="setting_ssl">HTTPS benutzen</string>
+	<string name="setting_ssl_desc">Wenn aktiviert wird HTTPS benutzt, sonst HTTP</string>
+	
+    <string name="setting_path">Pfad</string>
+	<string name="setting_path_desc">Pfad zur Anwendung auf dem Server, z.B. /data/app</string>
+	
+	<string name="port_error">Ungültiger Port, es wird Port 80 genutzt!</string>
+</resources>
