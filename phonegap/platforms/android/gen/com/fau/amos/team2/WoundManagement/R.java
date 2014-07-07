@@ -23,6 +23,16 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int port_error=0x7f04000a;
+        public static final int setting_host=0x7f040002;
+        public static final int setting_host_desc=0x7f040003;
+        public static final int setting_path=0x7f040008;
+        public static final int setting_path_desc=0x7f040009;
+        public static final int setting_port=0x7f040004;
+        public static final int setting_port_desc=0x7f040005;
+        public static final int setting_ssl=0x7f040006;
+        public static final int setting_ssl_desc=0x7f040007;
+        public static final int settings_menu_name=0x7f040001;
     }
     public static final class xml {
         public static final int config=0x7f030000;

@@ -28,14 +28,14 @@ public class SettingsBundle extends CordovaPlugin {
 			}
 			catch(NumberFormatException e)
 			{
-				Toast.makeText(this.cordova.getActivity().getApplicationContext(), "Given port \""+ portString +"\" is not a number, using 80 instead", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this.cordova.getActivity().getApplicationContext(), R.string.port_error, Toast.LENGTH_SHORT).show();
 			}
 			
 			String protocol = sp.getBoolean("ssl", false) ? "https" : "http";
 			String path = "/" + sp.getString("path", "");
 
 			String connectionString = protocol + "://" + host + ":" + port + path;
-	    	Toast.makeText(this.cordova.getActivity().getApplicationContext(),"Connecting to " + connectionString, Toast.LENGTH_LONG).show();
+	    	//Toast.makeText(this.cordova.getActivity().getApplicationContext(),"Connecting to " + connectionString, Toast.LENGTH_LONG).show();
 			callbackContext.success(connectionString);
 			return true;
 		}

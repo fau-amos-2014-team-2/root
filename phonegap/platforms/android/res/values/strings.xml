@@ -1,4 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">Wound Management</string>
+    <string name="settings_menu_name">Settings</string>
+    
+    <string name="setting_host">Host</string>
+    <string name="setting_host_desc">The server\'s hostname</string>
+
+    <string name="setting_port">Port</string>
+    <string name="setting_port_desc">The port where the app can be reached</string>
+    
+    <string name="setting_ssl">Use HTTPS</string>
+	<string name="setting_ssl_desc">Use HTTPS when checked, otherwise HTTP</string>
+	
+    <string name="setting_path">Path</string>
+	<string name="setting_path_desc">Path on the server, e.g. /data/app</string>
+	
+	<string name="port_error">Given port is invalid, using 80 instead</string>
 </resources>
+ 	

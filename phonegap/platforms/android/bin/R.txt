@@ -4,5 +4,15 @@ int drawable screen 0x7f020002
 int id action_settings 0x7f060000
 int menu mainmenu 0x7f050000
 int string app_name 0x7f040000
+int string port_error 0x7f04000a
+int string setting_host 0x7f040002
+int string setting_host_desc 0x7f040003
+int string setting_path 0x7f040008
+int string setting_path_desc 0x7f040009
+int string setting_port 0x7f040004
+int string setting_port_desc 0x7f040005
+int string setting_ssl 0x7f040006
+int string setting_ssl_desc 0x7f040007
+int string settings_menu_name 0x7f040001
 int xml config 0x7f030000
 int xml preferences 0x7f030001
