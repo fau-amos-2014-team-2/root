@@ -58,7 +58,8 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 			var xhr = new XMLHttpRequest();
 	        xhr.onreadystatechange = function () {
 	            if (xhr.readyState == 4 && xhr.status != 0) {
-	                $wnd.location.reload();
+	            	console.log("online again");
+	                // $wnd.location.reload();
 	            }
 	        };
 	    
@@ -116,11 +117,8 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 	}
 	
 	@Override
-	public void activate(ActivationEvent event) { }
-
-	@Override
 	public boolean deactivate() {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -139,4 +137,7 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 	public boolean isActive() {
 		return false;
 	}
+
+	@Override
+	public void activate(ActivationReason event) { }
 }
