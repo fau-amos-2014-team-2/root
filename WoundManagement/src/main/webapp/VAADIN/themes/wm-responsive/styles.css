@@ -6200,11 +6200,3 @@ button.close {
     display: none !important;
   }
 }
-
-
-body { background-color: red !important; }
-
-.numericButtonField .v-gridlayout-slot .btn {
-	width: 100%;
-	font-size: 34px;
-}

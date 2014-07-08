@@ -24,13 +24,34 @@ public class UserMenu extends SessionedPopover {
 		vLayout.setSizeFull();
 		vLayout.setSpacing(true);
 		
-		Button changePinBtn = new Button(MessageResources.getString("changePIN"));
+		final Button changePinBtn = new Button(MessageResources.getString("changePIN"));
 		changePinBtn.addStyleName("btn-default");
 		changePinBtn.setWidth("100%");
+		changePinBtn.addClickListener(new ClickListener() {
+			
+			private static final long serialVersionUID = -3536092956596410294L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				UserPasswordView userPasswordView = new UserPasswordView();
+				userPasswordView.showRelativeTo(changePinBtn);
+			}
+		});
 		
-		Button changeLanguageBtn = new Button("langchange");
+		final Button changeLanguageBtn = new Button(MessageResources.getString("changeLang"));
 		changeLanguageBtn.addStyleName("btn-default");
 		changeLanguageBtn.setWidth("100%");
+		changeLanguageBtn.addClickListener(new ClickListener() {
+			
+			private static final long serialVersionUID = 8063616332533617413L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				LanguageView languageView = new LanguageView();
+				languageView.showRelativeTo(changeLanguageBtn);
+			}
+		});
+		
 		
 		Button logoutBtn = new Button(MessageResources.getString("logout"));
 		logoutBtn.addStyleName("btn-danger");

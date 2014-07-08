@@ -2,9 +2,9 @@ package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import com.fau.amos.team2.WoundManagement.WoundManagementUI;
 import com.fau.amos.team2.WoundManagement.model.Employee;
+import com.fau.amos.team2.WoundManagement.ui.SessionedNavigationView;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeEvent;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserWardView.WardChangeListener;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Button;
