@@ -18,7 +18,7 @@ public class LanguageView extends SessionedPopover {
 	
 	private static final long serialVersionUID = -3273159459890848409L;
 
-	public LanguageView(){
+	public LanguageView(final UserMenu userMenu){
 		setClosable(true);
 		setModal(true);
 		
@@ -26,25 +26,24 @@ public class LanguageView extends SessionedPopover {
 		verticalLayout.setSpacing(true);
 		List<Locale> allowedLocales = ((WoundManagementUI)UI.getCurrent()).getEnvironment().getAllowedLocales();
 		for (final Locale locale : allowedLocales){
-			if (!locale.equals(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentLocale())){
-				Button button = new Button();
-				button.setIcon(new ThemeResource("flag_" + locale.getLanguage() + ".png"));
-				button.addClickListener(new ClickListener(){
+			Button button = new Button();
+			button.setIcon(new ThemeResource("flag_" + locale.getLanguage() + ".png"));
+			button.addClickListener(new ClickListener(){
 
-					private static final long serialVersionUID = 7316827450072805483L;
+				private static final long serialVersionUID = 7316827450072805483L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						((WoundManagementUI)UI.getCurrent()).getEnvironment().setCurrentLocale(locale);
-						MessageResources.setLocale(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentLocale());
-						Page.getCurrent().setUriFragment("");
-						Page.getCurrent().setUriFragment(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentUriFragment());
-						close();
-					}
-					
-				});
-				verticalLayout.addComponent(button);
-			}
+				@Override
+				public void buttonClick(ClickEvent event) {
+					((WoundManagementUI)UI.getCurrent()).getEnvironment().setCurrentLocale(locale);
+					MessageResources.setLocale(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentLocale());
+					Page.getCurrent().setUriFragment("");
+					Page.getCurrent().setUriFragment(((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentUriFragment());
+					close();
+					userMenu.close();
+				}
+				
+			});
+			verticalLayout.addComponent(button);
 		}
 		
 		setContent(verticalLayout);

@@ -54,6 +54,8 @@ public class UserLoginView extends SessionedNavigationView {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public UserLoginView() {
 		
+		setCaption("Wound Management App");
+		
 		HorizontalSplitPanel split = new HorizontalSplitPanel();
 		setContent(split);
 		

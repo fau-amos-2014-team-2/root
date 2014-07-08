@@ -47,7 +47,7 @@ public class UserMenu extends SessionedPopover {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				LanguageView languageView = new LanguageView();
+				LanguageView languageView = new LanguageView(UserMenu.this);
 				languageView.showRelativeTo(changeLanguageBtn);
 			}
 		});
@@ -63,7 +63,6 @@ public class UserMenu extends SessionedPopover {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				((WoundManagementUI)UI.getCurrent()).getEnvironment().logout();
-//				currentView.getNavigationManager().setCurrentComponent(new UserLoginView());
 				close();
 				Page.getCurrent().setUriFragment("login");
 			}
