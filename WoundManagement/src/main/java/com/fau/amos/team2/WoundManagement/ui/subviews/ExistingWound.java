@@ -50,16 +50,11 @@ public class ExistingWound extends VerticalLayout {
 		this.parentView = patientView;
 				
 		setSpacing(true);
-		HorizontalLayout woundDataContent = new HorizontalLayout();
+		VerticalLayout woundDataContent = new VerticalLayout();
 		woundDataContent.setSpacing(true);
 		
-		VerticalLayout labelColumn = new VerticalLayout();
-		VerticalLayout dataColumn = new VerticalLayout();
-		woundDataContent.addComponents(labelColumn, dataColumn);
-		labelColumn.setSpacing(true);
-		dataColumn.setSpacing(true);
-		
 		String width = "16em";
+		String labelWidth = "10em";
 		
 		typeDecubitusLabel = new Label("");
 		typeDecubitusLabel.setWidth(width);
@@ -67,60 +62,115 @@ public class ExistingWound extends VerticalLayout {
 		addComponent(woundDataContent);
 		
 		dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		labelColumn.addComponent(new Label(MessageResources.getString("recordingDate") + ":"));
 		recordingDateLabel = new Label("");
 		recordingDateLabel.setWidth(width);
-		dataColumn.addComponent(recordingDateLabel);
+		HorizontalLayout recordingDateLayout = new HorizontalLayout();
+		Label labelRecordingDate = new Label(MessageResources.getString("recordingDate") + ":");
+		labelRecordingDate.setWidth(labelWidth);
+		recordingDateLayout.addComponent(labelRecordingDate);
+		recordingDateLayout.addComponent(recordingDateLabel);
+		recordingDateLayout.setSpacing(true);
+		woundDataContent.addComponent(recordingDateLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":"));
 		recordingEmployeeLabel = new Label("");
 		recordingEmployeeLabel.setWidth(width);
-		dataColumn.addComponent(recordingEmployeeLabel);
+		HorizontalLayout recordingEmployeeLayout = new HorizontalLayout();
+		Label labelRecordingEmployee = new Label(MessageResources.getString("from") + ":");
+		labelRecordingEmployee.setWidth(labelWidth);
+		recordingEmployeeLayout.addComponent(labelRecordingEmployee);
+		recordingEmployeeLayout.addComponent(recordingEmployeeLabel);
+		recordingEmployeeLayout.setSpacing(true);
+		woundDataContent.addComponent(recordingEmployeeLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("endDate") + ":"));
 		endDateLabel = new Label("");
 		endDateLabel.setWidth(width);
-		dataColumn.addComponent(endDateLabel);
+		HorizontalLayout endDateLayout = new HorizontalLayout();
+		Label labelEndDate = new Label(MessageResources.getString("endDate") + ":");
+		labelEndDate.setWidth(labelWidth);
+		endDateLayout.addComponent(labelEndDate);
+		endDateLayout.addComponent(endDateLabel);
+		endDateLayout.setSpacing(true);
+		woundDataContent.addComponent(endDateLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":"));
 		cureEmployeeLabel = new Label("");
 		cureEmployeeLabel.setWidth(width);
-		dataColumn.addComponent(cureEmployeeLabel);
+		HorizontalLayout cureEmployeeLayout = new HorizontalLayout();
+		Label labelCureEmployee = new Label(MessageResources.getString("from") + ":");
+		labelCureEmployee.setWidth(labelWidth);
+		cureEmployeeLayout.addComponent(labelCureEmployee);
+		cureEmployeeLayout.addComponent(cureEmployeeLabel);
+		cureEmployeeLayout.setSpacing(true);
+		woundDataContent.addComponent(cureEmployeeLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocationCode") + ":"));
 		bodyLocationCodeLabel = new Label("");
 		bodyLocationCodeLabel.setWidth(width);
-		dataColumn.addComponent(bodyLocationCodeLabel);
+		HorizontalLayout bodyLocationCodeLayout = new HorizontalLayout();
+		Label labelBodyLocationCode = new Label(MessageResources.getString("bodyLocationCode") + ":");
+		labelBodyLocationCode.setWidth(labelWidth);
+		bodyLocationCodeLayout.addComponent(labelBodyLocationCode);
+		bodyLocationCodeLayout.addComponent(bodyLocationCodeLabel);
+		bodyLocationCodeLayout.setSpacing(true);
+		woundDataContent.addComponent(bodyLocationCodeLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocation") + ":"));
 		bodyLocationLabel = new Label("");
 		bodyLocationLabel.setWidth(width);
-		dataColumn.addComponent(bodyLocationLabel);
+		HorizontalLayout bodyLocationLayout = new HorizontalLayout();
+		Label labelBodyLocation = new Label(MessageResources.getString("bodyLocation") + ":");
+		labelBodyLocation.setWidth(labelWidth);
+		bodyLocationLayout.addComponent(labelBodyLocation);
+		bodyLocationLayout.addComponent(bodyLocationLabel);
+		bodyLocationLayout.setSpacing(true);
+		woundDataContent.addComponent(bodyLocationLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("woundLevel") + ":"));
 		woundLevelLabel = new Label("");
 		woundLevelLabel.setWidth(width);
-		dataColumn.addComponent(woundLevelLabel);
+		HorizontalLayout woundLevelLayout = new HorizontalLayout();
+		Label labelWoundLevel = new Label(MessageResources.getString("woundLevel") + ":");
+		labelWoundLevel.setWidth(labelWidth);
+		woundLevelLayout.addComponent(labelWoundLevel);
+		woundLevelLayout.addComponent(woundLevelLabel);
+		woundLevelLayout.setSpacing(true);
+		woundDataContent.addComponent(woundLevelLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("size") + " (mm):"));
 		sizeLabel = new Label("");
 		sizeLabel.setWidth(width);
-		dataColumn.addComponent(sizeLabel);
+		HorizontalLayout sizeLayout = new HorizontalLayout();
+		Label labelSize = new Label(MessageResources.getString("size") + ":");
+		labelSize.setWidth(labelWidth);
+		sizeLayout.addComponent(labelSize);
+		sizeLayout.addComponent(sizeLabel);
+		sizeLayout.setSpacing(true);
+		woundDataContent.addComponent(sizeLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("depth") + " (mm):"));
 		depthLabel = new Label("");
 		depthLabel.setWidth(width);
-		dataColumn.addComponent(depthLabel);
+		HorizontalLayout depthLayout = new HorizontalLayout();
+		Label labelDepth = new Label(MessageResources.getString("depth") + ":");
+		labelDepth.setWidth(labelWidth);
+		depthLayout.addComponent(labelDepth);
+		depthLayout.addComponent(depthLabel);
+		depthLayout.setSpacing(true);
+		woundDataContent.addComponent(depthLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("origination") + ":"));
 		originationLabel = new Label("");
 		originationLabel.setWidth(width);
-		dataColumn.addComponent(originationLabel);
+		HorizontalLayout originationLayout = new HorizontalLayout();
+		Label labelOrigination = new Label(MessageResources.getString("origination") + ":");
+		labelOrigination.setWidth(labelWidth);
+		originationLayout.addComponent(labelOrigination);
+		originationLayout.addComponent(originationLabel);
+		originationLayout.setSpacing(true);
+		woundDataContent.addComponent(originationLayout);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("description") + ":"));
 		descriptionLabel = new Label("");
 		descriptionLabel.setWidth(width);
-		dataColumn.addComponent(descriptionLabel);
+		HorizontalLayout descriptionLayout = new HorizontalLayout();
+		Label labelDescription = new Label(MessageResources.getString("description") + ":");
+		labelDescription.setWidth(labelWidth);
+		descriptionLayout.addComponent(labelDescription);
+		descriptionLayout.addComponent(descriptionLabel);
+		descriptionLayout.setSpacing(true);
+		woundDataContent.addComponent(descriptionLayout);
 		
 		if (w.getEndDate() == null) {
 			

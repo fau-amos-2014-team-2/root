@@ -80,8 +80,9 @@ public class WoundManagementUI extends UI {
 
 	private void setLocale() {
 		Locale currentLocale = Page.getCurrent().getWebBrowser().getLocale();
+		System.out.println("Current locale browser: " + currentLocale.getLanguage());
 		getEnvironment().setCurrentLocale(currentLocale);
-		MessageResources.setLocale(currentLocale);
+		MessageResources.setLocale(getEnvironment().getCurrentLocale());
 	}
 	
 	public void goOffline() {

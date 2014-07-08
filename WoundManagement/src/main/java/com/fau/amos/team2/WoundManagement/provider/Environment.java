@@ -68,8 +68,12 @@ public class Environment {
 	}
 	
 	public void setCurrentLocale(Locale locale){
-		if (allowedLocales.contains(locale)){
-			currentLocale = locale;
+		if (locale != null){
+			for (Locale l : allowedLocales){
+				if (l.getLanguage().equals(locale.getLanguage())){
+					currentLocale = locale;
+				}
+			}
 		}
 	}
 	
