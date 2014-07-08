@@ -57,23 +57,18 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 
 		setCaption(MessageResources.getString("woundDescriptionsHeader"));
 
-		// if (patient != null){
-		// setCaption(patient.getFirstName() + " " + patient.getLastName());
-		// }
-
 		setRightComponent(new UserBar(this));
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		
-//		NavigationButton createWoundDescriptionButton = new NavigationButton(MessageResources.getString("createDesc"));
-//		createWoundDescriptionButton.setTargetView(new CreateWoundDescriptionView(wound));
 		Button createWoundDescriptionButton = new Button(MessageResources.getString("createDesc"));
 		createWoundDescriptionButton.setStyleName("btn-default");
 		createWoundDescriptionButton.addClickListener(new ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Page.getCurrent().setUriFragment("createWoundDescription");
+				getEnvironment().setCurrentUriFragment("createWoundDescription");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 			
 		});
@@ -121,10 +116,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 				MessageResources.getString("recordingDate"), null, null);
 		table.addContainerProperty("author", String.class, null,
 				MessageResources.getString("author"), null, null);
-
-		table.addContainerProperty("picture", String.class, null, "Bild", null,
-				null);
-
+		table.addContainerProperty("picture", String.class, null, 
+				MessageResources.getString("picture"), null, null);
 		table.addContainerProperty("description", String.class, null,
 				MessageResources.getString("description"), null, null);
 
@@ -145,7 +138,6 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 		ic.addContainerProperty("date", Date.class, null);
 		ic.addContainerProperty("author", String.class, "");
 		ic.addContainerProperty("picture", String.class, "");
-		// new
 		ic.addContainerProperty("description", String.class, "");
 
 		ic.setItemSorter(new DefaultItemSorter(new Comparator<Object>() {
@@ -173,7 +165,6 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 					.getItemProperty("author");
 			properties[descriptions.indexOf(wd)][1].setValue(wd.getEmployee()
 					.getFirstName() + " " + wd.getEmployee().getLastName());
-			// new
 			properties[descriptions.indexOf(wd)][2] = item
 					.getItemProperty("picture");
 			properties[descriptions.indexOf(wd)][2]
@@ -200,7 +191,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 					WoundDescription woundDescription = woundDescriptionProvider
 							.getByID(value);
 					getEnvironment().setCurrentWoundDescription(woundDescription);
-					Page.getCurrent().setUriFragment("showWoundDescription");
+					getEnvironment().setCurrentUriFragment("showWoundDescription");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 				}
 			}
 

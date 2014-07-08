@@ -23,7 +23,7 @@ public class UserBar extends HorizontalLayout implements WardChangeListener{
 	private Label wardLabel;
 
 	@SuppressWarnings("serial")
-	public UserBar(final NavigationView currentView) {
+	public UserBar(final SessionedNavigationView currentView) {
 		Employee currentEmployee = ((WoundManagementUI)UI.getCurrent()).getEnvironment().getCurrentEmployee();
 
 		if (currentEmployee != null) {

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
 import com.fau.amos.team2.WoundManagement.model.Wound;
@@ -24,6 +25,8 @@ import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -84,7 +87,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		new Responsive(greetingdate);
 
-		// DateField - when is the wound recorded/as seen in NewWoundView
+		// DateField - when is the wound recorded
 		final DatePicker recorded = new DatePicker(
 				MessageResources.getString("createDate") + ":");
 		recorded.setValue(new Date());
@@ -143,7 +146,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		mainLayout.addComponent(comment);
 
-		// NumberField - length of wound
+		// NumberField - height of wound
 		final NumberField size1 = new NumberField(
 				MessageResources.getString("height") + ":");
 		// NumberField - width of wound
@@ -155,7 +158,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		CssLayout wundGroessen = new CssLayout();
 
-		// size1.setValue("0");
 		size1.setInvalidAllowed(false);
 		size1.addStyleName("size1");
 		size1.setImmediate(true);
@@ -165,7 +167,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 			size1.setValue(latest.getSize1() + "");
 		}
 
-		// size2.setValue("0");
 		size2.setInvalidAllowed(false);
 		size2.addStyleName("size2");
 		size2.setImmediate(true);
@@ -175,7 +176,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 			size2.setValue(latest.getSize2() + "");
 		}
 
-		// depth.setValue("0");
 		depth.setInvalidAllowed(false);
 		depth.addStyleName("depth");
 		depth.setImmediate(true);
@@ -186,43 +186,69 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		}
 
 		mainLayout.addComponent(wundGroessen);
+		
+		final NativeSelect level = new NativeSelect(MessageResources.getString("woundLevel") + ":");
 
-		/*
-		 * Woundtype & Level comboboxes
-		 */
 		// ComboBox - wound type
-		Collection<Object> typeIds = WoundTypeProvider.getInstance().getAll()
+		Collection<Object> typeIds = woundTypeProvider.getAll()
 				.getItemIds();
 		final NativeSelect type = new NativeSelect(
 				MessageResources.getString("woundType") + ":");
 		for (Object o : typeIds) {
-			WoundType tmp = WoundTypeProvider.getInstance().getByID(o);
+			WoundType tmp = woundTypeProvider.getByID(o);
 			type.addItem(o);
 			type.setItemCaption(o, tmp.getClassification());
 		}
 		type.setWidth("20em");
 		type.setNewItemsAllowed(false);
 		type.setImmediate(true);
-		// type.setTextInputAllowed(false);
-		if (latest.getWoundType() != null) {
-			type.setValue(latest.getWoundType().getId());
+		WoundType latestWoundType = latest.getWoundType();
+		WoundType woundWoundType = wound.getWoundType();
+		if (latestWoundType != null) {
+			type.setValue(latestWoundType.getId());
+		} else if (woundWoundType != null){
+			type.setValue(woundWoundType.getId());
 		}
+		type.addValueChangeListener(new ValueChangeListener(){
 
-		// ComboBox - woundlevel
-		Collection<Object> levelIds = WoundLevelProvider.getInstance().getAll()
-				.getItemIds();
-		final NativeSelect level = new NativeSelect(
-				MessageResources.getString("woundLevel") + ":");
-		for (Object o : levelIds) {
-			WoundLevel tmp = WoundLevelProvider.getInstance().getByID(o);
-			level.addItem(o);
-			level.setItemCaption(o, tmp.getCharacterisation());
-		}
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				WoundType woundType = woundTypeProvider.getByID(type.getValue());
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(woundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl.getId());
+					level.setItemCaption(wl.getId(), wl.getCharacterisation());
+				}
+			}
+			
+		});
+
 		level.setNewItemsAllowed(false);
 		level.setImmediate(true);
 		level.setWidth("20em");
-		if (latest.getWoundLevel() != null) {
-			level.setValue(latest.getWoundLevel().getId());
+		WoundLevel latestWoundLevel = latest.getWoundLevel();
+		WoundLevel woundWoundLevel = wound.getWoundLevel();
+		if (latestWoundLevel != null) {
+			if (latestWoundType != null){
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(latestWoundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl.getId());
+					level.setItemCaption(wl.getId(), wl.getCharacterisation());
+				}
+				level.setValue(latestWoundLevel.getId());
+			}
+		} else if (woundWoundLevel != null){
+			if (woundWoundType != null){
+				level.removeAllItems();
+				List<WoundLevel> levels = woundLevelProvider.getAllFoWoundType(woundWoundType);
+				for (WoundLevel wl : levels){
+					level.addItem(wl.getId());
+					level.setItemCaption(wl.getId(), wl.getCharacterisation());
+				}
+				level.setValue(woundWoundLevel.getId());
+			}
 		}
 
 		CssLayout woundlevelandtype = new CssLayout();
@@ -268,9 +294,6 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 					woundDescription.setWoundType(woundType);
 
 					// check if WoundLevel is set according to chosen WoundType
-					// 'P''p' - level required
-					// 'V''v' - level forbidden
-					// 'E''e' - level allowed
 					if (woundType.getLevelState() == WoundLevelState.REQUIRED) {
 						if (level.getValue() == null) {
 							Notification.show(MessageResources.getString("woundLevelRequired") + ".");
@@ -289,35 +312,30 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 					return;
 				}
 
-				// setDescription - is automatically cut to at most 2000
-				// characters
+				// setDescription - is automatically cut to at most 2000 characters
 				woundDescription.setDescription(comment.getValue());
 
 				// setRecordingDate - all misformatted inputs result in "null"
 				try {
-					woundDescription.setDate(new java.sql.Date(recorded
-							.getValue().getTime()));
+					woundDescription.setDate(new java.sql.Date(recorded.getValue().getTime()));
 				} catch (NullPointerException e) {
-					Notification.show(MessageResources
-							.getString("recordingDateFormatException"));
-					e.printStackTrace();
+					Notification.show(MessageResources.getString("recordingDateFormatException"));
 					return;
 				}
 
-				// setSizes - if only one size is entered it is stored to size1
-				// as diameter
+				// setSizes - if only one size is entered it is stored to size1 as diameter
 				// - size must be between 0 and 9999
 				try{
-					if (size1.getValue().equals("") || size1.getValue().equals("0")){ //$NON-NLS-1$
+					if (size1.getValue().equals("") || size1.getValue().equals("0")){
 						woundDescription.setSize2(0);
-						if (size2.getValue().equals("") || size2.getValue().equals("0")){ //$NON-NLS-1$
+						if (size2.getValue().equals("") || size2.getValue().equals("0")){
 							woundDescription.setSize1(0);
 						} else {
 							int size2Int = Integer.parseInt(size2.getValue());
 							if (size2Int < 9999 && size2Int >= 0){
 								woundDescription.setSize1(size2Int);
 							} else {
-								Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
+								Notification.show(MessageResources.getString("sizeFormatException"));
 								return;
 							}
 						}
@@ -326,26 +344,24 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 						int size1Int = Integer.parseInt(size1.getValue());
 						if (size1Int < 9999 && size1Int >= 0){
 							woundDescription.setSize1(size1Int);
-							if (size2.getValue().equals("")){ //$NON-NLS-1$
+							if (size2.getValue().equals("")){
 								woundDescription.setSize2(0);
 							} else {
 								int size2Int = Integer.parseInt(size2.getValue());
 								if (size2Int < 9999 && size2Int >= 0){
 									woundDescription.setSize2(size2Int);
 								} else {
-									Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
+									Notification.show(MessageResources.getString("sizeFormatException"));
 									return;
 								}
 							} 
 						} else {
-							Notification.show(MessageResources.getString("sizeFormatException")); //$NON-NLS-1$
+							Notification.show(MessageResources.getString("sizeFormatException"));
 							return;
 						}
 					}
 				} catch(NumberFormatException e){
-					//should never get here actually
-					Notification.show("Die Größe ist im falschen Format angegeben."); //$NON-NLS-1$
-					e.printStackTrace();
+					Notification.show(MessageResources.getString("sizeFormatException"));
 					return;
 				}
 
@@ -364,23 +380,15 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 						}
 					}
 				} catch (NumberFormatException e) {
-					// should never get here actually
-					Notification
-							.show("Die Tiefe ist im falschen Format angegeben.");
-					e.printStackTrace();
+					Notification.show(MessageResources.getString("depthFormatException"));
 					return;
 				}
 
 				wound.getWoundDescriptions().add(woundDescription);
-				WoundDescriptionProvider.getInstance().add(woundDescription);
+				woundDescriptionProvider.add(woundDescription);
 
-				/*
-				 * need a new view, just navigating back would get the user to
-				 * the old view, which means the old list - new description
-				 * would not be listed (even if created properly)
-				 */
-//				getNavigationManager().navigateTo(new WoundDescriptionListView(wound));
-				Page.getCurrent().setUriFragment("woundDescriptions");
+				getEnvironment().setCurrentUriFragment("woundDescriptions");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			}
 
 		});
@@ -393,13 +401,10 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 			public OutputStream receiveUpload(String filename, String mimeType) {
 
-				/*
-				 * if the selected File is NOT an image (mimeType: image/*), do
-				 * not upload.
-				 */
+				// if the selected File is NOT an image (mimeType: image/*), do not upload.
 				if (!(mimeType.startsWith("image"))) {
-					Notification
-							.show("Invalid file selected for Upload. Please only Upload Photos!");
+					
+					Notification.show(MessageResources.getString("invalidFile"));
 					return null;
 				}
 
@@ -415,18 +420,15 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 				byte[] bFile = bos.toByteArray();
 
 				woundDescription.setImage(bFile);
-				Notification.show(MessageResources
-						.getString("uploadsuccessful"));
+				Notification.show(MessageResources.getString("uploadsuccessful"));
 
-				upload.setCaption(MessageResources
-						.getString("uploadsuccessful") + " - " + filename);
-				// After successful upload, the disable the button
+				upload.setCaption(MessageResources.getString("uploadsuccessful") + " - " + filename);
+				// After successful upload, disable the button
 				upload.setEnabled(false);
 
 				try {
 					bos.close();
 				} catch (IOException e) {
-					e.printStackTrace();
 				}
 			}
 
@@ -434,8 +436,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		;
 		ImageUploader receiver = new ImageUploader();
 
-		// if file upload was successful, the caption of the upload element will
-		// change
+		// if file upload was successful, the caption of the upload element will change
 		upload = new Upload("", receiver);
 		upload.setImmediate(true);
 		upload.setButtonCaption(MessageResources.getString("addpicture"));

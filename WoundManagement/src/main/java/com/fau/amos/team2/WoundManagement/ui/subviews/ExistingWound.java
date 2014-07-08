@@ -45,7 +45,7 @@ public class ExistingWound extends VerticalLayout {
 			WoundProvider.getInstance();
 
 	@SuppressWarnings("serial")
-	public ExistingWound(PatientView patientView, Wound w) {
+	public ExistingWound(final PatientView patientView, Wound w) {
 		this.wound = w;
 		this.parentView = patientView;
 				
@@ -67,79 +67,77 @@ public class ExistingWound extends VerticalLayout {
 		addComponent(woundDataContent);
 		
 		dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		labelColumn.addComponent(new Label(MessageResources.getString("recordingDate") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("recordingDate") + ":"));
 		recordingDateLabel = new Label("");
 		recordingDateLabel.setWidth(width);
 		dataColumn.addComponent(recordingDateLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":"));
 		recordingEmployeeLabel = new Label("");
 		recordingEmployeeLabel.setWidth(width);
 		dataColumn.addComponent(recordingEmployeeLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("endDate") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("endDate") + ":"));
 		endDateLabel = new Label("");
 		endDateLabel.setWidth(width);
 		dataColumn.addComponent(endDateLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("from") + ":"));
 		cureEmployeeLabel = new Label("");
 		cureEmployeeLabel.setWidth(width);
 		dataColumn.addComponent(cureEmployeeLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocationCode") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocationCode") + ":"));
 		bodyLocationCodeLabel = new Label("");
 		bodyLocationCodeLabel.setWidth(width);
 		dataColumn.addComponent(bodyLocationCodeLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocation") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("bodyLocation") + ":"));
 		bodyLocationLabel = new Label("");
 		bodyLocationLabel.setWidth(width);
 		dataColumn.addComponent(bodyLocationLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("woundLevel") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("woundLevel") + ":"));
 		woundLevelLabel = new Label("");
 		woundLevelLabel.setWidth(width);
 		dataColumn.addComponent(woundLevelLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("size") + " (mm):")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("size") + " (mm):"));
 		sizeLabel = new Label("");
 		sizeLabel.setWidth(width);
 		dataColumn.addComponent(sizeLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("depth") + " (mm):")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("depth") + " (mm):"));
 		depthLabel = new Label("");
 		depthLabel.setWidth(width);
 		dataColumn.addComponent(depthLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("origination") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("origination") + ":"));
 		originationLabel = new Label("");
 		originationLabel.setWidth(width);
 		dataColumn.addComponent(originationLabel);
 		
-		labelColumn.addComponent(new Label(MessageResources.getString("description") + ":")); //$NON-NLS-1$
+		labelColumn.addComponent(new Label(MessageResources.getString("description") + ":"));
 		descriptionLabel = new Label("");
 		descriptionLabel.setWidth(width);
 		dataColumn.addComponent(descriptionLabel);
 		
 		if (w.getEndDate() == null) {
 			
-			Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
-			endWound.setStyleName("btn-success");
+			Button endWound = new Button(MessageResources.getString("endWound") + "...");
 			endWound.addClickListener(new ClickListener(){
 			
 				@Override
 				public void buttonClick(ClickEvent event) {
 					
-			        final Window doubleCheckSubWindow = new Window(MessageResources.getString("checkAgain")); //$NON-NLS-1$
+			        final Window doubleCheckSubWindow = new Window(MessageResources.getString("checkAgain"));
 			        
 			        doubleCheckSubWindow.setClosable(false);
 			        
 			        HorizontalLayout subContent = new HorizontalLayout();
-			        subContent.addComponent(new Label(MessageResources.getString("checkEndWound"))); //$NON-NLS-1$
+			        subContent.addComponent(new Label(MessageResources.getString("checkEndWound")));
 			        
-			        Button yesButton = new Button(MessageResources.getString("yes")); //$NON-NLS-1$
-			        yesButton.setStyleName("btn-success");
+			        Button yesButton = new Button(MessageResources.getString("yes"));
 			        yesButton.addClickListener(new ClickListener() {
 			        	
 			        	@Override
@@ -149,19 +147,17 @@ public class ExistingWound extends VerticalLayout {
 			        		wound.setCureEmployee(parentView.getEnvironment().getCurrentEmployee());
 			        		
 							woundProvider.update(wound);
-							setEndDateLabel();
 							
 							doubleCheckSubWindow.close();
 							
-//							parentView.getNavigationManager().navigateTo(new PatientView(parentView.getPatient()));
-							Page.getCurrent().setUriFragment("patient", true);
+							Page.getCurrent().setUriFragment("");
+							Page.getCurrent().setUriFragment(patientView.getEnvironment().getCurrentUriFragment());
 			        	}
 			        });
 					
 			        subContent.addComponent(yesButton);
 			        
-			        Button noButton = new Button(MessageResources.getString("no")); //$NON-NLS-1$
-			        noButton.setStyleName("btn-danger");
+			        Button noButton = new Button(MessageResources.getString("no"));
 			        noButton.addClickListener(new ClickListener() {
 			        	
 			        	@Override
@@ -184,14 +180,12 @@ public class ExistingWound extends VerticalLayout {
 			
 			});
 			
-			Button addWoundDescription = new Button(MessageResources.getString("woundDescriptions") + "..."); //$NON-NLS-1$
-			addWoundDescription.setStyleName("btn-default");
+			Button addWoundDescription = new Button(MessageResources.getString("woundDescriptions") + "...");
 			addWoundDescription.addClickListener(new ClickListener(){
 				@Override
 				public void buttonClick(ClickEvent event) {
-//					parentView.getNavigationManager().navigateTo(new WoundDescriptionListView(ExistingWound.this.wound));
-					parentView.getEnvironment().setCurrentWound(ExistingWound.this.wound);
-					Page.getCurrent().setUriFragment("woundDescriptions");
+					parentView.getEnvironment().setCurrentUriFragment("woundDescriptions");
+					Page.getCurrent().setUriFragment(parentView.getEnvironment().getCurrentUriFragment());
 				}
 			});
 		
@@ -218,9 +212,9 @@ public class ExistingWound extends VerticalLayout {
 	}
 	
 	private void setTypeDecubitusLabel(){
-		String typeDecubitus = MessageResources.getString("decubitusID") + (": ") + wound.getDecubitusId(); //$NON-NLS-1$ //$NON-NLS-2$
+		String typeDecubitus = MessageResources.getString("decubitusID") + (": ") + wound.getDecubitusId();
 		if (wound.getWoundType() != null){
-			typeDecubitus = wound.getWoundType().getClassification() + ", " + typeDecubitus; //$NON-NLS-1$
+			typeDecubitus = wound.getWoundType().getClassification() + ", " + typeDecubitus;
 		}
 		if (wound.getEndDate() != null){
 			typeDecubitus = typeDecubitus + " (" + MessageResources.getString("healed") + ")";
@@ -235,7 +229,7 @@ public class ExistingWound extends VerticalLayout {
 	}
 	
 	private void setRecordingEmployeeLabel(){
-		recordingEmployeeLabel.setValue(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName()); //$NON-NLS-1$
+		recordingEmployeeLabel.setValue(wound.getRecordingEmployee().getFirstName() + " " + wound.getRecordingEmployee().getLastName());
 	}
 	
 	private void setEndDateLabel(){

@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement.provider;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -57,7 +56,7 @@ public class ConnectionProvider<T extends BusinessObject> {
 			b.close();
 			return str;
 		} catch (IOException e) {
-			e.printStackTrace();
+
 		}
 		return "";
 	}

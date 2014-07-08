@@ -53,7 +53,7 @@ public class Wound implements BusinessObject {
 	private Employee cureEmployee;
 	
 	@Column(name = "KOERPERSTELLE", length=200)
-	private String bodyLocation;//200
+	private String bodyLocation;
 
 	@Column(name = "KOERPERSTELLE_CODE", nullable = false)
 	private int bodyLocationCode;
@@ -68,7 +68,7 @@ public class Wound implements BusinessObject {
 	private int depth;
 
 	@Column(name = "BEMERKUNG", length=2000)
-	private String description;//2000
+	private String description;
 
 	@Column(name = "ENTSTEHUNG")
 	private int origination;
@@ -233,8 +233,7 @@ public class Wound implements BusinessObject {
 	}
 
 	public List<WoundDescription> getWoundDescriptions() {
-		// TODO: this is just a workaround! shall not call database every time a
-		// wounds wounddescriptions are needed.
+		// TODO: this is just a workaround! shall not call database every time a wounds wounddescriptions are needed.
 		return WoundDescriptionProvider.getInstance().getAllForWound(this);
 	}
 

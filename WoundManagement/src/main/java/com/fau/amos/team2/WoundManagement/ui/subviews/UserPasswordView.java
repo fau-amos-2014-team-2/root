@@ -32,15 +32,15 @@ public class UserPasswordView extends SessionedPopover {
 		FormLayout layout = new FormLayout();
 		layout.setMargin(true);
 		
-		final PasswordField currentPassword = new PasswordField(MessageResources.getString("currentPIN") + ":"); //$NON-NLS-1$
-		final PasswordField newPassword1 = new PasswordField(MessageResources.getString("newPIN") + ":"); //$NON-NLS-1$
-		final PasswordField newPassword2 = new PasswordField(MessageResources.getString("retypeNewPIN") + ":"); //$NON-NLS-1$
+		final PasswordField currentPassword = new PasswordField(MessageResources.getString("currentPIN") + ":");
+		final PasswordField newPassword1 = new PasswordField(MessageResources.getString("newPIN") + ":");
+		final PasswordField newPassword2 = new PasswordField(MessageResources.getString("retypeNewPIN") + ":");
 
 		layout.addComponent(currentPassword);
 		layout.addComponent(newPassword1);
 		layout.addComponent(newPassword2);
 
-		Button changePasswordButton = new Button(MessageResources.getString("changePIN")); //$NON-NLS-1$
+		Button changePasswordButton = new Button(MessageResources.getString("changePIN"));
 		changePasswordButton.addClickListener(new ClickListener(){
 
 			@Override
@@ -62,31 +62,31 @@ public class UserPasswordView extends SessionedPopover {
 									EmployeeProvider.getInstance().update(user);
 									close();
 								} catch (NumberFormatException e){
-									Notification.show(MessageResources.getString("newPINException")); //$NON-NLS-1$
-									newPassword1.setValue(""); //$NON-NLS-1$
-									newPassword2.setValue(""); //$NON-NLS-1$
+									Notification.show(MessageResources.getString("newPINException"));
+									newPassword1.setValue("");
+									newPassword2.setValue("");
 								}
 							} else {
-								Notification.show(MessageResources.getString("matchPINException")); //$NON-NLS-1$
-								newPassword1.setValue(""); //$NON-NLS-1$
-								newPassword2.setValue(""); //$NON-NLS-1$
+								Notification.show(MessageResources.getString("matchPINException"));
+								newPassword1.setValue("");
+								newPassword2.setValue("");
 							}
 						} else {
-							Notification.show(MessageResources.getString("newPINException")); //$NON-NLS-1$
-							newPassword1.setValue(""); //$NON-NLS-1$
-							newPassword2.setValue(""); //$NON-NLS-1$
+							Notification.show(MessageResources.getString("newPINException"));
+							newPassword1.setValue("");
+							newPassword2.setValue("");
 						}
 					} else {
-						Notification.show(MessageResources.getString("noPINException")); //$NON-NLS-1$
-						newPassword2.setValue(""); //$NON-NLS-1$
+						Notification.show(MessageResources.getString("noPINException"));
+						newPassword2.setValue("");
 					}
 
 				} else {
-					Notification.show(MessageResources.getString("currentPINException")); //$NON-NLS-1$
+					Notification.show(MessageResources.getString("currentPINException"));
 
-					currentPassword.setValue(""); //$NON-NLS-1$
-					newPassword1.setValue(""); //$NON-NLS-1$
-					newPassword2.setValue(""); //$NON-NLS-1$
+					currentPassword.setValue("");
+					newPassword1.setValue("");
+					newPassword2.setValue("");
 				}
 			}
 

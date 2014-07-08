@@ -3,6 +3,7 @@ package com.fau.amos.team2.WoundManagement.ui;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Ward;
@@ -107,7 +108,6 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		table.addContainerProperty("birthdate", Date.class, null, MessageResources.getString("birthdate"), null, null);
 		table.addContainerProperty("ward", String.class, null, MessageResources.getString("ward"), null, null);
 		table.addContainerProperty("room", String.class, null, MessageResources.getString("room"), null, null);
-		//table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("currentWounds"), null, Align.RIGHT);
 		table.addContainerProperty("currentWounds", Integer.class, 0, MessageResources.getString("wounds"), null, Align.RIGHT);
 		
 		table.addStyleName("table");
@@ -127,7 +127,8 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 		    		Patient patient = patientProvider.getByID(value);
 		    		getEnvironment().setCurrentPatient(patient);
 		    		getEnvironment().setShowCurrentWoundsOnly(true);
-		    		Page.getCurrent().setUriFragment("patient", true);
+		    		getEnvironment().setCurrentUriFragment("patient");
+					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 		    	}
 		    }
 
@@ -176,12 +177,5 @@ public class PatientSelectionView extends SessionedNavigationView implements War
 			container.addItem(p.getId());
 		}
 	}
-	
-	@Override
-	public void onBecomingVisible(){
-		super.onBecomingVisible();
-		Page.getCurrent().setUriFragment("patientSelection");
-	}
-
 }
 

@@ -51,7 +51,7 @@ public class UserWardView extends SessionedPopover {
 				
 		wardGroup.select(user.getCurrentWard().getId());
 		
-		Button changeWardButton = new Button(MessageResources.getString("changeWard")); //$NON-NLS-1$
+		Button changeWardButton = new Button(MessageResources.getString("changeWard"));
 		changeWardButton.addClickListener(new ClickListener(){
 
 			@Override
