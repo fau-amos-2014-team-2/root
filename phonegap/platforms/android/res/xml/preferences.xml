@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <EditTextPreference android:title="@string/setting_host"
+                      android:key="host"
+                      android:summary="@string/setting_host_desc"
+                      android:defaultValue="localhost"></EditTextPreference>
+  <EditTextPreference android:title="@string/setting_port"
+                      android:key="port"
+                      android:summary="@string/setting_port_desc"
+                      android:defaultValue="80"></EditTextPreference>
+  <CheckBoxPreference android:title="@string/setting_ssl"
+                      android:defaultValue="false"
+                      android:summary="@string/setting_ssl_desc"
+                      android:key="ssl" />
+  <EditTextPreference android:title="@string/setting_path"
+                      android:key="path"
+                      android:summary="@string/setting_path_desc"
+                      android:defaultValue=""></EditTextPreference>
+</PreferenceScreen>
