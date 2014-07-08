@@ -14,7 +14,6 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
 
@@ -46,6 +45,9 @@ public class UserWardView extends SessionedPopover {
 			wardGroup.addItem(ward.getId());
 			wardGroup.setItemCaption(ward.getId(), ward.getCharacterisation());
 		}
+		
+		wardGroup.addItem(-1);
+		wardGroup.setItemCaption(-1, MessageResources.getString("allPatients"));
 				
 		wardGroup.select(user.getCurrentWard().getId());
 		
@@ -54,16 +56,21 @@ public class UserWardView extends SessionedPopover {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Ward newWard = wardProvider.getByID(wardGroup.getValue());
-				user.setCurrentWard(newWard);
+				Ward newWard;
 				
-				employeeProvider.update(user);
+				if ((int)wardGroup.getValue() == -1)
+					newWard = null;
+				else
+					newWard = wardProvider.getByID(wardGroup.getValue());
 				
-				Notification.show(MessageResources.getString("currentWardChangedTo1") + " "
-						+  newWard.getCharacterisation()
-						+ " " + MessageResources.getString("currentWardChangedTo2"));
+				if (newWard != null) {
+					user.setCurrentWard(newWard);
+					employeeProvider.update(user);
 				
-				fireWardChangeEvent(newWard);
+					fireWardChangeEvent(newWard);
+				}
+				else
+					fireWardChangeEvent();
 				
 				UserWardView.this.close();
 			}
@@ -88,6 +95,10 @@ public class UserWardView extends SessionedPopover {
     public class WardChangeEvent {
 		final Ward ward;
 		
+		public WardChangeEvent() {
+			this.ward = null;
+		}
+		
 		public WardChangeEvent(Ward ward) {
 			this.ward = ward;
 		}
@@ -97,6 +108,14 @@ public class UserWardView extends SessionedPopover {
 		}
 
 	}
+    
+    public void fireWardChangeEvent() {
+    	if (wardChangeListeners != null) {
+    		WardChangeEvent event = new WardChangeEvent();
+    		for (WardChangeListener listener : wardChangeListeners)
+				listener.wardChanged(event);
+    	}
+    }
     
     public void fireWardChangeEvent(Ward ward) {
     	

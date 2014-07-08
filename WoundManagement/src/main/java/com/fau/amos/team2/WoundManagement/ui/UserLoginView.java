@@ -67,14 +67,10 @@ public class UserLoginView extends SessionedNavigationView {
 		split.addComponent(left);
 		
 		final VerticalLayout right = new VerticalLayout();
-		right.setWidth("100%");
-		right.addStyleName("grid");
+		right.setWidth("300px");
+		right.addStyleName("login-right");
 		right.setVisible(false);
 		split.addComponent(right);
-		
-		new Responsive(left);
-		new Responsive(split);
-		new Responsive(right);
 		
 		usernameField = new TextField();
 		usernameField.setValue("");
@@ -88,9 +84,7 @@ public class UserLoginView extends SessionedNavigationView {
 		passwordField.setValue("");
 		passwordField.setWidth("100%");		
 		passwordField.addStyleName("textInvisible");
-		
-		new Responsive(passwordField);
-		
+				
 		right.addComponent(passwordField);
 
 		passwordInput = new NumericButtonField(passwordField);
@@ -98,8 +92,6 @@ public class UserLoginView extends SessionedNavigationView {
 		passwordInput.setBackListener(backListener);
 		passwordInput.setSizeFull();
 		passwordInput.setWidth("100%");
-		
-		new Responsive(passwordInput);
 		
 		right.addComponent(passwordInput);
 		

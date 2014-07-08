@@ -10,6 +10,7 @@ import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.subviews.BackButton;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
@@ -60,9 +61,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		
-		mainLayout.addComponent(new UserBar(this));
-
 		Button createWoundDescriptionButton = new Button(MessageResources.getString("createDesc"));
+		createWoundDescriptionButton.setStyleName("btn-default");
 		createWoundDescriptionButton.addClickListener(new ClickListener(){
 
 			@Override
@@ -80,8 +80,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 		Panel tablePanel = new Panel();
 		
 		tablePanel.addStyleName("panel");
-		tablePanel.setWidth("100%");
 		tablePanel.setSizeUndefined();
+		tablePanel.setWidth("100%");
 		tablePanel.setImmediate(true);
 		
 		new Responsive(tablePanel);
@@ -111,8 +111,7 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 		new Responsive(table);
 
 		tablePanel.setContent(table);
-		tablePanel.getContent().setSizeUndefined();
-
+		
 		table.addContainerProperty("date", Date.class, null,
 				MessageResources.getString("recordingDate"), null, null);
 		table.addContainerProperty("author", String.class, null,
@@ -204,17 +203,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 
 		setContent(mainLayout);
 		
-		Button backButton = new Button("< " + MessageResources.getString("patientView"));
-		backButton.addClickListener(new ClickListener(){
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				getEnvironment().setCurrentUriFragment("patient");
-				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
-			}
-			
-		});
+		String patientName = wound.getPatient().getFirstName() + " " + wound.getPatient().getLastName();
+		BackButton backButton = new BackButton(MessageResources.getString("patientView") + " (" + patientName + ")", "patient");
 		setLeftComponent(backButton);
 	}
-
 }

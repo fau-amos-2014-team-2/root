@@ -307,6 +307,7 @@ public class NewWound extends FormLayout {
 		});
 		
 		Button cancel = new Button(MessageResources.getString("cancel"));
+		cancel.setStyleName("btn-default");
 		cancel.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {

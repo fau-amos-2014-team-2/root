@@ -6,19 +6,16 @@ import com.fau.amos.team2.WoundManagement.BodyWoundSelector.WoundManager.Selecte
 import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.subviews.BackButton;
 import com.fau.amos.team2.WoundManagement.ui.subviews.ExistingWound;
 import com.fau.amos.team2.WoundManagement.ui.subviews.NewWound;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Theme;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -26,7 +23,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @PreserveOnRefresh
-@Theme("wm-responsive")
 public class PatientView extends SessionedNavigationView implements SelectedWoundChangeListener {
 	private static final long serialVersionUID = -572027045788648039L;
 	
@@ -46,8 +42,6 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		this.showCurrentWoundsOnly = getEnvironment().getShowCurrentWoundsOnly();
 		
 		UserBar userBar = new UserBar(this);
-		userBar.addStyleName("userBar");
-		userBar.setWidth("100%");		
 		
 		setCaption(currentPatient.getFirstName() + " " + currentPatient.getLastName());
 
@@ -75,7 +69,6 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 		
 		final GridLayout content = new GridLayout(3, 4);
 		content.addStyleName("grid");
-		content.addComponent(userBar, 0, 0, 2, 0);
 		
 		final VerticalLayout switchSpacePic = new VerticalLayout();
 		switchSpacePic.addComponents(showOnlyCurrentWoundsSwitch, 
@@ -126,19 +119,9 @@ public class PatientView extends SessionedNavigationView implements SelectedWoun
 			}
 		}
 		
-		Button backButton = new Button("< " + MessageResources.getString("patientSelection"));
-		backButton.addClickListener(new ClickListener(){
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				getEnvironment().setCurrentUriFragment("patientSelection");
-				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
-			}
-			
-		});
-		
+		BackButton backButton = new BackButton(MessageResources.getString("patientSelection"), "patientSelection");
 		setLeftComponent(backButton);
-		
+		setRightComponent(userBar);
 		setContent(content);
 	}
 
