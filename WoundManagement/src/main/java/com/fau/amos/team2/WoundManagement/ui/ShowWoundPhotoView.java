@@ -7,6 +7,10 @@ import java.text.SimpleDateFormat;
 
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.subviews.BackButton;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
@@ -70,17 +74,7 @@ public class ShowWoundPhotoView extends SessionedNavigationView {
 
 			setContent(panel);
 			
-			Button backButton = new Button("< " + MessageResources.getString("showWoundDescView"));
-			backButton.addClickListener(new ClickListener(){
-
-				@Override
-				public void buttonClick(ClickEvent event) {
-					getEnvironment().setCurrentUriFragment("showWoundDescription");
-					Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
-				}
-				
-			});
-			setLeftComponent(backButton);
+			setLeftComponent(new BackButton(MessageResources.getString("showWoundDescView"), "showWoundDescription"));
 		}
 	}
 

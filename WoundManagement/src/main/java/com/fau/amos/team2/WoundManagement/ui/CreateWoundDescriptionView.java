@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fau.amos.team2.WoundManagement.model.Employee;
-import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.model.WoundLevel;
@@ -19,6 +18,7 @@ import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundLevelProvider;
 import com.fau.amos.team2.WoundManagement.provider.WoundTypeProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.subviews.BackButton;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.DatePicker;
@@ -67,14 +67,10 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		Employee user = getEnvironment().getCurrentEmployee();
 		setCaption(MessageResources.getString("newDesc"));
-		Patient patient = wound.getPatient();
-		if (patient != null) {
-			setCaption(patient.getFirstName() + " " + patient.getLastName());
-		}
 
 		final FormLayout mainLayout = new FormLayout();
 		mainLayout.setWidth("100%");
-		mainLayout.addComponent(new UserBar(this));
+		setRightComponent(new UserBar(this));
 		mainLayout.setSizeUndefined();
 
 		CssLayout greetingdate = new CssLayout();
@@ -270,6 +266,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		Button createNewDescription = new Button(
 				MessageResources.getString("createDesc"));
+		createNewDescription.setStyleName("btn-default");
 		createNewDescription.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -454,17 +451,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		setContent(mainLayout);
 		
-		Button backButton = new Button("< " + MessageResources.getString("woundDescriptionsHeader"));
-		backButton.addClickListener(new ClickListener(){
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				getEnvironment().setCurrentUriFragment("woundDescriptions");
-				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
-			}
-			
-		});
+		String patientName = wound.getPatient().getFirstName() + " " + wound.getPatient().getLastName();
+		BackButton backButton = new BackButton(MessageResources.getString("woundDescriptionsHeader") + " (" + patientName + ")", "woundDescriptions");
 		setLeftComponent(backButton);
-
 	}
 }
