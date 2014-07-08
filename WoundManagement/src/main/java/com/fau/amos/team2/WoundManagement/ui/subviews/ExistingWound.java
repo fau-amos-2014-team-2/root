@@ -125,6 +125,7 @@ public class ExistingWound extends VerticalLayout {
 		if (w.getEndDate() == null) {
 			
 			Button endWound = new Button(MessageResources.getString("endWound") + "..."); //$NON-NLS-1$
+			endWound.setStyleName("btn-success");
 			endWound.addClickListener(new ClickListener(){
 			
 				@Override
@@ -138,6 +139,7 @@ public class ExistingWound extends VerticalLayout {
 			        subContent.addComponent(new Label(MessageResources.getString("checkEndWound"))); //$NON-NLS-1$
 			        
 			        Button yesButton = new Button(MessageResources.getString("yes")); //$NON-NLS-1$
+			        yesButton.setStyleName("btn-success");
 			        yesButton.addClickListener(new ClickListener() {
 			        	
 			        	@Override
@@ -159,6 +161,7 @@ public class ExistingWound extends VerticalLayout {
 			        subContent.addComponent(yesButton);
 			        
 			        Button noButton = new Button(MessageResources.getString("no")); //$NON-NLS-1$
+			        noButton.setStyleName("btn-danger");
 			        noButton.addClickListener(new ClickListener() {
 			        	
 			        	@Override
@@ -182,6 +185,7 @@ public class ExistingWound extends VerticalLayout {
 			});
 			
 			Button addWoundDescription = new Button(MessageResources.getString("woundDescriptions") + "..."); //$NON-NLS-1$
+			addWoundDescription.setStyleName("btn-default");
 			addWoundDescription.addClickListener(new ClickListener(){
 				@Override
 				public void buttonClick(ClickEvent event) {

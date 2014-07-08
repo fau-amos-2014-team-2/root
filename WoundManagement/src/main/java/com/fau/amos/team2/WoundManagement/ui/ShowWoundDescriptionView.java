@@ -7,6 +7,7 @@ import com.fau.amos.team2.WoundManagement.model.Patient;
 import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.subviews.BackButton;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -56,6 +57,7 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 //		showwoundphoto = new NavigationButton("Bild zu dieser Wundbeschreibung anzeigen");
 //		showwoundphoto.setTargetView(new ShowWoundPhotoView(woundDescription));
 		showWoundPhoto = new Button(MessageResources.getString("showpicture"));
+		showWoundPhoto.setStyleName("btn-default");
 		showWoundPhoto.addClickListener(new ClickListener(){
 
 			@Override
@@ -172,16 +174,10 @@ public class ShowWoundDescriptionView extends SessionedNavigationView {
 		
 		setContent(mainLayout);
 		
-		Button backButton = new Button("< " + MessageResources.getString("woundDescriptionsHeader"));
-		backButton.addClickListener(new ClickListener(){
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				Page.getCurrent().setUriFragment("woundDescriptions");
-			}
-			
-		});
+		String patientName = wound.getPatient().getFirstName() + " " + wound.getPatient().getLastName();
 		
+		
+		BackButton backButton = new BackButton(MessageResources.getString("woundDescriptionsHeader") + " (" + patientName + ")", "woundDescriptions");
 		setLeftComponent(backButton);
 
 	}

@@ -1,5 +1,6 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview;
 
+import com.fau.amos.team2.WoundManagement.widgetset.client.Resources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Element;
@@ -96,11 +97,9 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		VCssLayout indicatorWrapper = new VCssLayout();
 		indicatorWrapper.setWidth("100%");
 		
-		Resources resources = GWT.create(Resources.class);
-		
 		VImage image = new VImage();
 		image.setAltText("Conection offline");
-		image.setResource(resources.offline());
+		image.setResource(Resources.INSTANCE.offline());
 		
 		panel.add(image);
 		

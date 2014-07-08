@@ -163,6 +163,7 @@ public class NewWound extends FormLayout {
 		
 		Button submit = new
 				Button(MessageResources.getString("addWound")); //$NON-NLS-1$
+		submit.setStyleName("btn-primary");
 		submit.setClickShortcut(KeyCode.ENTER);
 		submit.addClickListener(new ClickListener(){
 			@Override
@@ -309,6 +310,7 @@ public class NewWound extends FormLayout {
 		});
 		
 		Button cancel = new Button(MessageResources.getString("cancel")); //$NON-NLS-1$
+		cancel.setStyleName("btn-default");
 		cancel.addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {

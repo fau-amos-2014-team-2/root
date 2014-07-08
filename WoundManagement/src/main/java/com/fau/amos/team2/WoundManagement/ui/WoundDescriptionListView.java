@@ -10,6 +10,7 @@ import com.fau.amos.team2.WoundManagement.model.Wound;
 import com.fau.amos.team2.WoundManagement.model.WoundDescription;
 import com.fau.amos.team2.WoundManagement.provider.WoundDescriptionProvider;
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
+import com.fau.amos.team2.WoundManagement.ui.subviews.BackButton;
 import com.fau.amos.team2.WoundManagement.ui.subviews.UserBar;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
@@ -64,11 +65,10 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 
 		final VerticalComponentGroup mainLayout = new VerticalComponentGroup();
 		
-		mainLayout.addComponent(new UserBar(this));
-
 //		NavigationButton createWoundDescriptionButton = new NavigationButton(MessageResources.getString("createDesc"));
 //		createWoundDescriptionButton.setTargetView(new CreateWoundDescriptionView(wound));
 		Button createWoundDescriptionButton = new Button(MessageResources.getString("createDesc"));
+		createWoundDescriptionButton.setStyleName("btn-default");
 		createWoundDescriptionButton.addClickListener(new ClickListener(){
 
 			@Override
@@ -85,8 +85,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 		Panel tablePanel = new Panel();
 		
 		tablePanel.addStyleName("panel");
-		tablePanel.setWidth("100%");
 		tablePanel.setSizeUndefined();
+		tablePanel.setWidth("100%");
 		tablePanel.setImmediate(true);
 		
 		new Responsive(tablePanel);
@@ -116,8 +116,7 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 		new Responsive(table);
 
 		tablePanel.setContent(table);
-		tablePanel.getContent().setSizeUndefined();
-
+		
 		table.addContainerProperty("date", Date.class, null,
 				MessageResources.getString("recordingDate"), null, null);
 		table.addContainerProperty("author", String.class, null,
@@ -200,8 +199,6 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 				if (value != null) {
 					WoundDescription woundDescription = woundDescriptionProvider
 							.getByID(value);
-//					NavigationView next = new ShowWoundDescriptionView(woundDescription);
-//					getNavigationManager().navigateTo(next);
 					getEnvironment().setCurrentWoundDescription(woundDescription);
 					Page.getCurrent().setUriFragment("showWoundDescription");
 				}
@@ -214,31 +211,8 @@ public class WoundDescriptionListView extends SessionedNavigationView {
 
 		setContent(mainLayout);
 		
-		Button backButton = new Button("< " + MessageResources.getString("patientView"));
-		backButton.addClickListener(new ClickListener(){
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				Page.getCurrent().setUriFragment("patient");
-			}
-			
-		});
+		String patientName = wound.getPatient().getFirstName() + " " + wound.getPatient().getLastName();
+		BackButton backButton = new BackButton(MessageResources.getString("patientView") + " (" + patientName + ")", "patient");
 		setLeftComponent(backButton);
 	}
-
-//	@Override
-//	public void onBecomingVisible() {
-//		super.onBecomingVisible();
-////		PatientView patientView = new PatientView(patient, true);
-////		patientView.prepareSelectedWound(wound);
-////		getNavigationManager().setPreviousComponent(patientView);
-//	}
-
-//	@Override
-//	public void wardChanged(WardChangeEvent event) {
-//		PatientView patientView = new PatientView(patient, true);
-//		patientView.prepareSelectedWound(wound);
-//		getNavigationManager().setPreviousComponent(patientView);
-//	}
-
 }
