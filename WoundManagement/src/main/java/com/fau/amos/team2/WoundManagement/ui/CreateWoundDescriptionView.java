@@ -72,9 +72,11 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		mainLayout.setWidth("100%");
 		setRightComponent(new UserBar(this));
 		mainLayout.setSizeUndefined();
+		mainLayout.setSpacing(true);
+		
+		String width = "20em";
 
 		CssLayout greetingdate = new CssLayout();
-		greetingdate.addStyleName("greetingdate");
 		greetingdate.setWidth("100%");
 
 		new Responsive(greetingdate);
@@ -93,7 +95,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		recorded.setValue(new Date());
 		recorded.setLocale(getLocale());
 		recorded.setInvalidAllowed(false);
-		recorded.addStyleName("recorded");
+		recorded.setWidth(width);
 		recorded.setImmediate(true);
 		
 		new Responsive(recorded);
@@ -108,13 +110,13 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		CssLayout taschenErfassen = new CssLayout();
 
 		taschen.setCaption(MessageResources.getString("woundBags") + ":");
+		
 		taschen.setImmediate(true);
-		taschen.addStyleName("taschen");
 		taschen.setValue(latest.isBaggy());
 
 		bagLocation.setCaption(MessageResources.getString("baglocation") + ":");
 		bagLocation.setImmediate(true);
-		bagLocation.addStyleName("bagLocation");
+		bagLocation.setWidth(width);
 		bagLocation.setMaxLength(200);
 		if (latest.getBagLocation() != null) {
 			bagLocation.setValue(latest.getBagLocation());
@@ -123,7 +125,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		bagDirection.setCaption(MessageResources.getString("bagdirection")
 				+ ":");
 		bagDirection.setImmediate(true);
-		bagDirection.addStyleName("bagDirection");
+		bagDirection.setWidth(width);
 		bagDirection.setMaxLength(200);
 		if (latest.getBagDirection() != null) {
 			bagDirection.setValue(latest.getBagDirection());
@@ -134,17 +136,19 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		mainLayout.addComponent(taschenErfassen);
 
 		// TextField - commentary
-		final TextArea comment = new TextArea();
-		comment.setInputPrompt(MessageResources.getString("description") + ":");
+		VerticalLayout commentaryLayout = new VerticalLayout();
+		final TextArea comment = new TextArea(MessageResources.getString("description") + ":");
 		comment.setMaxLength(2000);
-		comment.setWidth("61em");
+		comment.setWidth(width);
 		comment.setHeight("5em");
 		if (latest.getDescription() != null) {
 			comment.setValue(latest.getDescription());
 		}
 		comment.setImmediate(true);
+		comment.setWordwrap(true);
 
-		mainLayout.addComponent(comment);
+		commentaryLayout.addComponent(comment);
+		mainLayout.addComponent(commentaryLayout);
 
 		// NumberField - height of wound
 		final NumberField size1 = new NumberField(
@@ -159,7 +163,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		CssLayout wundGroessen = new CssLayout();
 
 		size1.setInvalidAllowed(false);
-		size1.addStyleName("size1");
+		size1.setWidth(width);
 		size1.setImmediate(true);
 		
 		wundGroessen.addComponent(size1);
@@ -168,7 +172,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		}
 
 		size2.setInvalidAllowed(false);
-		size2.addStyleName("size2");
+		size2.setWidth(width);
 		size2.setImmediate(true);
 		
 		wundGroessen.addComponent(size2);
@@ -177,7 +181,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 		}
 
 		depth.setInvalidAllowed(false);
-		depth.addStyleName("depth");
+		depth.setWidth(width);
 		depth.setImmediate(true);
 		
 		wundGroessen.addComponent(depth);
@@ -199,7 +203,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 			type.addItem(o);
 			type.setItemCaption(o, tmp.getClassification());
 		}
-		type.setWidth("20em");
+		type.setWidth(width);
 		type.setNewItemsAllowed(false);
 		type.setImmediate(true);
 		WoundType latestWoundType = latest.getWoundType();
@@ -226,7 +230,7 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		level.setNewItemsAllowed(false);
 		level.setImmediate(true);
-		level.setWidth("20em");
+		level.setWidth(width);
 		WoundLevel latestWoundLevel = latest.getWoundLevel();
 		WoundLevel woundWoundLevel = wound.getWoundLevel();
 		if (latestWoundLevel != null) {
@@ -253,10 +257,8 @@ public class CreateWoundDescriptionView extends SessionedNavigationView {
 
 		CssLayout woundlevelandtype = new CssLayout();
 
-		type.addStyleName("type");
 		woundlevelandtype.addComponent(type);
 
-		level.addStyleName("level");
 		woundlevelandtype.addComponent(level);
 		mainLayout.addComponent(woundlevelandtype);
 

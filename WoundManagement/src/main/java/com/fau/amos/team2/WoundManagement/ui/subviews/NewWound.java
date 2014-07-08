@@ -162,6 +162,7 @@ public class NewWound extends FormLayout {
 		comment.setWidth(width);
 		comment.setHeight(halfWidth);
 		comment.setImmediate(true);
+		comment.setWordwrap(true);
 				
 		addComponent(comment);
 		
