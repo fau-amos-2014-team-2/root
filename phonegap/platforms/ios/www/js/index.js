@@ -18,9 +18,11 @@
  */
 var app = {
     targetUrl: null,
+    contentFrame: null,
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        this.contentFrame = document.querySelector("iframe.content-frame");
     },
     // Bind Event Listeners
     //
@@ -58,7 +60,9 @@ var app = {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status != 0) {
-                window.location = url;
+                app.contentFrame.setAttribute("src", url);
+                app.contentFrame.setAttribute("style", "display: block");
+                app.monitorConfig();
             }
         };
     
@@ -81,18 +85,41 @@ var app = {
         }
         xhr.send();
     },
+    monitorConfig: function() {
+        var statusElement = document.querySelector('body .status');
+        var textElement = statusElement.querySelector(".text");
+        var spinnerElement = statusElement.querySelector(".spinner");
+        
+        cordova.exec(function (url) {
+            if (url != app.targetUrl) {
+                app.contentFrame.setAttribute("style", "display: none");
+                statusElement.setAttribute("style", "display: block");
+                textElement.innerText = "Einstellungen geändert…";
+                app.connectToPage(url, false);
+                app.targetUrl = url;
+            }
+            else {
+                setTimeout('app.monitorConfig()', 5000);
+            }
+        }, function() {
+            app.contentFrame.setAttribute("style", "display: none");
+            statusElement.setAttribute("style", "display: block");
+            textElement.innerText = "Einstellungen fehlerhaft";
+            spinnerElement.style.visibility = "hidden";
+        }, "settingsBundle", "getTargetUrl", []);
+    },
+    marginForIpad: function() {
+        this.contentFrame.style.marginTop = "10px";
+    },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        if (id = 'deviceready' && navigator.userAgent.toLowerCase().match(/ipad/)) {
+        if (id = 'deviceready') {
             app.connectToTarget(false);
         }
         
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        if (navigator.userAgent.toLowerCase().match(/ipad/)) {
+            app.marginForIpad();
+        }
 
         console.log('Received Event: ' + id);
     }

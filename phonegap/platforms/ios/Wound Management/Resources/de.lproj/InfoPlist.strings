@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Wound Management
+
+  Created by Ruben Larisch on 08.07.14.
+
+*/
+"CFBundleDisplayName" = "Wundmanagement";
+"CFBundleName" = "Wundmanagement";
