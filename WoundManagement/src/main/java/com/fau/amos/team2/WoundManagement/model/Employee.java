@@ -33,22 +33,22 @@ public class Employee implements BusinessObject {
 	private int sensoID;
 	
 	@Column(name = "SUCHBEZ", nullable=false, length=30)
-	private String keyword;//30
+	private String keyword;
 	
 	@Column(name = "NAME", length=30)
-	private String lastName;//30
+	private String lastName;
 	
 	@Column(name = "VORNAME", length=30)
-	private String firstName;//30
+	private String firstName;
 	
 	@Column(name = "KUERZL", length=5)
-	private String abbreviation;//5
+	private String abbreviation;
 	
 	@Column(name = "QUALNR")
 	private int qualificationNumber;
 	
 	@Column(name = "PDACODE", length=12)
-	private String pdaCode;//12
+	private String pdaCode;
 	
 	@Column(name = "GLKONTR", nullable=false, length=1)
 	private String accumulativeAck;
@@ -57,7 +57,7 @@ public class Employee implements BusinessObject {
 	private String collectiveAccMedication;
 	
 	@Column(name = "GESCHLECHT", length=100)
-	private String gender;//100
+	private String gender;
 	
 	@JoinColumn(name = "DERZSTATION", referencedColumnName="NR")
 	private Ward currentWard;

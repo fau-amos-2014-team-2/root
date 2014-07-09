@@ -137,7 +137,7 @@ public enum WoundPosition {
 		int i = 0;
 		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 22];
 		for (WoundPosition p : WoundPosition.values()) {
-			// Not add Male enums
+			// Not add male enums
 				if(p.compareTo(OBERARM_RE) == 0 ||
 						p.compareTo(UNTERARM_RE) == 0||
 						p.compareTo(KNIE_RE)  == 0 || 
@@ -171,7 +171,7 @@ public enum WoundPosition {
 		int i = 0;
 		WoundPosition[] woundPositions = new WoundPosition[WoundPosition.values().length - 22];
 		for (WoundPosition p : WoundPosition.values()) {
-			// Not add Female enums
+			// Not add female enums
 				if(p.compareTo(OBERARM_RE_FEMALE) == 0 ||
 						p.compareTo(UNTERARM_RE_FEMALE) == 0||
 						p.compareTo(KNIE_RE_FEMALE)  == 0 || 

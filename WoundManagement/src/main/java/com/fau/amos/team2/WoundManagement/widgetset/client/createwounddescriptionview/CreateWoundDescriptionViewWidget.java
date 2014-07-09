@@ -1,10 +1,7 @@
 package com.fau.amos.team2.WoundManagement.widgetset.client.createwounddescriptionview;
 
-import com.fau.amos.team2.WoundManagement.widgetset.client.model.WoundDescription;
+import com.fau.amos.team2.WoundManagement.widgetset.client.Resources;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
@@ -18,15 +15,12 @@ import com.vaadin.addon.touchkit.gwt.client.ui.VNavigationView;
 import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.ui.VCssLayout;
 import com.vaadin.client.ui.VImage;
-import com.vaadin.client.ui.VNotification;
 import com.vaadin.client.ui.VOverlay;
 import com.vaadin.client.ui.VVerticalLayout;
-import com.vaadin.shared.Position;
 
 public class CreateWoundDescriptionViewWidget extends VOverlay implements
-		OfflineMode, CreateWoundDescriptionViewModuleListener, RepeatingCommand {
+		OfflineMode {
 	
-	private CreateWoundDescriptionViewWidgetListener listener;
 	private VCssLayout offlineOnlineIndicator;
 	private Label onlineStatusLabel;
 	private Anchor reconnectLabel;
@@ -49,18 +43,6 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
         getElement().getStyle().setHeight(100, Unit.PCT);
         getElement().getFirstChildElement().getStyle().setHeight(100, Unit.PCT);
 		
-		// woundDescriptionUpdated(new WoundDescription(), false, true);
-		
-		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-			
-			@Override
-			public void onUncaughtException(Throwable e) {
-				consoleLog(e.getMessage());
-			}
-		});
-		
-		Scheduler.get().scheduleFixedPeriod(this, 1000);
-		
 		// TODO: Remove old timer bullsh*t and the broken Vaadin stuff
 		reconnect();
 	}
@@ -76,7 +58,8 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 			var xhr = new XMLHttpRequest();
 	        xhr.onreadystatechange = function () {
 	            if (xhr.readyState == 4 && xhr.status != 0) {
-	                $wnd.location.reload();
+	            	console.log("online again");
+	                // $wnd.location.reload();
 	            }
 	        };
 	    
@@ -115,11 +98,9 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
 		VCssLayout indicatorWrapper = new VCssLayout();
 		indicatorWrapper.setWidth("100%");
 		
-		Resources resources = GWT.create(Resources.class);
-		
 		VImage image = new VImage();
 		image.setAltText("Conection offline");
-		image.setResource(resources.offline());
+		image.setResource(Resources.INSTANCE.offline());
 		
 		panel.add(image);
 		
@@ -134,67 +115,10 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
         contentView.setContent(panel);
         return contentView;
 	}
-
-	@Override
-	public boolean execute() {
-		/* if (isActive() && isNetworkOnline()) {
-			// offline -> online
-			offlineOnlineIndicator.addStyleName("connection");
-			reconnectLabel.setVisible(true);
-			Window.Location.reload();
-			onlineStatusLabel.setText("Connection available");
-		}
-		else if (!isNetworkOnline()) {
-			// online -> offline
-			listener = null;
-			refreshOnSave = true;
-		} */
-		
-		return true;
-	}
 	
-	private static native boolean isNetworkOnline()
-	/*-{
-		return $wnd.navigator.onLine;
-	}-*/;
-
-	@Override
-	public void fieldsChanged() {	
-		if (isNetworkOnline() && listener != null) {
-			listener.updateState(getWoundDescription());
-		}
-	}
-	
-	private WoundDescription getWoundDescription() {
-		WoundDescription woundDescription = new WoundDescription();
-		// TODO: Set
-		return woundDescription;
-	}
-
-	@Override
-	public void activate(ActivationEvent event) { }
-
 	@Override
 	public boolean deactivate() {
-		VNotification.createNotification(0, this).show("init", Position.MIDDLE_CENTER, "deActive");
-		return false;
-	}
-
-	@Override
-	public boolean isActive() {
-		return offlineOnlineIndicator.isVisible();
-	}
-	
-	public final void setCreateWoundDescriptionViewWidgetListener(final CreateWoundDescriptionViewWidgetListener listener) {
-		this.listener = listener;
-		setWidget(contentView);
-		offlineOnlineIndicator.setVisible(false);
-	}
-
-	public interface CreateWoundDescriptionViewWidgetListener {
-		void persistWoundDescription(WoundDescription woundDescription);
-		
-		void updateState(WoundDescription woundDescription);
+		return true;
 	}
 	
 	@Override
@@ -208,4 +132,12 @@ public class CreateWoundDescriptionViewWidget extends VOverlay implements
             return getOverlayContainer(ac);
         }
     }
+
+	@Override
+	public boolean isActive() {
+		return false;
+	}
+
+	@Override
+	public void activate(ActivationReason event) { }
 }

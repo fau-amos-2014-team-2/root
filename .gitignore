@@ -3,3 +3,4 @@ var/wm.db
 WoundManagement/target
 ReleaseToolchain/artifact-downloader/target
 Phonegap-v-1-9-Android-v-2-2/target
+phonegap/platforms/android/bin

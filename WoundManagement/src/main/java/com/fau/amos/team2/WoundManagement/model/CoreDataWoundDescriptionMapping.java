@@ -30,7 +30,7 @@ public class CoreDataWoundDescriptionMapping implements BusinessObject {
 	private WoundDescription woundDescription;
 	
 	@Column(name = "FREITEXT", length=4000)
-	private String freeText;//4000
+	private String freeText;
 	
 	public CoreDataWoundDescriptionMapping() {
 		this.sensoID = 1;

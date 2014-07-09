@@ -3,7 +3,6 @@ package com.fau.amos.team2.WoundManagement.provider;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -31,20 +30,8 @@ public class ConnectionProvider<T extends BusinessObject> {
 	{
 		type = c;
 		
-		HashMap<String, String> properties = new HashMap<String,String>();
-		
-		while(user == null)
-			user = javax.swing.JOptionPane.showInputDialog("Database user: ");
-		properties.put("javax.persistence.jdbc.user", user);
-		
-		while(password == null)
-			password = javax.swing.JOptionPane.showInputDialog("Database password: ");
-		
-		properties.put("javax.persistence.jdbc.password", password);
-		
 		entityManagerFactory = 
-				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT, 
-						properties);
+				Persistence.createEntityManagerFactory(Constants.PERSISTANCE_UNIT);
 
 		entityManager = entityManagerFactory.createEntityManager();
 		
@@ -69,7 +56,7 @@ public class ConnectionProvider<T extends BusinessObject> {
 			b.close();
 			return str;
 		} catch (IOException e) {
-			e.printStackTrace();
+
 		}
 		return "";
 	}

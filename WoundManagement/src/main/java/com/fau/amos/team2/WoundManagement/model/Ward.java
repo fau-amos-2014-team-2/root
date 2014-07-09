@@ -26,7 +26,7 @@ public class Ward implements BusinessObject {
 	private int sensoID;
 	
 	@Column(name = "BEZEICH", nullable = false, length=30)
-	private String characterisation;//30
+	private String characterisation;
 	
 	@Column(name = "HAUS_NR", nullable = false)
 	private int houseNumber;

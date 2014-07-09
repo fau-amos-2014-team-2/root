@@ -11,6 +11,7 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		2E308A0B196C7C9C00A93178 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E308A0D196C7C9C00A93178 /* InfoPlist.strings */; };
 		2E4CE2201963734C00AB5086 /* SettingsBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CE21F1963734C00AB5086 /* SettingsBundle.m */; };
 		2E94A36719636F8D004DDF02 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2E94A36619636F8D004DDF02 /* Settings.bundle */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
@@ -68,6 +69,8 @@
 		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E308A0C196C7C9C00A93178 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2E308A0E196C7CA400A93178 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2E4CE21E1963734C00AB5086 /* SettingsBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsBundle.h; sourceTree = "<group>"; };
 		2E4CE21F1963734C00AB5086 /* SettingsBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsBundle.m; sourceTree = "<group>"; };
 		2E94A36619636F8D004DDF02 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 				308D05311370CCF300D202BF /* splash */,
 				8D1107310486CEB800E47090 /* Wound Management-Info.plist */,
 				2E94A36619636F8D004DDF02 /* Settings.bundle */,
+				2E308A0D196C7C9C00A93178 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			path = "Wound Management/Resources";
@@ -373,6 +377,7 @@
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
+				2E308A0B196C7C9C00A93178 /* InfoPlist.strings in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
@@ -455,6 +460,15 @@
 				1F766FE013BBADB100FB74C0 /* es */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		2E308A0D196C7C9C00A93178 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E308A0C196C7C9C00A93178 /* en */,
+				2E308A0E196C7CA400A93178 /* de */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		30A0434314DC770100060A13 /* Localizable.strings */ = {

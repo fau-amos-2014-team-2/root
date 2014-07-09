@@ -111,15 +111,13 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		int xPosition = event.getRelativeX();
 		int yPosition = event.getRelativeY();
 
-		// Uncomment the following line so show clicked position coordinates.
+		// Uncomment the following line to show clicked position coordinates.
 		//com.vaadin.ui.Notification.show("X " + xPosition + " Y " + yPosition);
 
 		// Get the wound at this position
 		WoundPosition woundPosition = woundManager.getWoundPositionAtCoordinates(
 				(int) Math.round(xPosition/scaleFactor),
 				(int) Math.round(yPosition/scaleFactor));
-		
-		//com.vaadin.ui.Notification.show(woundPosition.getBodyLocation().toFullString());
 		
 		setSelectedWoundPosition(woundPosition);
 	}
@@ -129,16 +127,14 @@ public class WoundSelector extends AbsoluteLayout implements ClickListener {
 		
 		if (woundPosition != null) {
 			existingWoundSelected = woundManager.hasWoundAtPosition(selectedWoundPosition);
-			woundManager.setSelectedWoundPosition(selectedWoundPosition);
+//			woundManager.setSelectedWoundPosition(selectedWoundPosition);
 		}
-
+		woundManager.setSelectedWoundPosition(selectedWoundPosition);
 		refreshSelectedWound();
 	}
 
 	private void refreshSelectedWound() {
 		if (selectedWoundPosition != null && existingWoundSelected) {
-			//com.vaadin.ui.Notification.show(MessageResources.getString("woundAt") + " " + selectedWoundPosition.getDescription());
-
 			// Removing half the size of the indicator to put the click position in the middle of the indicator
 			float correctedXPos = (float) scaleFactor*(selectedWoundPosition.getXPosition() - (selectedWoundIndicator.getWidth() / 2));
 			float correctedYPos = (float) scaleFactor*(selectedWoundPosition.getYPosition() - (selectedWoundIndicator.getHeight() / 2));

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="Phonegap-v-1-9-Android-v-2-2">
-        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
-        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/gen"/>
-        <property name="context-root" value="Phonegap-v-1-9-Android-v-2-2"/>
-        <property name="java-output-path" value="/Phonegap-v-1-9-Android-v-2-2/bin/classes"/>
-    </wb-module>
-</project-modules>

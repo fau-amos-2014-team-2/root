@@ -43,13 +43,13 @@ public class WoundDescription implements BusinessObject {
 	private String isBaggy;
 
 	@Column(name = "TASCHLOK", length = 200)
-	private String bagLocation;// 200
+	private String bagLocation;
 
 	@Column(name = "TASCHRICHT", length = 200)
-	private String bagDirection;// 200
+	private String bagDirection;
 
 	@Column(name = "BEMERKUNG", length = 2000)
-	private String description;// 2000
+	private String description;
 
 	@Column(name = "GROESSE1")
 	private int size1;
@@ -67,8 +67,6 @@ public class WoundDescription implements BusinessObject {
 
 	@Column(name = "TIEFE")
 	private int depth;
-
-//	@Lob
 
 	@Column(name = "WOUNDDESCIMAGE")
 	private byte[] image;

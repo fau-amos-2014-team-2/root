@@ -1,12 +1,12 @@
 package com.fau.amos.team2.WoundManagement.ui.subviews;
 
 import com.fau.amos.team2.WoundManagement.resources.MessageResources;
-import com.vaadin.addon.responsive.Responsive;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.GridLayout;
 
 public class NumericButtonField extends GridLayout {
 
@@ -17,16 +17,11 @@ public class NumericButtonField extends GridLayout {
 	private Button.ClickListener backListener;
 	
 	public NumericButtonField(AbstractTextField field) {
-		
 		super(3, 4);
 		
-		setWidth("95%");
-		setHeight("80%");
-		
-		addStyleName("nmrcField");
-		
-		new Responsive(this);
-
+		setStyleName("numericButtonField");
+		setSpacing(true);
+						
 		this.textField = field;
 
 		addNumericButtons();
@@ -45,7 +40,8 @@ public class NumericButtonField extends GridLayout {
 	private void addNumericButtons() {
 		Button zeroButton = new Button("0", this.numericButtonListener);
 		zeroButton.setData(0);
-		zeroButton.setWidth("95%");
+		zeroButton.setWidth("100%");
+		zeroButton.setStyleName("btn-default");
 		addComponent(zeroButton, 1, 3);
 		setComponentAlignment(zeroButton, Alignment.MIDDLE_CENTER);
 
@@ -56,8 +52,9 @@ public class NumericButtonField extends GridLayout {
 
 				Button numericButton = new Button("" + numericValue, numericButtonListener);
 				numericButton.setData(numericValue);
-				numericButton.setWidth("95%");
-
+				numericButton.setStyleName("btn-default");
+				numericButton.setWidth("100%");
+				
 				addComponent(numericButton, j, i);
 				setComponentAlignment(numericButton, Alignment.MIDDLE_CENTER);
 			}
@@ -74,7 +71,8 @@ public class NumericButtonField extends GridLayout {
 
 	private void addClearButton() {
 		Button clearButton = new Button(MessageResources.getString("numericFieldClearBtn"), clearButtonListener);
-		clearButton.setWidth("95%");
+		clearButton.setStyleName("btn-danger");
+		clearButton.setWidth("100%");
 		addComponent(clearButton, 0, 3);
 		setComponentAlignment(clearButton, Alignment.MIDDLE_CENTER);
 	}
@@ -94,9 +92,10 @@ public class NumericButtonField extends GridLayout {
 	};
 
 	private void addEnterButton() {
-		
 		enterButton = new Button(MessageResources.getString("numericFieldEnterBtn"));
-		enterButton.setWidth("95%");
+		enterButton.setStyleName("btn-primary");
+		enterButton.setWidth("100%");
+		enterButton.setClickShortcut(KeyCode.ENTER);
 		addComponent(enterButton, 2, 3);
 		setComponentAlignment(enterButton, Alignment.MIDDLE_CENTER);
 	}

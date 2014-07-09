@@ -54,6 +54,8 @@ public class UserLoginView extends SessionedNavigationView {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public UserLoginView() {
 		
+		setCaption("Wound Management App");
+		
 		HorizontalSplitPanel split = new HorizontalSplitPanel();
 		setContent(split);
 		
@@ -67,30 +69,24 @@ public class UserLoginView extends SessionedNavigationView {
 		split.addComponent(left);
 		
 		final VerticalLayout right = new VerticalLayout();
-		right.setWidth("100%");
-		right.addStyleName("grid");
+		right.setWidth("300px");
+		right.addStyleName("login-right");
 		right.setVisible(false);
 		split.addComponent(right);
 		
-		new Responsive(left);
-		new Responsive(split);
-		new Responsive(right);
-		
 		usernameField = new TextField();
-		usernameField.setValue(""); //$NON-NLS-1$
-		usernameField.setCaption(MessageResources.getString("username") + ":"); //$NON-NLS-1$
+		usernameField.setValue("");
+		usernameField.setCaption(MessageResources.getString("username") + ":");
 		usernameField.setVisible(false);
 
 		left.addComponent(usernameField);
 
 		passwordField = new PasswordField();
-		passwordField.setCaption(MessageResources.getString("PIN") + ":"); //$NON-NLS-1$
-		passwordField.setValue(""); //$NON-NLS-1$
+		passwordField.setCaption(MessageResources.getString("PIN") + ":");
+		passwordField.setValue("");
 		passwordField.setWidth("100%");		
 		passwordField.addStyleName("textInvisible");
-		
-		new Responsive(passwordField);
-		
+				
 		right.addComponent(passwordField);
 
 		passwordInput = new NumericButtonField(passwordField);
@@ -98,8 +94,6 @@ public class UserLoginView extends SessionedNavigationView {
 		passwordInput.setBackListener(backListener);
 		passwordInput.setSizeFull();
 		passwordInput.setWidth("100%");
-		
-		new Responsive(passwordInput);
 		
 		right.addComponent(passwordInput);
 		
@@ -198,21 +192,13 @@ public class UserLoginView extends SessionedNavigationView {
 			boolean correctdata = getEnvironment().getCurrentEmployee() != null;
 			
 			if (correctdata) {
-				//NavigationView next = new PatientSelectionView();
-				//getNavigationManager().navigateTo(next);
-				Page.getCurrent().setUriFragment("patientSelection");
+				getEnvironment().setCurrentUriFragment("patientSelection");
+				Page.getCurrent().setUriFragment(getEnvironment().getCurrentUriFragment());
 			} else {
-				Notification.show(MessageResources.getString("incorrectData")); //$NON-NLS-1$
+				Notification.show(MessageResources.getString("incorrectData"));
 	
-				this.passwordField.setValue(""); //$NON-NLS-1$
+				this.passwordField.setValue("");
 			}
 		}
 	}
-	
-	@Override
-	public void onBecomingVisible(){
-		super.onBecomingVisible();
-		Page.getCurrent().setUriFragment("login");
-	}
-
 }
